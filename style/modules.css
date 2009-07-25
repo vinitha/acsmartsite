@@ -1,0 +1,46 @@
+/* common modules style */
+	.ac_module {
+		position:relative;
+	}
+	
+	.ac_module .loadingMsg{
+		right:2px;
+		position:absolute;
+		top:2px;
+		display:block;
+		width:32px;
+		height:32px;
+		background-image:url(../images/ajax-loader.gif);
+	}
+
+/* ac_traverser */
+
+	.ac_traverser{
+		width:400px;
+		padding:10px;
+		border:1px solid #999;
+		color:#444;
+		font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;	
+		font-size:0.8em
+	}
+	
+	.ac_traverser ul{
+		list-style-type:none;
+		padding:0px;
+		margin:0px 0px 0px 10px;
+	}
+	
+	.ac_traverser ul ul li{
+		display:inline;
+		margin-right:10px;
+	}
+	
+	.ac_traverser a{
+		text-decoration:none;
+		color:#999;
+	}
+	
+	.ac_traverser .current{
+		font-weight:bold;
+		color:#444;
+	}
