@@ -3,36 +3,32 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Untitled Document</title>
-        <script type="text/javascript" src="script/jquery-1.3.2.min.js"></script>    
-        <script type="text/javascript" src="script/json.js"></script>
-        <script type="text/javascript" src="script/objects.js"></script>
-        <script type="text/javascript" src="script/script.js"></script>      
+        <script type="text/javascript" src="/smartSite/script/myJson.js"></script>		
+        <script type="text/javascript" src="/smartSite/script/jquery-1.3.2.min.js"></script>    
+        <script type="text/javascript" src="/smartSite/script/objects.js"></script>
+        <script type="text/javascript" src="/smartSite/script/script.js"></script>  
+		<link type="text/css" rel="stylesheet" href="/smartSite/style/modules.css" />
         
-        <style type="text/css">
-			.ac_traverser{
-				float:left;
-				padding:10px;
-				border:1px solid #999;
-				color:#444;
-				font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;	
-				font-size:0.8em
-			}
-			
-			.ac_traverser ul{
-				list-style-type:none;
-				padding:0px;
-				margin:0px 0px 0px 10px;
-			}
-		</style>
     
     </head>
     
     <body>
-        <div id="pg1" class="ac_photoGallery">!!!</div>
-        <div id="pg2" class="ac_text">!!!</div>
-        
-        <div id="mainMenu" class="ac_traverser">
-        	<code class="jsonComment"><!--{path:""} -->
+        <div id="mainMenu" class="ac_module">
+        	<code class="jsonComment"><!--{type:"ac_traverser",path:"/public/galeria"} --></code>
         </div>
+		    	
+        <div id="pg1" class="ac_module">
+        	<code class="jsonComment"><!--{type:"ac_photoGallery"}--></code>
+		</div>
+        <div id="txt1" class="ac_module">
+        	<code class="jsonComment"><!--{type:"ac_text"}--></code>
+		</div>
+        <div id="txt2" class="ac_module">
+        	<code class="jsonComment"><!--{type:"ac_text"}--></code>
+		</div>		
+        <div id="logIn" class="ac_module">
+        	<code class="jsonComment"><!--{type:"ac_logIn"}--></code>
+		</div>		
+        
     </body>
 </html>

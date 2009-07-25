@@ -6,25 +6,31 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Untitled Document</title>
-   	<script type="text/javascript" src="script/json.js"></script>
-    <script type="text/javascript">
+   	<script src="/smartSite/script/myJson.js" language="JavaScript" runat="server"></script>
+   	<script src="/smartSite/script/myJson.js" language="JavaScript"></script>   	
+   	
+    <script type="text/javascript" language="JavaScript">
 		var mySelf={
 			name:"alessio",
 			surname:"carnevale"
 		}
 		
 		window.onload=function(){
-			document.write(JSON.decode(mySelf))
+			
+			document.getElementById("one").innerHTML=mySelf.toJsonString()
 		}
 	</script>
 </head>
 
 <body>
+	<p>
 	<%
 		var a=eval("(" + Request.QueryString("json") + ")");
 		Response.Write(Request.QueryString("json"))
 		Response.Write(a.name + "." + a.surname)
 	
 	%>
+	</p>
+	<p id="one">xxx</p>
 </body>
 </html>
