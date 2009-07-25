@@ -1,0 +1,19 @@
+{
+	code:0,
+	pg1:{},
+	pg2:{
+		title:"HELLO!! Some free text as module title!",
+		textBody:"asd asd asdasaasdasd asd asd asd%0Aasd asd asd asd asd as%0Adasd asasd asd asd"
+	},
+	mainMenu:{
+		path:"%2Fitem%20bb",
+		itemName:"item%20aa",
+		subItems:[
+			"item 1",
+			"item 2",
+			"item 3",
+			"item 4",
+			"item 5"
+		]
+	}
+}
