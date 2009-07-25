@@ -364,30 +364,55 @@
 		function ac_traverser(params){
 			myInherits.call(this,ac_baseComponent,params)
 			var thisObj=this;
+			var path=this.params.path;
 			
 			//module initialization
 			var pageObj=this.parentObj;	
 			
-			//visual feedback
-			$("<span class='loadingMsg' />")
-				.appendTo($("#" + thisObj.id));
+			var div=$(document.getElementById(this.id)).replaceWith(
+				$("<a />")
+					.attr("href",path)
+					.attr("id",this.id)
+					.text(decodeURIComponent(path).split("/").pop())
+					.click(function(){
+						if (!$(this).attr("empty")){
+							//visual feedback
+							var thisTag=this;
+							
+							$("<span class='loadingMsg' />")
+								.appendTo(this);
 				
-			pageObj.IO.readFile(		
-				"dir.asp",
-				this.params.path,
-				{
-					folderName:this.params.path,
-					fileType:"*",
-					objId:this.id
-				},
-				function(jsonData){									
-					//removing the Visual feedBack
-					$("#" + thisObj.id).find("span.loadingMsg").remove()
-													
-					//define here the "event" to fire
-					pageObj.fireEvent("_onChangeFolder",jsonData)						
-				}
-			)									
+							pageObj.IO.readFile(		
+								"dir.asp",
+								path,
+								{
+									folderName:path,
+									fileType:"*",
+									objId:thisObj.id
+								},
+								function(jsonData){	
+									//removing the Visual feedBack
+									$(thisTag).find("span.loadingMsg").remove()	
+									
+									var ul=$(thisTag).closest("ul")
+									
+									ul.find("a").removeClass("current")										
+									$(thisTag).addClass("current")
+																		
+									ul.nextAll()
+												.hide(500,function(){
+													$(this).remove();
+												})																															
+									
+									//define here the "event" to fire
+									pageObj.fireEvent("_onChangeFolder",jsonData)						
+								}
+							)									
+														
+						}
+						return false;
+					})									
+			)											
 		}						
 		
 		ac_traverser.prototype.toJsonString=function(){
@@ -400,79 +425,18 @@
 			var exists=false;
 			
 			var pathSeparator="/"
-			
-			var div=$(document.getElementById(this.id))
-			
-			//remove the "current" className
-			div.find("a.current").removeClass("current")
+			var path=jsonData.path.replace(/\//g,"_")
 			
 			
-			var container=div.find(".container");
-			if (container.length==0){	
-				container=$("<div />")
-					.addClass("container")
-					.appendTo(div)				
-			}
+			var div=$(document.getElementById(this.id)).closest("div.menu")		
+						
 			
 			if (!jsonData) {
 				container.empty();
 				container.html("vuoto")
 				return false;
 			}
-			
-			// check the folder existence
-			var tmpObj=document.getElementById(jsonData.path)
-			exists=tmpObj?true:false;				
-			
-			var folder=exists?$(tmpObj):$("<ul />").appendTo(container);				
-			
-			//if there's no data for that node, then set an internal property
-			if(jsonData.files.length==0){
-				folder.find("a")
-					.attr("empty",true)
-			   return false;
-			}				
 
-			folder.empty();
-			
-			
-			
-			var li=$("<li />")
-				.attr("id",jsonData.path)
-				.appendTo(folder)					
-			
-			var a=$("<a />")
-					.attr("href",jsonData.path)
-					.text(decodeURIComponent(jsonData.path).split("/").pop())
-					.attr("rel",jsonData.path)
-					.addClass("current")
-					.click(function(){
-						if (!$(this).attr("empty")){
-							//visual feedback
-							$("<span class='loadingMsg' />")
-								.appendTo($("#" + thisObj.id));
-				
-							pageObj.IO.readFile(		
-								"dir.asp",
-								jsonData.path,
-								{
-									folderName:jsonData.path,
-									fileType:"*",
-									objId:thisObj.id
-								},
-								function(jsonData){	
-									//removing the Visual feedBack
-									$("#" + thisObj.id).find("span.loadingMsg").remove()																								
-									
-									//define here the "event" to fire
-									pageObj.fireEvent("_onChangeFolder",jsonData)						
-								}
-							)									
-														
-						}
-						return false;
-					})										
-					.appendTo(li)
 			
 			
 			if (this.logLevel>0){
@@ -481,19 +445,18 @@
 					.appendTo(div);		
 				
 			}
+			
+			if(jsonData.folders.length==0) return false;
 							
-			var subFolders=$("<ul />")					
-				.appendTo(li)		
-			
-			//handling transition fx
-			if(!exists) subFolders.hide(0)						
-			
+			var subFolders=$("<ul />")	
+				.hide(0)
+				.attr("id",path)				
+				.appendTo(div)		
 			
 			var newPath=encodeURIComponent(jsonData.path);				
 			$.each(jsonData.folders,function(i, value){
 										  
 				var li=$("<li />")
-					.attr("id",jsonData.path + pathSeparator + value.name)
 					.appendTo(subFolders)					
 				var a=$("<a />")
 						.attr("href",jsonData.path)
@@ -501,32 +464,44 @@
 						.attr("rel",newPath)	
 						.appendTo(li)
 						.click(function(){
-						//visual feedback
-						$("<span class='loadingMsg' />")
-							.appendTo($("#" + thisObj.id));							
-							pageObj.IO.readFile(		
-								"dir.asp",
-								value.path,
-								{
-									folderName:value.path,
-									fileType:"*",
-									objId:thisObj.id
-								},
-								function(jsonData){				
-									//removing the Visual feedBack
-									$("#" + thisObj.id).find("span.loadingMsg").remove()
-																														
-									//define here the "event" to fire
-									pageObj.fireEvent("_onChangeFolder",jsonData)						
-								}
-							)									
+							var thisTag=this;
 							
-							return false;
-						})
+							//visual feedback
+							$("<span class='loadingMsg' />")
+								.appendTo(thisTag);							
+								pageObj.IO.readFile(		
+									"dir.asp",
+									value.path,
+									{
+										folderName:value.path,
+										fileType:"*",
+										objId:thisObj.id
+									},
+									function(jsonData){				
+										//removing the Visual feedBack
+										$(thisTag).find("span.loadingMsg").remove()
+											
+										var ul=$(thisTag).closest("ul")
+																				
+										ul.find("a").removeClass("current")										
+										$(thisTag).addClass("current")
+										
+										ul.nextAll()
+													.hide(500,function(){
+														$(this).remove();
+													})	
+										//define here the "event" to fire
+										pageObj.fireEvent("_onChangeFolder",jsonData)																																							
+									}
+								)									
+								
+								return false;
+							}
+						)
 				
 			})
 			
-			if(!exists) subFolders.slideDown(600)
+			subFolders.show(600)
 		
 		}
 		
