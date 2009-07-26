@@ -26,10 +26,23 @@ ul {
 		font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;	
 		font-size:0.8em;
 		overflow:hidden;
-		height:180px;
+	}
+	.menu li{
+		position:relative;
 	}
 	
-	.menu ul{
+	.menu li a.delete{
+		position:absolute;
+		left:1px;
+		top:3px;
+		padding:0px;
+		overflow:hidden;
+		color:red;
+		font-size:0.8em;
+	}
+	
+
+	.menu .container {
 		border-left:1px solid #CCCCCC;
 		border-right:1px solid #CCCCCC;
 		float:left;
@@ -37,8 +50,13 @@ ul {
 		margin-left:-1px;
 		padding:0px;
 		position:relative;
-		height:100%;
 	}
+	
+	.menu ul{
+		margin:0px;		
+		padding:0px;
+		float:left;
+	}	
 	
 	.menu a{
 		text-decoration:none;
@@ -57,4 +75,21 @@ ul {
 		font-weight:bold;
 		color:#333;
 		border-bottom:1px solid #ddd;
+	}
+	
+	.menu .createFolder{
+		background-color:#eee;
+		padding:5px;
+		float:left;
+		clear:left;
+		padding:5px;
+	}
+	
+	.menu .createFolder p{
+		margin:0px 0px 5px 0px;
+		padding:0px
+	}
+
+	.menu .createFolder input{
+		width:100px;
 	}

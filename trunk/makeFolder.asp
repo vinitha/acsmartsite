@@ -6,10 +6,10 @@
 	fname=request("folderName")
 	folderName=server.MapPath(fname)
 	
-	if session("logLevel")<2 then
-		response.write("{error:true,message:'user not logged!',sender:'makeFolder.asp'}")
-		response.end()
-	end if
+	'if session("logLevel")<2 then
+	'	response.write("{error:true,message:'user not logged!',sender:'makeFolder.asp'}")
+	'	response.end()
+	'end if
 	
 	Dim myFSO 
 	SET myFSO = Server.CreateObject("Scripting.FileSystemObject") 
