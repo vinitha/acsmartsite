@@ -2,10 +2,10 @@
 
 <%
 
-if session("logLevel")<2 then
-	response.write("{error:true,message:'User not logged!',sender:'killFolder.asp'}")
-	Response.End()
-end if
+'if session("logLevel")<2 then
+'	response.write("{error:true,message:'User not logged!',sender:'killFolder.asp'}")
+'	Response.End()
+'end if
 
 on error resume next
 dim fileName

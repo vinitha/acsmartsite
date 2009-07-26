@@ -15,52 +15,61 @@
 	
 	
 // page object definition
-	window.onload=function(){
-		myPage.init();	
+	window.onload=function(){	
+		
+		var modGroups=[];
+		
+		//creating instances of the modules		
+		$("div.ac_module").each(function(i, value){
+			
+			// modules initialisation params
+			var params=	$(this).getJsonComment();
+			
+			//if the Group doesn't exist, then create it!
+			var group=modGroups[params.groupName] || new modulesGroup();
+			modGroups[params.groupName]=group;
+
+			//the onUserLogged event is cross groups
+			group.onUserLogged=function(logLevel){
+				for(g in modGroups){
+					modGroups[g].fireEvent("_onUserLogged",logLevel)
+				}
+			}
+			
+			params.tagId=this.id;
+			params.parentObj=group;			
+						
+			//creating istances of the page objects
+			group.modules.push(eval("new " + params.type + "(params)"))			
+		})
+		
 	}
 	
-	var myPage={
-		modules:new Array(),
-		currentPath:"",
-		init:function(){
-			//creating instances of the modules		
-			$("div.ac_module").each(function(i, value){
-				
-				// modules initialisation params
-				var params=	$(this).getJsonComment();
-				params.tagId=this.id;
-				params.parentObj=myPage;			
-							
-				//creating istances of the page objects
-				myPage.modules.push(eval("new " + params.type + "(params)"))
-			})
-		},
-	
+	modulesGroup=function(){
+		this.modules=new Array();
+		this.currentPath="";
 		
-		fireEvent:function(eventName,params){
+		this.fireEvent=function(eventName,params){
 			
 			//loop through the modules and fires the event, if defined.
-			$.each(myPage.modules,function(i,module){
+			$.each(this.modules,function(i,module){
 				if(module[eventName]){
 					module[eventName](params)
 				}
 			})
-		},
+		};
 							
-		saveModule:function(module){
-			myPage.IO.writeFile(myPage.currentPath+"/config.txt",module);					
-		},
+		this.saveModule=function(module){
+			var path=module.parentObj.currentPath;
+			this.IO.writeFile(path+"/config.txt",module);					
+		};
 		
-		IO:{
-			readFile:function(prefix,filePath,data,callBack){
-				myPage.currentPath=filePath;
-				//console.log(filePath)
-				
+		this.IO={
+			readFile:function(prefix,filePath,data,callBack){								
 				$.getJSON(prefix,data,callBack);				
 			},
 			
 			writeFile:function(filePath,module){
-				//console.log(filePath)
 				$.getJSON("writeFile.asp",
 					{
 						fileName:filePath,
@@ -117,6 +126,8 @@
 		}
 		
 		ac_baseComponent.prototype.refresh = function(){
+			//if(!this.jsonData) return false;
+			
 			this.$$render(this.jsonData)
 			//console.log("refresh: " + this.params.type + "(#" + this.params.tagId + ")")
 		},
@@ -159,7 +170,7 @@
 			this.logLevel=logLevel;
 							
 			if(this.$$onUserLogged){
-				//if there's an event handler define then execute it
+				//if there's an event handler defined then execute it
 				this.$$onUserLogged(logLevel)
 			}else{
 				//otherwise performs a refresh of the module (rendering function using cached jsonData)
@@ -232,7 +243,7 @@
 					$("<button />")
 						.text("logged as standard user!")
 						.click(function(){
-							thisObj.parentObj.fireEvent("_onUserLogged",1)
+							thisObj.parentObj.onUserLogged(1)
 						})
 						.appendTo(div);						
 				break;
@@ -241,7 +252,7 @@
 					$("<button />")
 						.text("logged as super user!")
 						.click(function(){
-							thisObj.parentObj.fireEvent("_onUserLogged",2)
+							thisObj.parentObj.onUserLogged(2)
 						})
 						.appendTo(div);												
 				break;
@@ -250,7 +261,7 @@
 					$("<button />")
 						.text("logged as administrator!")
 						.click(function(){
-							thisObj.parentObj.fireEvent("_onUserLogged",0)
+							thisObj.parentObj.onUserLogged(0)
 						})
 						.appendTo(div);							
 				break
@@ -264,7 +275,7 @@
 				.appendTo(div);				
 		}
 		
-		//cevents overloading
+		//events overloading
 		ac_logIn.prototype.$$onUserLogged=function(logLevel){
 			//calling the overloaded function
 			this.$$render(logLevel)
@@ -367,7 +378,9 @@
 			var path=this.params.path;
 			
 			//module initialization
-			var pageObj=this.parentObj;	
+			var groupObj=this.parentObj;	
+			
+			
 			
 			var div=$(document.getElementById(this.id)).replaceWith(
 				$("<a />")
@@ -382,7 +395,7 @@
 							$("<span class='loadingMsg' />")
 								.appendTo(this);
 				
-							pageObj.IO.readFile(		
+							groupObj.IO.readFile(		
 								"dir.asp",
 								path,
 								{
@@ -405,7 +418,7 @@
 												})																															
 									
 									//define here the "event" to fire
-									pageObj.fireEvent("_onChangeFolder",jsonData)						
+									groupObj.fireEvent("_onChangeFolder",jsonData)						
 								}
 							)									
 														
@@ -421,55 +434,118 @@
 		
 		ac_traverser.prototype.$$render=function(jsonData){
 			var thisObj=this;
-			var pageObj=this.parentObj;
+			var groupObj=this.parentObj;
 			var exists=false;
 			
-			var pathSeparator="/"
+			if (!jsonData) {
+				return false;
+			}		
+				
 			var path=jsonData.path.replace(/\//g,"_")
 			
+			groupObj.currentPath=jsonData.path;
 			
-			var div=$(document.getElementById(this.id)).closest("div.menu")		
-						
+			var menuDiv=$("#" + this.id).closest("div.menu")		
 			
-			if (!jsonData) {
-				container.empty();
-				container.html("vuoto")
-				return false;
-			}
+			
 
 			
+			var folderDiv=document.getElementById(path)
 			
-			if (this.logLevel>0){
-				$("<p />")
-					.text("please define the ac_traverser isLogged code!!!")
-					.appendTo(div);		
-				
+			if (!folderDiv) {
+				folderDiv = $("<div />").addClass("container").attr("id", path).hide(0).appendTo(menuDiv)
+			}else {	
+				if (folderDiv.removing) {
+					folderDiv = $("<div />").addClass("container").attr("id", path).hide(0).appendTo(menuDiv)
+				}
+				else {
+					folderDiv = $(folderDiv).empty();
+				}
 			}
 			
-			if(jsonData.folders.length==0) return false;
-							
-			var subFolders=$("<ul />")	
-				.hide(0)
-				.attr("id",path)				
-				.appendTo(div)		
+			if (thisObj.logLevel>0){
+				menuDiv.find("div.createFolder").remove();
+				var cfDiv=$("<div />")
+								.appendTo(folderDiv)
+								.addClass("createFolder")
+				
+				$("<p />")
+					.text("New section name:")
+					.appendTo(cfDiv);		
+					
+				var fName=$("<input type='text' />").appendTo(cfDiv)
+				$("<button />")
+					.text("create")
+					.click(function(){
+						$.getJSON(
+							"makeFolder.asp",
+							{
+								folderName:groupObj.currentPath + "/" + encodeURIComponent(fName.attr("value"))
+							},
+							function(jsonData){
+								folderDiv.prev().find("a.current").click()
+							}
+						)
+					})
+					.appendTo(cfDiv)		
+			}
+			
+			if (jsonData.folders.length == 0) {
+				folderDiv.show(600);
+				return false;
+			}
+			
+			var subFolders=$("<ul />")					
+							.prependTo(folderDiv)		
 			
 			var newPath=encodeURIComponent(jsonData.path);				
 			$.each(jsonData.folders,function(i, value){
 										  
 				var li=$("<li />")
-					.appendTo(subFolders)					
+					.appendTo(subFolders)	
+					.hover(
+						function(){
+							if(thisObj.logLevel>0){
+								$("<a />")
+									.addClass("delete")
+									.click(function(){
+										var folderAnchor=$(this).siblings("a")
+										var folderName=folderAnchor.text()
+										var folderPath=folderAnchor.attr("href")
+										if(confirm("Delete " + folderName + " section?")){
+											$.getJSON(
+												"killFolder.asp",
+												{
+													folderName:folderPath + "/" + encodeURIComponent(folderName)
+												},
+												function(jsonData){
+													folderDiv.prev().find("a.current").click()
+												}
+											)																						
+										}
+									})
+									.attr("href","#remove")
+									.attr("title","Delete")
+									.text("x")
+									.appendTo(this)
+							}							
+						},
+						function(){
+							$(this).find("a.delete").remove()
+						}
+					)				
 				var a=$("<a />")
 						.attr("href",jsonData.path)
 						.text(decodeURIComponent(value.name))
 						.attr("rel",newPath)	
 						.appendTo(li)
 						.click(function(){
-							var thisTag=this;
+							var thisTag=this;							
 							
 							//visual feedback
 							$("<span class='loadingMsg' />")
 								.appendTo(thisTag);							
-								pageObj.IO.readFile(		
+								groupObj.IO.readFile(		
 									"dir.asp",
 									value.path,
 									{
@@ -481,17 +557,21 @@
 										//removing the Visual feedBack
 										$(thisTag).find("span.loadingMsg").remove()
 											
-										var ul=$(thisTag).closest("ul")
+										var div=$(thisTag).closest("div.container")
 																				
-										ul.find("a").removeClass("current")										
+										div.find("a").removeClass("current")										
 										$(thisTag).addClass("current")
 										
-										ul.nextAll()
-													.hide(500,function(){
-														$(this).remove();
-													})	
+										div.nextAll().each(function(){
+											this.removing=true;
+											
+											$(this).hide(500,function(){
+												$(this).remove();	
+											})											
+										})																				
+										
 										//define here the "event" to fire
-										pageObj.fireEvent("_onChangeFolder",jsonData)																																							
+										groupObj.fireEvent("_onChangeFolder",jsonData)																																							
 									}
 								)									
 								
@@ -501,7 +581,7 @@
 				
 			})
 			
-			subFolders.show(600)
+			folderDiv.show(600)
 		
 		}
 		
