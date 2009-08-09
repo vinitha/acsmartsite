@@ -181,10 +181,23 @@
 	/* ---------- */
 	
 	
-	
+$('#fileInput').uploadify({
+		'uploader'  : 'uploadify.swf',
+		'script'    : 'uploadify.php',
+		'cancelImg' : 'cancel.png',
+		'auto'      : true,
+		'folder'    : '/uploads'
+	});
+
 	
 	
 /* components */
+
+	/* fileUpload */
+	//ac_fileUpload
+	
+	
+
 	/* photoGallery */
 		ac_photoGallery.inherits(ac_baseComponent);			
 		function ac_photoGallery(params){			
