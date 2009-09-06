@@ -1,0 +1,121 @@
+<mockup version="1.0" skin="sketch" measuredW="984" measuredH="1844">
+  <controls>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::HRule" x="63" y="132" w="903" h="-1" measuredW="100" measuredH="5" zOrder="3" locked="false" isInGroup="-1"/>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Label" x="71" y="100" w="-1" h="-1" measuredW="114" measuredH="32" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Medical%20Blog</text>
+      </controlProperties>
+    </control>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::ScratchOut" x="63" y="137" w="903" h="131" measuredW="205" measuredH="107" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::MenuBar" x="743" y="276" w="-1" h="-1" measuredW="176" measuredH="29" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1%2C2%2C3%2C4%2C5</text>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Label" x="666" y="277" w="-1" h="-1" measuredW="71" measuredH="25" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>settimana%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="71" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="56" y="821" w="918" h="1013" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Omeopatik%0Ahttp%3A//www.mailfx.it/omeopatik</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="72" controlTypeID="com.balsamiq.mockups::HRule" x="63" y="930" w="903" h="-1" measuredW="100" measuredH="5" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="73" controlTypeID="com.balsamiq.mockups::Label" x="71" y="898" w="114" h="32" measuredW="114" measuredH="32" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Medical%20Blog</text>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::ScratchOut" x="63" y="935" w="903" h="131" measuredW="205" measuredH="107" zOrder="10" locked="false" isInGroup="-1"/>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::MenuBar" x="767" y="1074" w="176" h="29" measuredW="176" measuredH="29" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1%2C2%2C3%2C4%2C5</text>
+      </controlProperties>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Label" x="690" y="1077" w="71" h="25" measuredW="71" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>settimana%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::TabBar" x="71" y="1081" w="873" h="550" measuredW="185" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>0</selectedIndex>
+        <text>1%27%20settimana</text>
+        <tabVPosition>top</tabVPosition>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::TextArea" x="84" y="1130" w="276" h="203" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <text>Cura%20seguita%20questa%20settimana%3A%0A-%20a%20asd%20a%0A-%20asd%20asd%20a%0A-%20asdas%20das%20%0A-%20wwerw%20rwe%20r%0A-%20fgjhhg%20hjg%20%0A-%20tuyiyuk%20jkh</text>
+        <color>16776960</color>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::TextArea" x="366" y="1131" w="401" h="203" measuredW="200" measuredH="140" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Some%20text%0AA%20second%20line%20of%20text%20zxc%20zxc%20%0Azxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxcsdfs%20dgdf%20dfk%20jhkldhs%20slkd%20hclseu%20hflskxchskl%3Bjd%20hflskud%20fhsiduhf%20spidufh%20opsdiufgypsduiy%20fhsp%5Buod%20hfpsiudf%20gyhpsdiuhs</text>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::TextArea" x="84" y="335" w="276" h="327" measuredW="200" measuredH="140" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+        <text>Settimana%20pari%3A%0A-%20a%20asd%20a%0A-%20asd%20asd%20a%0A-%20asdas%20das%20%0A-%20wwerw%20rwe%20r%0A-%20fgjhhg%20hjg%20%0A-%20tuyiyuk%20jkh%0A%20%0ASettimana%20dispari%3A%0A-%20a%20asd%20a%0A-%20asd%20asd%20a%0A-%20asdas%20das%20%0A-%20wwerw%20rwe%20r%0A-%20fgjhhg%20hjg%20%0A-%20tuyiyuk%20jkh</text>
+        <color>16776960</color>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::Icon" x="329" y="339" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CopyIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::TextArea" x="368" y="335" w="523" h="330" measuredW="200" measuredH="140" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Dieta%20da%20seguire%0AA%20second%20line%20of%20text%20zxc%20zxc%20%0Azxc%20zxc%20z%0Axc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxcsdfs%20dgdf%20dfk%20jhkldhs%20slkd%20hclseu%20hflskxchskl%3Bjd%20hflskud%20fhsiduhf%20spidufh%20opsdiufgypsduiy%20fhsp%5Buod%20hfpsiudf%20gyhpsdiuhs%0A%20%0Aline%20of%20text%20zxc%20zxc%20%0Azxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxcsdfs%20dgdf%20dfk%20jhkldhs%20slkd%20hclseu%20hflskxchskl%3Bjd%20hflskud%20fhsiduhf%20spidufh%20opsdiufgypsduiy%20fhsp%5Buod%20hfpsiudf%20gyhpsdiuhs%0A%20%0Aline%20of%20text%20zxc%20zxc%20%0Azxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxc%20zxcsdfs%20dgdf%20dfk%20jhkldhs%20slkd%20hclseu%20hflskxchskl%3Bjd%20hflskud%20fhsiduhf%20spidufh%20opsdiufgypsduiy%20fhsp%5Buod%20hfpsiudf%20gyhpsdiuhs</text>
+      </controlProperties>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::Image" x="84" y="1341" w="276" h="270" measuredW="141" measuredH="144" zOrder="18" locked="false" isInGroup="-1"/>
+    <control controlID="104" controlTypeID="com.balsamiq.mockups::TextArea" x="776" y="1132" w="158" h="93" measuredW="200" measuredH="140" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>16</size>
+        <text>prurito%3A%0Asecrezioni%3A%0Aestensione%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="105" controlTypeID="com.balsamiq.mockups::Icon" x="895" y="1138" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>PlusBigIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="106" controlTypeID="com.balsamiq.mockups::Icon" x="895" y="1164" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>PauseIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::Icon" x="895" y="1186" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DashIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Image" x="368" y="1342" w="276" h="270" measuredW="141" measuredH="144" zOrder="23" locked="false" isInGroup="-1"/>
+    <control controlID="109" controlTypeID="com.balsamiq.mockups::Image" x="652" y="1342" w="276" h="270" measuredW="141" measuredH="144" zOrder="24" locked="false" isInGroup="-1"/>
+    <control controlID="110" controlTypeID="com.balsamiq.mockups::TextArea" x="71" y="1645" w="872" h="140" measuredW="200" measuredH="140" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.5</backgroundAlpha>
+        <text>Review%20del%20medico%3A%0Afsd%20dfghcvb%20nv.c%2Cnmv%20d.khsrlk%20hklxjhv%20lxkherliu%20hxlkcjvh%20xlkjcvh%20eliru%20hxlkjh%20gelriu%20hldkxfgh%20lwiue%20rhliufhgldifuhg%20lifug%20hdlfiug%20hdlfiu%20</text>
+        <verticalScrollbar>true</verticalScrollbar>
+        <color>13434726</color>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="950" y="1109" w="-1" h="691" measuredW="16" measuredH="100" zOrder="26" locked="false" isInGroup="-1"/>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="56" y="23" w="918" h="711" measuredW="450" measuredH="400" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Omeopatik%0Ahttp%3A//www.mailfx.it/omeopatik</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
