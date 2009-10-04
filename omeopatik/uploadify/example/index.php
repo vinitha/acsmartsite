@@ -3,18 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Uploadify Example Script</title>
-<link href="/example/css/default.css" rel="stylesheet" type="text/css" />
-<link href="/example/css/uploadify.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/example/scripts/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="/example/scripts/swfobject.js"></script>
-<script type="text/javascript" src="/example/scripts/jquery.uploadify.v2.0.2.min.js"></script>
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<link href="css/uploadify.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="scripts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="scripts/swfobject.js"></script>
+<script type="text/javascript" src="scripts/jquery.uploadify.v2.0.2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#uploadify").uploadify({
 		'uploader'       : 'scripts/uploadify.swf',
-		'script'         : 'scripts/uploadify.php',
+		'script'         : '/public/uploadify.php',
 		'cancelImg'      : 'cancel.png',
-		'folder'         : 'uploads',
+		'folder'         : '/public/upload',
 		'queueID'        : 'fileQueue',
 		'auto'           : true,
 		'multi'          : true
