@@ -2,7 +2,7 @@
 
 
 
-<script src="/smartSite/script/myJson.js" language="JavaScript" runat="server"></script>
+<script src="script/myJson.js" language="JavaScript" runat="server"></script>
 <%
 
 /*

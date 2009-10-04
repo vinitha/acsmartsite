@@ -15,9 +15,10 @@
 	
 	
 // page object definition
-	window.onload=function(){	
+	$(window).load(function(){	
 		
 		var modGroups=[];
+		var idIndex=0;
 		
 		//creating instances of the modules		
 		$("div.ac_module").each(function(i, value){
@@ -36,6 +37,7 @@
 				}
 			}
 			
+			this.id=this.id|| params.type + "_" + (idIndex++)
 			params.tagId=this.id;
 			params.parentObj=group;			
 						
@@ -43,7 +45,7 @@
 			group.modules.push(eval("new " + params.type + "(params)"))			
 		})
 		
-	}
+	})
 	
 	modulesGroup=function(){
 		this.modules=new Array();
@@ -180,22 +182,40 @@
 		}
 	/* ---------- */
 	
-	
-$('#fileInput').uploadify({
-		'uploader'  : 'uploadify.swf',
-		'script'    : 'uploadify.php',
-		'cancelImg' : 'cancel.png',
-		'auto'      : true,
-		'folder'    : '/uploads'
-	});
-
-	
+		
 	
 /* components */
 
 	/* fileUpload */
-	//ac_fileUpload
+	ac_fileUpload.inherits(ac_baseComponent);			
+	function ac_fileUpload(params){			
+		myInherits.call(this,ac_baseComponent,params)
+	}	
 	
+	ac_fileUpload.prototype.toJsonString=function(){
+		return null;	
+	}	
+	
+	ac_fileUpload.prototype.$$render=function(jsonData){
+		var thisObj=this;
+		var div=$("#" + this.id).empty();
+		
+		switch (this.logLevel) {
+			case 0, 1:
+				break;
+				
+			case 2:
+				var fi = $("<input type='file' />").appendTo(div).uploadify({
+					'uploader': 'script/uploadify.swf',
+					'script': 'script/uploadify.php',
+					'cancelImg': 'images/cancel.png',
+					'auto': true,
+					'folder': '/uploads'
+				});
+				break;
+		}
+				
+	}
 	
 
 	/* photoGallery */
@@ -301,79 +321,96 @@ $('#fileInput').uploadify({
 	
 	
 	
-	/* ac_text */
-		ac_text.inherits(ac_baseComponent);		
-		function ac_text (params){
+	/* ac_paragraph */
+		ac_paragraph.inherits(ac_baseComponent);		
+		function ac_paragraph (params){
 			myInherits.call(this,ac_baseComponent,params)										
 		}
 		
-		ac_text.prototype.toJsonString=function(){
+		ac_paragraph.prototype.toJsonString=function(){
 			var strObj=new Array();
 			
 			var div=$("#" + this.id)
-			strObj.push('title:"' + escape(div.find(".title").attr("value")) + '"');
-			strObj.push('textBody:"' + escape(div.find(".textBody").attr("value")) + '"');				
 			
-			return "{" + this.id + ":{" + strObj.join(",") +"}}";	
+			// looping through all the sections...
+			div.find("div.section").each(function(index,item){
+				item=$(item)
+				strObj.push('{title:"' + escape(item.find(".title").attr("value")) + '"' + ',textBody:"' + escape(item.find(".textBody").attr("value")) + '"}');			
+				
+			})			
+			
+			return "{" + this.id + ":{sections:[" + strObj.join(",") +"]}}"
 		}
 		
-		ac_text.prototype.$$render=function(jsonData){
+		ac_paragraph.prototype.$$render=function(jsonData){
 			var thisObj=this;
 			var div=$("#" + this.id).empty()	
 		
-			var textTitle=unescape(jsonData?jsonData.title||"":"");
-			var textBody=unescape(jsonData?jsonData.textBody||"":"");
-							
-			if (this.logLevel>0){
-				//title definition
-				$("<input />")
-					.attr("type","text")
-					.addClass("title")
-					.attr("value",textTitle)
-					.appendTo(div);				
+			if (jsonData) {
+				// looping through all the sections...
+				$(jsonData.sections).each(function(index, item){
+					var section = $("<div />").addClass("section").appendTo(div)
 					
-				//Paragraphs definition					
-				$("<textarea />")
-					.addClass("textBody")
-					.attr("value",textBody)
-					.appendTo(div);		
-									
-				// save button
-				$("<button />")
-					.attr("title","save changes")
-					.text("save")
-					.appendTo(div)
-					.click(function(){
-						thisObj.save();
-					})
-				
-			}else{
-				//title definition
-				$("<h2 />")
-					.text(textTitle)
-					.addClass("title")
-					.appendTo(div);				
+					var textTitle = unescape(item ? item.title || "" : "");
+					var textBody = unescape(item ? item.textBody || "" : "");
 					
-				//Paragraphs definition										
-				$.each(textBody.split("\n"),function(i,value){
-					$("<p />")
-						.text(value)
-						.addClass("textBody")
-						.appendTo(div);						
-				})					
+					if (thisObj.logLevel > 0) {
+						//title definition
+						$("<input />").attr("type", "text").addClass("title").attr("value", textTitle).appendTo(section);
+						
+						//Paragraphs definition					
+						$("<textarea />").addClass("textBody").attr("value", textBody).appendTo(section);
+						
+					}
+					else {
+						//title definition
+						$("<h2 />").text(textTitle).addClass("title").appendTo(section);
+						
+						//Paragraphs definition										
+						$.each(textBody.split("\n"), function(i, value){
+							$("<p />").text(value).addClass("textBody").appendTo(section);
+						})
+					}
+				})
 			}
+			
+			if (this.logLevel > 0) {
+				var buttDiv=$("<div />").addClass("buttons").appendTo(div)
+				// new section button
+				$("<button />").attr("title", "new section").text("New").appendTo(buttDiv).click(function(){
+					
+					var section = $("<div />").addClass("section").insertBefore(buttDiv)
+					
+					//title definition
+					$("<input />")
+						.attr("type","text")
+						.addClass("title")
+						.appendTo(section);				
+						
+					//Paragraphs definition					
+					$("<textarea />")
+						.addClass("textBody")
+						.appendTo(section);
+				})										
+								
+				// save button
+				$("<button />").attr("title", "save changes").text("save").appendTo(buttDiv).click(function(){
+					thisObj.save();
+				})
+			}
+
 		}
 		
 		
 		// events overloading
-		ac_text.prototype.$$onSaveComplete=function(jsonData){
+		ac_paragraph.prototype.$$onSaveComplete=function(jsonData){
 			if(!jsonData.error){
 				this.render(jsonData.message)
 			}
 		}
 		
 		//custom events definition
-		ac_text.prototype._onChangeFolder=function(jsonData){
+		ac_paragraph.prototype._onChangeFolder=function(jsonData){
 			this.render(jsonData)
 		}
 		

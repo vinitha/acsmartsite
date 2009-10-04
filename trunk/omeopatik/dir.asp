@@ -1,7 +1,7 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%>
 <% Response.ContentType="application/json" %>
 
-<script src="/smartSite/script/myJson.js" language="JavaScript" runat="server"></script>
+<script src="script/myJson.js" language="JavaScript" runat="server"></script>
 
 
 
