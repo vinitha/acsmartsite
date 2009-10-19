@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+
+h2{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	color:#006666;
+}
+
+.offLine h2{
+	color:#FF6600;
+}
