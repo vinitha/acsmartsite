@@ -1,0 +1,44 @@
+html {
+	font-family:verdana;
+ 	font-size:62.5%;
+	margin:0px  0px  0px  0px;
+    background-color:#7fb0f0;
+ }
+
+body {
+   	font-size:100%;
+ }
+
+a img{
+	border:none;
+}
+
+a.btn{
+		display:block;
+		float:left;
+		margin:10px 10px 0px;
+}
+
+
+.menu  {
+	float:left;
+	margin-right:10px;
+	background-color:#6Fa0e0;
+	margin-top:14px;
+ }  
+
+.menu a{
+	font-size:1.2em;
+	text-align:center;
+	padding:5px;	
+	text-decoration:none;
+	color:#00c;
+	border:1px solid #6Fa0e0;
+	display:block;
+}
+
+.menu a:hover{
+	background-color:#5F90d0;
+	border:1px solid #4F80c0;
+}
+  
