@@ -96,6 +96,7 @@ h1{
 	background-position:left 15px;
 	background-repeat:no-repeat;
 	line-height:56px;
+	zoom:1;
 }
 
 #main{
@@ -201,6 +202,7 @@ h1{
 	color:#fff;
 	opacity:0.3;
 	filter:alpha(opacity=30);
+	zoom:1;
 }
 
 .videosList span{
@@ -212,6 +214,7 @@ h1{
 	height:27px;
 	padding:1px 1px 5px 6px;
 	width:97px;
+	cursor:pointer;
 }
 
 
