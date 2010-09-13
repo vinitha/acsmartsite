@@ -99,7 +99,7 @@ h1{
 }
 
 #main{
-	background-color:rgba(0, 0, 0, 0.6);
+	background-image:url(../img/mainBG.png);
 	padding:10px;
 }
 
@@ -116,8 +116,9 @@ h1{
 	margin-bottom:10px;
 }
 
-.detailBox{
-	padding:20px;
+
+#details{
+	margin:20px;
 }
 
 .detailBox p{
@@ -148,19 +149,88 @@ h1{
 	overflow:hidden;
 	width:540px;
 	padding:0px 5px;
-	height:550px;
+	height:436px;
 	background-image:url(../img/rightBoxBG.png);	
 	position:relative;
 }
 
-#rightPanel .videosList{
-	
+.videosList{	
+	position:absolute;
+	bottom:93px;
+	left:0px;
 }
 
+.videosList li{
+	width:109px;
+	height:33px;
+	margin-bottom:5px;	
+}
+
+.videosList li.current a,
+.videosList li.current span{
+	opacity:1;
+	filter:none;
+}
+
+.videosList li.current a{
+	border-color:#ff8000;	
+}
+
+.videosList a{
+	border-left:5px solid transparent;
+	background-image:url(../img/btnsSprite.jpg);
+	background-repeat:no-repeat;
+	background-position:0px 0px;
+}
+
+.videosList a.btn_1{
+	background-position:0px -34px;
+}
+
+.videosList a.btn_2{
+	background-position:0px -68px;
+}
+
+.videosList a.btn_3{
+	background-position:0px -102px;
+}
+
+.videosList a,
+.videosList span{
+	display:block;
+	color:#fff;
+	opacity:0.3;
+	filter:alpha(opacity=30);
+}
+
+.videosList span{
+	background-image:url("../img/buttonNumBG.png");
+	background-position:0 0;
+	background-repeat:no-repeat;
+	font-size:22px;
+	font-weight:bold;
+	height:27px;
+	padding:1px 1px 5px 6px;
+	width:97px;
+}
+
+
+.videosList a:hover,
+.videosList a:hover span{
+	color:#fff;
+	opacity:1;
+	filter:none;
+}
+
+
+
+
 #videoPlayer{
-	position:absolute;
 	bottom:2px;
-	left:5px;
+	left:108px;
+	position:relative;
+	top:191px;
+	width:432px;
 }
 
 
