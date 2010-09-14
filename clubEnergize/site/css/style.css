@@ -74,6 +74,10 @@ button {  width: auto; overflow: visible; }
  /* Primary Styles
     Author: 
  */
+ 
+object{
+	display:block;
+}
 
 body{
 	background-color:#405C8A;
@@ -91,11 +95,34 @@ header{
 	padding:0px 10px;
 }
 
+h1,h2,h3,h4,
+.videosList a{
+	font-family: 'Yanone Kaffeesatz', impact, sans-serif;
+}
+
 h1{
-	background-image:url("../img/title.png");
-	background-position:left 15px;
+	background-image:url("../img/splash.png");
+	background-position:-3px -20px;
 	background-repeat:no-repeat;
-	line-height:56px;
+	color:#444444;
+	font-size:28px;
+	font-weight:bold;
+	line-height:54px;
+	text-shadow:1px 1px 1px #999999;
+}
+
+h1 span{
+	padding:0 0 2px 5px;
+}
+
+h1 strong{
+	background-color:#AB3710;
+	color:#FFFFFF;
+	font-weight:400;
+	margin-left:5px;
+	padding:0 10px 2px;
+	text-shadow:none;
+	display:inline-block;
 	zoom:1;
 }
 
@@ -111,7 +138,6 @@ h1{
 
 #leftPanel h2{
 	color:#999;
-	font-family:impact;
 	font-size:30px;
 	font-weight:normal;
 	margin-bottom:10px;
@@ -120,6 +146,10 @@ h1{
 
 #details{
 	margin:20px;
+}
+
+.js #details .detailBox{
+	display:none;
 }
 
 .detailBox p{
@@ -147,18 +177,17 @@ h1{
 
 
 #rightPanel{
+	background-image:url("../img/rightBoxBG.png");
+	background-repeat:no-repeat;
 	overflow:hidden;
-	width:540px;
-	padding:0px 5px;
-	height:436px;
-	background-image:url(../img/rightBoxBG.png);	
+	padding:0 5px 4px 0;
 	position:relative;
+	width:545px;
 }
 
 .videosList{	
-	position:absolute;
-	bottom:93px;
-	left:0px;
+	float:left;
+	margin-top:190px;
 }
 
 .videosList li{
@@ -170,7 +199,7 @@ h1{
 .videosList li.current a,
 .videosList li.current span{
 	opacity:1;
-	filter:none;
+	filter:none;	
 }
 
 .videosList li.current a{
@@ -182,6 +211,12 @@ h1{
 	background-image:url(../img/btnsSprite.jpg);
 	background-repeat:no-repeat;
 	background-position:0px 0px;
+	outline:none;
+}
+
+.videosList a.btn_0 span{
+	font-size:15px;
+	padding:5px 5px 1px 2px;
 }
 
 .videosList a.btn_1{
@@ -219,7 +254,9 @@ h1{
 
 
 .videosList a:hover,
-.videosList a:hover span{
+.videosList a:hover span,
+.videosList a:focus,
+.videosList a:focus span{
 	color:#fff;
 	opacity:1;
 	filter:none;
@@ -229,11 +266,20 @@ h1{
 
 
 #videoPlayer{
-	bottom:2px;
-	left:108px;
-	position:relative;
-	top:191px;
+	float:right;	
+	margin-top:190px;
 	width:432px;
+}
+#videoPlayer .player{
+	min-height:240px;
+	background-image:url(../img/comingSoon.png);
+	background-position:50% 50%;
+	background-repeat:no-repeat;
+	background-color:#1c2227;
+}
+
+.js #videoPlayer .player{
+	display:none;
 }
 
 

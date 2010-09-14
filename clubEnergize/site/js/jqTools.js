@@ -522,15 +522,16 @@ var utils={
 		    .css("z-index",2)
 		    .show(0);
 							    
-	    var viewportWidth=this.nextPanel.height();
+	    var viewportHeight=ul.height();
+		var nextPHeight=this.nextPanel.height();
 	    ul.animate({"height":this.nextPanel.height()},defaults.speed);	    	    
 	    
 	    this.currentPanel.css("position","absolute")
 		
 		if(this.nextPanel.data("index")<this.currentPanel.data("index")){
-			this.nextPanel.css("top",-ul.height());
+			this.nextPanel.css("top",-nextPHeight);
 			
-			this.currentPanel.animate({"top":viewportWidth},defaults.speed,function(){$(this).css("z-index",0).hide(0)})
+			this.currentPanel.animate({"top":nextPHeight},defaults.speed,function(){$(this).css("z-index",0).hide(0)})
 			this.nextPanel.animate({"top":0},defaults.speed,function(){
 				defaults.events.change.call(thisObj);
 				thisObj.currentPanel.css("position","static")
@@ -539,7 +540,7 @@ var utils={
 		}else{
 			this.nextPanel.css("top",ul.height());
 			
-			this.currentPanel.animate({"top":-viewportWidth},defaults.speed,function(){$(this).css("z-index",0).hide(0)})
+			this.currentPanel.animate({"top":-viewportHeight},defaults.speed,function(){$(this).css("z-index",0).hide(0)})
 			this.nextPanel.animate({"top":0},defaults.speed,function(){
 				defaults.events.change.call(thisObj);
 				thisObj.currentPanel.css("position","static")
