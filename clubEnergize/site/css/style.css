@@ -277,6 +277,9 @@ h1 strong{
 	background-repeat:no-repeat;
 	background-color:#1c2227;
 }
+#videoPlayer .player img{
+	display:block;
+}
 
 .js #videoPlayer .player{
 	display:none;
