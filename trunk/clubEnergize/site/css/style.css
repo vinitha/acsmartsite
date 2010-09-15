@@ -136,7 +136,7 @@ h1 strong{
 	width:405px;
 }
 
-#leftPanel h2{
+h2{
 	color:#999;
 	font-size:30px;
 	font-weight:normal;
@@ -212,6 +212,9 @@ h1 strong{
 	background-repeat:no-repeat;
 	background-position:0px 0px;
 	outline:none;
+	-moz-border-radius:0px 5px 5px 0px;
+	-webkit-border-radius:0px 5px 5px 0px;
+	border-radius:0px 5px 5px 0px;
 }
 
 .videosList a.btn_0 span{
@@ -285,6 +288,42 @@ h1 strong{
 	display:none;
 }
 
+
+
+
+
+
+/* footer */
+
+footer{
+	margin-top:10px;
+	background-image:url("../img/mainBG.png");
+	padding:20px;
+}
+
+
+
+/* youtube bar */
+
+.playerBox_gsvb div.alldone_gsvb,
+.playerBox_gsvb a.title_gsvb{
+	color:#444!important;	
+}
+
+table.resultTable_gsvb td{
+	padding:5px;
+}
+
+.playerBox_gsvb div.alldone_gsvb {
+	display:block!important;
+	text-align:right!important;
+	background-image:url(../img/closeBtn.png);
+	background-position:right 0px;
+	background-repeat:no-repeat;
+	padding-right:20px;
+	margin-bottom:5px;
+	line-height:17px;
+}
 
 /* 
  * print styles
