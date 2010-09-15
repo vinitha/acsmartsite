@@ -6,8 +6,8 @@
 
 
 
-var videosLibrary={
-	play_01:'<object id="vp15pIiQ" width="432" height="240" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"><param name="movie" value="http://static.animoto.com/swf/w.swf?w=swf/vp1&e=1284137640&f=5pIiQsm4rxVISFN4J5yL6A&d=59&m=b&r=w&i=m&options=autostart"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed id="vp15pIiQ" src="http://static.animoto.com/swf/w.swf?w=swf/vp1&e=1284137640&f=5pIiQsm4rxVISFN4J5yL6A&d=59&m=b&r=w&i=m&options=autostart" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="432" height="240"></embed></object>'
+var videosLibrary={         
+	play_01:'<object id="vp1YsKQy" width="432" height="240" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"><param name="movie" value="http://static.animoto.com/swf/w.swf?w=swf/vp1&e=1284551291&f=YsKQyMSkmj3ezdfk5NRMoQ&d=63&m=b&r=w&i=m&options=autostart"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed id="vp1YsKQy" src="http://static.animoto.com/swf/w.swf?w=swf/vp1&e=1284551291&f=YsKQyMSkmj3ezdfk5NRMoQ&d=63&m=b&r=w&i=m&options=autostart" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="432" height="240"></embed></object>'
 }
 
 
@@ -46,10 +46,14 @@ $().ready(function(){
 	
 	// video player placeholders
 	$("#videoPlayer a").click(function(ev){
+		ev.preventDefault();
+		
 		var $this=$(this);
 		$this.find("img").hide(0);
 		var playerCode=this.hash.replace("#","");
 		
 		$(videosLibrary[playerCode]).appendTo(this);
+		
+		return false;
 	})
 })
