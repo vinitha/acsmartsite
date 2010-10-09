@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="a6370a81-7c21-4c74-8d0c-ac50099e2551" kpf_version="4" name="maniero.kpf">
+<preference-set idref="a6370a81-7c21-4c74-8d0c-ac50099e2551">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>
