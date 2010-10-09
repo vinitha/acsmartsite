@@ -1,0 +1,390 @@
+@charset "utf-8";
+/* CSS Document */
+
+html,
+body{
+	font-size:100%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	background-color:#eeeeee;
+}
+
+body{
+	font-size:62.5%;
+	margin-top:20px;
+}
+
+
+#page{
+	width:956px;
+	margin:auto;
+	position:relative;
+}
+
+a{
+	outline:none;
+}
+
+
+.home,
+.camere,
+.servizi,
+.dintorni{
+	display:none;
+}
+
+
+#leftCol{
+	background-image:url("../img/leftColBG.png");	
+	left:19px;
+	position:absolute;
+	top:4px;
+	width:296px;
+}
+
+#mainContent{
+	background-image:url(../img/bodyBG.png);			
+	overflow:hidden;	
+}
+
+#bodyContent{
+	background-color:#FFFFFF;
+	margin:0 4px;
+}
+
+#logo{
+	display:block;
+	margin-top:270px;
+	margin-bottom:50px;
+	text-align:center;
+}
+
+.welcome{
+	margin:65px 30px 0px 360px;
+	display:block;
+}
+
+
+.bodyLinks{
+	overflow:hidden;
+	margin-top:80px;
+}
+
+.bodyLinks li{
+	background-image:url("../img/bodyLinksBG.jpg");
+	background-position:5px 5px;
+	background-repeat:no-repeat;
+	float:left;
+	height:175px;
+	margin-left:7px;
+	width:306px;
+}
+
+.bodyLinks .liServizi{
+	background-position:-306px 5px;
+}
+
+.bodyLinks .liDintorni{
+	background-position:-617px 5px;
+}
+
+.bodyLinks li a{
+	background-image:url(../img/bottomLinksBG.png);
+	display:block;
+	height:100%;
+	position:relative;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+.bodyLinks a span{
+	bottom:0;
+	left:14px;
+	font-size:1.4em;
+	line-height:42px;
+	position:absolute;
+}
+
+
+#footer{
+	background-image:url(../img/bodyBG.png);			
+	overflow:hidden;
+	
+}
+.footerContent{
+	background-color:#FFFFFF;
+	border-top:1px solid #D0BFA4;
+	margin:20px 4px 0;
+	padding:20px 20px 12px;
+	color:#504d39;
+}
+
+#footer .message{
+	float:right;
+	font-size:1.2em;
+	color:#504d39;
+	padding-right:30px;
+	background-image:url(../img/mailIcon.png);
+	background-position:right 50%;
+	background-repeat:no-repeat;
+}
+
+.endPage{
+	background-image:url(../img/bodyBottom.png);
+	height:10px;
+	background-repeat:no-repeat;
+	margin-bottom:10px;
+}
+
+
+#leftCol h2{
+	background-color:#504d39;
+	color:#fff;
+	font-size:1.8em;
+	padding:3px;
+	padding-left:15px;
+}
+
+#leftCol p {
+	margin:15px;
+	
+}
+
+.lcMenu{
+	margin-left:15px;
+	margin-top:15px;
+}
+
+.lcMenu li{
+	color:#504D39;
+	font-size:1.2em;
+	list-style:disc outside none;
+	margin:15px;
+}
+
+
+.gallery{
+	margin:30px 20px 20px 360px;
+	overflow:hidden;
+}
+
+.gallery li{
+	float:left;
+	height:100px;
+	margin:10px;
+}
+
+.map {
+	margin:30px 20px 20px 360px;
+	border:1px solid #666;
+}
+
+.luoghi{
+	margin:36px 20px 20px 360px;	
+}
+
+.luoghi .dettaglio{
+	background-color:#EEEEEE;
+	clear:both;
+	font-size:1.2em;
+	line-height:1.5em;
+	margin-bottom:20px;
+	overflow:hidden;
+}
+
+.luoghi .dettaglio p{
+	margin:10px 10px 0px 0px;
+}
+
+.luoghi h2{
+	background-color:#EEEEEE;
+	color:#504D39;
+	font-size:1.8em;
+	line-height:2em;
+	margin-bottom:5px;
+	padding-left:10px;
+}
+
+.luoghi .dettaglio img{
+	float:left;
+	margin:0px 15px 0px 0px;
+	width:270px;
+}
+
+.path a{
+	color:#504d39;
+	text-decoration:none;
+	font-size:1em;
+	line-height:42px;
+	margin-left:15px;
+}
+
+
+.prezzi{
+	background-color:#EEEEEE;
+	margin:30px 0 15px;
+	padding:5px 0;}
+
+.prezzi li{
+	list-style-type:none;
+}
+
+
+
+
+/* myLightBoxBg */
+    #myLightBoxBg{	/* IE */
+            position:fixed;
+            height:100%;
+            width:100%;
+            background-color:#000000;
+            opacity:0.5;
+            filter:alpha(opacity=50);		
+            top:0px;
+            left:0px;
+            z-index:9;
+            display:none;
+    }
+    
+    #myLightBoxPanel{
+            position:fixed;
+            top:50%;
+            margin-top:-100px;
+            left:50%;
+            background-color:#FFFFFF;
+            border:1px solid #000;
+            z-index:9;
+            display:none;		
+            
+            -moz-border-radius: 5px; /* For FireFox */
+            -webkit-border-radius: 5px; /* For Safari/Chrome */
+            border-radius: 5px; /* For when the standard gets fully supported */	
+            
+            -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+            -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+    }
+    
+    #myLightBoxPanel.large .PE_tableView th{
+            white-space:nowrap;
+    }
+
+    #myLightBoxPanel.large .PE_tableView td{
+            white-space:normal;
+    }
+
+    #myLightBoxPanel .mainContent{
+            padding:10px;
+            outline:none;
+    }
+    
+    #myLightBoxPanel .mainContent p{
+            margin:0px;
+            padding:0px;
+    }
+    
+    #myLightBoxPanel .closeBtn{
+        background-image:url("../images/closeBtn.png");
+        background-position:0 0;
+        height:16px;
+        position:absolute;
+        right:-8px;
+        top:-9px;
+        width:15px;
+    }
+    
+    #myLightBoxPanel .closeBtn:hover,
+    #myLightBoxPanel .closeBtn:focus,
+    #myLightBoxPanel .closeBtn:active{	
+            background-position:0px bottom;
+    }
+    
+    #myLightBoxPanel .lbTitle{
+            background-color:#bbb;
+            background-image:url(../images/myLightBoxTitleBar.png);
+            background-position:0px 0px;
+            background-repeat:repeat-x;
+            color:#FFFFFF;
+            padding:5px 5px 4px;
+            font-size:1.2em;
+            margin:0px;
+            
+            border-top-right-radius: 4px; /* For when the standard gets fully supported */	
+            border-top-left-radius: 4px; 
+            
+            -webkit-border-top-right-radius: 4px; /* For Chrome/safari */	
+            -webkit-border-top-left-radius: 4px; 
+            
+            -moz-border-radius-topleft:4px;		/* For FireFox */
+            -moz-border-radius-topright:4px;	
+    }
+    
+    @media print{
+        #myLightBoxBg{
+                display:none!important;	
+        }
+        #myLightBoxPanel{
+                position:static;	
+                margin:0px!important;
+                width:auto!important;
+                opacity:1;
+                border:none;
+        }
+        #myLightBoxPanel .lbTitle,
+        #myLightBoxPanel a.closeBtn{
+                display:none;	
+        }	
+}
+
+
+
+.hidden{
+	display:none;
+}
+
+#msg{
+	overflow:hidden;
+}
+
+#msg button{
+	float:right;
+	width:100px;
+}
+
+#msg h2{
+	color:#504D39;
+	margin-bottom:15px;
+	font-size:1.1em;
+	line-height:1.2em;
+}
+
+#msg input,
+#msg textarea{
+	color:#504D39;
+	font-size:1.2em;
+	margin-top:5px;
+	padding:2px;
+	width:264px;
+	border:1px solid #CCCCCC;
+}
+
+#msg input:focus,
+#msg textarea:focus{
+	background-color:#EEEEEE;
+}
+
+#msg textarea{
+	height:200px;
+}
+
+#msg button{
+	margin-top:10px;
+}
+
+#msg p.status{
+	color:#006633;
+	font-size:1.1em;
+}
+
+#msg p.error{
+	color:#FF3300;
+}
