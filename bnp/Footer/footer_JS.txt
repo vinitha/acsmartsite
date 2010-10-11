@@ -1,0 +1,84 @@
+#footer {
+min-width:994px;
+position:relative;
+}
+#footerBar {
+background:url("../repeating-images/footer-bg.png") repeat-x scroll 0 0 transparent;
+color:#C7C7C7;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:smaller;
+height:30px;
+width:100%;
+}
+#footerBar .footer-link {
+color:#C7C7C7;
+font-size:x-small;
+}
+#footerBar a {
+text-decoration:none;
+}
+#footerBar a:hover {
+text-decoration:underline;
+}
+#footerBar #regulation {
+background:none repeat scroll 0 0 #FFFFFF;
+border:1px solid #153E75;
+position:absolute;
+right:120px;
+top:-125px;
+visibility:hidden;
+width:400px;
+z-index:1;
+}
+#footerBar .footer-copyright {
+color:#C7C7C7;
+float:left;
+font-size:x-small;
+padding-left:100px;
+padding-top:6px;
+}
+#footerBar .footer-links {
+float:right;
+padding-right:100px;
+padding-top:6px;
+}
+#footerBar .regulation-logo {
+background:url("../images/bnpp-logo-regulation.gif") no-repeat scroll 0 0 transparent;
+height:44px;
+width:84px;
+}
+#footerBar .regulation-left {
+float:left;
+height:auto;
+padding-top:35px;
+}
+#footerBar .regulation-text {
+float:left;
+text-align:justify;
+width:300px;
+}
+#regulation text-grey-normal {
+color:#666666;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+line-height:normal;
+}
+#regulation text-grey-bold {
+color:#333333;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+font-weight:bold;
+}
+.regulation-grey-normal {
+color:#666666;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+line-height:normal;
+padding:7px;
+}
+.regulation-grey-bold {
+color:#333333;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:11px;
+font-weight:bold;
+}
