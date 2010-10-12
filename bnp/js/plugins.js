@@ -61,13 +61,18 @@
 	    },
 	    goTo:function(panelIndex,trFx){
 		
-			if (pluginObj.currentPanel.data("index")==panelIndex){return pluginObj;}
+			if (pluginObj.currentPanel.data("index")==panelIndex){return pluginObj;}			
 			
 			pluginObj.currentPanel.stop(true,true);
 			pluginObj.nextPanel.stop(true,true);
 			ul.stop(true,true);
 			
-			pluginObj.nextPanel=LIs.eq(panelIndex);
+			
+			if (typeof panelIndex=="object"){
+			    pluginObj.nextPanel=panelIndex;
+			}else{
+			    pluginObj.nextPanel=LIs.eq(panelIndex);   
+			}
 			if(trFx){
 				trFx=eval(trFx);
 				trFx.call(pluginObj);

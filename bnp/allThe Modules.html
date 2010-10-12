@@ -30,6 +30,16 @@
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <script src="js/modernizr-1.5.min.js"></script>
+  
+  <script type="application/x-javascript">
+    var iframeLoaded=function(){
+      //autoheight behaviour for the iFrame
+      var doc=this.contentWindow||this.contentDocument;
+      
+      this.style.height=doc.document.body.scrollHeight + "px";
+    }
+  </script>
+  
 
 </head>
 
@@ -56,8 +66,43 @@
         </div>
       </div>
       
-      <!-- top NavMenu -->
-      <div class="horMenu" data-src="menu.json"><!-- js will take care of this content--></div>
+      <!-- top NavMenu -->          
+      <nav class="horMenu">
+          <ul>
+              <li class="root current hasChildren">
+                  <a href="/">Home</a>
+                  <ul class="subItems">
+                      <li>
+                          <a href="/aboutUs.html">About us</a>
+                      </li>
+                      <li><a href="/preTrade.html">Pre Trade</a></li>
+                      <li><a href="/trade.html">Trade</a></li>
+                      <li><a href="/client.html">Client services</a></li>
+                      <li><a href="/register.html">Register interest</a></li>
+                  </ul>
+              </li>
+              <li class="root hasChildren">
+                <a href="/commodities.html">Commodities</a>
+                <ul class="subItems">
+                  <li><a href="/item01.html">item 01</a></li>
+                  <li><a href="/item02.html">item 02</a></li>
+                </ul>
+              </li>
+              <li class="root"><a href="/credit.html">Credit</a></li>
+              <li class="root hasChildren">
+                <a href="/equiry.html">Equity derivates</a>
+                <ul class="subItems">
+                  <li><a href="/item01.html">item 01</a></li>
+                  <li><a href="/item02.html">item 02</a></li>
+                </ul>
+              </li>
+              <li class="root"><a href="/fx.html">FX</a></li>
+              <li class="root"><a href="/rates.html">Rates</a></li>
+              <li class="root"><a href="/Indices.html">Indices</a></li>
+              <li class="root"><a href="/research.html">Research &amp; Strategy</a></li>
+              <li class="root last"><a href="/eTrading.html">eTrading</a></li>
+          </ul>
+      </nav>
       
     </header>
     
@@ -209,26 +254,26 @@
           <div class="tabbedContent">
             <ul class="tabsUl clearfix">
               <li>
-                <h2><a href="">Pre Trade</a></h2>
+                <h2><a href="#pretrade">Pre Trade</a></h2>
               </li>
               <li>
-                <h2><a href="">Trade</a></h2>
+                <h2><a href="#trade">Trade</a></h2>
               </li>
               <li>
-                <h2><a href="">Client Service</a></h2>
+                <h2><a href="#client">Client Service</a></h2>
               </li>
             </ul>
             
             <div class="tabsContent">
               <div class="container">
                 <ul class="contentUl">
-                  <li>
+                  <li id="pretrade">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                   </li>
-                  <li>
+                  <li id="trade">
                     <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
                   </li>
-                  <li>
+                  <li id="client">
                     <p>Lipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                   </li>              
