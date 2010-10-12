@@ -57,22 +57,7 @@
       </div>
       
       <!-- top NavMenu -->
-      <div class="horMenu">
-        <ul>
-          <li class="root first"><a class="current" href="">item 01</a></li>
-          <li class="root"><a href="">item 02</a></li>
-          <li class="root">
-            <a href="">item 03</a>
-            <ul class="subItems">
-              <li><a href="">subItem 01</a></li>
-              <li><a href="">subItem 02</a></li>             
-              <li><a href="">subItem 03</a></li>
-            </ul>            
-          </li>
-          <li class="root"><a href="">item 04</a></li>
-          <li class="root"><a href="">item 05</a></li>
-        </ul>
-      </div>
+      <div class="horMenu" data-src="menu.json"><!-- js will take care of this content--></div>
       
     </header>
     
@@ -121,9 +106,9 @@
         <!-- imgCarousel module -->
         <div class="imgCarousel">
             <ul>
-                <li><a href=""><img src="pictures/carouselImage_01.jpg" alt="" /></a></li>
-                <li><a href=""><img src="pictures/carouselImage_02.jpg" alt="" /></a></li>
-                <li><a href=""><img src="pictures/carouselImage_03.jpg" alt="" /></a></li>
+                <li class="dateCheck" data-start="2010,10,10" data-end="2010,10,12"><a href=""><img src="pictures/carouselImage_01.jpg" alt="" /></a></li>
+                <li class="dateCheck" data-start="2010,10,12" data-end="2010,10,15"><a href=""><img src="pictures/carouselImage_02.jpg" alt="" /></a></li>
+                <li class="dateCheck" data-start="2010,10,13" data-end="2010,10,15"><a href=""><img src="pictures/carouselImage_03.jpg" alt="" /></a></li>
             </ul>
         </div>
         
@@ -267,22 +252,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr class="dateCheck" data-start="2010,10,10" data-end="2010,10,15">
                   <td>xx:xx</td>
                   <td>yyyyyyyy yy</td>
                   <td>Lorem ipsum dolor sit amet consectur adipiscing</td>
                 </tr>
-                <tr>
+                <tr class="dateCheck" data-start="2010,10,10" data-end="2010,10,15">
                   <td>xx:xx</td>
                   <td>yyyyyyyy yy</td>
                   <td>Lorem ipsum dolor sit amet consectur adipiscing</td>
                 </tr>
-                <tr>
+                <tr class="dateCheck" data-start="2010,10,10" data-end="2010,10,15">
                   <td>xx:xx</td>
                   <td>yyyyyyyy yy</td>
                   <td>Lorem ipsum dolor sit amet consectur adipiscing</td>
                 </tr>
-                <tr>
+                <tr class="dateCheck" data-start="2010,10,01" data-end="2010,10,10">
                   <td>xx:xx</td>
                   <td>yyyyyyyy yy</td>
                   <td>Lorem ipsum dolor sit amet consectur adipiscing</td>
@@ -357,7 +342,7 @@
   <script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
 
 
-  <script src="js/plugins_min.js?v=1"></script>
+  <script src="js/plugins.js?v=1"></script>
   <script src="js/script.js?v=1"></script>
 
   <!--[if lt IE 7 ]>

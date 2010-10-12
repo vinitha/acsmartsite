@@ -8,7 +8,53 @@ function iframeLoaded(){
 }
 $().ready(function(){
     
-    //horMenu
+    (function(){
+    //getting the json to render the horMenu
+        var div=$("div.horMenu");
+        
+        $.ajax({
+            dataType:"string",
+            url:div.attr("data-src")+"?callback=?",
+            success:function(data){
+                var menuObj=$.parseJSON(data),
+                    ul=$("<ul />");
+                
+                //getting the first level menu labels
+                var rootItems=objKeys(menuObj);
+                
+                $.each(rootItems,function(index,item){
+                    var thisObj=menuObj[item];
+                    var li=$("<li class='root' />")
+                        .mouseenter(function(){
+                            $(this).addClass("hover")
+                        })
+                        .mouseleave(function(){
+                            $(this).removeClass("hover")
+                        })
+                        .append(
+                            $("<a />").attr("href",thisObj.url).text(item)
+                        )
+                        .appendTo(ul);
+                    
+                    if(thisObj.subItems){
+                        var subUl=$("<ul class='subItems'/>").appendTo(li)
+                        var subItems=objKeys(thisObj.subItems);
+                        
+                        $.each(subItems,function(index,item){
+                            $("<li/>").append(
+                                $("<a />").attr("href",thisObj.subItems[item]).text(item)
+                            ).appendTo(subUl);                            
+                        })
+                    }
+                })
+                
+                ul.appendTo(div)
+            }
+        })    
+    })();
+    
+    
+    
     $("div.horMenu li.root")
         .mouseenter(function(){
             $(this).addClass("hover")
@@ -16,6 +62,19 @@ $().ready(function(){
         .mouseleave(function(){
             $(this).removeClass("hover")
         })
+        
+        
+    // removing the expired content
+    $(".dateCheck").each(function(){
+        var start=new Date(toDate(this.getAttribute("data-start"))),
+            end=new Date(toDate(this.getAttribute("data-end"))),
+            now=new Date();
+            
+        if (now<start || now>end){
+            $(this).remove();
+        }
+    })
+    
     // tabbedContent module //
     $("div.tabbedContent").each(function(){
         var $this=$(this);

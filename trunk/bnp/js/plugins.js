@@ -231,13 +231,35 @@
 })(window.jQuery);
 
 
+//getting an object keys array
+objKeys=function(obj){
+    var prop=[];
+    for(var p in obj){
+	if(obj.hasOwnProperty(p)){
+	    prop.push(p)
+	}
+    }
+    return prop;
+};
 
-// usage: log('inside coolFunc',this,arguments);
-// paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
-window.log = function(){
-  log.history = log.history || [];   // store logs to an array for reference
-  log.history.push(arguments);
-  if(this.console){
-    console.log( Array.prototype.slice.call(arguments) );
-  }
+//extending the Date Object
+Date.prototype.add=function(obj){
+	for(var prop in obj){
+		switch (prop){
+			case "days":
+				this.setDate(this.getDate()+obj[prop])
+			break;
+			case "months":
+				this.setMonth(this.getMonth()+obj[prop])
+			break;		
+			case "years":
+				this.setFullYear(this.getFullYear()+obj[prop])
+			break;					
+		}
+	}
+	return this;
+}
+
+function toDate(str){
+    return eval("new Date(" + str + ")" ).add({"months":-1});
 };

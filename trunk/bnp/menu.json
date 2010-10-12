@@ -1,0 +1,43 @@
+{
+    "Home":{
+        "url":"/","subItems":{
+            "About us":"/aboutUs.html",
+            "Pre Trade":"/preTrade.html",
+            "Trade":"/trade.html",
+            "Client services":"/client.html",
+            "Register interest":"/register.html"
+        }
+    },
+    "Commodities":{
+        "url":"/commodities.html",
+        "subItems":{
+            "item 01":"/item01.html",
+            "item 02":"/item02.html"
+        }
+    },    
+    "Credit":{
+        "url":"/credit.html"
+    },
+    "Equity derivates":{
+        "url":"/equiry.html",
+        "subItems":{
+            "item 01":"/item01.html",
+            "item 02":"/item02.html"            
+        }
+    },
+    "FX":{
+        "url":"/fx.html"
+    },
+    "Rates":{
+        "url":"/rates.html"
+    },
+    "Indices":{
+        "url":"/Indices.html"
+    },
+    "Research &amp; Strategy":{
+        "url":"/research.html"
+    },
+    "eTrading":{
+        "url":"/eTrading.html"
+    }
+}
