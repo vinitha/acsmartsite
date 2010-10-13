@@ -8,27 +8,17 @@ $().ready(function(){
 });
 
 var BNP={
-    tabbedContent:{},
     init:function(){
  
         //horMenu events handler
-        $("nav.horMenu").find("li.root")
+        $("nav.horMenu").find("li.root.hasChildren")
         .mouseenter(function(){
             $(this).addClass("hover")
         })
         .mouseleave(function(){
             $(this).removeClass("hover")
         })   
-   
-       
-       
-        $("div.horMenu li.root")
-            .mouseenter(function(){
-                $(this).addClass("hover")
-            })
-            .mouseleave(function(){
-                $(this).removeClass("hover")
-            })
+
             
             
         // removing the expired content
@@ -43,6 +33,14 @@ var BNP={
         });
         
         (function(){
+            //ensuring the event calendar has no more items than maxEvents property says
+            var calEv=$("div.events");
+            var maxEv=parseInt(calEv.attr("data-maxEvents"))-1;
+            calEv.find("tbody tr:gt(" + maxEv + ")").remove();
+        })();
+        
+        
+        (function(){
             // tabbedContent module //
             $("div.tabbedContent").each(function(){
                 var $this=$(this);
@@ -53,9 +51,8 @@ var BNP={
                 
                 // making a note of the carousel object; this will be used by the click event handler and
                 // to open a panel directly after the page has been loaded.
-                BNP.tabbedContent.carousel=carousel;
-                BNP.tabbedContent.buttons=btnsUl.find("a");
-                BNP.tabbedContent.showPanel=showPanel;
+                var cObj={"carousel":carousel,"showPanel":showPanel};
+                $this.data("data-carousel",cObj);                
                 
                 //setting the default classes (first, active) for the li elements
                 btnsUl.children("li:first").addClass("first active");
@@ -65,26 +62,25 @@ var BNP={
                     //setting the button data
                     $(item)
                         .click(function(){
-                            
-                            showPanel(this.hash,this);
+                            carouselObj=$(this).closest("div.tabbedContent").data("data-carousel")
+                            showPanel(carouselObj.carousel,this.hash,this);
                             return false;
                         });
                 });        
             });
             
-            function showPanel(hash,btn){
-                
+            function showPanel(carousel,hash,btn){
                 if(btn){
                     $(btn).closest("li").addClass("active").siblings().removeClass("active");
-                    BNP.tabbedContent.carousel.goTo($(hash));
+                    carousel.goTo($(hash));
                 }else{
-                    var btn=$.map(BNP.tabbedContent.buttons,function(item, index){
+                    var btn=$.map(carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a"),function(item, index){
                         return (item.hash==hash)?$(item):null;
                     })
                     
                     if(btn.length>0){
                         btn[0].closest("li").addClass("active").siblings().removeClass("active");
-                        BNP.tabbedContent.carousel.goTo($(hash));
+                        carousel.goTo($(hash));
                     }
                     
                 }
@@ -94,8 +90,22 @@ var BNP={
         
         
         //cheking the current url to see if we have to open a specific panel of the tabbedContent
-        if(location.hash){
-            BNP.tabbedContent.showPanel(location.hash)
+        if(location.search){
+            var tabId=location.search.replace("?","").split("&");
+            for(var x=0; x<tabId.length;x++){
+                
+                var arr=tabId[x].split("=");
+                var varName=arr[0],
+                    varVal=arr[1];
+                    
+                    if (varName=="tabId"){
+                        tabId=varVal;
+                        break;
+                    }                
+            }
+            
+            var cObj=$("div.bodyContent div.tabbedContent").data("data-carousel");
+            cObj.showPanel(cObj.carousel,"#"+tabId)
         }
         
         // accordionMenu module //

@@ -203,7 +203,7 @@ button {  width: auto; overflow: visible; }
   #pageContainer{
     background-image: url(../img/pageBG.png);
     background-repeat:repeat-x;
-    background-position:0px 0px;
+    background-position:0px 134px;
   } 
   #main,
   div.topBar{
@@ -221,7 +221,7 @@ button {  width: auto; overflow: visible; }
     }
     
     header h1{
-        width:381px;
+        width:549px;
         height:101px;
         float:left;        
     }
@@ -272,17 +272,21 @@ button {  width: auto; overflow: visible; }
     
     
 /* horMenu */
-    .horMenu{
+  .horMenu{
+    background-color:#eee;
+    border-bottom:1px solid #FFFFFF;
+  }
+  .horMenu .container{
         width:945px;
         margin:auto;    
     }
     
     .horMenu li.root{
-        float:left;
-        padding:0px 10px;
-        border-right:1px solid #999;
-        margin:5px 0px;
-        position:relative;
+      border-right:1px solid #ccc;
+      float:left;
+      margin:9px 0;
+      padding:0 10px;
+      position:relative;
     }
     
     .horMenu li.last{
@@ -290,39 +294,52 @@ button {  width: auto; overflow: visible; }
     }
     
     .horMenu li.hover{
-      background-color:#fff;
-      padding:5px 10px;
-      margin:0px;
+      background-color:#FFFFFF;
+      background-image:url("../img/horNavTab.png");
+      background-position:right -33px;
+      background-repeat:no-repeat;
+      border:medium none;
+      margin:0 1px 0 -1px;
+      padding:0px 28px 0px 0px;
+    }
+    
+    .horMenu li.hover a{
+      background-image:url("../img/horNavTab.png");
+      background-position:0 0;
+      background-repeat:no-repeat;
+      padding:9px 12px 8px 11px;
     }
     
     .horMenu .subItems{
         display:none;
         position:absolute;
-        left:-1px;
-        top:25px;
+        left:0px;
+        top:32px;
         background-color:#fff;
-        border-left:1px solid #ccc;
-        border-right:1px solid #ccc;      
+        border-left:1px solid #ddd;
+        border-right:1px solid #ddd;      
         white-space:nowrap;
-        min-width:100%;
+        min-width:110%;
+        padding-top:5px;
     }
     
     .ie6 .horMenu .subItems{
       width:100%;
     }
     
-    .horMenu .subItems a:hover{
+    .horMenu a:hover,
+    .horMenu ul.subItems a:hover,
+    .horMenu a:focus,
+    .horMenu ul.subItems a:focus{
       color:#0E9165;
     }
     
     .horMenu .subItems li{
-      padding:5px 15px;
       border-bottom:1px solid #ccc;
     }
     
-    .horMenu li.hasChildren {
-      padding-right:20px;
-      background-color:#ccc;
+    .horMenu .hasChildren a{
+      padding-right:30px;
     }
     
     .horMenu a,
@@ -332,6 +349,14 @@ button {  width: auto; overflow: visible; }
         font-size:1.2em;
         font-weight:normal;
         display:block;
+    }
+    
+    .horMenu ul.subItems a{
+      background-image:none;
+      display:block;
+      padding:5px 15px;
+      font-weight:bold;
+      color:#666;
     }
     
     .horMenu .current a{
