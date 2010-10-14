@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+	<style>
+		
+		html * {
+			margin:0px;
+		}
+		
+		body {
+			font-family:arial,helvetica,verdana,sans-serif;
+			font-size:12px;
+		}
+		
+		.did-you-know-container {
+			position:absolute;
+			top:135px;
+			right:30px;
+			z-index:98;
+			width:525px;	
+		}
+		
+		#did-you-know-main {
+			padding:13px;
+			background-color:rgb(251,251,251);
+			border:1px solid rgb(213,213,213);	
+		}
+		
+		.did-you-know-container.full #did-you-know-main {
+			height:185px;	
+		}
+		
+		iframe.did-you-know-container {
+			display:none;	
+		} 
+		
+		iframe.did-you-know-container.full {
+			display:block;
+			height:213px;	
+		} 
+		
+		#did-you-know-left {
+			padding-top:1px;
+			float:left;		
+		}
+		
+		#did-you-know-label {
+			color:rgb(40,148,176);
+			font-family:helvetica;
+			font-size:8pt;
+			font-weight:bold;
+		}
+		
+		#did-you-know-thumb {
+			display:none;
+		}
+		
+		.did-you-know-container.full #did-you-know-thumb {
+			display:block;
+			height:60px;
+			width:60px;
+		}
+		
+		#did-you-know-text-container {
+			float:left;
+			padding-left:15px;
+			height:100%;
+		}
+		
+		.did-you-know-container #did-you-know-text-container {
+			width:315px;
+			white-space:nowrap;	
+		}
+		
+		.did-you-know-container.full #did-you-know-text-container {
+			width:375px;
+		}
+		
+		#did-you-know-text {	
+			float:left;
+			overflow:hidden;
+			height:100%;
+			width:100%		
+		}
+		
+		
+		#did-you-know-next {
+			width:9px;
+			height:14px;
+			float:right;
+			background-image:url( 'did-you-know-next.png' );
+			cursor:pointer;
+			margin-left:15px;
+		}
+		
+		.did-you-know-container #did-you-know-link {
+			width:60px;
+			float:right;
+		}
+		
+		.did-you-know-container.full #did-you-know-link {
+			width:0px;
+			display:none;
+		}
+		
+		#did-you-know-link a {
+			color:rgb(5,148,105);
+		}
+		
+		.did-you-know-container #did-you-know-shrink {
+			display:none;
+		}
+		
+		.did-you-know-container.full #did-you-know-shrink {
+			display:block;
+			position:absolute;
+			height:11px;
+			width:9px;
+			cursor:pointer;
+			background-image:url( 'did-you-know-shrink.png' );
+			background-repeat:no-repeat;
+			bottom:10px;
+			right:10px;
+		}
+		
+		.did-you-know-container.full #did-you-know-shadow {
+			display:none;
+		}
+			
+		#did-you-know-shadow  div {
+			width:262px;
+			height:5px;
+			background-repeat:no-repeat;	
+			background-color:#e9e9e9;	
+		}	
+			
+		#did-you-know-shadow-left {
+			float:left;
+			background-image:url( 'did-you-know-shadow-left.png' );
+		}
+		
+		#did-you-know-shadow-right {
+			float:right;
+			background-image:url( 'did-you-know-shadow-right.png' );
+		}
+		
+		.clearfix:after { 
+			content: "."; 
+			display: block; 
+			height: 0px; 
+			clear: both; 
+			visibility: hidden; 
+		} 
+		
+		.clearfix { 
+			*height: 1%; 
+			*display: inline-block; 
+			_display: block; 
+		}
+	</style>
+	
+</head>
+	
+<body>
+
+	<div style="" class="did-you-know-container clearfix full">
+		<div id="did-you-know-main" class="clearfix">
+			<div id="did-you-know-left">
+				<div id="did-you-know-label">Did you know?</div>
+				<div style="background-image: url(&quot;&quot;);" id="did-you-know-thumb">&nbsp;</div>
+			</div>
+			<div id="did-you-know-text-container">
+				<div style="display: block;" id="did-you-know-text">Content goes here</div>
+			</div>
+			<div id="did-you-know-next"></div>
+			<div id="did-you-know-link">
+				<a href="#" onclick="return false">read more</a>
+			</div>
+			<div id="did-you-know-shrink"></div>
+		
+		</div>
+		<div id="did-you-know-shadow" class="clearfix">
+			<div id="did-you-know-shadow-left"></div>		
+			<div id="did-you-know-shadow-right"></div>
+		</div>
+	</div>
+
+</body>
+</html>
