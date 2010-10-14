@@ -211,6 +211,11 @@ button {  width: auto; overflow: visible; }
     overflow:hidden;
     margin:auto;
   }
+  
+  div.topBar{
+    padding-right:57px;
+    width:989px;    
+  }
 
 /* header */
     header{
@@ -274,7 +279,13 @@ button {  width: auto; overflow: visible; }
 /* horMenu */
   .horMenu{
     background-color:#eee;
+    background-image:url("../img/menuBG.png");
     border-bottom:1px solid #FFFFFF;
+  }
+  
+  .ie6 .horMenu,
+  .ie7 .horMenu{
+    height:33px;
   }
   .horMenu .container{
         width:945px;
@@ -324,7 +335,7 @@ button {  width: auto; overflow: visible; }
     }
     
     .ie6 .horMenu .subItems{
-      width:100%;
+      width:160px;
     }
     
     .horMenu a:hover,
@@ -1036,6 +1047,10 @@ button {  width: auto; overflow: visible; }
 
 
 /* IE hasLayout fix */
+.ie6 header,
+.ie6 .topBar,
+.ie6 .horMenu .container,
+.ie7 .horMenu .container,
 .ie6 .TPlinks li a,
 .ie6 .bodyContent,
 .ie6 .tabbedContent .tabsContent,
