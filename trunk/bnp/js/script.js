@@ -33,10 +33,10 @@ var BNP={
         });
         
         (function(){
-            //ensuring the event calendar has no more items than maxEvents property says
-            var calEv=$("div.events");
-            var maxEv=parseInt(calEv.attr("data-maxEvents"))-1;
-            calEv.find("tbody tr:gt(" + maxEv + ")").remove();
+            //checking the maxItems attribute
+            var container=$(".maxItems");
+            var maxItems=parseInt(container.attr("data-maxItems"))-1;
+            container.children(":gt(" + maxItems + ")").remove();
         })();
         
         
@@ -74,14 +74,23 @@ var BNP={
                     $(btn).closest("li").addClass("active").siblings().removeClass("active");
                     carousel.goTo($(hash));
                 }else{
-                    var btn=$.map(carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a"),function(item, index){
-                        return (item.hash==hash)?$(item):null;
-                    })
-                    
-                    if(btn.length>0){
-                        btn[0].closest("li").addClass("active").siblings().removeClass("active");
-                        carousel.goTo($(hash));
+                    if(typeof(has)=="string"){
+                        var btn=$.map(carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a"),function(item, index){
+                            return (item.hash==hash)?$(item):null;
+                        })
+                        
+                        if(btn.length>0){
+                            btn[0].closest("li").addClass("active").siblings().removeClass("active");
+                            carousel.goTo($(hash));
+                        }                        
+                    }else{
+                        var btn=carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a").eq(hash-1)
+                        if(btn.length>0){
+                            btn.closest("li").addClass("active").siblings().removeClass("active");
+                            carousel.goTo(hash-1);
+                        }                                                
                     }
+
                     
                 }
                 
@@ -91,21 +100,21 @@ var BNP={
         
         //cheking the current url to see if we have to open a specific panel of the tabbedContent
         if(location.search){
-            var tabId=location.search.replace("?","").split("&");
-            for(var x=0; x<tabId.length;x++){
+            var tabIndex=location.search.replace("?","").split("&");
+            for(var x=0; x<tabIndex.length;x++){
                 
-                var arr=tabId[x].split("=");
+                var arr=tabIndex[x].split("=");
                 var varName=arr[0],
                     varVal=arr[1];
                     
-                    if (varName=="tabId"){
-                        tabId=varVal;
+                    if (varName=="tabIndex"){
+                        tabIndex=varVal;
                         break;
                     }                
             }
             
             var cObj=$("div.bodyContent div.tabbedContent").data("data-carousel");
-            cObj.showPanel(cObj.carousel,"#"+tabId)
+            cObj.showPanel(cObj.carousel,tabIndex)
         }
         
         // accordionMenu module //
