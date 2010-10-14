@@ -232,7 +232,7 @@
 	    this.currentPanel.css("position","static");
 	    defaults.events.change.call(this);
 	}	    
-    }
+    };
 })(window.jQuery);
 
 
@@ -241,7 +241,7 @@ objKeys=function(obj){
     var prop=[];
     for(var p in obj){
 	if(obj.hasOwnProperty(p)){
-	    prop.push(p)
+	    prop.push(p);
 	}
     }
     return prop;
@@ -252,19 +252,19 @@ Date.prototype.add=function(obj){
 	for(var prop in obj){
 		switch (prop){
 			case "days":
-				this.setDate(this.getDate()+obj[prop])
+				this.setDate(this.getDate()+obj[prop]);
 			break;
 			case "months":
-				this.setMonth(this.getMonth()+obj[prop])
+				this.setMonth(this.getMonth()+obj[prop]);
 			break;		
 			case "years":
-				this.setFullYear(this.getFullYear()+obj[prop])
+				this.setFullYear(this.getFullYear()+obj[prop]);
 			break;					
 		}
 	}
 	return this;
-}
+};
 
 function toDate(str){
     return eval("new Date(" + str + ")" ).add({"months":-1});
-};
+}

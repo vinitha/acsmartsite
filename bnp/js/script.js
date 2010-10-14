@@ -17,12 +17,12 @@ var BNP={
  
         //horMenu events handler
         $("nav.horMenu").find("li.root.hasChildren")
-        .mouseenter(function(){
-            $(this).addClass("hover")
-        })
-        .mouseleave(function(){
-            $(this).removeClass("hover")
-        })   
+            .mouseenter(function(){
+                $(this).addClass("hover");
+            })
+            .mouseleave(function(){
+                $(this).removeClass("hover");
+            });
 
             
             
@@ -67,7 +67,7 @@ var BNP={
                     //setting the button data
                     $(item)
                         .click(function(){
-                            carouselObj=$(this).closest("div.tabbedContent").data("data-carousel")
+                            carouselObj=$(this).closest("div.tabbedContent").data("data-carousel");
                             showPanel(carouselObj.carousel,this.hash,this);
                             return false;
                         });
@@ -82,23 +82,20 @@ var BNP={
                     if(typeof(has)=="string"){
                         var btn=$.map(carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a"),function(item, index){
                             return (item.hash==hash)?$(item):null;
-                        })
+                        });
                         
                         if(btn.length>0){
                             btn[0].closest("li").addClass("active").siblings().removeClass("active");
                             carousel.goTo($(hash));
                         }                        
                     }else{
-                        var btn=carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a").eq(hash-1)
+                        var btn=carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a").eq(hash-1);
                         if(btn.length>0){
                             btn.closest("li").addClass("active").siblings().removeClass("active");
                             carousel.goTo(hash-1);
                         }                                                
                     }
-
-                    
                 }
-                
             }
         })();
         
@@ -118,8 +115,8 @@ var BNP={
             }
             try{
                 var cObj=$("div.bodyContent div.tabbedContent").data("data-carousel");
-                cObj.showPanel(cObj.carousel,tabIndex)    
-            }catch(err){};
+                cObj.showPanel(cObj.carousel,tabIndex);    
+            }catch(err){}
             
         }
         
@@ -177,6 +174,6 @@ var BNP={
             }
         });       
     }
-}
+};
 
 
