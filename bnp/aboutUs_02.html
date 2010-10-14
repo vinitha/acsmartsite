@@ -26,10 +26,20 @@
   <link rel="shortcut icon" href="http://www.bnpparibas.com/bnpparibas.ico">
 
   <!-- CSS : implied media="all" -->
-  <link rel="stylesheet" href="css/style_min.css?v=1">
+  <link rel="stylesheet" href="css/style.css?v=1">
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <script src="js/modernizr-1.5.min.js"></script>
+  
+  <script type="text/javascript">
+    var iframeLoaded=function(){
+      //autoheight behaviour for the iFrame
+      var doc=this.contentWindow||this.contentDocument;
+      
+      this.style.height=doc.document.body.scrollHeight + "px";
+    }
+  </script>
+  
 
 </head>
 
@@ -43,17 +53,60 @@
 
   <div id="pageContainer">
     <header>
-      <!-- put logo and main manu here -->
+      
+      <!-- top banner / logo -->
       <div class="topBar">
-            <h1><a href="/" title="Home" class="home"><span class="visuallyhidden">BNP Paribas - corporate and investment banking</span></a></h1>
-            <div class="headerLinks">
-                <ul>
-                    <li><a href="#dummy">Corporate &amp; Investment Banking</a></li>
-                    <li><a href="#dummy">Contact</a></li>
-                </ul>
-                <h2><span class="visuallyhidden">Global Markets</span></h2>
-            </div>
+        <h1><a href="/" title="Home" class="home"><span class="visuallyhidden">BNP Paribas - corporate and investment banking</span></a></h1>
+        <div class="headerLinks">
+            <ul>
+                <li><a href="#dummy">Corporate &amp; Investment Banking</a></li>
+                <li><a href="#dummy">Contact</a></li>
+            </ul>
+            <h2><span class="visuallyhidden">Global Markets</span></h2>
+        </div>
       </div>
+      
+      <!-- top NavMenu -->          
+      <nav class="horMenu">
+        <div class="container clearfix">
+          <ul>
+              <li class="root current hasChildren">
+                  <a href="/">Home</a>
+                  <ul class="subItems">
+                      <li>
+                          <a href="/aboutUs.html">About us</a>
+                      </li>
+                      <li><a href="/preTrade.html">Pre Trade</a></li>
+                      <li><a href="/trade.html">Trade</a></li>
+                      <li><a href="/client.html">Client services</a></li>
+                      <li><a href="/register.html">Register interest</a></li>
+                  </ul>
+              </li>
+              <li class="root hasChildren">
+                <a href="/commodities.html">Commodities</a>
+                <ul class="subItems">
+                  <li><a href="/item01.html">item 01</a></li>
+                  <li><a href="/item02.html">item 02</a></li>
+                </ul>
+              </li>
+              <li class="root"><a href="/credit.html">Credit</a></li>
+              <li class="root hasChildren">
+                <a href="/equiry.html">Equity derivates</a>
+                <ul class="subItems">
+                  <li><a href="/item01.html?tabId=pretrade">Pre trade</a></li>
+                  <li><a href="/item02.html?tabId=trade">Trade</a></li>
+                  <li><a href="/item02.html?tabId=client">Client Service</a></li>
+                </ul>
+              </li>
+              <li class="root"><a href="/fx.html">FX</a></li>
+              <li class="root"><a href="/rates.html">Rates</a></li>
+              <li class="root"><a href="/Indices.html">Indices</a></li>
+              <li class="root"><a href="/research.html">Research &amp; Strategy</a></li>
+              <li class="root last"><a href="/eTrading.html">eTrading</a></li>
+          </ul>
+        </div>
+      </nav>
+      
     </header>
     
     <div id="main">
@@ -64,7 +117,7 @@
         <div class="loginPlaceholder">
           <iframe onload="iframeLoaded.call(this)" src="loginBox.html" frameborder="0" height="253" scrolling="no" width="280"></iframe>
         </div>
-          
+        
         <!-- awards module -->
         <div class="awards">
             <h2 class="panelHeader"><span class="title"><strong>FX Awards</strong></span></h2>
@@ -97,14 +150,14 @@
                 </ul>
             </div>            
         </div>
-        
+  
       </aside>
       
       <div class="body">
         <div class="mainCarousel">
             <ul>
                 <li><a href=""><img src="pictures/hero_01.jpg" alt="" /></a></li>
-                <li><a href=""><img src="pictures/hero_03_small.jpg" alt="" /></a></li>
+                <li><a href=""><img src="pictures/hero_03.jpg" alt="" /></a></li>
                 <li><a href=""><img src="pictures/hero_02.jpg" alt="" /></a></li>
             </ul>          
         </div>
@@ -157,7 +210,7 @@
         
         <!-- central column -->
         <div class="bodyContent">
-                    
+          
           <!-- articlesList module -->
             <div class="articlesList">
                 <div class="container">
@@ -224,8 +277,8 @@
   <script>!window.jQuery && document.write('<script src="js/jquery-1.4.2.min.js"><\/script>')</script>
 
 
-  <script src="js/plugins_min.js?v=1"></script>
-  <script src="js/script_min.js?v=1"></script>
+  <script src="js/plugins.js?v=1"></script>
+  <script src="js/script.js?v=1"></script>
 
   <!--[if lt IE 7 ]>
     <script src="js/dd_belatedpng.js?v=1"></script>

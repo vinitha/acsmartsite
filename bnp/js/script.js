@@ -9,6 +9,11 @@ $().ready(function(){
 
 var BNP={
     init:function(){
+        //imageCarousel
+        $(".imgCarousel ul").aleCarousel({duration:7000,speed:2000,autostart:true,transitionFx:"slide"});
+        
+        //mainCarousel
+        $(".mainCarousel ul").aleCarousel({duration:10000,speed:2500,autostart:true,transitionFx:"fade"});        
  
         //horMenu events handler
         $("nav.horMenu").find("li.root.hasChildren")
@@ -97,8 +102,7 @@ var BNP={
             }
         })();
         
-        
-        //cheking the current url to see if we have to open a specific panel of the tabbedContent
+        //checking the current url to see if we have to open a specific panel of the tabbedContent
         if(location.search){
             var tabIndex=location.search.replace("?","").split("&");
             for(var x=0; x<tabIndex.length;x++){
@@ -112,9 +116,11 @@ var BNP={
                         break;
                     }                
             }
+            try{
+                var cObj=$("div.bodyContent div.tabbedContent").data("data-carousel");
+                cObj.showPanel(cObj.carousel,tabIndex)    
+            }catch(err){};
             
-            var cObj=$("div.bodyContent div.tabbedContent").data("data-carousel");
-            cObj.showPanel(cObj.carousel,tabIndex)
         }
         
         // accordionMenu module //
@@ -143,14 +149,7 @@ var BNP={
         });
         
         // styiling the table
-        $("table tr:odd").addClass("odd");
-        
-        //imageCarousel
-        $(".imgCarousel ul").aleCarousel({duration:7000,speed:2000,autostart:true,transitionFx:"slide"});
-        
-        //mainCarousel
-        $(".mainCarousel ul").aleCarousel({duration:10000,speed:2500,autostart:true,transitionFx:"fade"});
-        
+        $("table tr:odd").addClass("odd");        
         
         //footer-links    
         $("#footer").find("a.footer-link").each(function(){    
