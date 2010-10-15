@@ -280,7 +280,7 @@ button {  width: auto; overflow: visible; }
   .horMenu{
     background-color:#eee;
     background-image:url("../img/menuBG.png");
-    border-bottom:1px solid #FFFFFF;
+    border-bottom:1px solid #0E9165;
   }
   
   .ie6 .horMenu,
