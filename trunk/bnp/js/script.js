@@ -9,11 +9,7 @@ $().ready(function(){
 
 var BNP={
     init:function(){
-        //imageCarousel
-        $(".imgCarousel ul").aleCarousel({duration:7000,speed:2000,autostart:true,transitionFx:"slide"});
-        
-        //mainCarousel
-        $(".mainCarousel ul").aleCarousel({duration:10000,speed:2500,autostart:true,transitionFx:"fade"});        
+  
  
         //horMenu events handler
         $("nav.horMenu").find("li.root.hasChildren")
@@ -44,6 +40,11 @@ var BNP={
             container.children(":gt(" + maxItems + ")").remove();
         })();
         
+        //imageCarousel
+        $(".imgCarousel ul").aleCarousel({duration:7000,speed:2000,autostart:true,transitionFx:"slide"});
+        
+        //mainCarousel
+        $(".mainCarousel ul").aleCarousel({duration:10000,speed:2500,autostart:true,transitionFx:"fade"});              
         
         (function(){
             // tabbedContent module //
@@ -66,20 +67,22 @@ var BNP={
                 btnsUl.find("a").each(function(index,item){
                     //setting the button data
                     $(item)
+                        .data("index",index)
                         .click(function(){
                             carouselObj=$(this).closest("div.tabbedContent").data("data-carousel");
-                            showPanel(carouselObj.carousel,this.hash,this);
+                            showPanel(carouselObj.carousel,parseInt($(this).data("index")),this);
                             return false;
                         });
                 });        
             });
             
             function showPanel(carousel,hash,btn){
+                
                 if(btn){
                     $(btn).closest("li").addClass("active").siblings().removeClass("active");
-                    carousel.goTo($(hash));
+                    carousel.goTo(hash);
                 }else{
-                    if(typeof(has)=="string"){
+                    if(typeof(hash)=="string"){
                         var btn=$.map(carousel.$objects.closest("div.tabbedContent").find("ul.tabsUl a"),function(item, index){
                             return (item.hash==hash)?$(item):null;
                         });
@@ -109,7 +112,7 @@ var BNP={
                     varVal=arr[1];
                     
                     if (varName=="tabIndex"){
-                        tabIndex=varVal;
+                        tabIndex=parseInt(varVal);
                         break;
                     }                
             }

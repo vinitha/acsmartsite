@@ -106,8 +106,8 @@
 	pluginObj.nextPanel=pluginObj.currentPanel.next().length>0?pluginObj.currentPanel.next():pluginObj.currentPanel.prevAll(":last");
 	
 	ul.css("height","auto");
-	
-	if(defaults.autostart){pluginObj.start();}
+
+	if(defaults.autostart && LIs.length>1){pluginObj.start();}
 	
 	return pluginObj;
     
