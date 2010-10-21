@@ -177,7 +177,10 @@ button {  width: auto; overflow: visible; }
    Solution from: j.mp/visuallyhidden - Thanks Jonathan Neal! */
 .visuallyhidden { position:absolute !important;    
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px); }
+  clip: rect(1px, 1px, 1px, 1px);
+    overflow:hidden;
+    height:0px;
+}
 
 /* Hide visually and from screenreaders, but maintain layout */
 .invisible { visibility: hidden; }
@@ -198,6 +201,7 @@ button {  width: auto; overflow: visible; }
  
     iframe{
        display:block;
+       background-color:transparent;
     }
 
   #pageContainer{
@@ -388,7 +392,10 @@ button {  width: auto; overflow: visible; }
   
   
     .loginPlaceholder{
-        background-color:#DDDDDD;
+        background-image:url(../img/loginBG.png);
+        background-position:right bottom;
+        background-repeat:no-repeat;
+        background-color:#41494c;
         margin-bottom:16px;
         min-height:253px;
     }
@@ -397,63 +404,6 @@ button {  width: auto; overflow: visible; }
         height:253px;
     }  
   
-  #loginBox{
-    background-image:url(../img/loginBG.png);
-    background-position:right bottom;
-    background-repeat:no-repeat;
-    background-color:#41494c;
-    color:#c6c6c6;
-    padding:15px;
-    overflow:hidden;
-  }
-  
-  #loginBox h2{
-    background-image:url(../img/signIn.png);
-    float:left;
-    width:57px;
-    height:17px;
-  }
-  
-  #loginBox .register{
-    float:right;
-    font-size:1.1em;
-    color:#67d5b0;
-    font-style:italic;
-  }
-  #loginBox .forgot{
-    font-size:1.1em;
-    color:#67d5b0;
-    font-style:italic;
-  }
-  /*
-  #loginBox .btnOk{
-    float:right;
-    width:44px;
-    height:24px;
-    border:none;
-    background-color:transparent;
-    background-image:url(../img/btnOk.png);
-  }
-  */
-  #loginBox .extras{
-    clear:both;
-    padding-top:10px;
-    font-size:1.1em;    
-  }
-  
-  #loginBox .extras img{
-    display:block;
-    margin-bottom:10px;
-  }
-  
-  #loginBox .extras a{
-    color:#c6c6c6;
-    font-style:italic;
-  }
-  
-  #login label{
-    display:block;
-  }
   
   div.body{
     overflow:hidden;
