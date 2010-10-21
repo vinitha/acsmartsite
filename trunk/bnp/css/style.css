@@ -447,7 +447,7 @@ button {  width: auto; overflow: visible; }
 
 /* generic: panelHeader */
   .panelHeader{
-      font-size:1.6em;
+      font-size:1.4em;
       background-image:url(../img/panelTop.png);
       background-position:right bottom;
       background-repeat:no-repeat;      
@@ -592,12 +592,11 @@ button {  width: auto; overflow: visible; }
     }
     
     .awards li{
-        border-left:1px solid #E4E5E7;
-        border-top:1px solid #E4E5E7;
+        background-color:#FFFFFF;
+        border:1px solid #E4E5E7;
         float:left;
         height:170px;
-        margin-left:-1px;
-        margin-top:-1px;
+        margin:-1px;
         width:125px;
     }
     
@@ -650,28 +649,28 @@ button {  width: auto; overflow: visible; }
   .tabbedContent .tabsUl li{
     float:left;
     margin-right:-3px;
+    margin-top:7px;
     position:relative;
-    margin-top:9px;
   }
   
   .tabbedContent .tabsUl h2{
-    background-image:url(../img/tabOff.png);
-    background-repeat:no-repeat;
+    background-image:url("../img/tabOff.png");
     background-position:right -30px;
-    padding-right:5px;
+    background-repeat:no-repeat;
     float:left;
+    padding-right:5px;
   }
   .tabbedContent .tabsUl a{
     background-image:url("../img/tabOff.png");
-    background-position:0 bottom;
+    background-position:0 -60px;
     background-repeat:no-repeat;
-    color:#bbb;
+    color:#BBBBBB;
     display:block;
-    font-size:1.6em;
-    font-weight:normal;
-    line-height:30px;
-    padding:0px 10px 0px 13px;
     float:left;
+    font-size:1.4em;
+    font-weight:normal;
+    line-height:26px;
+    padding:0 10px 0 13px;
     text-decoration:none;
   }
   
@@ -680,14 +679,14 @@ button {  width: auto; overflow: visible; }
   }
   
   .tabbedContent .tabsUl li.active{
+    margin-right:-4px;
     margin-top:0;
     z-index:2;
-    margin-right:-4px;
   }
   .tabbedContent .tabsUl li.active h2{
-    background-image:url(../img/tabOn.png);
-    background-repeat:no-repeat;
+    background-image:url("../img/tabOn.png");
     background-position:right -51px;
+    background-repeat:no-repeat;
     padding-right:8px;
   }
   
@@ -697,7 +696,7 @@ button {  width: auto; overflow: visible; }
         background-repeat:no-repeat;
         color:#0E9165;
         font-weight:bold;
-        line-height:40px;
+        line-height:34px;
         padding-left:18px;
     }
     
@@ -839,7 +838,7 @@ button {  width: auto; overflow: visible; }
     }
     
     .articlesList h2{
-        font-size:1.6em;
+        font-size:1.4em;
         color:#0E9165;
         margin-bottom:15px;
         padding-left:15px;
