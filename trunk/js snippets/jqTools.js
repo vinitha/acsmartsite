@@ -1317,6 +1317,10 @@ var utils={
 								clearInterval(carousel.data("timerHnd"))
 							}
 							
+							if (jumpSize==0){
+								return false;
+							}
+							
 							if (jumpSize<0){
 								scroller(ul).scrollRight(Math.abs(jumpSize),defaults.duration)
 							}else{
