@@ -27,7 +27,7 @@
   <link rel="shortcut icon" href="http://www.bnpparibas.com/bnpparibas.ico">
 
   <!-- CSS : implied media="all" -->
-  <link rel="stylesheet" href="css/style_min.css?v=1">
+  <link rel="stylesheet" href="css/style.css?v=1">
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <script src="js/modernizr-1.5.min.js"></script>
@@ -120,7 +120,9 @@
 				<div style="background-image: url(&quot;&quot;);" id="did-you-know-thumb">&nbsp;</div>
 			</div>
 			<div id="did-you-know-text-container">
-				<div style="display: block;" id="did-you-know-text">Content goes here</div>
+				<div style="display: block;" id="did-you-know-text"><img class="bgImage" src="pictures/gc.png" />Content goes here 01</div>
+                                <div style="display: block;" id="did-you-know-text"><img class="bgImage" src="pictures/fstAwards.png" />Content 02</div>
+                                <div style="display: block;" id="did-you-know-text"><img class="bgImage" src="pictures/emea.png" />Content zero tree</div>
 			</div>
 			<div id="did-you-know-next"></div>
 			<div id="did-you-know-link">
@@ -177,6 +179,25 @@
 
   <script src="js/plugins_min.js?v=1"></script>
   <script src="js/script_min.js?v=1"></script>
+  
+  <script>
+    $().ready(function(){
+      $("#did-you-know-text-container>div")
+        .hide(0)
+        .filter(":first").show(0);
+      
+      $("#did-you-know-next").click(function(){
+        var div=$("#did-you-know-text-container>div:visible");
+        div.slideUp(300);
+        if(div.next().length>0){
+          div.next().slideDown(300)
+        }else{
+          div.siblings(":first").slideDown(300)
+        }
+      })
+    })
+  </script>
+  
 
   <!--[if lt IE 7 ]>
     <script src="js/dd_belatedpng.js?v=1"></script>
