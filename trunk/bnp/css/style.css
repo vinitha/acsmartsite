@@ -129,10 +129,11 @@ pre {
 }
 
 /* align checkboxes, radios, text inputs with their label
-   by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
+   by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  
 input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
+*/
 
 /* hand cursor on clickable input elements */
 label, input[type=button], input[type=submit], button { cursor: pointer; }
@@ -208,7 +209,12 @@ button {  width: auto; overflow: visible; }
     background-image: url(../img/pageBG.png);
     background-repeat:repeat-x;
     background-position:0px 134px;
-  } 
+  }
+  
+  .small #pageContainer{
+    background-image:url(../img/pageBGSmall.png);
+  }
+    
   #main,
   div.topBar{
     width:945px;
@@ -216,9 +222,13 @@ button {  width: auto; overflow: visible; }
     margin:auto;
   }
   
+  #main{
+    margin-top:1px;
+  }
+  
   div.topBar{
-    padding-right:57px;
-    width:989px;    
+    padding-right:27px;
+    width:auto;    
   }
 
 /* header */
@@ -238,7 +248,8 @@ button {  width: auto; overflow: visible; }
         display:block;
         height:100%;
         width:100%;
-        background-image:url(../img/bnpLogo.png)
+        background-image:url(../img/bnpLogo.png);
+        background-position:-26px 0px;
     }
     
     header .headerLinks{
@@ -272,7 +283,7 @@ button {  width: auto; overflow: visible; }
         background-image:url("../img/globalMarkets.png");
         clear:both;
         height:19px;
-        left:68px;
+        right:4px;
         position:absolute;
         top:41px;
         width:131px;
@@ -284,7 +295,6 @@ button {  width: auto; overflow: visible; }
   .horMenu{
     background-color:#eee;
     background-image:url("../img/menuBG.png");
-    border-bottom:1px solid #0E9165;
   }
   
   .ie6 .horMenu,
@@ -322,7 +332,7 @@ button {  width: auto; overflow: visible; }
       background-image:url("../img/horNavTab.png");
       background-position:0 0;
       background-repeat:no-repeat;
-      padding:9px 12px 8px 11px;
+      padding:9px 9px 8px 11px;
     }
     
     .horMenu .subItems{
@@ -354,7 +364,10 @@ button {  width: auto; overflow: visible; }
     }
     
     .horMenu .hasChildren a{
-      padding-right:30px;
+      background-image:url("../img/horNav_arrow.png");
+      background-position:right 0px;
+      background-repeat:no-repeat;
+      padding-right:27px;
     }
     
     .horMenu a,
@@ -386,6 +399,7 @@ button {  width: auto; overflow: visible; }
 /***********/
 
   aside.right{
+    text-align:left;
     float:right;
     width:280px;     
   }
@@ -707,11 +721,13 @@ button {  width: auto; overflow: visible; }
         position:relative;
         padding-top:30px;
     }
-    .tabbedContent .tabsContent p{
+    .tabbedContent .tabsContent .liContent{
         font-size:1.2em;
         line-height:1.5em;
         padding:0 15px 15px;
     }
+    
+    
     
     .tabbedContent .tabsContent p img{
         float:left;
@@ -723,6 +739,12 @@ button {  width: auto; overflow: visible; }
         background-image:url("../img/largePanelBG.png");
         background-position:right bottom;
         background-repeat:no-repeat;        
+    }
+    
+    .tabbedContent .contentUl ul{
+      list-style:disc;
+      padding-left:15px;
+      margin-bottom:10px;
     }
 
     .tabbedContent .tabsContent .container{
@@ -1010,7 +1032,16 @@ button {  width: auto; overflow: visible; }
   }
   
   .did-you-know-container.full #did-you-know-main {
-          height:185px;	
+          height:185px;
+          position:relative;
+  }
+  
+  #did-you-know-main img.bgImage{
+    position:absolute;
+    left:15px;
+    top:45px;
+    width:80px;
+    height:80px;
   }
   
   iframe.did-you-know-container {
@@ -1134,8 +1165,10 @@ button {  width: auto; overflow: visible; }
 .ie6 .topBar,
 .ie6 .horMenu .container,
 .ie7 .horMenu .container,
+
 .ie6 .TPlinks li a,
 .ie6 .bodyContent,
+
 .ie6 .tabbedContent .tabsContent,
 .ie6 .tabbedContent .container,
 .ie6 .tabbedContent .contentUl,
