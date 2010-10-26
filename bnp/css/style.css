@@ -411,13 +411,13 @@ button {  width: auto; overflow: visible; }
         background-repeat:no-repeat;
         background-color:#41494c;
         margin-bottom:16px;
-        min-height:253px;
+        /*min-height:253px;*/
     }
-  
+  /*
     .ie6 .loginPlaceholder{
         height:253px;
     }  
-  
+  */
   
   div.body{
     overflow:hidden;
