@@ -208,7 +208,7 @@ button {  width: auto; overflow: visible; }
   #pageContainer{
     background-image: url(../img/pageBG.png);
     background-repeat:repeat-x;
-    background-position:0px 134px;
+    background-position:0px 124px;
   }
   
   .small #pageContainer{
@@ -240,8 +240,8 @@ button {  width: auto; overflow: visible; }
     }
     
     header h1{
-        width:549px;
-        height:101px;
+        width:533px;
+        height:91px;
         float:left;        
     }
     header h1 a{
@@ -249,7 +249,7 @@ button {  width: auto; overflow: visible; }
         height:100%;
         width:100%;
         background-image:url(../img/bnpLogo.png);
-        background-position:-26px 0px;
+        background-position:0px 0px;
     }
     
     header .headerLinks{
