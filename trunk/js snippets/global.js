@@ -98,7 +98,9 @@ $(document).ready(function() {
 
    	
 /* binding toolTips events*/
-	$(".carouselContainer a img").live("mouseenter",function(){
+	var ttElements=$(".carouselContainer a img").not("#left-column img");
+	
+	ttElements.live("mouseenter",function(){
 		
 		//creating the html for the toolTip content
 		var ttContainer=$("<div></div>").addClass("container");
@@ -135,7 +137,7 @@ $(document).ready(function() {
 		
 	})
 
-	$(".carouselContainer a img").live("mouseleave",function(){
+	ttElements.live("mouseleave",function(){
 		toolTip.hide();
 	});
 	
