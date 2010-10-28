@@ -1,8 +1,10 @@
 
 //on document ready...
 $().ready(function(){
-    //transforming all the select.ixDropDown elements into ixDropDown widgets (adding also GSstyle class name)
-    $("select.myDropDown").ixDropDown();
+    //transforming all the select.ixDropDown elements into ixDropDown widgets
+    $("select.myDropDown")
+	.change(function(){alert(this.value)})
+	.ixDropDown();
 });
 
 
@@ -89,11 +91,13 @@ $().ready(function(){
                                 var index=$this.attr("data_index");
                                 var option=options[index];
                                                                                                
-                                option.selected=true;                                                            
+                                option.selected="selected";                                                            
                                 
                                 $anchor.children().text(option.text);
                                 
                                 close($anchor);
+				
+				$anchor.siblings("select").change();
                             })
                             .focus(function(){
                                 clearTimeout(timerHnd);
