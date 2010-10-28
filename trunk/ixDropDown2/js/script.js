@@ -1,20 +1,24 @@
 
+//on document ready...
+$().ready(function(){
+    //transforming all the select.ixDropDown elements into ixDropDown widgets (adding also GSstyle class name)
+    $("select.myDropDown").ixDropDown();
+});
+
+
 // ixDropDown plugin
 (function($){
     $.fn.ixDropDown=function(options){
+         
         
-        var defaults={
-            className:""
-        }               
-        
-        $.extend(defaults,options);
-              
         //defining the base style for this object. Style customisation can be done by assigning a className in the options
         //and then defining its rules in your CSS
         var rules=[
-                ".ixDropDown{ background-color:#eee; color:#069; padding-right:15px}",
+		".ixDropDown_A span{display:block}",
+		".ixDropDown_A {display:inline-block; zoom: 1; *display: inline;vertical-align:bottom;outline:none}",
+                ".ixDropDown_A{ color:#069; padding-right:15px}",
                 ".ixDropDown_DIV {position:absolute; display:none;}",
-                ".ixDropDown_UL {list-style-type:none; padding:0; margin:0px}"
+                ".ixDropDown_UL {list-style-type:none; padding:0; margin:0px; outline:none}"
             ]
         
         $("<style type='text/css'>" + rules.join("\n") + "</style>").appendTo("head");     
@@ -22,21 +26,22 @@
         return this.each(function(){
             var thisObj=$(this).hide(0),
                 timerHnd=null;
-            
+	    
+	    var curOption=$.map(this.options,function(item, index){
+		    return item.selected?item:null;
+		})
+	    
             var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
-                .addClass("ixDropDown " + defaults.className)
-                .append($("<span />").text($(this.options).filter("[selected=true]").text()))                
+                .addClass("ixDropDown_A " + thisObj.attr("className"))
+                .append($("<span />").text($(curOption).text()))              
                 .focus(function(){
                     clearTimeout(timerHnd);
                 })
                 .blur(function(){
                     var $this=$(this);
                     timerHnd=setTimeout(function(){                            
-                            var ulDiv=$this.data("ulDiv");
-                            
-                            $this.data("ulDiv",null);
-                            if(ulDiv) ulDiv.slideUp(120,function(){ulDiv.remove()});
+                            close($this);
                         },100
                     )
                 })                
@@ -44,20 +49,33 @@
                     e.preventDefault();
                     var $anchor=$(this);                    
                     var select=$anchor.prev("select").get(0),
-                        ulDiv=$("<div />").addClass("ixDropDown_DIV " + defaults.className),                        
-                        ul=$("<ul />").addClass("ixDropDown_UL").appendTo(ulDiv);
+                        externalDiv=$("<div />").addClass("ixDropDown_DIV " + thisObj.attr("className")),
+			contDiv=$("<div />").addClass("ixDropDown_Cont").appendTo(externalDiv),
+                        ul=$("<ul />")
+			    .attr("tabIndex",-1)
+			    .focus(function(){
+                                clearTimeout(timerHnd);
+                            })
+                            .blur(function(){
+                                timerHnd=setTimeout(function(){
+                                        close($anchor);                               
+                                    },100
+                                )
+                            })
+			    .addClass("ixDropDown_UL")
+			    .appendTo(contDiv);
                         
                     var options=select.options;
                     
-                    if($anchor.data("ulDiv")){
-                        var ulDiv=$anchor.data("ulDiv")
-                        ulDiv.slideUp(120,function(){ulDiv.remove()})
-                        
-                        $anchor.data("ulDiv",null);
+                    if($anchor.data("externalDiv")){
+                        close($anchor);
                         return false;
                     }                    
-                
-                    $anchor.data("ulDiv",ulDiv);
+		    
+		    //adding the "open" className
+		    $anchor.addClass("open");
+		    
+                    $anchor.data("externalDiv",externalDiv);
                     $.each(options,function(index,item){
                         
                         $("<a />")
@@ -75,18 +93,14 @@
                                 
                                 $anchor.children().text(option.text);
                                 
-                                $anchor.data("ulDiv",null).focus();                                
-                                ulDiv.slideUp(120,function(){ulDiv.remove()})
+                                close($anchor);
                             })
                             .focus(function(){
                                 clearTimeout(timerHnd);
                             })
                             .blur(function(){
                                 timerHnd=setTimeout(function(){
-                                        var ulDiv=$anchor.data("ulDiv");
-                                        
-                                        $anchor.data("ulDiv",null);  
-                                        ulDiv.slideUp(120,function(){ulDiv.remove()})                                
+                                        close($anchor);                               
                                     },100
                                 )
                             })
@@ -97,26 +111,28 @@
                     
                     var pos=$anchor.offset();
 				
-                    ulDiv.appendTo(document.body)
+                    externalDiv.appendTo(document.body)
                         .css({
                             left:pos.left,			
                             top:pos.top+$anchor.outerHeight(true)
                         })	
-                        .slideDown(120);
-                    
+                        .slideDown(120,function(){ul.find("a:first").focus()});
+			
                     return false;
                 })
             
         })
+	
+	function close(anchor){
+	    var externalDiv=anchor.data("externalDiv");
+            
+	    anchor.removeClass("open");
+	    
+	    if(externalDiv){
+		anchor.data("externalDiv",null).focus();  
+		externalDiv.slideUp(120,function(){externalDiv.remove()})
+	    }
+	}
     }
 })(jQuery);
         
-
-//on document ready...
-$().ready(function(){
-    //transforming all the select.ixDropDown elements into ixDropDown widgets (adding also GSstyle class name)
-    $("select.ixDropDown").ixDropDown({"className":"GSstyle"});
-})
-
-
-
