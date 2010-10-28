@@ -123,8 +123,7 @@ $().ready(function(){
                         .slideDown(120,function(){ul.find("a:first").focus()});
 			
                     return false;
-                })
-            
+                })            
         })
 	
 	function close(anchor){
