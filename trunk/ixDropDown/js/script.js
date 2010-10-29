@@ -8,12 +8,14 @@ $().ready(function(){
 });
 
 
+
+
 // ixDropDown plugin
 (function($){
     $.fn.ixDropDown=function(options){
          
         
-        //defining the base style for this object. Style customisation can be done by assigning a className in the options
+        //defining the base style for this object. Style customisation can be done by assigning a className to the <select> element
         //and then defining its rules in your CSS
         var rules=[
 		".ixDropDown_A span{display:block}",
