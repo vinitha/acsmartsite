@@ -39,7 +39,7 @@ $().ready(function(){
 	    var curOption=$.map(this.options,function(item, index){
 		    return item.selected?item:null;
 		})
-	    console.log(this.disabled)
+
             var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
                 .addClass("ixDropDown_A " + thisObj.attr("className"))
