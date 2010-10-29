@@ -58,7 +58,15 @@
     
     a.myDropDown.open{
       background-position:right -24px;
-    }    
+    }
+    
+    a.myDropDown.disabled span{
+      background-position:0px -118px;
+    }
+    
+    a.myDropDown.disabled{
+      background-position:right -143px;
+    }       
     
     a.myDropDown,
     .myDropDown a{
@@ -137,7 +145,7 @@
       </label>
 
       <label for="myDropDown">My label: 
-        <select name="myDropDown" class="myDropDown longList">
+        <select name="myDropDown" class="myDropDown longList" disabled="disabled">
           <option value="1">one</option>
           <option value="2">two</option>
           <option value="3" selected=true>three</option>
@@ -201,7 +209,7 @@
           <option value="1">one</option>
           <option value="2">two</option>
           <option value="3" selected=true>three</option>
-          <option value="4">four loooooong text line</option>
+          <option value="4">four loooooong ooooooong text line</option>
           <option value="5">five</option>
           <option value="6">six</option>
           <option value="7">seven</option>
