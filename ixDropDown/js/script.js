@@ -5,6 +5,9 @@ $().ready(function(){
     $("select.myDropDown")
 	.change(function(){alert(this.value)})
 	.ixDropDown();
+    
+    //if you want to disable a dropdown using JS please use the following
+    //$("a.myDropDown").disabled(true);
 });
 
 
@@ -26,18 +29,21 @@ $().ready(function(){
             ]
         
         $("<style type='text/css'>" + rules.join("\n") + "</style>").appendTo("head");     
-        
+       
+
         return this.each(function(){
+	    
             var thisObj=$(this).hide(0),
                 timerHnd=null;
 	    
 	    var curOption=$.map(this.options,function(item, index){
 		    return item.selected?item:null;
 		})
-	    
+	    console.log(this.disabled)
             var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
                 .addClass("ixDropDown_A " + thisObj.attr("className"))
+		.addClass(this.disabled?" disabled":"")
                 .append($("<span />").text($(curOption).text()))              
                 .focus(function(){
                     clearTimeout(timerHnd);
@@ -51,7 +57,10 @@ $().ready(function(){
                 })                
                 .click(function(e){
                     e.preventDefault();
-                    var $anchor=$(this);                    
+                    var $anchor=$(this);
+		    
+		    if ($anchor.hasClass("disabled")){return false};
+		    
                     var select=$anchor.prev("select").get(0),
                         externalDiv=$("<div />").addClass("ixDropDown_DIV " + thisObj.attr("className")),
 			contDiv=$("<div />").addClass("ixDropDown_Cont").appendTo(externalDiv),
@@ -138,6 +147,11 @@ $().ready(function(){
 		externalDiv.slideUp(120,function(){externalDiv.remove()})
 	    }
 	}
-    }
+    };
+    
+    $.fn.disabled=function(status){
+	return status?this.addClass("disabled"):this.removeClass("disabled")
+    };
+    
 })(jQuery);
         
