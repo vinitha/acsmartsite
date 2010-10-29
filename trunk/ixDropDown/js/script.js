@@ -77,8 +77,8 @@ $().ready(function(){
                             })
 			    .addClass("ixDropDown_UL")
 			    .appendTo(contDiv);
-                        
-                    var options=select.options;
+ 
+                    var options=$(select).children();
                     
                     if($anchor.data("externalDiv")){
                         close($anchor);
@@ -89,40 +89,63 @@ $().ready(function(){
 		    $anchor.addClass("open");
 		    
                     $anchor.data("externalDiv",externalDiv);
-                    $.each(options,function(index,item){
-                        
-                        $("<a />")
-                            .text(item.text)
-                            .attr("href","#" + item.text)
-                            .attr("data_index",index)
-                            .click(function(e){
-                                e.preventDefault();                                
-                                
-                                var $this=$(this);
-                                var index=$this.attr("data_index");
-                                var option=options[index];
-                                                                                               
-                                option.selected="selected";                                                            
-                                
-                                $anchor.children().text(option.text);
-                                
-                                close($anchor);
+		    
+		    
+		    doHTML(options);
+
+		    
+		    function doHTML(items){
+			$.each(items,function(index,item){
 				
-				$anchor.siblings("select").change();
-                            })
-                            .focus(function(){
-                                clearTimeout(timerHnd);
-                            })
-                            .blur(function(){
-                                timerHnd=setTimeout(function(){
-                                        close($anchor);                               
-                                    },100
-                                )
-                            })
-                            .appendTo(
-                                $("<li />").appendTo(ul)
-                            )                        
-                    })
+				switch(item.tagName.toLowerCase()){
+				    
+				    case "optgroup":
+					$("<strong />")
+					    .text(item.label)				   
+					    .appendTo(
+						$("<li />").appendTo(ul)
+					    )
+					    
+					    doHTML($(item).children())
+				    break;
+				
+				    case "option":
+					$("<a />")
+					    .text(item.text)
+					    .attr("href","#" + item.text)
+					    .attr("data_index",index)
+					    .click(function(e){
+						e.preventDefault();                                
+						
+						var $this=$(this);
+						var index=$this.attr("data_index");
+						var option=options[index];
+													       
+						option.selected="selected";                                                            
+						
+						$anchor.children().text(option.text);
+						
+						close($anchor);
+						
+						$anchor.siblings("select").change();
+					    })
+					    .focus(function(){
+						clearTimeout(timerHnd);
+					    })
+					    .blur(function(){
+						timerHnd=setTimeout(function(){
+							close($anchor);                               
+						    },100
+						)
+					    })
+					    .appendTo(
+						$("<li />").appendTo(ul)
+					    )    
+				    break;
+				}
+									    
+			    })			
+		    }
                     
                     var pos=$anchor.offset();
 				
