@@ -35,15 +35,17 @@ $().ready(function(){
             var thisObj=$(this).hide(0),
                 timerHnd=null;
 	    
-	    var curOption=$.map(this.options,function(item, index){
+	    var curOption=$.map(thisObj.find("option"),function(item, index){
 		    return item.selected?item:null;
 		})
-
-            var anchor=$("<a href='#show' />")
+	    
+	    curOption=curOption.length>0?curOption:thisObj.children().eq(0).get(0);
+	    
+             var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
                 .addClass("ixDropDown_A " + thisObj.attr("className"))
 		.addClass(this.disabled?" disabled":"")
-                .append($("<span />").text($(curOption).text()))              
+                .append($("<span />").text(curOption.label||$(curOption).text()))              
                 .focus(function(){
                     clearTimeout(timerHnd);
                 })
@@ -76,13 +78,13 @@ $().ready(function(){
                             })
 			    .addClass("ixDropDown_UL")
 			    .appendTo(contDiv);
- 
+                        
                     var options=$(select).children();
                     
                     if($anchor.data("externalDiv")){
                         close($anchor);
                         return false;
-                    }                    
+                    }                     
 		    
 		    //adding the "open" className
 		    $anchor.addClass("open");
