@@ -103,11 +103,22 @@
       overflow-y:visible;
     }
     
-    div.myDropDown a{
+    div.myDropDown a,
+    div.myDropDown strong,
+    div.myDropDown span{
       padding:2px 5px;
       margin-left:5px;
       display:block;
     }
+    
+    div.myDropDown strong{
+      color:#fff;
+    }
+    
+    div.myDropDown .disabled{
+      color:#666;
+      font-style:italic;
+    }    
     
     div.myDropDown a:hover,
     div.myDropDown a:focus{
@@ -131,9 +142,8 @@
     <form action="">
       <label for="myDropDown">My label: 
         <select name="myDropDown" class="myDropDown">
-         
           <optgroup label="hey!!">
-            <option value="aa">aaaaa</option>
+            <option disabled="disabled" selected="selected" value="aa">aaaaa</option>
             <option value="bb">bbbbbbbb</option>
           </optgroup>
           <option value="1">one</option>
