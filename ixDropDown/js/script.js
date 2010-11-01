@@ -2,8 +2,7 @@
 //on document ready...
 $().ready(function(){
     //transforming all the select.ixDropDown elements into ixDropDown widgets
-    $("select.myDropDown")
-	.change(function(){alert(this.value)})
+    $("select")
 	.ixDropDown();
     
     //if you want to disable a dropdown using JS please use the following
@@ -119,7 +118,7 @@ $().ready(function(){
 						
 						var $this=$(this);
 						var index=$this.attr("data_index");
-						var option=options[index];
+						var option=items[index];
 													       
 						option.selected="selected";                                                            
 						
