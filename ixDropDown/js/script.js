@@ -97,6 +97,15 @@ $().ready(function(){
 		    function doHTML(items){
 			$.each(items,function(index,item){
 				
+				if(item.disabled){
+					$("<span />")
+					    .text(item.text)
+					    .addClass("disabled")
+					    .appendTo(
+						$("<li />").appendTo(ul)
+					    )
+					    return false;				    
+				}
 				switch(item.tagName.toLowerCase()){
 				    
 				    case "optgroup":
