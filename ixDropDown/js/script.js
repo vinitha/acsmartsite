@@ -89,7 +89,6 @@ $().ready(function(){
 		    
                     $anchor.data("externalDiv",externalDiv);
 		    
-		    
 		    doHTML(options);
 
 		    
