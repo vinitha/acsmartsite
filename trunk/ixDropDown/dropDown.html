@@ -139,11 +139,33 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
 
   <div id="container">
+    
+<select class="myDropDown content-browser-pos" style="display: none;">
+      <option value="browse_content" selected="selected" disabled="disabled">Browse Content</option>
+        <option value="/utility_search/search_results.jsf?typeFilter=text">All Garland Science Textbooks</option>
+      <option value="browse_by_subject" disabled="disabled">Browse by Subject</option>
+        <option value="SCBS10">Biophysics</option>
+        <option value="SCBS0770">Cell and Molecular Biology</option>
+        <option value="SCBS0735">Cell and Molecular Biology</option>
+        <option value="SCPC05">Chemistry</option>
+        <option value="SCBS06">Computational Biology</option>
+        <option value="SCMA2030">Computational Biology</option>
+        <option value="SCBS46">General Science</option>
+        <option value="SCBS0755">Genetics</option>
+        <option value="SCBS30">Immunology</option>
+        <option value="SCBS6230">Methods</option>
+        <option value="SCBS09">Methods</option>
+        <option value="SCBS36">Microbiology</option>
+        <option value="SCBS42">Neuroscience</option>
+        <option value="SCAG1015">Plant Science</option>
+        <option value="SCBS0795">Structural Biology</option>
+</select>
+
     <form action="">
       <label for="myDropDown">My label: 
         <select name="myDropDown" class="myDropDown">
           <optgroup label="hey!!">
-            <option disabled="disabled" selected="selected" value="aa">aaaaa</option>
+            <option disabled="disabled" value="aa">aaaaa</option>
             <option value="bb">bbbbbbbb</option>
           </optgroup>
           <option value="1">one</option>

@@ -39,7 +39,8 @@ $().ready(function(){
 		    return item.selected?item:null;
 		})
 	    
-	    curOption=curOption.length>0?curOption:thisObj.children().eq(0).get(0);
+	    curOption=curOption.length>0?curOption[0]:thisObj.children().eq(0).get(0);
+	    
 	    
              var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
@@ -104,7 +105,7 @@ $().ready(function(){
 					    .appendTo(
 						$("<li />").appendTo(ul)
 					    )
-					    return false;				    
+					    return true;				    
 				}
 				switch(item.tagName.toLowerCase()){
 				    
