@@ -2,12 +2,33 @@
 //on document ready...
 $().ready(function(){
     //transforming all the select.ixDropDown elements into ixDropDown widgets
-    $("select")
-	.ixDropDown();
+    $("select").ixDropDown();
     
+    
+    //how to set the selected item via JS
+    $("#setItem").click(function(){
+	$("select").each(function(){
+	    var $this=$(this);
+	    
+	    //say we want to select item n. 2
+	    $this.find("option").eq(1).get(0).selected="selected";
+	    //the change event is not fired when setting the selected item via JS, so we have to manually call it
+	    $this.change();
+	})
+	
+	return false;
+    })
+    
+    
+
+	
     //if you want to disable a dropdown using JS please use the following
     //$("a.myDropDown").disabled(true);
+    
 });
+
+
+
 
 
 
@@ -34,6 +55,12 @@ $().ready(function(){
 	    
             var thisObj=$(this).hide(0),
                 timerHnd=null;
+		
+	    //binding the onChange event to the <select>
+	    thisObj.change(function(){
+		$(this).siblings("a.ixDropDown_A").find("span").text(this.options[this.selectedIndex].text)
+		
+	    })
 	    
 	    var curOption=$.map(thisObj.find("option"),function(item, index){
 		    return item.selected?item:null;
@@ -132,8 +159,6 @@ $().ready(function(){
 						var option=items[index];
 													       
 						option.selected="selected";                                                            
-						
-						$anchor.children().text(option.text);
 						
 						close($anchor);
 						
