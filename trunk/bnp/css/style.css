@@ -125,6 +125,7 @@ ul,ol { margin:0px; list-style-type: none; }
 */
 
 ul,ol{list-style-position:inside;}
+ul{list-style-type:disc}
 small { font-size:85%; }
 strong, th { font-weight: bold; }
 
