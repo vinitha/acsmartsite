@@ -862,8 +862,13 @@ button {  width: auto; overflow: visible; }
         background-image:url("../img/largePanelBG.png");
         background-position:right bottom;
         background-repeat:no-repeat;
-        padding:0px 15px;
+        padding:0px 15px 15px;
         overflow:hidden;
+    }
+    
+    .articlesList .articlesUl ul{
+      list-style-position:inside;
+      list-style-type:disc;
     }
     
     .articlesList .articlesLi{
