@@ -596,6 +596,9 @@ button {  width: auto; overflow: visible; }
     .imgCarousel{
         margin-bottom:15px;
     }
+    .imgCarousel ul{
+      list-style-type:none;
+    }
     .imgCarousel li{
         height:190px;
     }
