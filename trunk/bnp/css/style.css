@@ -120,9 +120,11 @@ html { -webkit-font-smoothing: antialiased; }
  
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
 a{ outline: none; }
-
+/*
 ul,ol { margin:0px; list-style-type: none; }
+*/
 
+ul,ol{list-style-position:inside;}
 small { font-size:85%; }
 strong, th { font-weight: bold; }
 
@@ -513,6 +515,7 @@ button {  width: auto; overflow: visible; }
     border-style:solid solid none;
     border-width:1px 1px medium;
     padding:15px 0;
+    list-style:none;
   }
   
   .TPlinks li{
@@ -548,6 +551,7 @@ button {  width: auto; overflow: visible; }
         border-color:#C8CCCF;
         border-style:solid solid none;
         border-width:1px 1px medium;
+        list-style:none;
     }
     
     .accordionMenu .level1{
@@ -559,7 +563,8 @@ button {  width: auto; overflow: visible; }
     .accordionMenu .subUl{
         padding:15px;
         background-color:#FFFFFF;
-        border-top:1px solid #CCCCCC;        
+        border-top:1px solid #CCCCCC;
+        list-style:none;
     }
     
     .accordionMenu .expBtn{
@@ -615,7 +620,7 @@ button {  width: auto; overflow: visible; }
     .awards ul{
         margin:15px;
         overflow:hidden;
-        
+        list-style:none;
     }
     
     .awards .container{
@@ -678,6 +683,7 @@ button {  width: auto; overflow: visible; }
     margin-bottom:-2px;
     position:relative;
     z-index:2;
+    list-style:none;
   }
   .tabbedContent .tabsUl li{
     float:left;
@@ -862,19 +868,20 @@ button {  width: auto; overflow: visible; }
         background-image:url("../img/largePanelBG.png");
         background-position:right bottom;
         background-repeat:no-repeat;
-        padding:0px 15px 15px;
+        padding:0px 15px;
         overflow:hidden;
-    }
-    
-    .articlesList .articlesUl ul{
-      list-style-position:inside;
-      list-style-type:disc;
+        list-style:none;
     }
     
     .articlesList .articlesLi{
         margin-top:-1px;
         border-top:1px solid #c8cccf;
         padding-top:15px;        
+    }
+    
+    .articlesList .articlesLi ul,
+    .articlesList .articlesLi ol{
+      margin-bottom:15px;
     }
     
     .articlesList p{
