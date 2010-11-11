@@ -763,7 +763,8 @@ button {  width: auto; overflow: visible; }
         padding-bottom:10px;
         background-image:url("../img/largePanelBG.png");
         background-position:right bottom;
-        background-repeat:no-repeat;        
+        background-repeat:no-repeat;
+        list-style-type:none;
     }
     
     .tabbedContent .contentUl ul{
