@@ -125,6 +125,7 @@ aside.left{width:200px;margin-right:15px;float:left;min-height:1px}
 .articlesList .container{background-image:url(../img/largePanelBG.png);background-position:0 0;background-repeat:no-repeat;overflow:hidden}
 .articlesList .articlesUl{background-image:url(../img/largePanelBG.png);background-position:right bottom;background-repeat:no-repeat;overflow:hidden;list-style:none;padding:0 15px}
 .articlesList .articlesLi{margin-top:-1px;border-top:1px solid #c8cccf;padding-top:15px}
+.articlesList .articlesLi ul,.articlesList .articlesLi ol{margin-bottom:15px;margin-left:15px}
 .articlesList p{margin-bottom:15px;font-size:1.2em;line-height:1.5em}
 .articlesList h2{font-size:1.4em;color:#0E9165;margin-bottom:15px;padding-left:15px;background-image:url(../img/iconsSprite.png);background-position:0 -185px;background-repeat:no-repeat}
 #footer{min-width:994px;position:relative}
@@ -165,7 +166,7 @@ iframe.did-you-know-container.full{display:block;height:213px}
 article,aside,figure,footer,header,hgroup,nav,section,.clearfix,.horMenu .hover .subItems,.imgCarousel img,.imgCarousel a{display:block}
 input,select,.awards .logo img{vertical-align:middle}
 ::-moz-selection,::selection{background:#FF5E99;color:#fff;text-shadow:none}
-.imgCarousel,.tabbedContent,.staticImage,.articlesList .articlesLi ul,.articlesList .articlesLi ol{margin-bottom:15px}
+.imgCarousel,.tabbedContent,.staticImage{margin-bottom:15px}
 #regulation text-grey-bold,.regulation-grey-bold{color:#333;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:11px;font-weight:700}
 iframe.did-you-know-container,#did-you-know-thumb,.did-you-know-container #did-you-know-shrink,.did-you-know-container.full #did-you-know-shadow{display:none}
 @media print {
