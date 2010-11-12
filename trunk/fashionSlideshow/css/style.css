@@ -28,11 +28,13 @@
         list-style-type:none;
         margin:10px 0px 0px;
         padding:0px;
-        overflow:hidden;
+        overflow:scroll;
+        width:290px;
+        white-space:nowrap;
     }
     
     .slideContainer li{
-        float:left;
+        display:inline-block;
         margin-right:5px;
     }
     
@@ -57,6 +59,16 @@
         opacity:1;
         filter:"";
         border-color:#999;
+    }
+    
+/* scrollBar style */
+    .fashionBar{
+        height:10px;
+    }
+    
+    .fashionBar .cursor{
+        background-color:#ccc!important;
+        cursor:e-resize;
     }
     
     

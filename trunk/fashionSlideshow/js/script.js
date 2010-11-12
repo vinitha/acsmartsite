@@ -36,9 +36,18 @@ $().ready(function(){
             })
             
             container.lightBox({
-                width:this.width
+                width:this.width,
+                onShow:function(){
+                    addScrollBar({
+                        elemToScroll:ul,
+                        horizontal:true,
+                        className:"fashionBar"
+                    })
+                }
             })
             .show();
+            
+            
         };
         tmpImg.src=imgURLs[0];
         
