@@ -1,0 +1,75 @@
+
+.fashionSlideShow{
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+}
+
+.fashionSlideShow li{
+    display:inline-block;
+    margin-right:5px;
+    border:1px solid #666;
+}
+
+.fashionSlideShow img,
+.fashionSlideShow a{
+    display:block;
+    border:none;
+}
+
+/* slideContainer */
+    .slideContainer .main{
+        display:block;
+        border:1px solid #999;
+        margin:auto;
+    }
+    
+    .slideContainer ul{
+        list-style-type:none;
+        margin:10px 0px 0px;
+        padding:0px;
+        overflow:hidden;
+    }
+    
+    .slideContainer li{
+        float:left;
+        margin-right:5px;
+    }
+    
+    .slideContainer li a,
+    .slideContainer li img{
+        display:block;
+        border:none;
+        width:78px;                     /* <---- please customise this with your pictures size */
+        height:100px;
+    }
+    
+    .slideContainer li a{
+        opacity:0.5;
+        filter:alpha(opacity=50);
+        outline:none;
+        border:1px solid transparent;
+    }
+    
+    .slideContainer li a:hover,
+    .slideContainer li a:focus,
+    .slideContainer li a.active{
+        opacity:1;
+        filter:"";
+        border-color:#999;
+    }
+    
+    
+    
+/* lightBox */
+    #lightBoxPanel .closeBtn{
+        color:#666666;
+        display:block;
+        font-family:tahoma;
+        font-size:10px;
+        position:absolute;
+        right:12px;
+        text-align:right;
+        text-decoration:none;
+        top:11px;    
+    }
