@@ -897,6 +897,7 @@ button {  width: auto; overflow: visible; }
     .articlesList .articlesLi ul,
     .articlesList .articlesLi ol{
       margin-bottom:15px;
+      margin-left:15px;
     }
     
     .articlesList p{
@@ -1230,6 +1231,9 @@ button {  width: auto; overflow: visible; }
 .ie7 .accordionMenu .subUl a,
 .ie7 .accordionMenu,
 .ie7 .accordionMenu ul,
+
+.ie6 .tabsUl,
+.ie7 .tabsUl,
 
 .ie6 .imgCarousel ul,
 .ie6 .articlesList li,
