@@ -71,7 +71,7 @@ $().ready(function(){
 	    
              var anchor=$("<a href='#show' />")
                 .insertAfter(thisObj)
-                .addClass("ixDropDown_A " + thisObj.attr("className"))
+                .addClass("ixDropDown_A " + this.className)
 		.addClass(this.disabled?" disabled":"")
                 .append($("<span />").text(curOption.label||$(curOption).text()))              
                 .focus(function(){
@@ -91,7 +91,23 @@ $().ready(function(){
 		    if ($anchor.hasClass("disabled")){return false};
 		    
                     var select=$anchor.prev("select").get(0),
-                        externalDiv=$("<div />").addClass("ixDropDown_DIV " + thisObj.attr("className")),
+                        externalDiv=$("<div />")
+			    .keydown(function(e){
+				    
+				    switch(e.which){
+					    case 40: //down
+						    $(document.activeElement).closest("li").nextAll().find("a").eq(0).focus();
+						    return false;
+					    break;
+				    
+					    case 38: //up
+						    $(document.activeElement).closest("li").prevAll().find("a").eq(0).focus()
+						    return false;
+					    break;
+				    }
+				    
+			    })			
+			    .addClass("ixDropDown_DIV " + select.className),
 			contDiv=$("<div />").addClass("ixDropDown_Cont").appendTo(externalDiv),
                         ul=$("<ul />")
 			    .attr("tabIndex",-1)
