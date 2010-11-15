@@ -4,13 +4,29 @@
 
 
 $().ready(function(){
+    /* setting the "current" class in the Hor Menu */
+    var menuIndex=parseInt(getQueryString().i);
+    $(".horMenu li.root").removeClass("current").eq(menuIndex-1).addClass("current");
     BNP.init(); 
 });
 
+function getQueryString(){
+    //returns an object whose attributes are the querystring parameters
+    var str=location.search.substring(1);
+    
+    var qsObj={};
+    
+    $.each(str.split("&"),function(){
+        var attr=this.split("=");
+        qsObj[attr[0]]=attr[1];
+    });
+    
+    return qsObj;
+};
+
 var BNP={
     init:function(){
-  
- 
+        
         //horMenu events handler
         $("nav.horMenu").find("li.root.hasChildren")
             .mouseenter(function(){
@@ -20,8 +36,7 @@ var BNP={
                 $(this).removeClass("hover");
             });
 
-            
-            
+    
         // removing the expired content
         $(".dateCheck").each(function(){
             var start=new Date(toDate(this.getAttribute("data-start"))),
