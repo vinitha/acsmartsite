@@ -446,6 +446,7 @@ var scroller=function(element){
 		
 		// handling the LB width and position
 		lb.css({
+		    width:defaults.width+20,
 		    marginLeft:-defaults.width/2-10 //10= mainContent padding
 		});
                 
