@@ -11,6 +11,11 @@
     border:1px solid #666;
 }
 
+*+html .fashionSlideShow li{
+    display:inline;
+    zoom:1;
+}
+
 .fashionSlideShow img,
 .fashionSlideShow a{
     display:block;
@@ -37,6 +42,11 @@
         display:inline-block;
         margin-right:5px;
     }
+    
+    *+html .slideContainer li{
+        display:inline;
+        zoom:1;
+    }    
     
     .slideContainer li a,
     .slideContainer li img{
