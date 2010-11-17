@@ -207,7 +207,16 @@ var scroller=function(element){
 	})();
 /* ---------------------------------- */
 
-/* scrollBar function definition */
+// scrollBar function definition 
+    /*
+     usage: $(".myDiv").addScrollBar({
+	elemToScroll:xx,
+	horizontal:true,
+	className:blueTheme,
+	barContainer:null
+    })
+	
+    */
 	function addScrollBar(options){
 		var clickPos={},
 			myDiv=options.elemToScroll.css("overflow","hidden"),
@@ -434,7 +443,8 @@ var scroller=function(element){
 				selection.collapse (selection.anchorNode, selection.anchorOffset);
 			}
 		}
-		
+	    
+	    return true;
 	}					
 /* ---------------------------------- */
 

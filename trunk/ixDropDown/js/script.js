@@ -48,7 +48,7 @@ $().ready(function(){
                 ".ixDropDown_UL {list-style-type:none; padding:0; margin:0px; outline:none}"
             ]
         
-        $("<style type='text/css'>" + rules.join("\n") + "</style>").appendTo("head");     
+        $("<style type='text/css'>" + rules.join("\n") + "</style>").prependTo("head");     
        
 
         return this.each(function(){
