@@ -225,13 +225,49 @@ var scroller=function(element){
 		
 		//size check
 		var containerSize=horiz?myDiv.innerWidth():myDiv.innerHeight(),
-			contentSize=horiz?myDiv.get(0).scrollWidth:myDiv.get(0).scrollHeight;
+		    contentSize=horiz?myDiv.get(0).scrollWidth:myDiv.get(0).scrollHeight;
 		
 		var delta=contentSize-containerSize;
 		
 		
 		
 		if(delta<1) return false;
+		
+		//defining the base style for this object.
+		var rules=[];
+		
+		//common rules
+		rules.push("." + options.className + " .bar {position:relative;height:100%;overflow:hidden}");
+		rules.push("." + options.className + " a.cursor {cursor: row-resize;display:block;position:absolute;left:0;top:0;width:" + containerSize/contentSize*100 + "%;height:100%;background-color:#069}");
+		rules.push("." + options.className + " .cursorBody {display:block}");
+		rules.push("." + options.className + " {min-height:10px;width:100%;background-color:#eee;overflow:hidden}");
+		
+		if(options.horizontal){
+		    rules.push("." + options.className + " .left {float:left;display:block;min-width:10;height:100%;background-color:#999}")
+		    rules.push("." + options.className + " .right {float:right;display:block;min-width:10;height:100%;background-color:#999}")
+		    rules.push("." + options.className + " .barLeftEnd {float:left;display:block}")
+		    rules.push("." + options.className + " .barRightEnd {float:right;display:block}")
+		    rules.push("." + options.className + " .cursorLeftEnd {float:left;display:block}")
+		    rules.push("." + options.className + " .cursorRightEnd {float:right;display:block}")
+		    
+		}else{
+		    rules.push("." + options.className + " .top {display:block;min-width:10;background-color:#999;position:absolute;top:0px;min-height:10px;width:100%;height:auto}")
+		    rules.push("." + options.className + " .bottom {display:block;min-width:10;height:100%;background-color:#999;position:absolute;bottom:0px;min-height:10px;width:100%;height:auto}")		    
+		    rules.push("." + options.className + " .barTopEnd {display:block}")
+		    rules.push("." + options.className + " .barBottomEnd {display:block;position:absolute;bottom:0;left:0}")
+		    rules.push("." + options.className + " .cursorTopEnd {display:block}")
+		    rules.push("." + options.className + " .cursorBottomEnd {display:block;width:100%}")
+			    
+		    rules.push("." + options.className + "{width:auto;min-width:10px;height:" + containerSize + "px;position:relative}")
+		      
+		}
+
+		
+		
+		
+		$("<style type='text/css'>" + rules.join("\n") + "</style>").prependTo("head");    		
+		
+		
 		
 		//check the positioning property
 		if(myDiv.css("position")=="static") myDiv.css("position","relative")
@@ -270,14 +306,7 @@ var scroller=function(element){
 							scroller(myDiv).scrollDown();
 						}
 						return false;
-					})	
-				.css({
-					float:horiz?"left":"none",
-					display:"block",
-					"min-width":10,
-					height:"100%",
-					"background-color":"#999"
-				})							
+					})								
 			)
 			.append(
 				$("<a href='#right'></a>")
@@ -291,24 +320,16 @@ var scroller=function(element){
 						}
 						return false;
 					})
-					.css({float:horiz?"right":"none",display:"block","min-width":10,height:"100%","background-color":"#999"})
 			)						
 			.append(
 				$("<div class='bar'></div>")
-					.css({
-						position:"relative",
-						height:"100%",
-						overflow:"hidden"
-					})
 					.append(
 						$("<div></div>")
 							.addClass(horiz?"barLeftEnd":"barTopEnd")
-							.css({float:horiz?"left":"none",display:"block"})
 					)
 					.append(
 						$("<div></div>")
 							.addClass(horiz?"barRightEnd":"barBottomEnd")
-							.css({float:horiz?"right":"none",display:"block"})
 					)								
 					.append(
 						$("<a class='cursor'></a>")
@@ -327,38 +348,23 @@ var scroller=function(element){
 								$(document).bind("mouseup",_scrollBarMouseUp);							
 								
 							})
-							.css({display:"block",position:"absolute",left:0,top:0,width:containerSize/contentSize*100 + "%",height:"100%","background-color":"#069"})
 							.append(
 									$("<span></span>")
 										.addClass(horiz?"cursorLeftEnd":"cursorTopEnd")
-										.css({float:horiz?"left":"none",display:"block"})
 								)
 							.append(
 									$("<span></span>")
 										.addClass(horiz?"cursorRightEnd":"cursorBottomEnd")
-										.css({float:horiz?"right":"none",display:"block"})
 								)
 							.append(
 								$("<span class='cursorBody'></span>")
-								.css({display:"block"})
 							)										
 					)
 			)
-			.css({
-				"min-height":10,
-				width:"100%",
-				"background-color":"#eee",
-				overflow:"hidden"
-			})
+
 		
 		//finalizing the vertical style
-		if(!horiz){
-			myScrollBar.css({
-				width:"auto",height:containerSize,position:"relative"
-			})
-			myScrollBar.children("a.top").css({position:"absolute",top:"0px","min-height":"10px",width:"100%",height:"auto"})
-			myScrollBar.children("a.bottom").css({position:"absolute",bottom:"0px","min-height":"10px",width:"100%",height:"auto"})
-			myScrollBar.find("div.barBottomEnd").css({position:"absolute",bottom:0,left:0})			
+		if(!horiz){			
 			
 			var cBottom=myScrollBar.find("span.cursorBottomEnd").css({
 				position:"absolute",bottom:0,left:0
@@ -367,6 +373,7 @@ var scroller=function(element){
 			var cur=myScrollBar.find("a.cursor").css({
 				width:"100%",height:containerSize/contentSize*100 + "%"
 			})
+			
 				
 		}
 		
@@ -384,10 +391,11 @@ var scroller=function(element){
 				bottom=myScrollBar.children("a.bottom").outerHeight(),
 				len=myScrollBar.innerHeight()-top-bottom;
 				
+				
 			myScrollBar.children("div.bar").css({position:"absolute",top:top,width:"100%",height:len})
 			
 			myScrollBar.find("span.cursorBody").css({
-				height:cur.innerHeight()-myScrollBar.find("span.cursorTopEnd").outerHeight()-cBottom.outerHeight()
+				height:cur.innerHeight()-myScrollBar.find("span.cursorTopEnd").outerHeight()-myScrollBar.find("span.cursorBottomEnd").outerHeight()
 			})				
 		}
 		
