@@ -36,7 +36,7 @@ $().ready(function(){
             })
             
             container.lightBox({
-                width:this.width,
+                width:600,
                 onShow:function(){
                     addScrollBar({
                         elemToScroll:ul,
