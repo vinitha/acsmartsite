@@ -438,6 +438,9 @@ var scroller=function(element){
 				myDiv.scrollTop(newPos*(contentSize-containerSize)/(barSize-cursorSize))
 			}
 			
+			ev.preventDefault();
+			return false;
+			
 		}
 		
 		function _scrollBarMouseUp(ev){
@@ -445,11 +448,6 @@ var scroller=function(element){
 			$(document).unbind("mousemove",_scrollBarMousemove);
 			$(document).unbind("mouseup",_scrollBarMouseUp);
 			
-			//needed to avoid selecting text!
-			if(window.getSelection){
-				var selection = window.getSelection();
-				selection.collapse (selection.anchorNode, selection.anchorOffset);
-			}
 		}
 	    
 	    return true;
