@@ -198,13 +198,61 @@ button {  width: auto; overflow: visible; }
 
 
  /* Primary Styles
-    Author: 
+    Author: Alessio Carnevale
  */
 
 
 
+  .sortableTree {
+    padding:10px;
+    margin:10px;
+    border:1px solid #ddd;
+    max-width:300px;
+  }
 
+    .sortableTree ol {
+        counter-reset: item; 
+        margin: 0;
+        padding: 0px;
+        list-style-type:none;
+    }
+    .sortableTree li {
+        display: block;
+        padding: 0px;
+        margin: 1px 0px 1px;
+        position:relative;
+    }
+    
+    .sortableTree a{
+      background-color:#f5f5f5;
+      display:block;
+      text-decoration:none;
+    }
+    .sortableTree a:hover,
+    .sortableTree a:focus{
+      background-color:#eee;
+    }
+    
+    .sortableTree ol li ol{
+      padding: 0px 0px 0px 10px;
+    }
+    
+    .sortableTree li:before { 
+        content: counters(item, ".");
+            /* 
+                To generate punctuation after the number, just precede or follow with a string: 
+                content: "Chapter " counter(item) " >> ";  
 
+                To make nested counters (1, 1.1, 1.1.1, etc.), use:
+                content: counters(item, ".");
+            */
+        float:left;
+        counter-increment: item; 
+        background-color: #f5f5f5;
+        margin-right: 5px;
+        padding: 0px 5px;
+        color:#999;
+    }
 
 
 
