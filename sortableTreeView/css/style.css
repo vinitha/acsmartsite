@@ -202,13 +202,12 @@ button {  width: auto; overflow: visible; }
 
 
 
-  .sortableTree {
-    padding:10px;
-    margin:10px;
-    border:1px solid #ddd;
-    max-width:300px;
-  }
-
+    .sortableTree {
+      padding:10px;
+      margin:10px;
+      border:1px solid #ddd;
+      max-width:300px;
+    }
     .sortableTree ol {
         counter-reset: item; 
         margin: 0;
@@ -230,6 +229,12 @@ button {  width: auto; overflow: visible; }
     .sortableTree a:hover,
     .sortableTree a:focus{
       background-color:#eee;
+    }
+    
+    .dragging a,
+    .dragging a:hover{
+      cursor:move;
+      background-color:#f5f5f5;
     }
     
     .sortableTree ol li ol{
