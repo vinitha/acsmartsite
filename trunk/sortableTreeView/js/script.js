@@ -78,8 +78,13 @@
     }
     
     function onDrop(ev){
+        var elem=$(document.elementFromPoint(ev.pageX, ev.pageY));
+        var li=elem.closest("li")
+        
         ev.data.target.closest("div.sortableTree").removeClass("dragging");
         highlighter.hide(0);
+        
+        ev.data.target.appendTo(li)
     }
 
 })();
