@@ -11,8 +11,8 @@
         
         //defining the base style for the highlighter.
         var rules=[];
-        rules.push("._highlighter {position:absolute;border-bottom:1px dotted #069;display:none}");
-        rules.push("._multi {border:1px dotted #069}");
+        rules.push("._highlighter {position:absolute;border-bottom:2px dotted #069;display:none}");
+        rules.push("._multi {border:2px dotted #069}");
         
         $("<style type='text/css'>" + rules.join("\n") + "</style>").prependTo("head");        
         
@@ -66,9 +66,9 @@
             var liPos=li.offset();
             if(li.find("ol").length>0){
                 //has children
-                highlighter.css({left:liPos.left,top:liPos.top,width:li.innerWidth(),height:li.innerHeight()}).addClass("_multi").show(0);          
+                highlighter.css({left:liPos.left,top:liPos.top-1,width:li.innerWidth(),height:li.innerHeight()}).addClass("_multi").show(0);          
             }else{
-                highlighter.css({left:liPos.left,top:liPos.top+li.innerHeight(),width:li.innerWidth(),height:1}).removeClass("_multi").show(0);            
+                highlighter.css({left:liPos.left,top:liPos.top+li.innerHeight()-1,width:li.innerWidth(),height:1}).removeClass("_multi").show(0);            
             }            
         }else{
             highlighter.hide(0);
