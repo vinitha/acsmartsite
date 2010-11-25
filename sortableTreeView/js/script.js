@@ -46,7 +46,7 @@
             ,200)
             
             //customising the ghostDiv content
-            $this.find("span").clone().appendTo(ghostDiv);
+            $this.closest("li").clone().appendTo(ghostDiv);
             
             ev.preventDefault();
         })
@@ -113,6 +113,7 @@ var realTypeOf=function(v) {
 // drag & drop function.
 // No need to customise beyond this line
 (function(){
+	var dragging=false;
     //defining the base style for the ghostDiv.
     var rules=[];
     rules.push("._ghostDiv {position:absolute;background-color:#eee}");
@@ -162,6 +163,7 @@ var realTypeOf=function(v) {
         var callBackReturn=ev.data.onMove(ev);
         
         if (!callBackReturn){return false};
+	dragging=true;
         
         if (realTypeOf(callBackReturn)=="object"){
             $.extend(newPos,callBackReturn)
@@ -184,12 +186,14 @@ var realTypeOf=function(v) {
     };
     
     function _dragStop(ev){
-
+	
         $(document).unbind("mousemove",_dragging);
         $(document).unbind("mouseup",_dragStop);
-        
-        ev.data.ghostDiv.remove();
-        ev.data.onDrop(ev);
+	ev.data.ghostDiv.remove();
+        if(dragging){
+		ev.data.onDrop(ev);
+	}
+	dragging=false;
     }
 
     
