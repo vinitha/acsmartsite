@@ -6,6 +6,7 @@
 //sortableTree drag&drop
 (function(){
     var highlighter=null;
+    var draggHandler=null;
     
     $().ready(function(){
         
@@ -19,8 +20,19 @@
         highlighter=$("<div />").addClass("_highlighter").appendTo(document.body);
         
         $(".sortableTree a")
+	.live("mouseenter",function(){
+	    var $this=$(this);
+	    if ($this.hasClass("folder")){
+		$(this).addClass("hover");
+	    }
+	    
+	})
+	.live("mouseleave",function(){
+	    $(this).removeClass("hover");
+	})
         .click(function(){
-            alert("click!")
+	    clearTimeout(draggHandler);
+           $this.closest("div.sortableTree").removeClass("draggedItem");
         })
         .mousedown(function(ev){
             var $this=$(this);
@@ -38,13 +50,16 @@
             ghostDiv.hide(0);
             
             //displaying it after 2/10 of a sec
-            setTimeout(function(){
+            draggHandler=setTimeout(function(){
+		//setting the style for the item to be dragged
+		$this.addClass("draggedItem");
+
                 ghostDiv.css({left:(ev.pageX) + 15});
                 ghostDiv.show(0);
                 $this.closest("div.sortableTree").addClass("dragging")
                 }
             ,200)
-            
+	    
             //customising the ghostDiv content
             $this.closest("li").clone().appendTo(ghostDiv);
             
@@ -59,19 +74,31 @@
        //ev.data.ghostDiv.css({left:(ev.pageX)+pos.elemLeft})
        
         var elem=$(document.elementFromPoint(ev.pageX, ev.pageY));
- 
-        var li=elem.closest("a")
+	
+	//checking if we have to drop the item before or after the hovered one
+	var after=(ev.pageY>elem.offset().top+elem.innerHeight()/2);
+	
+        var li=elem.closest("li");
         
         if (li.length>0){
             var liPos=li.offset();
             if(li.find("ol").length>0){
                 //has children
-                highlighter.css({left:liPos.left,top:liPos.top-1,width:li.innerWidth(),height:li.innerHeight()}).addClass("_multi").show(0);          
+                //highlighter.css({left:liPos.left,top:liPos.top-1,width:li.innerWidth(),height:li.innerHeight()}).addClass("_multi").show(0);
+		highlighter.hide(0);
             }else{
-                highlighter.css({left:liPos.left,top:liPos.top+li.innerHeight()-1,width:li.innerWidth(),height:1}).removeClass("_multi").show(0);            
+		if (after){
+		    highlighter.css({left:liPos.left,top:liPos.top+li.innerHeight()-1,width:li.innerWidth(),height:1}).removeClass("_multi").show(0);            
+		}else{
+		    highlighter.css({left:liPos.left,top:liPos.top-1,width:li.innerWidth(),height:1}).removeClass("_multi").show(0);            
+		}
+                
             }            
         }else{
-            highlighter.hide(0);
+	    if(!elem.hasClass("_highlighter")){
+		highlighter.hide(0);
+	    }
+            
         }
        
        return {left:ev.pageX+15};
@@ -79,12 +106,21 @@
     
     function onDrop(ev){
         var elem=$(document.elementFromPoint(ev.pageX, ev.pageY));
-        var li=elem.closest("li")
+        var li=elem.closest("li");
+	
+	ev.data.target.children("a").removeClass("draggedItem")
         
-        ev.data.target.closest("div.sortableTree").removeClass("dragging");
+        var div=ev.data.target.closest("div.sortableTree").removeClass("dragging");
         highlighter.hide(0);
         
-        ev.data.target.appendTo(li)
+	//
+	//checking if we have to drop the item before or after the hovered one
+	var after=(ev.pageY>elem.offset().top+elem.innerHeight()/2);
+	if (div){
+	    var added=(after&&ev.data.target.insertAfter(li))?"":ev.data.target.insertBefore(li);
+	}
+	
+        
     }
 
 })();
@@ -116,7 +152,10 @@ var realTypeOf=function(v) {
 	var dragging=false;
     //defining the base style for the ghostDiv.
     var rules=[];
-    rules.push("._ghostDiv {position:absolute;background-color:#eee}");
+    rules.push("._ghostDiv {position:absolute;background-color:#444;color:#fff;border:1px solid #ccc;}");
+    rules.push("._ghostDiv li a{color:#fff;text-decoration:none}");
+    rules.push("._ghostDiv {border-radius:10px;-moz-border-radius:10px;border-top-left-radius:0px;-moz-border-radius-topleft:0px;padding:10px;-moz-box-shadow:0px 2px 2px rgba(0,0,0,0.5);-webkit-box-shadow:0px 2px 2px rgba(0,0,0,0.5)}");
+    rules.push("._ghostDiv li{list-style-type:none}");
     
     $("<style type='text/css'>" + rules.join("\n") + "</style>").prependTo("head");
     
@@ -137,7 +176,7 @@ var realTypeOf=function(v) {
         var ghostDiv=$("<div />")
                     .addClass("_ghostDiv")
                     .css({left:$this.offset().left,top:$this.offset().top,width:$this.innerWidth(),height:$this.innerHeight()})
-                    .fadeTo(0,0.7)
+                    .fadeTo(0,0.9)
                     .appendTo(document.body);
                     
         $(document).bind("mousemove",{target:$this,clickPos:clickPos,onMove:options.onMove,ghostDiv:ghostDiv,constrain:options.constrain},_dragging);										

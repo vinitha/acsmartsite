@@ -200,7 +200,6 @@ button {  width: auto; overflow: visible; }
  */
 
 
-
     .sortableTree {
       padding:10px;
       margin:10px;
@@ -216,7 +215,7 @@ button {  width: auto; overflow: visible; }
     .sortableTree li {
         display: block;
         padding: 0px;
-        margin: 1px 0px 1px;
+        margin: 0px;
         position:relative;
     }
     
@@ -232,9 +231,18 @@ button {  width: auto; overflow: visible; }
       color:#333;
     }
     
+    .sortableTree a.folder{
+      font-weight:bold;
+    }
+    
+    .sortableTree a.draggedItem{
+      background-color:#666;
+      color:#fff;
+    }    
+    
     .dragging a,
     .dragging a:hover{
-      cursor:move;
+      cursor:default;/* move;*/
       color:#607890;
       background-color:transparent;
     }
@@ -259,11 +267,13 @@ button {  width: auto; overflow: visible; }
         padding: 0px 5px;
         color:#999;
         font-size:10px;
-        line-height:18px;
+        line-height:17px;
     }
 
 
-
+.dragging a.hover{
+  background-color:red;
+}
 
 
 
