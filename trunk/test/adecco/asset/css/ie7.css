@@ -1,0 +1,158 @@
+	.footer .navMenu,
+	.footer fieldset,	
+	.sectionContent,
+	.activitySectors,
+	.searchParameters label,
+	.footer .navMenu li,
+	.A02 .content .links li a,
+	.A02 .links li,
+	.N1 .links li,
+	.countriesContainer .countriesList,
+	.webSites .clients li,
+	.B01_jobSearch .container{
+		zoom:1;
+	}
+
+	.homePagePanels{
+		margin-bottom:10px;
+	}
+	
+	.mainBody .sectionContent{
+		padding-bottom:0px;
+	}
+	
+	.N1 .searchBox #options{
+		height:1.63em;
+		vertical-align:bottom;
+	}
+	
+	.N1 .searchBox #search{
+		height:1.25em;
+		margin-bottom:-1px;
+	}
+	
+	.N1 .links li{
+		padding-left:6px;
+		padding-right:7px;		
+	}
+	
+	#faqSearch .btnSearch{
+		top:-3px;
+	}
+
+	.hero img{
+		top:35px;
+	}
+	
+	.hero .heroFrame{
+		top:26px;
+	}
+	
+	.hero .A02 {
+		top:15px;
+	}
+	
+	.A02 .content .links li{
+		background-position:10px 0.56em;
+	}	
+	
+	.B01_jobSearch .container{
+		background-color:#67869A;
+		margin-top:5px;
+	}	
+
+	.B01_jobSearch .fields .contractType input{
+		margin:0px;
+		margin-right:7px;
+	}
+		
+	.B01_jobSearch .fields{
+		padding:40px 10px 30px;	
+	}	
+
+	.B01_jobSearch .fields .contractType ul{
+		margin-top:5px;
+	}
+	
+	
+	.B01_jobSearch .fields .optional{
+		position:relative;	
+		filter:alpha(opacity=0);
+	}
+		
+	/*
+	.footer .navMenu ul.links {
+		margin-left:6px;
+	}
+	*/
+	.footer .navMenu li,
+	.N1 .links li {
+		margin:0px;
+		padding:0px;
+		
+		margin-left:7px;
+		margin-right:-4px;
+		padding-left:1px;
+		padding-right:6px;
+
+
+	}
+	/*
+	.footer .navMenu li a,
+	.footer .navMenu li span {
+		margin-right:4px;
+	}
+	*/
+	
+	.footer fieldset label{
+		display:inline-block;
+		vertical-align:top;
+		margin-top:0.3em;
+		margin-right:4px;
+	}		
+	
+	.searchPagePanels{
+		margin-bottom:-10px;
+	}
+	
+	#login input.password {
+		margin-right:7px;
+		width:116px;
+	}
+
+
+	.roundedPanel{
+		background-color:#8A6D83;
+	}
+	
+	.sIFR-hasFlash .roundedPanel p{
+		margin-bottom:0px;
+	}	
+
+	.searchParameters label span{	
+		vertical-align:text-top;
+	}
+	
+	.searchParameters label input{
+		height:1.3em;
+		width:1.3em;
+	}		
+	
+	.searchResultsPanel .sortBy	li{
+		background-position:0px 2px;
+		margin-right:7px;
+	}	
+	
+	
+	#contactUs label span {
+		width:182px;
+	}
+	
+		
+	.textContainer a {
+		background-position:0px 0.25em;
+	}	
+	
+	.ui-datepicker-cover {
+		filter: mask();
+	}	

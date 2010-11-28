@@ -1,0 +1,267 @@
+
+/* --------------------------- Modules customisation --------------------------- */
+	
+
+
+	.leftColumn .A02 {
+		background-image:url(../images/roundedCornerLeft.png);
+		background-repeat:no-repeat;
+		background-position:0px 0px;
+	}
+
+	.leftColumn .A02 h3{
+		background-image:url(../images/roundedCornerRight.png);
+		background-repeat:no-repeat;
+		background-position:right 0px;
+		margin-left:5px;
+		padding-left:5px;
+	}
+	
+	.leftColumn .A02 .links{
+		border-top:none;
+		padding-bottom:10px;
+		background-color:#fff;
+	}	
+	
+	.leftColumn .A02 .links li{
+		background-color:#f1f0ef;
+	}		
+	
+	
+	.leftColumn .A05 .content .links li{
+		border-bottom:1px solid #D5D0CC;		
+	}		
+	
+		
+	
+/* searchPage */	
+	#searchPage .container {	
+		background-image:none;
+	}
+	
+	#searchPage h3{
+		font-size:1.8em;
+		font-weight:normal;
+		color:#fff;
+		margin-bottom:13px;
+	}
+	
+	#searchPage .fields .btnSearch{
+		margin-top:0px;
+	}
+	
+	#searchPage fieldset {
+		background-image:url(../images/jobSearchBgTop560.png);
+	}
+	
+	#searchPage .fields {
+		padding-top:13px;
+		padding-bottom:8px;		
+		background-image:url(../images/jobSearchBgBottom560.png);	
+	}
+	
+	#searchPage .fields .oneCol{
+		width:180px;
+	}		
+	
+	#searchPage .fields #motscles,
+	#searchPage .fields #date{
+		margin-top:4px;
+		margin-bottom:21px;
+	}
+	
+
+	
+/* homePage hero */	
+	.hero h2{
+		font-size:2.5em;	
+	}
+	
+	.hero .A02{
+		left:10px;
+		position:relative;
+		top:10px;
+		width:170px;
+		z-index:2;	
+	}	
+	
+	.hero .A02 .content {
+		font-size:1.1em;
+		height:107px;
+		overflow:hidden;
+	}
+	
+	.hero .A02 h3{
+		background-color:#7e8c63;
+		line-height:1.2em;
+	}
+	
+	
+	.hero .A02 .content .links{
+		background-color:#9EA98A;
+		border:none;
+		padding-bottom:0px;
+		height:100%;
+	}
+	
+	.hero .A02 .content .links li a {
+		color:#FFFFFF;
+	}
+	
+	.hero .A02 .content .links li {
+		background-image:url(../images/whiteChevron.png);
+		padding:4px 0px;
+		position:relative;
+	}	
+	
+	
+	
+/* countriesPage */
+	.countriesPage .languages{
+		display:block;
+		margin:0px auto 10px;
+	}
+
+	.countriesPage .N1 {
+		font-size:1em;
+	}
+	
+	.countriesPage .N1 .links{
+		margin:0px;
+	}
+	
+	.countriesPage .N2 .mainNavigation li.selected{
+		background-image:url(../images/tabMenuLeftRed.png);
+	}
+	
+	.countriesPage .N2 .mainNavigation li.selected a{
+		background-image:url(../images/tabMenuRightRed.png);
+		color:#fff;
+	}
+	
+	.countriesPage .N2 .mainNavigation li a{
+		padding:10px 37px 8px 10px;
+		/*width:225px;*/
+	}
+	
+	.countriesPage .header .sectionContent{
+		padding-bottom:0px;
+	}
+	
+	.countriesPage .N2{
+		margin-bottom:-1px;
+	}
+	
+	.countriesPage .N2 .selected :focus,
+	.countriesPage .N2 .selected a:hover,
+	.countriesPage .N2 .selected a:active,
+	.countriesPage .N2 .selected :focus *,
+	.countriesPage .N2 .selected a:hover *,
+	.countriesPage .N2 .selected a:active * {
+		color:#fff!important;
+	}
+	
+	
+	
+/* countriesContainer */
+	.countriesContainer{
+		margin:20px 0px;
+		border-top:1px solid #eee;
+		border-bottom:1px solid #eee;		
+		display:none;
+		position:absolute;
+		top:9px;
+		width:100%;
+		padding:20px 0px;
+
+		background-color:#fff;
+		z-index:10;
+	}
+	
+	.countriesContainer .N2 .mainNavigation{
+		margin:10px 0px 0px;
+		padding:0px 15px;
+		background-image:none;
+	}
+	
+	.countriesContainer .N2 .mainNavigation li{
+		background-image:url(../images/tabMenuLeftOffCountry.png);
+	}
+	
+	.countriesContainer .N2 .mainNavigation li a{
+		background-image:url(../images/tabMenuRightOffCountry.png);
+	}	
+	
+	.countriesContainer .N2 .mainNavigation li.selected{
+		background-image:url(../images/tabMenuLeftRed.png);
+	}
+	
+	.countriesContainer .N2 .mainNavigation li.selected a{
+		background-image:url(../images/tabMenuRightRed.png);
+		color:#fff;
+	}
+	
+	
+	.countriesContainer .header .sectionContent{
+		padding-bottom:0px;
+	}
+	
+	.countriesContainer .N2{
+		margin-bottom:-1px;
+	}
+	
+	.countriesContainer .N2 .selected :focus,
+	.countriesContainer .N2 .selected a:hover,
+	.countriesContainer .N2 .selected a:active,
+	.countriesContainer .N2 .selected :focus *,
+	.countriesContainer .N2 .selected a:hover *,
+	.countriesContainer .N2 .selected a:active * {
+		color:#fff!important;
+	}
+
+	.countriesContainer .countriesList{
+		margin-left:13px;
+	}
+	
+	.countriesContainer .countriesList .body{
+		display:none;
+	}
+
+	.countriesContainer .countriesList .selected{
+		display:block;
+	}
+	
+	.countriesContainer .webSites{
+		display:none;
+		margin-left:15px;
+		margin-top:20px;
+	}
+	
+	.countriesContainer .webSites h3{
+		font-weight:normal;
+	}
+	
+	.countriesList .link{
+		white-space:normal;
+		width:118px;
+	}
+	
+	
+/* rightColPanel */
+	.rightColPanel .A05 .links{
+		background-color:transparent;
+	}
+	
+	.contactUs .rightColPanel{
+		border:none;
+	}
+	
+/* subTitle */
+	.contactUs .subTitle{
+		color:#724C68;
+		font-size:1.4em;
+		margin-bottom:25px;
+		margin-left:10px;
+		margin-top:5px;
+	}
+	
