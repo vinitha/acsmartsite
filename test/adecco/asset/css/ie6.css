@@ -1,0 +1,238 @@
+
+/* IE png fix */
+	.png { 
+		behavior: url(asset/js/iepngfix.htc)
+	}
+/* ---- */
+	
+	body{
+		background-image:none;
+		background-color:#DCD6C6;	
+	}
+
+
+	.A05 .content .links li,
+	.sectionContent,
+	.B01_jobSearch .fields,
+	.homePagePanels,
+	.footer .navMenu,
+	.footer fieldset,		
+	.panelsContainer,
+	.oneRow,
+	.N2 .mainNavigation li a,
+	.leftColumn .A02 .links li,
+	.searchParameters li,
+	.threeCols,
+	.activitySectors,
+	.N2 .mainNavigation,
+	.searchParameters label,
+	.searchParameters .contractType,
+	.B01_jobSearch .container,
+	.pagination,
+	.recordsContainer ul li,
+	.toolBar,
+	.A02 .content .links li a,	
+	.webSites .clients li,
+	.sortBy ul,
+	.footer .navMenu li,
+	.countriesList .body,
+	.countriesPage .languages,
+	.countriesPage .N1,
+	.countriesContainer .countriesList,
+	.webSites .siteBody,
+	.loading,
+	.A03{
+		zoom:1;
+	}
+
+
+	.countriesPage .languages{
+		height:13px;
+	}
+	
+	.webSites .clients{
+		margin-left:-4px;
+	}
+	
+	.webSites .siteBody	{
+		background-image:none;
+		background-color:#fff;
+	}
+	
+	.webSites{
+		height:410px;
+	}
+	
+	.countriesList .body ul{
+		display:inline;
+	}
+	
+	.sectionContent{
+		padding-bottom:0px;
+		background-image:url(../images/pageBGbodyIE.png);
+	}
+	
+	.footer .sectionContent{
+		background-image:url(../images/pageBGFooterbodyIE.png);
+	}
+
+	.homePagePanels{
+		margin-bottom:10px;
+	}
+	
+	#faqSearch .btnSearch{
+		top:-3px;
+	}	
+	
+
+	
+	
+	.homePagePanels{
+		margin-bottom:12px;
+	}	
+	
+	.hero img{
+		top:35px;
+	}
+	
+	.hero .heroFrame{
+		top:26px;
+	}
+	
+	.hero .A02 {
+		top:15px;
+	}
+		
+	.N1 .searchBox #options{
+		height:1.8em;
+	}		
+	
+	.N1 .searchBox #search{
+		vertical-align:middle!important;
+		height:1.35em;
+	}
+	
+	.N1 .searchBox .btnSearch{
+		margin-bottom:-3px;
+	}	
+	
+	.footer .navMenu li,
+	.N1 .links li {
+		margin:0px;
+		padding:0px;
+		
+		margin-left:7px;
+		margin-right:-4px;
+		padding-left:1px;
+		padding-right:6px;
+
+
+	}
+	
+	.B01_jobSearch{
+		width:100%;
+		overflow:hidden;
+	}
+		
+	.B01_jobSearch .container{
+		background-color:#67869A;
+		margin-top:5px;		
+	}		
+	
+	.B01_jobSearch .fields{
+		padding:40px 10px 30px;	
+	}	
+	
+			
+	.hero{
+		margin-bottom:-10px;
+	}	
+	
+	fieldset#sectors,
+	fieldset#otherSites {
+		height:2.5em;
+	}
+	
+	.footer fieldset .btnGo{
+		background-image:url(../images/btnGoGrey.png);
+	}
+	
+	.N1 .searchBox .btnSearch{
+		background-image:url(../images/btnSearchWhite.png);
+	}
+	
+	.B01_jobSearch .fields .btnSearch{
+		background-image:url(../images/btnSearchBlue.png);
+	}			
+	
+	.B01_jobSearch .fields .contractType input{
+		margin:0px;
+	}
+
+	.B01_jobSearch .fields .contractType ul{
+		margin-top:5px;
+	}
+	
+	.footer .navMenu li a {
+		margin-right:4px;
+	}
+	.footer fieldset label{
+		display:inline-block;
+		vertical-align:top;
+		margin-top:0.3em;
+		margin-right:4px;
+	}		
+	
+	.searchPagePanels{
+		margin-bottom:-10px;
+	}
+	
+	#login input.password {
+		margin-right:7px;
+		width:116px;
+	}	
+	
+	
+	.roundedPanel{
+		background-color:#8A6D83;
+	}
+	
+	.sIFR-hasFlash .roundedPanel p{
+		margin-bottom:0px;
+	}		
+	
+	.searchParameters label span{	
+		vertical-align:text-top;
+	}
+	
+	.searchParameters label input{
+		height:1.3em;
+		width:1.3em;
+	}		
+	
+	.searchResultsPanel .sortBy	li{
+		background-position:0px 2px;
+		margin-right:7px;
+	}			
+	
+	.searchResultsPanel .recordsContainer table	{
+		display:inline;
+	}
+	
+	#contactUs label span {
+		width:180px;
+	}
+	
+	.ui-datepicker-cover {
+		filter: mask();
+	}
+	/* added styles 11/09/08 */
+	.textContainer ul.linkList li, .textContainer ul.linkList li a {
+		margin-bottom: 0;
+	}
+	ul.moduleList1, ul.moduleList2 {
+		height: 296px;
+	}
+	div.linkModules {
+		height: 95px;
+	}

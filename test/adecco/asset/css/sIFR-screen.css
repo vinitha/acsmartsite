@@ -1,0 +1,85 @@
+/* These are standard sIFR styles... do not modify */
+
+.sIFR-flash {
+	visibility: visible !important;
+	margin: 0;
+}
+
+.sIFR-replaced {
+	visibility: visible !important;
+}
+
+span.sIFR-alternate {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 0;
+	display: block;
+	overflow: hidden;
+}
+
+/* Hide Adblock Object tab: the text should show up just fine, not poorly with a tab laid over it. */
+.sIFR-flash + div[adblocktab=true] {
+  display: none !important;
+}
+
+/* These "decoy" styles are used to hide the browser text before it is replaced... the negative-letter spacing in this case is used to make the browser text metrics match up with the sIFR text metrics since the sIFR text in this example is so much narrower... your own settings may vary... any weird sizing issues you may run into are usually fixed by tweaking these decoy styles */
+/*
+.sIFR-hasFlash h1 {
+	visibility: hidden;
+}
+*/
+
+.sIFR-hasFlash h1 {
+	visibility: hidden;
+	font-size:2.6em;	
+}
+
+h1.sIFR-replaced {
+	margin-top:-4px;
+	margin-left:10px;
+}
+
+.homePage h1.sIFR-replaced {
+	margin-top:0px;
+	margin-left:0px;
+}
+
+.searchPage .B01_jobSearch h3{
+	visibility:hidden;
+	font-size:2em;
+}
+
+.sIFR-hasFlash .roundedPanel .content{
+	padding-right:15px;
+}
+
+.sIFR-hasFlash .roundedPanel p{
+	margin-bottom:-10px;
+}
+
+
+.sIFR-hasFlash .textContainer h3{
+	visibility:hidden;
+	padding:1px 0px;
+}
+
+.sIFR-hasFlash .miniPanels h3{
+	visibility:hidden;
+	padding:1px 0px;
+}
+
+/* remove this coments if you are using Sifr for tab menu */
+/*
+.sIFR-hasFlash .N2 .mainNavigation li a span{
+	display:block;
+	font-size:1.1em;
+	height:1.1em;
+	border-bottom:1px solid transparent;			
+}
+
+.sIFR-hasFlash .N2 .mainNavigation li a *{
+	cursor:pointer!important;
+}
+*/
