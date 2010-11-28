@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+#thumbnails li a{	
+	filter:alpha(opacity=50);
+}
+
+
+#thumbnails li a,
+#cover{
+	zoom:1;
+}
+
+#thumbnails li a:hover,
+#thumbnails li a:focus,
+#thumbnails li a:active{
+	filter:"";
+}
+
+
+
+/* ie 6 */
+* html .myConsole{
+	position:absolute;
+}
+
+* html #left .menuGallery{
+	height:170px;		
+}
+
+* html #right .notesBody{
+		width:525px;
+}
+
+
+* html .button{
+	border:1px solid #000;
+}
+
+.rightContainer,
+* html #thumbnails,
+* html #toolsPanel,
+* html #thumbnails ul{
+	zoom:1;	
+}
