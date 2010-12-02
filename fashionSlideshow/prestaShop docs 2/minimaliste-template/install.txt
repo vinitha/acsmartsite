@@ -1,0 +1,89 @@
+
+--------------------------------------------------
+THEME Minimaliste - PRESTASHOP 1.2
+http://prestashop.com
+http://dgcraft.free.fr
+--------------------------------------------------
+
+
+--------------------------------------------------
+DISTRIBUTION SOUS LICENCE CREATIVE COMMONS
+http://creativecommons.org/licenses/by-sa/2.0/fr/
+--------------------------------------------------
+
+
+--------------------------------------------------
+INSTALLATION
+--------------------------------------------------
+
+[1]. Dézippez le fichier
+
+[2]. Déplacez le fichier "minimaliste" dans le fichier "votreboutique/themes"
+
+[3]. Installez le template à partir du Back Office "preférences/apparences/appliquer le theme minimaliste"
+
+[4]. remplacez le module editorial "votreboutique/modules/"
+
+[5]. Déplacer le fichier du modules "categoriesbar" vers "votreboutique/modules" et installez-le
+
+
+[NB]. - Pour ajouter des categories dans les slides de la page d'accueil, 
+        éditez le fichier "votreboutique/modules/editorial/editorial.tpl"
+
+      - Notez bien que le template comporte un fichier modules,
+        si vous voulez porter des changements, éditez ces derniers
+        au lieux de ceux du fichier modules à la racine
+
+      - Pour utiliser au mieux ce thème, les modules doivent êtres greffés 
+        sur la colonne de gauche
+
+
+--------------------------------------------------
+MISES EN GARDE
+--------------------------------------------------
+
+DG.Craft décline toute responsablité de dommage 
+suite à des manipulations érronées
+
+
+
+ENGLISH TRANSLATION
+__________________________________________________
+
+
+--------------------------------------------------
+HOW TO INSTALL
+--------------------------------------------------
+
+[1]. unzip the file
+
+[2]. put the file "minimaliste" in "yourshop/themes"
+
+[3]. apply the Wallcraft template in the Back Office "preferences/Appearance/apply minimaliste theme"
+
+[4]. replace the module editorial "yourshop/modules/editorial"
+
+[4]. move the file of the module "categoriesbar" to "yourshop/modules" and install it 
+
+
+[NB]. - to change the editorial contenant, 
+        juste edit the file "yourshop/modules/editorial/editorial.tpl"
+
+      - this template contain modules file,
+        if you want to make changements you sould edit theses modules
+        instead of the ones in yourshop/modules
+
+     - for more usefull design, please to hook the modules only on the 
+       left column
+
+--------------------------------------------------
+IMPORTANT
+--------------------------------------------------
+
+DG.Craft decline all responsabilty, if the installation 
+of this template cause dommages on your shop
+
+
+
+
+
