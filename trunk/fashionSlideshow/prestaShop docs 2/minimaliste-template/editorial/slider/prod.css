@@ -1,0 +1,35 @@
+/* typo */
+.div_bg_top{background:url(div_bg_top.gif) no-repeat; width:100%; height:2px}
+.div_bg_bottom{background:url(div_bg_bottom.gif) no-repeat; width:100%}
+.presta_slider img {border:0;}
+#presta_slider li { width:550px; padding-top:0em;}
+#presta_slider p { width:540px}
+#presta_slider h1 {border-bottom:1px solid #e8e6e6; font-size:12px; margin-bottom:1.2em; color:#dd2a81; padding:0; padding-bottom:0.4em; width:525px}
+#presta_slider h2 { border:none; background:white; width:525px; float:left;margin-bottom:1.2em; color:#3dbdce; padding:0; margin:0}
+#presta_slider h2 a {color:#0066CC; font-size:12px}
+#presta_slider h2 a:hover {text-decoration:underline}
+.presta_slider p {font-family: "Arial", "Verdana", sans-serif;	margin: 0; padding: 0; font-size: .8em; color:#999999; line-height: 1.6}
+.presta_slider li p {font-size: 1em;}
+.presta_slider {position: relative; overflow: hidden}
+.presta_slider .javascript_css {position: relative; z-index: 3; padding: 20px; background: #fffcd3}
+.presta_slider .skip_to_news {position: absolute; top: 0; left: -9999px}
+.presta_slider .back {position: absolute; top: 0; left: 0; z-index: 2}
+.presta_slider .back a,
+.presta_slider .next a {display: none; outline: none}
+.presta_slider .next {position: absolute; top: 0; right: 0; z-index: 2}
+.presta_slider ul {position: relative; left: 0; width: auto; margin: 0; padding: 0; list-style-type: none; overflow: hidden; z-index: 1}
+.presta_slider li {float: left; display: inline; width: 300px;}
+#presta_slider #moreinfos a{ background:url('more-infos.gif') no-repeat; color:#3dbdce; line-height:20px; padding:0.3em 6em 6em 1em }
+
+/*	Theme */
+
+.minimaliste  {width: 544px; height:auto; border:1px solid #e8e6e6; border-top:none; border-bottom:none; margin:0; padding-left:2em}
+.minimaliste a {color: #dd2a81; font-size:10px}
+.minimaliste .back {width: auto; height: auto; background: url('prev_bg.gif') no-repeat; }
+.minimaliste .next {width: auto; height: auto; left: 540px; background: url('next_bg.gif') no-repeat}
+.minimaliste .next a {position: absolute; top:10px; right:10px; width:150px; height:40px; line-height:30px; background: url('next.gif') no-repeat top right}
+.minimaliste .back a {position:absolute; top:10px;	left:10px; width:150px; height:40px; line-height:30px; background: url('prev.gif') no-repeat}
+.minimaliste .view_all {margin:0; padding: 0.7em 0em 0.7em 0; color:#3dbdce; font-size:11px; text-align:center; font-weight:bold}
+.minimaliste li {padding: 15px 0; overflow: hidden}
+.minimaliste li img {float: left; display: inline}
+.minimaliste li p {float: left; display: inline; margin: 0 0 0 10px; width: 190px}
