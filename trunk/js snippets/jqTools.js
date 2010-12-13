@@ -209,7 +209,7 @@ var scroller=function(element){
 
 // scrollBar function definition 
     /*
-     usage: $(".myDiv").addScrollBar({
+     usage: addScrollBar({
 	elemToScroll:xx,
 	horizontal:true,
 	className:blueTheme,
@@ -238,15 +238,16 @@ var scroller=function(element){
 		
 		//common rules
 		rules.push("." + options.className + " .bar {position:relative;height:100%;overflow:hidden}");
-		rules.push("." + options.className + " a.cursor {cursor: row-resize;display:block;position:absolute;left:0;top:0;width:" + containerSize/contentSize*100 + "%;height:100%;background-color:#069}");
+		rules.push("." + options.className + " .cursor {display:block;position:absolute;left:0;top:0;width:" + containerSize/contentSize*100 + "%;height:100%;background-color:#069}");
 		rules.push("." + options.className + " .cursorBody {display:block}");
-		rules.push("." + options.className + " {min-height:10px;width:100%;background-color:#eee;overflow:hidden}");
+		rules.push("." + options.className + " {height:10px;width:100%;background-color:#eee;overflow:hidden}");
 		
 		if(options.horizontal){
 		    rules.push("." + options.className + " .left {float:left;display:block;min-width:10;height:100%;background-color:#999}")
 		    rules.push("." + options.className + " .right {float:right;display:block;min-width:10;height:100%;background-color:#999}")
 		    rules.push("." + options.className + " .barLeftEnd {float:left;display:block}")
 		    rules.push("." + options.className + " .barRightEnd {float:right;display:block}")
+		    rules.push("." + options.className + " .cursor {cursor: col-resize}");
 		    rules.push("." + options.className + " .cursorLeftEnd {float:left;display:block}")
 		    rules.push("." + options.className + " .cursorRightEnd {float:right;display:block}")
 		    
@@ -257,6 +258,7 @@ var scroller=function(element){
 		    rules.push("." + options.className + " .barBottomEnd {display:block;position:absolute;bottom:0;left:0}")
 		    rules.push("." + options.className + " .cursorTopEnd {display:block}")
 		    rules.push("." + options.className + " .cursorBottomEnd {display:block;width:100%}")
+		    rules.push("." + options.className + " .cursor {cursor: row-resize}");
 			    
 		    rules.push("." + options.className + "{width:auto;min-width:10px;height:" + containerSize + "px;position:relative}")
 		      
@@ -454,6 +456,7 @@ var scroller=function(element){
 	}					
 /* ---------------------------------- */
 
+
 //useful function
 var utils={
 	twoDigits:function(inte){
@@ -497,31 +500,18 @@ var utils={
 			var cont=$(this.parentNode),
 			contHeight=cont.innerHeight(true),
 			contWidth=cont.innerWidth(true);
+								
 			
-			var rtl=thisObj.parents("div.rtl").length>0;					
-			
-			var deltaH=thisObj.outerHeight(true)-contHeight,
-			    //deltaW=thisObj.outerWidth(true)-contWidth,
-				deltaW=thisObj.get(0).clientWidth-contWidth,
-			    top=e.clientY-cont.offset().top,
-			    left=e.clientX-cont.offset().left;
+			var deltaH=thisObj.get(0).clientHeight-contHeight,
+			    deltaW=thisObj.get(0).clientWidth-contWidth,
+			    top=e.clientY-cont.offset().top+$(window).scrollTop(),
+			    left=e.clientX-cont.offset().left+$(window).scrollLeft();			    
 			
 			var y=top*100/contHeight;
-			var x=left*100/contWidth//-(rtl?contWidth:0);
-						
-			var rtlDelta=rtl?($.browser.webkit?0:deltaW):0
-			
+			var x=left*100/contWidth;
+	
 			cont.scrollTop((deltaH*y/100));
-			
-			if($.browser.msie){
-				if(rtl){
-					cont.scrollLeft(deltaW-(deltaW*x/100));
-				}else{
-					cont.scrollLeft((deltaW*x/100));
-				}
-			}else{
-				cont.scrollLeft((deltaW*x/100)-rtlDelta);
-			}
+			cont.scrollLeft((deltaW*x/100));
 
 			
 		})
