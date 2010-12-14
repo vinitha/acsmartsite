@@ -1,0 +1,728 @@
+
+/* setting the default font-size to 10px; */
+
+body{
+    font-size:62.5%;
+    text-rendering: optimizeLegibility;     
+}
+
+body{
+    width:980px;
+    margin:auto;
+}
+
+
+
+
+/* header */
+    #header{
+        border-bottom:1px solid #d6d6d6;
+    }
+
+
+/* logo */
+    #logo{
+        width:144px;
+        height:52px;
+        margin:20px auto;
+    }
+    
+    #logo a{
+        display:block;
+        width:100%;
+        height:100%;
+        background-image:url(../img/logo.png);
+        position:relative;
+    }
+    
+    #logo a span{
+        position:absolute;
+        top:-9999px;
+    }
+
+/* mainNav */
+    #mainNav{
+        overflow:hidden;
+    }
+    
+    #mainNav ul{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+        overflow:hidden;
+    }    
+    #mainNav li{
+        float:left;
+        width:196px;
+        margin:0px;
+    }
+    
+    #mainNav li a{
+        text-align:center;
+        display:block;
+        font-size:1.8em;
+        color:#7f7f7f;
+        text-decoration:none;
+        font-family: 'Inconsolata';
+        font-weight:bold;
+        line-height: 140%;
+        background:url(../img/xanaSprites.png) no-repeat 0px -66px #fff;
+        outline:none;
+    }
+    
+    #mainNav li.first a{
+        text-align:left;
+        background-image:none;
+    }
+    
+    #mainNav li.last a{
+        text-align:right;
+    }
+    
+    #mainNav li a:hover,
+    #mainNav li a:focus{
+        color:#444;
+    }
+
+
+/* secondaryNav */
+    #secondaryNav{
+        overflow:hidden;
+        height:22px;
+    }
+    
+    #secondaryNav ul{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+        overflow:hidden;
+    }    
+    #secondaryNav li{
+        float:left;
+        padding:0px;
+        margin:0px;
+    }
+    
+    #secondaryNav li a{
+        text-align:center;
+        display:block;
+        font-size:1.3em;
+        color:#7f7f7f;
+        text-decoration:none;
+        font-family: 'Inconsolata';
+        font-weight:bold;
+        line-height: 140%;
+        background:url(../img/xanaSprites.png) no-repeat 0px -151px #fff;
+        padding-left:20px;
+        outline:none;
+        padding-right:10px;
+    }
+    
+    #secondaryNav li.first a{
+        background-image:none;
+        padding-left:0px;
+    }
+    
+    #secondaryNav li a:hover,
+    #secondaryNav li a:focus{
+        color:#444;
+    }
+    
+    #secondaryNav li.current a{
+        color:#c890a0;    
+    }
+    
+/* main body top section*/
+    .top{
+        height:40px;
+        overflow:hidden;
+    }
+
+/* breadcrumb */
+    .breadcrumb{
+        overflow:hidden;
+        float:left;
+    }
+    
+    .breadcrumb ul,
+    .breadcrumb li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    .breadcrumb ul{
+        margin-left:-20px;
+    }
+    
+    .ie7 .breadcrumb ul{
+        zoom:1;
+    }
+    
+    .breadcrumb li{
+        float:left;
+        margin-right:15px;
+    }
+    
+    .breadcrumb a{
+        display:block;
+        padding-left:20px;
+        background:url(../img/xanaSprites.png) no-repeat 0px -195px #fff;
+        line-height:40px;
+        color:#7f7f7f;
+        text-decoration:none;
+        font-size:1.3em;
+        font-family:"Inconsolata";
+        outline:none;
+    }
+    
+    .breadcrumb a:hover,
+    .breadcrumb a:focus{
+        color:#444;
+    }
+
+
+/* filters */
+    .filters{
+        float:right;
+        white-space:nowrap;
+        font-family:"Inconsolata";
+    }
+    
+    .filters h3,
+    .filters ul,
+    .filters li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+        display:inline;
+        line-height:40px;
+    }
+    
+    .filters h3,
+    .filters a{
+        margin-right:10px;
+        color:#a5a5a5;
+        font-size:1.3em;
+        text-decoration:none;
+        outline:none;
+    }
+    
+    .filters a:hover,
+    .filters a:focus{
+        color:#444;
+    }
+    
+    .filters a.current{
+        text-decoration:underline;
+        color:#777;
+    }
+        
+
+
+/* mainCarousel */
+    .mainCarousel{
+        overflow:hidden;
+        position:relative;
+    }
+    .mainCarousel ul,
+    .mainCarousel li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    .mainCarousel .carouselUl li{
+        display:none;
+    }    
+    
+    .mainCarousel img{
+        display:block;
+    }
+    
+    .mainCarousel .legend{
+        padding:10px 10px 10px 96px;
+        background-image:url(../img/carouselCopyBg.png);
+        color:#fff;
+        position:absolute;
+        left:0px;
+        bottom:50px;
+        width:720px;
+    }
+
+    .mainCarousel p{
+        font-size:1.5em;
+        margin:0px;
+        padding:0px;
+    }
+    
+    .mainCarousel p a{
+        color:#fff;
+        text-decoration:underline;
+        font-weight:bold;
+    }
+    
+    .mainCarousel .navigator{
+        position:absolute;
+        left:0px;
+        top:50px;
+        padding-left:96px;
+        background-image: url(../img/paginatorBg.png);
+        z-index:10;
+    }
+    
+    .mainCarousel .navigator li{
+        float:left;
+        margin:1px;
+        padding-bottom:10px;
+    }
+    
+    .mainCarousel .navigator li.current{
+        background:url("../img/xanaSprites.png") no-repeat scroll 3px 22px transparent;
+    }
+    .mainCarousel .navigator a{
+        display:block;
+        font-size:1.4em;
+        color:#ddd;
+        text-decoration:none;
+        padding:2px 2px 4px;
+        font-weight:bold;
+        font-family:georgia;
+        outline:none;
+    }
+    
+    .mainCarousel .navigator a:hover,
+    .mainCarousel .navigator a:focus{
+        color:#fff;
+    }
+    
+    
+    
+/* collectionCarousel */
+
+
+    .collectionCarousel{
+        position:relative;
+    }
+    
+    .collectionCarousel ul{
+        white-space:nowrap;
+        overflow:hidden;
+        position:relative;
+    }
+
+    .collectionCarousel ul,
+    .collectionCarousel li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    .collectionCarousel li{
+        display:inline;
+        width:160px;
+        overflow:hidden;
+        position:relative;
+    }
+    
+    .collectionCarousel a,
+    .collectionCarousel img{
+        border:none;     
+    }
+    
+    .collectionCarousel a span{
+        position:absolute;
+        width:80%;
+        right:0px;
+        bottom:120px;
+        background-color:#eee;
+        color:#000;
+        font-family: 'Inconsolata';
+        font-weight:bold;
+        font-size:1.3em;
+        padding:2px 5px;
+        opacity:0.7;
+        filter:alpha(opacity=70);
+    }
+    
+    .ie8 .collectionCarousel img{
+        padding-right:1px;
+    }
+    
+    .collectionCarousel .left,
+    .collectionCarousel .right{
+        position:absolute;
+        background:url("../img/xanaSprites.png") no-repeat scroll 0 -18px transparent;
+        width:15px;
+        height:18px;
+        top:50%;
+    }
+    
+    .collectionCarousel .left{
+        left:-25px;
+        background-position:0px -262px;
+    }
+    .collectionCarousel .right{
+        right:-25px;
+        background-position:0px -302px;
+    }
+    
+    .collectionCarousel .off{
+        display:none;
+    }
+    
+    
+/* colsContainer */
+    .colsContainer{overflow:hidden}
+    
+    .leftCol{
+        float:left;
+        width:514px;
+        margin-right:15px;
+    }
+    
+    .rightCol{
+        overflow:hidden;
+    }
+    
+
+/* autoZoom */
+    .autoZoom{
+        width:270px;
+        height:480px;
+        overflow:hidden;
+        display:block;
+        position:relative;
+        cursor: crosshair;
+    }
+    
+    .autoZoom img{
+        width:270px;
+        display:block;
+    }    
+    
+/* itemInfo */
+    .itemInfo{
+        border:1px solid #ccc;
+        overflow:hidden;
+        background:url(../img/itemInfoBG.png) repeat-x left top #bbbbbb;
+        position:relative;
+    }
+    
+    .itemInfo .autoZoom{
+        float:left;
+    }
+
+    .itemInfo .content{
+        overflow:hidden;
+        padding:15px;
+    }
+    
+    .itemInfo h3.title{
+        font-family: 'Inconsolata';
+        font-size: 1.8em;
+        font-weight: bold;
+        line-height:1em;
+        margin:0px 0px 15px;
+        padding:0px;
+        color:#7F7F7F;
+    }
+    
+    .itemInfo .content p{
+        color: #7F7F7F;
+        font-size: 1.2em;
+        font-style: italic;
+        line-height: 1.5em;
+        margin:0px 0px 20px;
+    }
+    
+    .buyButton{
+        text-decoration:none;
+        display:inline-block;
+        font-family: 'Inconsolata';
+        font-size: 1.6em;
+        font-weight: bold;
+        color:#fff;
+        padding:3px 10px;
+        background-color:#000;
+        zoom: 1; *display: inline; /* IE < 8: fake inline-block */
+        margin-bottom:10px;
+    }
+    
+    
+/* bottom */
+    .bottom{
+        bottom: 0;
+        position: absolute;
+        right: 0;
+        width: 227px;
+    }
+    
+    
+/* altViews */
+    .altViews {
+        overflow:hidden;
+    }
+    
+    .altViews h3{
+        font-family: 'Inconsolata';
+        font-size: 1.6em;
+        font-weight: bold;
+        line-height:1em;
+        margin:0px 0px 15px;
+        padding:0px;
+        color:#7F7F7F;
+    }
+
+    .altViews ul,
+    .altViews li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    /* defining the altViews sty01 */
+        .altViews.sty01 ul{
+            margin-left:-10px;    
+        }    
+        .altViews.sty01 li{
+            float:left;
+            margin-left:10px;
+            height:150px;
+            overflow:hidden;
+        }
+        .altViews.sty01 img{
+            width:100px;
+            display:block
+        }
+        
+    /* defining the altViews sty02 */
+        .altViews.sty02 #bigImage {
+            height:410px;
+            overflow:hidden;
+            margin-bottom:2px;
+            cursor: crosshair;
+        }
+        .altViews.sty02 ul{
+            margin-left:-2px;
+        }
+        
+        .altViews.sty02 li{
+            float:left;
+            margin-left:2px;
+            height:100px;
+            width:256px;
+            overflow:hidden;
+            position:relative; /* ie7 fix */
+        }
+        .altViews.sty02 ul img{
+            width:256px;
+            display:block;
+            position:relative;
+            top:-50px;
+        }        
+        
+        .ie7 .altViews.sty02 li,
+        .ie7 .altViews.sty02 ul img{
+            width:255px;
+        }              
+        
+        
+        
+/* freeText*/
+    .freeText{
+        position:relative;
+    }
+    
+    .freeText .container{
+        height:512px;
+        margin-right:15px;
+    }    
+    
+    .freeText section{
+        margin-bottom:20px;
+        color:#858585;
+    }
+    
+    .freeText h3{
+        font-family: 'Inconsolata';
+        font-size: 1.8em;
+        font-weight: bold;
+        font-style:italic;
+        line-height:1em;
+        margin-bottom:5px;
+    }
+    
+    .freeText p{
+        font-size: 1.5em;
+        line-height: 1.3em;
+        margin-top: 0;  
+    }
+    
+/* social */
+    .social{
+        overflow:hidden;
+        margin:10px 0px;
+    }
+    .social h4{
+        font-weight: bold;
+        margin:0px 15px 0px 0px;
+        padding:0px;
+        color:#7F7F7F;        
+        float:left;
+        margin-right:10px;
+    }
+    .social ul,
+    .social li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+        float:left;
+    }
+    
+    .social li{
+        margin-right:5px;
+    }
+    .social a{
+        display:block;
+        width:11px;
+        height:11px;
+        background:url(../img/xanaSprites.png) no-repeat 0px 0px;
+    }
+    
+    .social a.facebook{
+        background-position:0px -343px;
+    }
+    
+    .social a.twitter{
+        background-position:0px -356px;
+    }
+    
+    .social a.rss{
+        background-position:0px -369px;
+    }
+    
+    .social a span{
+        position:absolute;
+        top:-9999px
+    }
+    
+
+/* bottomNav */
+    .bottomNav{
+        margin:40px auto;
+        width:840px;
+        overflow:hidden;
+    }
+    
+    .bottomNav ul,
+    .bottomNav li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    .bottomNav li{
+        width:50%;
+        float:left;
+    }
+    
+    .bottomNav li a{
+        display:block;
+        padding-left:40px;
+        background:url("../img/xanaSprites.png") no-repeat scroll 0 -18px transparent;
+        font-size:1.6em;
+        text-decoration:none;
+        color:#444;
+        font-family: 'Inconsolata';
+        line-height: 140%;
+        outline:none;
+    }
+    
+    .bottomNav li a:hover,
+    .bottomNav li a:focus{
+        color:#000;
+    }
+    
+    
+    
+/* genericList */
+    .genericList{
+        position:relative;
+        overflow:hidden;
+        margin-bottom:12px;
+    }
+    
+    .genericList h4{
+        color:#858585;
+        font-size:1.3em;
+        margin:0px 0px 10px;
+    }
+    
+    .genericList ul,
+    .genericList li{
+        margin:0px;
+        padding:0px;
+        list-style-type:none;
+    }
+    
+    .genericList ul{
+        white-space:nowrap;
+        overflow:hidden;
+        position:relative;
+        margin-left:-15px;
+    }    
+
+    .genericList li{
+        display:inline;
+        width:75px;
+        overflow:hidden;
+        position:relative;
+        margin-left:15px;
+    }
+    
+    .genericList ul a,
+    .genericList ul img{
+        border:none;     
+    }
+    
+    .genericList ul a span{
+        position:absolute;
+        width:100%;
+        right:0px;
+        bottom:20px;
+        background-color:#eee;
+        color:#000;
+        font-family: 'Inconsolata';
+        font-weight:bold;
+        font-size:1.3em;
+        line-height:17px;
+        opacity:0.7;
+        filter:alpha(opacity=70);
+        text-align:center;
+    }
+    
+/* xanaBars */
+    .xanaBars{
+        height:5px;
+    }
+    
+    .xanaBars a.cursor{
+        background-color:#bbb;
+    }
+    
+    .xanaBars .left,
+    .xanaBars .right{
+        display:none;
+    }
+    
+    .xanaBarsHor{
+        position:absolute;
+        right:0px;
+        top:0px;
+        height:100%;
+        width:5px;
+    }    
+    .xanaBarsHor a.cursor{
+        background-color:#bbb;
+    }
