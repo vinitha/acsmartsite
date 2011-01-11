@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>Garland Science - Error
+        </title>
+
+        <link rel="shortcut icon" href="/favicon.ico" /> 
+        <link rel="shortcut icon" href="/favicon.png" /> 
+
+		<link rel="stylesheet" type="text/css" href="/_res/css/main.css" />
+        
+        <script type="text/javascript">
+            //<![CDATA[
+                        
+            if (document.images) {
+                // Preload images
+              
+                pic1= new Image(); 
+                pic1.src="/resources/skin/images/navMenuOver.gif"; 
+
+                pic2= new Image(); 
+                pic2.src="/resources/skin/images/navMenuNormal.jpg"; 
+
+                pic3= new Image(); 
+                pic3.src="/resources/skin/images/navMenuEnd.png"; 
+            }
+            
+            //]]>
+        </script>
+        
+        <script type="text/javascript">
+            //<![CDATA[
+                        
+            var IExplorer6DDMenuFix = {
+                startList: function() {
+                    
+                    //if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){ //test for MSIE x.x;
+                        
+                    //    var ieversion=new Number(RegExp.$1) // capture x.x portion and store as a number
+                        
+                    //    if (ieversion >= 6 && ieversion < 7) {
+    
+                            
+                    if (document.all && document.getElementById) {
+                        navRoot = document.getElementById("dropdown");
+                        
+                        for (i=0; i<navRoot.childNodes.length; i++) {
+                            node = navRoot.childNodes[i];
+                            
+                            if (node.nodeName=="LI") {
+                                node.onmouseover=function() {
+                                    this.className+=" over";
+                                }
+                                
+                                node.onmouseout=function() {
+                                    this.className=this.className.replace(" over", "");
+                                }
+                            }
+                        }
+                    }
+                    //    }
+                    //}
+                }
+                    
+            }
+                    
+            window.onload=IExplorer6DDMenuFix.startList;
+            
+            //]]>
+        </script>
+        
+        <script type="text/javascript">
+            //<![CDATA[
+            
+            function objectEval(text){
+                // eval() breaks when we use it to get an object using the { a:42, b:'x' }
+                // syntax because it thinks that { and } surround a block and not an object
+                // So we wrap it in an array and extract the first element to get around
+                // this.
+                // This code is only needed for interpreting the parameter input fields,
+                // so you can ignore this for normal use.
+                // The regex = [start of line][whitespace]{[stuff]}[whitespace][end of line]
+                text = text.replace(/\n/g, ' ');
+                text = text.replace(/\r/g, ' ');
+                if (text.match(/^\s*\{.*\}\s*$/))
+                {
+                    text = '[' + text + '][0]';
+                }
+                return eval(text);
+            }
+            
+            //]]>
+        </script>
+        
+        <script src="/crcpressdwr/interface/ReviewHelper.js" type="text/javascript"></script>
+        
+        <script src="/crcpressdwr/engine.js" type="text/javascript"></script>
+        <script src="/crcpressdwr/util.js" type="text/javascript"></script>
+    </head>
+    
+    <body>
+
+		<div id="outer-wrapper">
+      		<div id="inner-wrapper">
+		        
+		        
+				<div id="content-wrapper"><span>
+    
+      <script type="text/javascript">
+        //<![CDATA[
+        function unsafeCharsToEntities(s) {
+            return (''+s).
+                replace(/&/g, '&amp;').
+                replace(/</g, '&lt;').
+                replace(/"/g, '&quot;').
+                replace(/>/g, '&gt;');
+        }
+
+        function parseUrlQuery(urlQry) {
+            /* parse the query */
+            /* semicolons are nonstandard but we accept them */
+            var standardizedQry = urlQry.replace(/;/g, '&').split('&');
+            var idx;
+            var name;
+            var nameValuePair;
+
+            /* urlQry changes from string version of query to object */
+            for (urlQry={}, idx=0; idx<standardizedQry.length; idx++) {
+                nameValuePair = standardizedQry[idx].split('=', 2);
+                name = unescape(nameValuePair[0]);
+
+                if (!urlQry[name]) {
+                    urlQry[name] = [];
+                }
+
+                if (nameValuePair.length > 1) {
+                    // Append the next value
+                    urlQry[name][urlQry[name].length] = unescape(nameValuePair[1]);
+                } else { /* next two lines are nonstandard */
+                    urlQry[name][urlQry[name].length] = true;
+                }
+            }
+
+            return urlQry;
+        }
+        //]]>
+    </script>
+    
+    
+      <script type="text/javascript">
+        //<![CDATA[
+			function doBasicSearchValidation() {
+				valid = true;
+				var keywordInput = document.getElementById('BasicSearchForm:basicSearchTextInput').value;
+				
+			    if ( keywordInput == null || keywordInput == "" ) {
+			        alert ("Please enter keyword(s) or search term and try again." );
+			        valid = false;
+			    }
+			    return valid;
+			}
+        //]]>
+    </script>    
+        
+
+		<div id="header">
+      <p id="header-logo"><a href="/index.jsf"><img src="/_res/images/furniture/garland-science-logo.png" alt="Garland Science - Taylor &amp; Francis Group" border="0" height="41" width="235" /></a>
+			</p>
+
+
+
+              	   
+
+    
+		</div>
+</span>
+			            
+			            
+			            
+						<div id="content" class="clearfix left-column-bg">
+			                
+			                
+							<div id="left-column">
+			                </div>
+			                
+			                
+			                <noscript class="pageHeading" style="color:#FF0000">Please enable JavaScript in your browser!</noscript>
+    	<div id="right-column" class="checkout-flow">
+	        <h1>An error occurred</h1>
+
+	        <p>
+	            We had problems processing your request.<br />
+	            Please contact&nbsp;
+	            <a href="/managed_content/corporate/page.jsf?contentPath=/home/contact/07TechSupport.html">Technical Support</a>&nbsp;
+	            if this error continues.
+	        </p>
+	        <p>
+	        </p>
+
+		</div>
+			                
+			                <div class="clearFloat"> </div>
+			            </div>
+			        
+
+
+</div>
+    
+		<div id="footer-wrapper">
+	    <div id="footer">
+
+
+            <div id="footer-primary">
+               <p>Copyright &copy; 2010 Taylor &amp; Francis Group, an <a href="http://www.informa.com/" rel="external">Informa</a> Business</p>
+               
+							 <ul class="fancy-list">
+                  <li>Student Resource Center</li>
+                  <li>Instructor Resource Center</li>
+                  <li>Author &amp; Contributor Resource Center</li>
+               </ul>
+            </div>
+						<div id="footer-secondary">
+            <ul class="pipe-list">
+	            <li><a id="homeLink" name="homeLink" href="/index.jsf">
+	                        Home</a>|
+	            </li>
+	            <li><a href="/admin/contact_us.jsf">
+				        Contact Us</a>|     
+	            </li>
+	            <li><a href="/admin/faq.jsf">
+				        Help/FAQs</a>|
+	            </li>
+	            <li><a href="/admin/about_us.jsf">
+						About Us</a>|
+	         	</li>
+	            <li><a href="http://www.taylorandfrancis.com/info/privacy/" target="_blank">Privacy Policy</a>|</li>
+	            <li><a href="http://www.taylorandfrancis.com/info/permissions/" target="_blank">Rights &amp; Permissions</a>|</li>
+	            <li><a href="/admin/site_map.jsf">
+				        Site map</a>
+	            </li>
+            </ul>
+               <div id="footer-share">
+                  <p>Stay connected with <br />Garland Science.</p>
+                  <ul>
+                     <li><a href="http://www.facebook.com/pages/Garland-Science/40261971422?ref=s"><img src="/_res/images/furniture/facebook-icon.jpg" alt="facebook" /></a></li>
+                     <li><a href="http://www.youtube.com/user/garlandscience"><img src="/_res/images/furniture/youtube-icon.jpg" alt="YouTube" /></a></li>
+                     <li><a href="http://twitter.com/garlandscience"><img src="/_res/images/furniture/twitter-icon.jpg" alt="twitter" /></a></li>
+                  </ul>
+               </div>
+            </div><input id="serverInfoId" type="hidden" name="serverInfoId" value="vpn-vm1.ixxus.co.uk" />
+	    </div>
+		</div>
+			        
+			        
+			        <script type="text/javascript">
+			            //<![CDATA[
+			
+			            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+			
+			            //]]>
+			        </script>
+			        <script type="text/javascript">
+			            //<![CDATA[
+			
+			            var CONST_WPID_CRCPRESS = "UA-1360984-2";
+			            var CONST_WPID_STAGING  = "UA-1360984-4";
+			
+			            var WEB_PROPERTY_ID = CONST_WPID_CRCPRESS;
+			
+			            try {
+			                var pageTracker = _gat._getTracker(WEB_PROPERTY_ID);
+			                pageTracker._trackPageview();
+			            } catch(err) {}
+			
+			            function googleAnalyticsTrackAddItem() {
+			                try {
+			                    var pageTracker = _gat._getTracker(WEB_PROPERTY_ID);
+			                    pageTracker._trackPageview("/ecommerce_cart/funnelurl_add_item.html");
+			                } catch(err) {}
+			            }
+			
+			            function googleAnalyticsTrackApplyPromoCode() {
+			                try {
+			                    var pageTracker = _gat._getTracker(WEB_PROPERTY_ID);
+			                    pageTracker._trackPageview("/ecommerce_cart/funnelurl_apply_promo.html");
+			                } catch(err) {}
+			            }
+			
+			            //]]>
+			        </script>
+			        
+				
+
+			</div>
+		</div>
+        
+    </body>
+</html>
