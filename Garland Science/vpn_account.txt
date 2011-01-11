@@ -1,0 +1,5 @@
+IP: 208.254.74.4
+Group Name: contractors
+Group pre-shared-key: l3tm3in
+User Name: alessio.carnevale
+Password: cr!T3a#4
