@@ -2598,6 +2598,35 @@ input.correct {
       background-color:#222;
     }
 
+
+/* lightbox close button */
+  #panelCDiv .closeBtn{
+    background-color: transparent;
+    background-image: url("/_res/images/static/close-button-sprite-red.png");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    display: block;
+    height: 15px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 15px;
+    outline:none;
+  }
+  
+  #panelCDiv .closeBtn:focus,
+  #panelCDiv .closeBtn:hover{
+    background-position:center top;
+  }
+  
+  
+  #panelCDiv .closeBtn span{
+    position:absolute;
+    left:-9999999px;
+  }
+
+
+
 /* logout */
 
 body.logout #content { text-align: center;}

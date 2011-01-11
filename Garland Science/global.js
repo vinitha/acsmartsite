@@ -1,5 +1,7 @@
 /* requires $ */
-//$.noConflict();
+
+
+
 
 var SEARCH_BOX_DEFAULT_TEXT = "Keyword, Title, Author, ISBN";
 
@@ -8,7 +10,7 @@ var totalQues = 0;
 var quizCorrectAnswerArr = [1,3,5,3,2];
 
 if (typeof Sarissa != 'undefined'){
-	$.ajaxSetup({
+	jQuery.ajaxSetup({
 		xhr: function(){
 			if (Sarissa.originalXMLHttpRequest){
 				return new Sarissa.originalXMLHttpRequest();
@@ -439,9 +441,10 @@ var scroller=function(element){
 		}
 		// end student search section
 	});
-})($);
+})(jQuery);
 
 function initializeMyCollection(){
+	var $=jQuery;
 	if ($('.add-collection-link').length){
 		$('.add-collection-link').click(function(){
 		});
@@ -755,6 +758,8 @@ function addScrollBar(options){
 /* ---------------------------------- */
 
 function initializeFaqToggles(){
+	var $=jQuery;
+	
 	$('dl.faqs dd').hide();
 	$('dl.faqs dt').each(function(){
 		$(this).html( '<a href="#">' + $(this).html() + '</a>' );
@@ -796,6 +801,7 @@ function initializeFaqToggles(){
 }
 
 function initialize$UiStuff($elt){
+	var $=jQuery;
 	if (!$elt) $elt = $(document);
 
 	/* Homepage Tabs */
@@ -824,6 +830,7 @@ function initialize$UiStuff($elt){
 }
 
 function initializeProductTabs(){
+	var $=jQuery;
 	var $tabs = $('ul.tabs');
 
 	//remove bad DIV caused by include
@@ -858,6 +865,7 @@ function initializeProductTabs(){
 function handleSearchResultsTypeFiltering(){
 	var $resultDivs = $('#right-column div[id$=BooksResults]');
 	var params = getUrlParameters();
+	var $=jQuery;
 
 	$resultDivs.hide();
 	var tf = params['typeFilter'];
@@ -899,6 +907,7 @@ function mycarousel_initCallback(carousel){
 
 
 function setupSearchFormBehaviour(){
+	var $=jQuery;
 	$('.clear-on-focus').each(function(){
 		// put title attribute into field
 		var actualValue = $(this).val();
@@ -998,6 +1007,7 @@ function validateSearchAndClearFields(element, searchInputFieldHtmlId) {
 }
 
 function adjustSubjectPickerAvailability(){
+	var $=jQuery;
 	var $subjectDropdown = $('#subject-picker-set a.ixDropDown_A');
 	var $clicker = $subjectDropdown.find('.jqTransformSelectOpen');
 	var allIsActive = $('#catalogue-picker-set input[value=all]').attr('checked'); // boolean
@@ -1234,7 +1244,7 @@ String.prototype.escapeRegExp = function(){
 		}
 
 	};
-})($);
+})(jQuery);
 
 //quiz
 function changeQuestion (direction){
@@ -1243,6 +1253,8 @@ function changeQuestion (direction){
 
 function initialiseQuiz(){
 	currentQues = 0;
+	
+	var $=jQuery;
 
 	$('#previous-ques').addClass('inactive');
 
@@ -1429,7 +1441,6 @@ function showQuizQuestion(){
 							);
 							break;
 						}
-
 					});
 				}
 
@@ -1460,17 +1471,21 @@ function showQuizQuestion(){
 
 	$.fn.disabled=function(status){
 		var select=this.prev("select");
-
-		select.attr("disabled",status?"disabled":"")
-		.find("option").get(0).selected="selected";
-
-		select.change();
+		
+		if(select.length>0){
+			select.attr("disabled",status?"disabled":"")
+				.find("option").get(0).selected="selected";
+	
+			select.change();	
+		}
+		
 		return status?this.addClass("disabled"):this.removeClass("disabled");
 	};
-})($);
+})(jQuery);
 
 //flashcards.
 function updateFlashcardNumber(fcnum){
+	var $=jQuery;
 	$('#current-flashcard-page').text(fcnum);
 }
 //end flashcards
@@ -1556,4 +1571,4 @@ function updateFlashcardNumber(fcnum){
 			return this.unbind("mousewheel", fn);
 		}
 	});
-})($);
+})(jQuery);
