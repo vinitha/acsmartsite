@@ -241,7 +241,7 @@ var scroller=function(element){
 	var myDiv=$(element)
 	
 		var scrollRight=function(scrollSize,duration,pageOffset){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			var scrollSize=scrollSize||1,
 			    pageOffset=pageOffset||0;
 			    
@@ -254,7 +254,7 @@ var scroller=function(element){
 		}
 		
 		var scrollRightPx=function(scrollSize,duration){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			if (scrollSize<1) return false;
 			    
 			var width=myDiv.innerWidth(),				
@@ -266,7 +266,7 @@ var scroller=function(element){
 		}		
 		
 		var scrollLeft=function(scrollSize,duration,pageOffset){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			var scrollSize=scrollSize||1,
 			    pageOffset=pageOffset||0;
 			    
@@ -280,7 +280,7 @@ var scroller=function(element){
 		}
 		
 		var scrollLeftPx=function(scrollSize,duration){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			if (scrollSize<1) return false;
 			    
 			var width=myDiv.innerWidth(),
@@ -293,7 +293,7 @@ var scroller=function(element){
 		}		
 		
 		var scrollUp=function(scrollSize,duration,pageOffset){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			var scrollSize=scrollSize||1,
 			    pageOffset=pageOffset||0;
 			    
@@ -306,7 +306,7 @@ var scroller=function(element){
 		}
 		
 		var scrollDown=function(scrollSize,duration,pageOffset){
-			myDiv.stop();
+			myDiv.stop(true,true);
 			var scrollSize=scrollSize||1,
 			    pageOffset=pageOffset||0;
 			    
@@ -685,15 +685,15 @@ var scroller=function(element){
 			
 			if(delta<0){
 				if(horiz){
-					scroller(myDiv).scrollRight(0.5)
+					scroller(myDiv).scrollRight(0.25)
 				}else{
-					scroller(myDiv).scrollUp(0.5)
+					scroller(myDiv).scrollUp(0.25)
 				}
 			}else{
 				if(horiz){
-					scroller(myDiv).scrollLeft(0.5)
+					scroller(myDiv).scrollLeft(0.25)
 				}else{
-					scroller(myDiv).scrollDown(0.5)
+					scroller(myDiv).scrollDown(0.25)
 				}				
 			}			
 			return false;
