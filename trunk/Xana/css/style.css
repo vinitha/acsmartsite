@@ -1,14 +1,14 @@
 @font-face {
  font-family: 'Archer';
  src: url('Archer-Bold.eot');
- src: local('â˜º'),
+ src: local('º'),
         url('Archer-Bold.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Archer';
     src: url('Archer-BoldItalic.eot');
-    src: local('â˜º'),
+    src: local('º'),
             url('Archer-BoldItalic.ttf') format('truetype');     
     font-style:italic;        
 } 
@@ -464,16 +464,32 @@ textarea {
     
     .paginationContainer a{
         display:block;
-        
+        text-decoration:none;
         width:10px;
         height:10px;
         background-color:#e0e0e0;
         margin-left:2px;
+        outline:none;
+        border:1px solid transparent;
+    }
+    
+    .paginationContainer a:hover,
+    .paginationContainer a:focus{
+        border-color:#aaa;
+    }
+        
+    .paginationContainer span{        
+        display:none;
     }
     
     .paginationContainer .selected a{
         background-color:#C890A0;
+        border:none;
+        width:14px;
+        height:14px;
+        margin-top:-1px;
     }
+
     
     .ixCarousel .left,
     .ixCarousel .right{
@@ -484,7 +500,7 @@ textarea {
         top:50%;
         outline:none;
         display:block;
-		margin:-16px 0 0;
+	margin:-16px 0 0;
         zoom:1;
     }
     
@@ -1132,7 +1148,7 @@ textarea {
     
     .tabs a{
         display:block;
-        padding:5px 10px;
+        padding:5px 9px;
         color:#aaa;
     }
     
