@@ -1,4 +1,3 @@
-
 // remap jQuery to $
 (function($){
     $.fn.aleCarousel=function(options){
@@ -241,48 +240,56 @@
 var scroller=function(element){
 	var myDiv=$(element)
 	
-		var scrollRight=function(scrollSize,duration){
+		var scrollRight=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
-			var scrollSize=scrollSize||1;
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
 			var width=myDiv.innerWidth(),				
 				scrollWidth=myDiv.get(0).scrollWidth;			
 			
 			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
-			availableScroll=availableScroll>width*scrollSize?width*scrollSize:availableScroll;						
+			availableScroll=availableScroll>width*scrollSize+pageOffset?width*scrollSize+pageOffset:availableScroll;						
 			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
 		}
 		
-		var scrollLeft=function(scrollSize,duration){
+		var scrollLeft=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
-			var scrollSize=scrollSize||1;
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
 			var width=myDiv.innerWidth(),
 				scrollWidth=myDiv.get(0).scrollWidth;
 			
 			var availableScroll=myDiv.scrollLeft();
-			availableScroll=availableScroll>width*scrollSize?-width*scrollSize:-availableScroll;
+			availableScroll=availableScroll>width*scrollSize+pageOffset?-width*scrollSize+pageOffset:-availableScroll;
 				
 			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
 		}
 		
-		var scrollUp=function(scrollSize,duration){
+		var scrollUp=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
-			var scrollSize=scrollSize||1;
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
 			var height=myDiv.innerHeight(),
 				scrollHeight=myDiv.get(0).scrollHeight;
 			
 			var availableScroll=scrollHeight-myDiv.scrollTop()-height;					
-			availableScroll=availableScroll>height*scrollSize?height*scrollSize:availableScroll;						
+			availableScroll=availableScroll>height*scrollSize+pageOffset?height*scrollSize+pageOffset:availableScroll;						
 			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)				
 		}
 		
-		var scrollDown=function(scrollSize,duration){
+		var scrollDown=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
-			var scrollSize=scrollSize||1;
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
 			var height=myDiv.innerHeight(),
 				scrollHeight=myDiv.get(0).scrollHeight;
 			
 			var availableScroll=myDiv.scrollTop();
-			availableScroll=availableScroll>height*scrollSize?-height*scrollSize:-availableScroll;						
+			availableScroll=availableScroll>height*scrollSize+pageOffset?-height*scrollSize+pageOffset:-availableScroll;						
 			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)
 		}	
 	
@@ -303,6 +310,7 @@ var scroller=function(element){
 			className:"",
 			scrollDuration:600,
 			scrollSize:1,
+			pageOffset:0,		//used when the items to scroll have a margin you need to complensate
 			showButtons:true,
 			showPag:true,
 			autoStart:false,
@@ -318,6 +326,8 @@ var scroller=function(element){
 			
 			var carousel=$(this).addClass("carouselContainer");
 			
+			var scrollWidth=this.scrollWidth;
+			
 			if (!carousel.parent("div").hasClass("ixCarousel")){
 				
 				carousel.wrap($("<div class='ixCarousel'></div>").addClass(defaults.className))
@@ -330,7 +340,7 @@ var scroller=function(element){
 						.click(function(){
 							if (timerHnd) clearInterval(timerHnd);
 							
-							scroller($(this).siblings("ul")).scrollLeft(defaults.scrollSize,defaults.scrollDuration);
+							scroller(carousel).scrollLeft(defaults.scrollSize,defaults.scrollDuration,defaults.pageOffset);
 							return false;
 						})		
 						.insertBefore(carousel)
@@ -342,7 +352,7 @@ var scroller=function(element){
 						.click(function(){
 							if (timerHnd) clearInterval(timerHnd);
 							
-							scroller($(this).siblings("ul")).scrollRight(defaults.scrollSize,defaults.scrollDuration);
+							scroller(carousel).scrollRight(defaults.scrollSize,defaults.scrollDuration,defaults.pageOffset);
 							return false;
 						})
 						.insertAfter(carousel)
@@ -350,18 +360,22 @@ var scroller=function(element){
 				
 				carousel.scroll(function(ev){
 					
-					var $this=$(this);
+					var $this=$(this);					
+					
+					
 					if ($this.scrollLeft()==0){
 						$this.siblings("a.left").addClass("off")
 					}else{
 						$this.siblings("a.left").removeClass("off")
 					}					
 					
-					if ($this.scrollLeft()==this.scrollWidth-$this.innerWidth()){
+					if ($this.scrollLeft()==scrollWidth-$this.innerWidth()){
 						$this.siblings("a.right").addClass("off")
 					}else{
 						$this.siblings("a.right").removeClass("off")
 					}
+					
+					
 					
 					if(defaults.showPag){
 						//checking the pagination
@@ -420,7 +434,7 @@ var scroller=function(element){
 				//creating the pagination code
 				var pagDiv=$("<div class='paginationContainer'></div>").insertAfter(carousel)
 				var ul=$("<ul></ul>").appendTo(pagDiv)
-				var pageCount=Math.ceil(this.scrollWidth/carousel.innerWidth());									
+				var pageCount=Math.ceil((this.scrollWidth-defaults.pageOffset)/carousel.innerWidth());									
 												
 				for( var x=0;x<pageCount;x++){
 					$("<a></a>")
@@ -431,7 +445,7 @@ var scroller=function(element){
 						.data("index",x)
 						.click(function(){					
 							var $this=$(this);
-							var ul=$this.closest("div").siblings("ul").stop();
+							var ul=carousel.stop()		//$this.closest("div").siblings("ul").stop();
 							var curPage=$this.closest("div").find("li.selected a").data("index")
 							var thisPage=$this.data("index")
 							var jumpSize=curPage-thisPage;
@@ -445,9 +459,9 @@ var scroller=function(element){
 							}
 							
 							if (jumpSize<0){
-								scroller(ul).scrollRight(Math.abs(jumpSize),defaults.duration)
+								scroller(ul).scrollRight(Math.abs(jumpSize),defaults.duration,defaults.pageOffset)
 							}else{
-								scroller(ul).scrollLeft(Math.abs(jumpSize),defaults.duration)
+								scroller(ul).scrollLeft(Math.abs(jumpSize),defaults.duration,defaults.pageOffset)
 							}
 														
 							
@@ -456,13 +470,9 @@ var scroller=function(element){
 						.appendTo(
 							$("<li></li>").appendTo(ul)	
 						);
-											
 				}
 			}
-			
-
 		}
-		
 	}
 })(jQuery);
 
@@ -589,8 +599,6 @@ var scroller=function(element){
 		    contentSize=horiz?myDiv.get(0).scrollWidth:myDiv.get(0).scrollHeight;
 		
 		var delta=contentSize-containerSize;
-		
-		
 		
 		if(delta<1) return false;
 		
