@@ -253,6 +253,18 @@ var scroller=function(element){
 			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
 		}
 		
+		var scrollRightPx=function(scrollSize,duration){
+			myDiv.stop();
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),				
+				scrollWidth=myDiv.get(0).scrollWidth;			
+			
+			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
+			availableScroll=availableScroll>scrollSize?scrollSize:availableScroll;						
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
+		}		
+		
 		var scrollLeft=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
 			var scrollSize=scrollSize||1,
@@ -266,6 +278,19 @@ var scroller=function(element){
 				
 			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
 		}
+		
+		var scrollLeftPx=function(scrollSize,duration){
+			myDiv.stop();
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),
+				scrollWidth=myDiv.get(0).scrollWidth;
+			
+			var availableScroll=myDiv.scrollLeft();
+			availableScroll=availableScroll>scrollSize?-scrollSize:-availableScroll;
+				
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
+		}		
 		
 		var scrollUp=function(scrollSize,duration,pageOffset){
 			myDiv.stop();
@@ -296,6 +321,8 @@ var scroller=function(element){
 	return {
 		scrollLeft:scrollLeft,
 		scrollRight:scrollRight,
+		scrollLeftPx:scrollLeftPx,
+		scrollRightPx:scrollRightPx,		
 		scrollUp:scrollUp,
 		scrollDown:scrollDown
 	}
@@ -303,7 +330,13 @@ var scroller=function(element){
 
 
 //ixCarousel
-(function($){	
+(function($){
+    
+	var windowLoaded=false;	//needed to handle a webkit issue
+	$(window).load(function(){
+	    windowLoaded=true;
+	})
+	
 	$.fn.ixCarousel=function(options){
 		var defaults={
 			onScroll:function(){},
@@ -381,7 +414,7 @@ var scroller=function(element){
 						//checking the pagination
 						var pagination=$this.siblings("div.paginationContainer")
 						var li=pagination.find("li");
-						var curPage=Math.round($this.scrollLeft()/$this.innerWidth())										
+						var curPage=Math.ceil($this.scrollLeft()/($this.innerWidth()+defaults.pageOffset))										
 					
 						var curLi=li.eq(curPage)
 						if(!curLi.hasClass("selected")){
@@ -395,11 +428,11 @@ var scroller=function(element){
 					
 				})
 				
-				if(defaults.showPag){
-					if ($.browser.webkit){
+				if(defaults.showPag){					
+					if ($.browser.webkit && !windowLoaded){
 						//chrome needs this to calculate the width correctly
-						$(window).load(function(){																			
-							makePagination.call(carousel.get(0))									
+						$(window).load(function(){ 
+						    makePagination.call(carousel.get(0))									
 						})
 					}else{
 						makePagination.call(this)
@@ -445,10 +478,12 @@ var scroller=function(element){
 						.data("index",x)
 						.click(function(){					
 							var $this=$(this);
-							var ul=carousel.stop()		//$this.closest("div").siblings("ul").stop();
-							var curPage=$this.closest("div").find("li.selected a").data("index")
+							var ul=carousel.stop();
+							var curPage=carousel.scrollLeft()/(carousel.innerWidth()+defaults.pageOffset)   //$this.closest("div").find("li.selected a").data("index")
+
 							var thisPage=$this.data("index")
-							var jumpSize=curPage-thisPage;
+							var jumpSize=carousel.scrollLeft()-thisPage*(carousel.innerWidth()+defaults.pageOffset)//curPage-thisPage;
+														
 							
 							if(defaults.autoStart){
 								clearInterval(carousel.data("timerHnd"))
@@ -459,14 +494,15 @@ var scroller=function(element){
 							}
 							
 							if (jumpSize<0){
-								scroller(ul).scrollRight(Math.abs(jumpSize),defaults.duration,defaults.pageOffset)
+								scroller(ul).scrollRightPx(Math.abs(jumpSize),defaults.duration)
 							}else{
-								scroller(ul).scrollLeft(Math.abs(jumpSize),defaults.duration,defaults.pageOffset)
+								scroller(ul).scrollLeftPx(Math.abs(jumpSize),defaults.duration)
 							}
 														
 							
 							return false;
 						})
+						.append($("<span/>").text(x+1))
 						.appendTo(
 							$("<li></li>").appendTo(ul)	
 						);
