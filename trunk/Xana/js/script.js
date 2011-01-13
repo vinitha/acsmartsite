@@ -16,11 +16,10 @@ $(window).load(function(){
     
             //setting the generic lists behaviours
             var lists=$("div.genericList")
-            
+
             //adding the custom scrollbars
             lists.each(function(){
-                var $this=$(this);
-    
+                var $this=$(this);				    
                 addScrollBar({
                         elemToScroll:$this.find("ul"),
                         horizontal:true,
@@ -29,30 +28,8 @@ $(window).load(function(){
                     })
             })
             
-            //adding the "+ click to view" tooltip
-            lists.find("ul a").each(function(){
-                    
-                    var $this=$(this);
-                    
-                    $("<span />")
-                        .text("+ view")
-                        .appendTo(this)
-                        .hide(0);
-                        
-                    $this
-                        .focus(function(){
-                            $(this).find("span").show(0)
-                        })
-                        .blur(function(){
-                            $(this).find("span").hide(0)
-                        })
-                        .mouseenter(function(){
-                            $(this).find("span").show(0)
-                        })
-                        .mouseleave(function(){
-                            $(this).find("span").hide(0)
-                        })
-                })        
+            //adding the "+ view" tooltip
+            Xana.clickToView(lists.find("ul"),"+ view");    
             
             //init. the altViews widget
             $(".altViews a").click(function(e){
@@ -78,38 +55,33 @@ $(window).load(function(){
             onScroll:function(){},
             className:"",
             scrollDuration:1000,
-            scrollSize:1/2,
+            scrollSize:1,
+            pageOffset:20,
             showButtons:true,
-            showPag:false,
+            showPag:true,
             autoStart:false,
             slideDuration:7000
         }
         
-        $("div.collectionCarousel ul")
-            .ixCarousel(defaults)
-            .find("a").each(function(){
-                //adding the "+ click to view" tooltip
-                var $this=$(this);
+        var collDiv=$("div.collectionCarousel"),
+            collUl=collDiv.find("ul"),
+            collLi=collUl.find("li");
                 
-                $("<span />")
-                    .text("+ click to view")
-                    .appendTo(this)
-                    .hide(0);
-                    
-                $this
-                    .focus(function(){
-                        $(this).find("span").show(0)
-                    })
-                    .blur(function(){
-                        $(this).find("span").hide(0)
-                    })
-                    .mouseenter(function(){
-                        $(this).find("span").show(0)
-                    })
-                    .mouseleave(function(){
-                        $(this).find("span").hide(0)
-                    })
-            })    
+            var width=0;
+            collLi.each(function(){
+                width+=$(this).outerWidth(true);
+            })
+            if(($.browser.msie && parseInt($.browser.version)<8)){
+                width+=20;
+            }
+        
+            collUl.css("width",width);
+        
+            collDiv.ixCarousel(defaults)
+            
+            //adding the "+ click to view" tooltip
+            Xana.clickToView(collUl,"+ click to view");
+                
     })();
 
 })
@@ -118,14 +90,61 @@ $(window).load(function(){
 var Xana={
     init:function(){
         
+        //handling the tabMenu
+        (function(){
+            var anchorId=0;  //used to generate unique anchors ids
+            $("ul.tabMenu").each(function(){
+               var $ul=$(this);
+               
+               //creating the tabs hodler
+               var tabsHolder=$("<ul class='tabs' />").insertBefore($ul);
+               
+               $ul.children().find(".tabCaption").each(function(){
+                    anchor=anchorId++;
+                    var $this=$(this);
+                    
+                    var active=$this.parent()
+                        .attr("id","tabMenu_" + anchorId)       //setting a unique ID
+                        .hasClass("active");
+                        
+                   
+                    $this.find("a")
+                        .attr("href","#tabMenu_" + anchorId)    //linking the tab href to the generated id
+                        .click(function(e){
+                            e.preventDefault();
+                            var $li=$(this.hash);
+                        
+                            $li.siblings(".active").removeClass("active");
+                            
+                            $li.addClass("active");
+                            
+                            $(this).closest("li").addClass("active").siblings(".active").removeClass("active");
+                        })
+                   
+                    $("<li/>")
+                       .append(this)
+                       .appendTo(tabsHolder)
+                       .addClass(active?"active":"")
+               })
+               
+               
+           })       
+        
+        })();
+
+        
+        //adding the "+ click to view" tooltip to showCase links
+        Xana.clickToView($("div.showCase").find("ul"),"+ click to view");
+            
+            
         //adding the scrollBars to freeText
-        $(".freeText .container").each(function(){
+        $(".freeText .container, .vScroll").each(function(){
             var $this=$(this);
 
             addScrollBar({
                     elemToScroll:$this,
                     horizontal:false,
-                    className:"xanaBarsHor",
+                    className:"xanaBarsVer",
                     barContainer:null
                 })
         });
@@ -270,25 +289,31 @@ var Xana={
         },
         onChange:function(){},
         onPause:function(){}
+    },
+    
+    //function to add tooltips to anchors
+    clickToView:function(obj,message){    
+        obj.find("a").each(function(){
+            var $this=$(this);
+            
+            $("<span />")
+                .text(message)
+                .appendTo(this)
+                .hide(0);
+                
+            $this
+                .focus(function(){
+                    $(this).find("span").show(0)
+                })
+                .blur(function(){
+                    $(this).find("span").hide(0)
+                })
+                .mouseenter(function(){
+                    $(this).find("span").show(0)
+                })
+                .mouseleave(function(){
+                    $(this).find("span").hide(0)
+                })
+        })         
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
