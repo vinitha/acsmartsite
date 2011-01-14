@@ -1,5 +1,5 @@
 /* requires $ */
-
+//$.noConflict();
 
 
 
@@ -68,62 +68,6 @@ Date.prototype.shortDate=function(sep){ //i.e. 22/11/1989
 	return utils.twoDigits(this.getMonth()+1) + sep + utils.twoDigits(this.getDate()) + sep + this.getFullYear();
 };
 
-//object usefull to handle content scroll.
-var scroller=function(element){
-	var myDiv=$(element);
-
-	var scrollRight=function(scrollSize,duration){
-		myDiv.stop();
-		var scrollSize=scrollSize||1;
-		var width=myDiv.innerWidth(),
-		scrollWidth=myDiv.get(0).scrollWidth;
-
-		var availableScroll=scrollWidth-myDiv.scrollLeft()-width;
-		availableScroll=availableScroll>width*scrollSize?width*scrollSize:availableScroll;
-		myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500);
-	};
-
-	var scrollLeft=function(scrollSize,duration){
-		myDiv.stop();
-		var scrollSize=scrollSize||1;
-		var width=myDiv.innerWidth(),
-		scrollWidth=myDiv.get(0).scrollWidth;
-
-		var availableScroll=myDiv.scrollLeft();
-		availableScroll=availableScroll>width*scrollSize?-width*scrollSize:-availableScroll;
-
-		myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500);
-	};
-
-	var scrollUp=function(scrollSize,duration){
-		myDiv.stop();
-		var scrollSize=scrollSize||1;
-		var height=myDiv.innerHeight(),
-		scrollHeight=myDiv.get(0).scrollHeight;
-
-		var availableScroll=scrollHeight-myDiv.scrollTop()-height;
-		availableScroll=availableScroll>height*scrollSize?height*scrollSize:availableScroll;
-		myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500);
-	};
-
-	var scrollDown=function(scrollSize,duration){
-		myDiv.stop();
-		var scrollSize=scrollSize||1;
-		var height=myDiv.innerHeight(),
-		scrollHeight=myDiv.get(0).scrollHeight;
-
-		var availableScroll=myDiv.scrollTop();
-		availableScroll=availableScroll>height*scrollSize?-height*scrollSize:-availableScroll;
-		myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500);
-	};
-
-	return{
-		scrollLeft:scrollLeft,
-		scrollRight:scrollRight,
-		scrollUp:scrollUp,
-		scrollDown:scrollDown
-	};
-};
 
 (function($){
 
@@ -817,7 +761,9 @@ function initialize$UiStuff($elt){
 	}
 
 	/* Carousels */
-	$('.carouselContent, #carousel-1, #carousel-2, #carousel-3, div.carousel-outer-box>ul').ixCarousel();
+	$('.carouselContent, #carousel-1, #carousel-2, #carousel-3, div.carousel-outer-box>ul').ixCarousel({
+		pageOffset:3	
+	});
 
 	/* autoScroller */
 	$(".autoCarouselContent").ixCarousel({
@@ -1083,168 +1029,282 @@ String.prototype.escapeRegExp = function(){
 	return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
 };
 
+
+// object usefull to handle content scroll.
+var scroller=function(element){
+	var myDiv=$(element)
+	
+		var scrollRight=function(scrollSize,duration,pageOffset){
+			myDiv.stop(true,true);
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var width=myDiv.innerWidth(),				
+				scrollWidth=myDiv.get(0).scrollWidth;			
+			
+			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
+			availableScroll=availableScroll>width*scrollSize+pageOffset?width*scrollSize+pageOffset:availableScroll;						
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
+		}
+		
+		var scrollRightPx=function(scrollSize,duration){
+			myDiv.stop(true,true);
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),				
+				scrollWidth=myDiv.get(0).scrollWidth;			
+			
+			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
+			availableScroll=availableScroll>scrollSize?scrollSize:availableScroll;						
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
+		}		
+		
+		var scrollLeft=function(scrollSize,duration,pageOffset){
+			myDiv.stop(true,true);
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var width=myDiv.innerWidth(),
+				scrollWidth=myDiv.get(0).scrollWidth;
+			
+			var availableScroll=myDiv.scrollLeft();
+			availableScroll=availableScroll>width*scrollSize+pageOffset?-width*scrollSize+pageOffset:-availableScroll;
+				
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
+		}
+		
+		var scrollLeftPx=function(scrollSize,duration){
+			myDiv.stop(true,true);
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),
+				scrollWidth=myDiv.get(0).scrollWidth;
+			
+			var availableScroll=myDiv.scrollLeft();
+			availableScroll=availableScroll>scrollSize?-scrollSize:-availableScroll;
+				
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
+		}		
+		
+		var scrollUp=function(scrollSize,duration,pageOffset){
+			myDiv.stop(true,true);
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var height=myDiv.innerHeight(),
+				scrollHeight=myDiv.get(0).scrollHeight;
+			
+			var availableScroll=scrollHeight-myDiv.scrollTop()-height;					
+			availableScroll=availableScroll>height*scrollSize+pageOffset?height*scrollSize+pageOffset:availableScroll;						
+			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)				
+		}
+		
+		var scrollDown=function(scrollSize,duration,pageOffset){
+			myDiv.stop(true,true);
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var height=myDiv.innerHeight(),
+				scrollHeight=myDiv.get(0).scrollHeight;
+			
+			var availableScroll=myDiv.scrollTop();
+			availableScroll=availableScroll>height*scrollSize+pageOffset?-height*scrollSize+pageOffset:-availableScroll;						
+			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)
+		}	
+	
+	return {
+		scrollLeft:scrollLeft,
+		scrollRight:scrollRight,
+		scrollLeftPx:scrollLeftPx,
+		scrollRightPx:scrollRightPx,		
+		scrollUp:scrollUp,
+		scrollDown:scrollDown
+	}
+};
+
+
 //ixCarousel
 (function($){
+    
+	var windowLoaded=false;	//needed to handle a webkit issue
+	$(window).load(function(){
+	    windowLoaded=true;
+	})
+	
 	$.fn.ixCarousel=function(options){
 		var defaults={
-				onScroll:function(){},
-				className:"",
-				scrollDuration:600,
-				scrollSize:1,
-				showButtons:true,
-				showPag:true,
-				autoStart:false,
-				slideDuration:5000
-		};
-
-		$.extend(defaults,options);
-
-		return this.each(function(){
-
+			onScroll:function(){},
+			className:"",
+			scrollDuration:600,
+			scrollSize:1,
+			pageOffset:0,		//used when the items to scroll have a margin you need to complensate
+			showButtons:true,
+			showPag:true,
+			autoStart:false,
+			slideDuration:5000
+		}
+				
+		
+		$.extend(defaults,options)
+		
+        return this.each(function(){
+			
 			var timerHnd=null;
-
+			
 			var carousel=$(this).addClass("carouselContainer");
-
+			
 			if (!carousel.parent("div").hasClass("ixCarousel")){
-
-				carousel.wrap($("<div class='ixCarousel'></div>").addClass(defaults.className));
-
+				
+				carousel.wrap($("<div class='ixCarousel'></div>").addClass(defaults.className))
+				
 				if (defaults.showButtons){
 					$("<a href='#left' class='left'></a>")
-					.focus(function(){$(this).addClass("focus");})
-					.blur(function(){$(this).removeClass("focus");})
-					.mouseup(function(){$(this).removeClass("focus");})
-					.click(function(){
-						if (timerHnd) clearInterval(timerHnd);
-						scroller($(this).siblings("ul")).scrollLeft(defaults.scrollSize,defaults.scrollDuration);
-						return false;
-					})
-					.insertBefore(carousel);
-
+						.focus(function(){$(this).addClass("focus")})
+						.blur(function(){$(this).removeClass("focus")})
+						.mouseup(function(){$(this).removeClass("focus")})
+						.click(function(){
+							if (timerHnd) clearInterval(timerHnd);
+							
+							scroller(carousel).scrollLeft(defaults.scrollSize,defaults.scrollDuration,defaults.pageOffset);
+							return false;
+						})		
+						.insertBefore(carousel)
+						
 					$("<a href='#right' class='right'></a>")
-					.focus(function(){$(this).addClass("focus");})
-					.blur(function(){$(this).removeClass("focus");})
-					.mouseup(function(){$(this).removeClass("focus");})
-					.click(function(){
-						if (timerHnd) clearInterval(timerHnd);
-						scroller($(this).siblings("ul")).scrollRight(defaults.scrollSize,defaults.scrollDuration);
-						return false;
-					})
-					.insertAfter(carousel);
+						.focus(function(){$(this).addClass("focus")})
+						.blur(function(){$(this).removeClass("focus")})
+						.mouseup(function(){$(this).removeClass("focus")})
+						.click(function(){
+							if (timerHnd) clearInterval(timerHnd);
+							
+							scroller(carousel).scrollRight(defaults.scrollSize,defaults.scrollDuration,defaults.pageOffset);
+							return false;
+						})
+						.insertAfter(carousel)
 				}
-
+				
 				carousel.scroll(function(ev){
-					var $this=$(this);
+					
+					
+					var $this=$(this);										
+					
 					if ($this.scrollLeft()==0){
-						$this.siblings("a.left").addClass("off");
+						$this.siblings("a.left").addClass("off")
 					}else{
-						$this.siblings("a.left").removeClass("off");
-					}
-
+						$this.siblings("a.left").removeClass("off")
+					}					
+					
 					if ($this.scrollLeft()==this.scrollWidth-$this.innerWidth()){
-						$this.siblings("a.right").addClass("off");
+						$this.siblings("a.right").addClass("off")
 					}else{
-						$this.siblings("a.right").removeClass("off");
+						$this.siblings("a.right").removeClass("off")
 					}
-
+					
+					
+					
 					if(defaults.showPag){
 						//checking the pagination
-						var pagination=$this.siblings("div.paginationContainer");
+						var pagination=$this.siblings("div.paginationContainer")
 						var li=pagination.find("li");
-						var curPage=Math.round($this.scrollLeft()/$this.innerWidth());
-
-						var curLi=li.eq(curPage);
+						var curPage=Math.ceil($this.scrollLeft()/($this.innerWidth()+defaults.pageOffset))										
+					
+						var curLi=li.eq(curPage)
 						if(!curLi.hasClass("selected")){
 							li.removeClass("selected");
 							curLi.addClass("selected");
-						}
+						}	
 					}
-
+					
 					//event callBack
 					defaults.onScroll.call(this,ev);
-				});
-
-				if(defaults.showPag){
-					if ($.browser.webkit){
+					
+				})
+				
+				if(defaults.showPag){					
+					if ($.browser.webkit && !windowLoaded){
 						//chrome needs this to calculate the width correctly
-						$(window).load(function(){
-							makePagination.call(carousel.get(0));
-						});
+						$(window).load(function(){ 
+						    makePagination.call(carousel.get(0))
+						    carousel.scroll(0);
+						})
 					}else{
-						makePagination.call(this);
+						makePagination.call(this)
 					}
 				}
-
+				
 				if(defaults.autoStart){
-					timerHnd=setInterval(function(){doSlide.call(carousel.get(0),defaults);},defaults.slideDuration);
-					carousel.data("timerHnd",timerHnd);
+					timerHnd=setInterval(function(){doSlide.call(carousel.get(0),defaults)},defaults.slideDuration)
+					carousel.data("timerHnd",timerHnd)
 				}
-			}
-		});
-
+				
+			    //quick refresh		
+			    carousel.scroll(0);				
+			}			
+        });
+		
 		function doSlide(defaults){
 			var $this=$(this);
-
+			
 			if ($this.scrollLeft()==this.scrollWidth-$this.innerWidth()){
-				$this.animate({scrollLeft:0},defaults.scrollDuration);
+				$this.animate({scrollLeft:0},defaults.scrollDuration)
 			}else{
 				scroller(this).scrollRight(defaults.scrollSize,defaults.scrollDuration);
 			}
+			
 		}
-
+		
 		function makePagination(){
 			var carousel=$(this);
-
-			if (carousel.find("li").length>0){
+			
+			if (carousel.find("li").length>0){			
 				//creating the pagination code
-				var pagDiv=$("<div class='paginationContainer'></div>").insertAfter(carousel);
-				var ul=$("<ul></ul>").appendTo(pagDiv);
-				var pageCount=Math.ceil(this.scrollWidth/carousel.innerWidth());
-
+				var pagDiv=$("<div class='paginationContainer'></div>").insertAfter(carousel)
+				var ul=$("<ul></ul>").appendTo(pagDiv)
+				var pageCount=Math.ceil((this.scrollWidth-defaults.pageOffset)/carousel.innerWidth());									
+												
 				for( var x=0;x<pageCount;x++){
 					$("<a></a>")
-					.focus(function(){$(this).addClass("focus");})
-					.blur(function(){$(this).removeClass("focus");})
-					.mouseup(function(){$(this).removeClass("focus");})
-					.attr("href","#"+x)
-					.data("index",x)
-					.click(function(){
-						var $this=$(this);
-						var ul=$this.closest("div").siblings("ul").stop();
-						var curPage=$this.closest("div").find("li.selected a").data("index");
-						var thisPage=$this.data("index");
-						var jumpSize=curPage-thisPage;
+						.focus(function(){$(this).addClass("focus")})
+						.blur(function(){$(this).removeClass("focus")})
+						.mouseup(function(){$(this).removeClass("focus")})
+						.attr("href","#"+x)
+						.data("index",x)
+						.click(function(){					
+							var $this=$(this);
+							var ul=carousel.stop();
+							var curPage=carousel.scrollLeft()/(carousel.innerWidth()+defaults.pageOffset)   //$this.closest("div").find("li.selected a").data("index")
 
-						if(defaults.autoStart){
-							clearInterval(carousel.data("timerHnd"));
-						}
-
-						if (jumpSize==0){
+							var thisPage=$this.data("index")
+							var jumpSize=carousel.scrollLeft()-thisPage*(carousel.innerWidth()+defaults.pageOffset)//curPage-thisPage;
+														
+							
+							if(defaults.autoStart){
+								clearInterval(carousel.data("timerHnd"))
+							}
+							
+							if (jumpSize==0){
+								return false;
+							}
+							
+							if (jumpSize<0){
+								scroller(ul).scrollRightPx(Math.abs(jumpSize),defaults.duration)
+							}else{
+								scroller(ul).scrollLeftPx(Math.abs(jumpSize),defaults.duration)
+							}
+														
+							
 							return false;
-						}
-
-						if (jumpSize<0){
-							scroller(ul).scrollRight(Math.abs(jumpSize),defaults.duration);
-						}else{
-							scroller(ul).scrollLeft(Math.abs(jumpSize),defaults.duration);
-						}
-
-
-						return false;
-					})
-					.appendTo(
-							$("<li></li>").appendTo(ul)
-					);
-
+						})
+						.append($("<span/>").text(x+1))
+						.appendTo(
+							$("<li></li>").appendTo(ul)	
+						);
 				}
 			}
-
-			//quick refresh
-			carousel.scroll(0);
 		}
-
-	};
+	}
 })(jQuery);
+
 
 //quiz
 function changeQuestion (direction){
