@@ -90,7 +90,7 @@ window.prompt=function(msg,callback,container){
 }
 
 main={	
-	picturePath:"/public/Galeria",
+	picturePath:"/public/Photo gallery",
 	userLogged:false,
 	currentFolder:this.picturePath,
 	init: function(){
@@ -241,9 +241,10 @@ main={
 
 					var code=$(main.fileUploadCode(main.currentFolder,false,function(msg){
 
-					var pageNotes=$("#toolsPanel .textEditor textarea").attr("value")
-					var title=$("#toolsPanel .textEditor input").attr("value")	
-					var info='{title:' + "'" + title + "',description:'" + pageNotes + "',cover:'" + msg.fileName + "'}"							
+					var 	pageNotes=$("#toolsPanel .textEditor textarea").attr("value"),
+						title=$("#toolsPanel .textEditor input").attr("value"),
+						info='{title:' + "'" + title + "',description:'" + pageNotes + "',cover:'" + msg.fileName + "'}";
+						
 					if(!msg.error)														
 						$.getJSON(	"writeFile.asp",
 									{fileName:main.currentFolder + "/info.json", content:info},
@@ -459,7 +460,10 @@ main={
 								var cover=$("#cover img").attr("src")
 								$.getJSON(
 									"writeFile.asp",
-									{fileName:currentFolder + "/info.json",content:"{title:'" + folderTitle+"'," + "description:'" + folderDescr + "',cover:'" + cover + "'}"},
+									{
+										fileName:currentFolder + "/info.json",
+										content:"{title:'" + folderTitle+"'," + "description:'" + folderDescr + "',cover:'" + cover + "'}"
+									},
 									function(data){
 										myConsole.json(data)
 										if(!data.error){
