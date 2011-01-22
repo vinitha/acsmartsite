@@ -364,12 +364,13 @@ a:active{
 	#thumbnails li{
 		float:left;
 		height:100px;
-		margin:10px;		
+		margin:10px;
+		position:relative;	
 	}
 	
 	#thumbnails li a{	
 		opacity:0.5;
-		position:relative;
+		
 	}
 	
 	a .delete{
@@ -383,7 +384,27 @@ a:active{
 		display:none;
 	}
 	
-
+	a .left,
+	a .right{
+	    background-color: #fffdbb ;
+	    color: #444;
+	    display: none;
+	    font-size: 1.4em;
+	    font-weight: bold;
+	    height: 22px;
+	    padding: 0 5px;
+	    position: absolute;
+	    top: -3px;
+	    vertical-align: inherit;   	    
+	}
+	
+	a .left{
+	    left:-3px;	    
+	}
+	a .right{
+	    right:-3px
+	}
+	
 	#thumbnails li a:hover,
 	#thumbnails li a:focus{
 		opacity:1;
@@ -400,7 +421,12 @@ a:active{
 	}
 		
 	.loggedIn a:hover .delete,
-	.loggedIn a:focus .delete{
+	.loggedIn a:focus .delete,
+	.loggedIn a:hover .left,
+	.loggedIn a:hover .right,
+	.loggedIn a:focus .left,
+	.loggedIn a:focus .right{
+	    
 		display:block;
 	}	
 	
