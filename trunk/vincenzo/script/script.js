@@ -458,11 +458,15 @@ main={
 								var folderDescr=escape(tE.find("textarea").attr("value"))
 								var folderTitle=escape(tE.find("input").attr("value"))
 								var cover=$("#cover img").attr("src")
+								var order=$.map($("#thumbnails").find("img"),function(img){
+										return $(img).attr("src");	
+									})
+								//console.log(order)
 								$.getJSON(
 									"writeFile.asp",
 									{
 										fileName:currentFolder + "/info.json",
-										content:"{title:'" + folderTitle+"'," + "description:'" + folderDescr + "',cover:'" + cover + "'}"
+										content:"{title:'" + folderTitle+"'," + "description:'" + folderDescr + "',cover:'" + cover + "',order:'" + order.join(",")+ "'}"
 									},
 									function(data){
 										myConsole.json(data)
@@ -484,6 +488,7 @@ main={
 			}					
 			
 			var now=new Date();
+			var photoOrder="";
 			// getting the page text
 			$.getJSON(
 				"readFile.asp",
@@ -494,6 +499,8 @@ main={
 				function(info){				
 					$(".notes h2").text(unescape(info.title)).fadeIn(300)
 					var note=info.description;
+					photoOrder=info.order?info.order.split(","):[];
+					
 					var noteBody=$(".notes .notesBody").fadeIn(300);
 					
 					if (note){
@@ -606,8 +613,32 @@ main={
 					
 					var thumbUl=$("#thumbnails ul");
 					
+					var sortedArray=[]
+					
+					//sorting the images according to the "photoOrder" object					
+					for ( var pict in photoOrder){
+						pict=photoOrder[pict];
+						
+						var pathArray=$.map(obj.files,function(img){
+							return img.path;
+						})
+						
+						var realFile=$.inArray(decodeURIComponent(pict),pathArray);
+						
+						if (realFile){
+							
+							realFile=obj.files.splice(realFile,1)[0];
+							//console.log(realFile)
+							sortedArray.push(realFile)
+						}
+					}
+					
+					sortedArray=sortedArray.concat(obj.files)					
+					
+					
+					
 					//creating the thumbnails
-					$.each(obj.files,function(i,img){
+					$.each(sortedArray,function(i,img){
 						img.path=encodeURIComponent(img.path)
 						if(img.path.indexOf("_th_")>-1 ){
 							var href = img.path.split("%2F").join("/").replace("_th_","")
@@ -649,7 +680,33 @@ main={
 							$("<span />")						
 								.addClass("delete")
 								.attr("title","Delete this picture")
-								.appendTo(a)							
+								.appendTo(a)
+							$("<span />")						
+								.addClass("left")
+								.text("<")
+								.attr("title","Move left")
+								.click(function(e){
+									e.preventDefault();
+									var li=$(this).closest("li");
+									if(li.prev()){
+										li.insertBefore(li.prev())
+									}
+									return false;
+								})
+								.appendTo(a)
+							$("<span />")
+								.text(">")
+								.addClass("right")
+								.attr("title","Move right")
+								.click(function(e){
+									e.preventDefault();
+									var li=$(this).closest("li");
+									if(li.next()){
+										li.insertAfter(li.next())
+									}
+									return false;
+								})
+								.appendTo(a)								
 						}
 					})
 					
