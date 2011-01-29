@@ -1,0 +1,25 @@
+table.contactTable{
+border:none!important;
+background-color:transparent!important;
+margin-bottom:20px!important;
+}
+
+.contactTable td table {
+height:auto!important;
+background-image:url(http://www.mailfx.it/images/newButtons.png)!important;
+background-position:0px 0px!important;
+background-color:transparent!important;
+}
+
+.contactTable a{
+width:auto!important;
+height:29px!important;
+margin-bottom:3px!important;
+}
+.contactTable a img {
+display:none!important;
+}
+
+.contactTable td.text{
+background-color:transparent!important;
+}

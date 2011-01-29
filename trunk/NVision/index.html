@@ -1,0 +1,205 @@
+<!doctype html>  
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>NVision - messaging system</title>
+  <meta name="description" content="NVision - messaging system">
+  <meta name="author" content="Alessio Carnevale">
+
+  <link rel="shortcut icon" href="/favicon.ico">
+    
+  <link id="_popup" rel="stylesheet" href="css/popup.css?v=1" />    
+  <link rel="stylesheet" href="css/reset.css?v=1" />
+  <link rel="stylesheet" href="css/main.css?v=1" />
+    
+</head>
+
+<body>
+
+  <div id="container">
+    <header>
+      <h1>NVision</h1>
+      
+      <div id="menuBar">        
+        <!-- main menu -->
+          <ul id="mainMenu" class="tabMenu">
+            <li class="current"><a href="#tab_1">Trade Lifeycle</a></li>
+            <li><a href="#tab_2">Analysis &amp; Reports</a></li>
+            <li><a href="#tab_3">Rules editor</a></li>
+            <li><a href="#tab_4">Admin</a></li>
+          </ul> 
+        <!-- *** -->
+        
+        <!-- search -->
+          <form id="searchForm" action="dummy action">
+            <label for="keyword">Search</label>
+            <input type="text" name="keyword" id="keyword" value="" />
+            <button type="submit" class="searchBtn button"><span></span></button>
+            <a class="advancedSearch" href="#advanced" title="Click to expand/contract">Advanced</a>
+          </form>
+        <!-- *** -->        
+      </div>
+      
+    </header>
+    
+    <div id="main">
+      
+      <!-- viewFilters -->      
+        <div id="viewFilters">        
+          <label>
+            <span>Asset Class:</span>
+            <select name="asset">
+              <option value="01">Listed derivates</option>
+              <option value="01" disabled="disabled">not available</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>
+          <label>
+            <span>Region:</span>
+            <select name="region">
+              <option value="01">Emea</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>
+          <label>
+            <span>Exchange:</span>
+            <select name="exchange">
+              <option value="01">Eurex</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>
+          
+          <label>
+            <span>Date:</span>
+            <select name="asset">
+              <option value="01">Listed derivates</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>
+          <label>
+            <span>Time:</span>
+            <select name="region">
+              <option value="01">Emea</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>
+          <label>
+            <span>Market:</span>
+            <select name="exchange">
+              <option value="01">Eurex</option>
+              <option value="02">Option 2</option>
+              <option value="03">Option 3</option>
+            </select>
+          </label>                      
+        </div>
+      <!-- *** -->
+      
+      <div class="tabContent" id="tab_1">
+        
+        <div id="tableView" class="view">
+          <!-- breadcrumb -->
+            <div id="bcBar">
+              <!--<p class="breadcrumb">You are here:<a href="#parent">Trade Lifecycle</a> / <span>Trade Breaks</span></p>-->
+              
+              <p class="breadcrumb"><a id="backToDB" title="Go back to the DashBoard" href="#parent"><span>back to the DashBoard</span></a></p>
+              
+              <div class="tools">
+                <ul>
+                  <li><a title="Export to Excell" id="export" class="export button" href="#export"><span>Export</span></a></li>
+                  <li><a title="Print" class="print button" href="#print"><span>Print</span></a></li>
+                  <li id="updatesBtn">
+                    <a href="#update" title="Automatic updates" class="button"><span>0</span></a> 
+                  </li>                  
+                </ul>
+              </div>
+            </div>
+          <!-- *** -->        
+          
+          <h2 id="systemName"><span>system name</span></h2>
+          
+          <!-- data toolBar -->
+            <div id="toolBar">
+              <ul class="buttons">                                
+                <li><a id="resubmitBtn" class="button off" title="Resubmit" href="#resubmit">Resubmit</a></li>
+                <li><a id="overwriteBtn" class="button off" title="Overwrite" href="#overwrite">Overwrite</a></li>
+                <li><a id="resubmitted" class="link" title="View resubmitted Trades" href="#resubmitted">View resubmitted Trades</a></li>                
+              </ul>
+              <div id="pagination">
+              </div>
+            </div>
+          <!-- *** -->
+            
+          <!-- table -->
+            <div id="tableData">
+              <!-- the content is automatically generated by javascript -->
+            </div>          
+          <!-- * table * -->
+        </div>
+        
+        <div id="dashBoardView" class="view">
+          <div id="dbContent">
+            
+          </div>
+        </div>         
+        
+
+        
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    <footer>
+
+    </footer>
+  </div> <!-- end of #container -->
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.4.4.min.js"%3E%3C/script%3E'))</script>
+  
+  <script type="text/javascript">
+    //use this object to configure the app. settings
+    var sysConfig={
+          //called once when the system starts
+          sysComposition:"json/sysComposition.txt",  //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          
+          //called by the dashBoardView view
+          sysUpdates:"json/sysComposition.txt",     //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          
+          //called by the tableView view
+          sysTrades:"json/systemTrades.txt",
+          
+          //called when the user clicks on a row in the tableView
+          tradeDetails:"json/tradeDetails.txt",
+          
+          //tableView configuration 
+          tableView:{
+            itemsPerPage:20
+          }
+    }
+
+  </script>
+  
+  
+  <script src="js/raphael.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>  
+  <script src="js/objects.js"></script>
+  <iframe id="saveAs"></iframe>
+</body>
+</html>

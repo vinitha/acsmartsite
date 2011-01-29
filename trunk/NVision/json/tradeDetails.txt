@@ -1,0 +1,57 @@
+{
+    "tradeId":1,
+    "details":[
+        {
+            "id":"aa",
+            "Time":"12:25:06",
+            "Market":"Eurex",
+            "Broker":"BVABB",
+            "Trader":"BCK1",
+            "Trading Ref.":"MIKE2",
+            "Input Agent":"Ale",
+            "Order No.":"348sdfs",
+            "B/S":"Buy",
+            "Contract":"FDAX",
+            "Expiry":"01/02/2011"
+        },
+        {
+            "id":"ab",
+            "Time":"12:25:07",
+            "Market":"Eurex",
+            "Broker":"BVABBxx",
+            "Trader":"BCdfK1",
+            "Trading Ref.":"ALESSIO",
+            "Input Agent":"Ale",
+            "Order No.":"112ggaa",
+            "B/S":"Buy",
+            "Contract":"XXXX",
+            "Expiry":"01/02/2011"
+        },
+        {
+            "id":"ac",
+            "Time":"12:25:06",
+            "Market":"Eurex",
+            "Broker":"BVABB",
+            "Trader":"BCK1",
+            "Trading Ref.":"MIKE2",
+            "Input Agent":"Ale",
+            "Order No.":"348sdfs",
+            "B/S":"Buy",
+            "Contract":"FDAX",
+            "Expiry":"01/02/2011"
+        },
+        {
+            "id":"ad",
+            "Time":"12:25:07",
+            "Market":"Eurex",
+            "Broker":"BVABBxx",
+            "Trader":"BCdfK1",
+            "Trading Ref.":"Jhon",
+            "Input Agent":"Ale",
+            "Order No.":"112ggaa",
+            "B/S":"Buy",
+            "Contract":"XXXX",
+            "Expiry":"01/02/2011"
+        }           
+    ]
+}
