@@ -673,6 +673,13 @@
 	#dashBoardView .systemBox{
 		padding:10px;		
 		position:absolute;
+		width:200px;
+		background-color:#fff;
+		border:1px solid #999;
+	}
+	
+	#dashBoardView .systemBox h3:hover{
+		cursor:move;
 	}
 	
 	

@@ -751,6 +751,7 @@ var scroller=function(element){
 /* ---------------------------------- */
 
 
+
 // Autoscroll plugin
 (function($){
 	$.fn.autoScroll=function(options){
@@ -1054,6 +1055,84 @@ var scroller=function(element){
 /* ---------------------------------- */
 
 
+// draggable plugin
+(function($){	
+
+	
+	
+	$.fn.draggable=function(options){
+		var thisObj=$(this);
+		
+		var moving=false,
+			clickPos={};
+		
+		
+		var defaults={
+			draggingClass:"",
+			container:null,
+			elementToDrag:null,
+			onStart:function(){},
+			onMove:function(){},
+			onStop:function(){}
+		}		
+		  
+		$.extend(defaults,options)		
+			
+		thisObj.mousedown(function(ev){
+			var $this=$(this),
+				pos=defaults.elementToDrag.position();
+			
+			moving=true;
+			
+			clickPos.left=ev.pageX;
+			clickPos.top=ev.pageY;
+			clickPos.elementLeft=pos.left;
+			clickPos.elementTop=pos.top;
+	
+			
+			$(document).bind("mousemove",_Mousemove);										
+			$(document).bind("mouseup",_MouseUp);
+			
+			defaults.onStart(defaults.elementToDrag);
+			
+		})
+		
+		//event function
+		function _Mousemove(ev){
+			ev.preventDefault();
+			
+			var $obj=defaults.elementToDrag,
+				newLeft=(ev.pageX-clickPos.left)+clickPos.elementLeft,
+				newTop=(ev.pageY-clickPos.top)+clickPos.elementTop;				
+	
+				if(defaults.container){
+					newLeft=newLeft>0?newLeft:0;
+					newTop=newTop>0?newTop:0;
+					
+					newLeft=newLeft+defaults.elementToDrag.outerWidth()<defaults.container.innerWidth()?newLeft:defaults.container.innerWidth()-defaults.elementToDrag.outerWidth();
+					newTop=newTop+defaults.elementToDrag.outerHeight()<defaults.container.innerHeight()?newTop:defaults.container.innerHeight()-defaults.elementToDrag.outerHeight();
+				}
+				
+				
+			$obj.css({"left":newLeft,"top":newTop});					
+			
+			defaults.onMove(defaults.elementToDrag)
+			return false;			
+		}
+		
+		function _MouseUp(ev){
+			moving=false;
+			$(document).unbind("mousemove",_Mousemove);
+			$(document).unbind("mouseup",_MouseUp);
+			
+			defaults.onStop(defaults.elementToDrag);
+		}
+		
+		return thisObj;
+	}
+	
+
+})(jQuery);
 
 
 // messages displaying tool
@@ -1231,4 +1310,6 @@ $.fn.extend({
 });
 
 })(jQuery);
+
+
 

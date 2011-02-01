@@ -27,9 +27,61 @@
     
     {
         "type":"system",
+        "name":"BMI",
+        "alertLevel":"13",
+        "updatesInterval":60000,
+        "attributes":[
+            {
+                "name":"Breaks",
+                "value":27,
+                "other":{
+                    "Avg Break Fix Rate":"2mins",
+                    "Market Close":"1hr 00mins"                
+                }                             
+            },
+            {
+                "name":"ClearVision In Msgs",
+                "value":74,
+                "other":{
+                    "Msg Throughput per hr":32,
+                    "Throughput rate":6,
+                    "Threshold":70
+                }
+            }            
+        ]        
+    },    
+    
+    {
+        "type":"system",
+        "name":"Caa",
+        "alertLevel":"13",
+        "updatesInterval":60000,
+        "attributes":[
+            {
+                "name":"Breaks",
+                "value":27,
+                "other":{
+                    "Avg Break Fix Rate":"2mins",
+                    "Market Close":"1hr 00mins"                
+                }                             
+            },
+            {
+                "name":"Caa In Msgs",
+                "value":74,
+                "other":{
+                    "Msg Throughput per hr":32,
+                    "Throughput rate":6,
+                    "Threshold":70
+                }
+            }            
+        ]        
+    },    
+    
+    {
+        "type":"system",
         "name":"NewClear",
         "alertLevel":"28",
-        "updatesInterval":6000,
+        "updatesInterval":60000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -67,8 +119,24 @@
     
     {
         "type":"link",
-        "name":"test link"
+        "name":"test link",
+        "from":"ClearVision",
+        "to":"NewClear"
     },
+    
+    {
+        "type":"link",
+        "name":"test link 2",
+        "from":"ClearVision",
+        "to":"Caa"
+    },
+    
+    {
+        "type":"link",
+        "name":"test link 3",
+        "from":"ClearVision",
+        "to":"BMI"
+    },    
     
     {
         "type":"layout",
@@ -76,13 +144,23 @@
         "systems":[
             {
                 "name":"ClearVision",
-                "top":100,
+                "top":80,
                 "left":100
             },
             {
                 "name":"NewClear",
-                "top":100,
-                "left":500
+                "top":180,
+                "left":480
+            },
+            {
+                "name":"Caa",
+                "top":260,
+                "left":280
+            },
+            {
+                "name":"BMI",
+                "top":260,
+                "left":480
             }
         ]
     
