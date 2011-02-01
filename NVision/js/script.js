@@ -9,6 +9,16 @@ $().ready(function(){
     $("select").ixDropDown();
 })
 
+Element.prototype.getBBox=function(){
+    var $obj=$(this),
+        pos=$obj.position();
+    return {
+        width:$obj.outerWidth(),
+        height:$obj.outerHeight(),
+        x:pos.left,
+        y:pos.top
+    }
+}
 
 
 
@@ -151,7 +161,7 @@ var NVision={
         //adding the systems to the updates queue
         var reqObj=NVision.createBreaksUpdateRequests(sysObj);
         
-        //setting the callback to updated the updatesBtn!
+        //setting the callback to update the updatesBtn!
         NVision.updateEngine.setCallback(function(){
 
             var now=(new Date()).getTime(),
@@ -283,37 +293,72 @@ var NVision={
             var db=$("#dbContent"),
                 paper = Raphael("dbContent", db.innerWidth(), db.innerHeight());
 
-            for(var objName in NVision.systems){
+            for(var i in NVision.layout.systems){
                 
-                var sysObj=NVision.systems[objName];
-                
-                var left=Math.floor(Math.random()*700),
-                    top=Math.floor(Math.random()*250);
+                var layout=NVision.layout.systems[i],
+                    sysObj=NVision.systems[layout.name];
                 
                 var sysDiv=$("<div id='" + sysObj.name + "' />")
                     .addClass("systemBox")
-                    .css({"left":left,"top":top})
+                    .css({"left":layout.left,"top":layout.top})
                     .append(
                         $("<h3 />")
                             .text(sysObj.name)
-                            .click(function(){NVision.showTable(NVision.systems[$(this).text()])})
                     )
+                    .append(
+                        $("<p />")
+                            .text("as dasdasdasda dasd asd asdas dasd asd asdasdasda dsa")                           
+                    )
+                    .append(
+                        $("<a />")
+                            .attr("href","#" + sysObj.name)
+                            .text("show details...")
+                            .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
+                    )                    
+                    
                     .appendTo(db);
-                
-                // rectangle with rounded corners
-                var sysPos=sysDiv.position();
-                sysObj.canvasBox = paper.rect(sysPos.left, sysPos.top, sysDiv.outerWidth(), sysDiv.outerHeight(), 3)
-                
-                sysObj.canvasBox.attr({
-                    fill:"90-#fff-#ddd:40-#ccc:60-#fff",
-                    stroke:"#555",
-                    "stroke-width":1
-                });
+                    
+                sysDiv.find("h3").draggable({
+                                    draggingClass:"",
+                                    elementToDrag:sysDiv,
+                                    container:db,
+                                    onStart:function(div){
+                                        var sysObj=NVision.systems[div.attr("id")];
+                                        div.css("z-index",10)                                        
+                                    },
+                                    onMove:function(div){
+                                        var pos=div.position();
+                                        var sysObj=NVision.systems[div.attr("id")]
+                                        
+                                        //redrawing the links
+                                        for(var link in sysObj.canvasLink){
+                                            link=sysObj.canvasLink[link];
+                                            paper.connection(link)
+                                        }
+                                    },
+                                    onStop:function(div){
+                                        div.css("z-index",1)
+                                    }
+                                })
+                //making a note of the containing div
+                sysObj.canvasBox = sysDiv.get(0)
                 
                 
             }
-            sysObj.canvasLink=sysObj.canvasLink?sysObj.canvasLink:[];            
-            sysObj.canvasLink.push(paper.connection(NVision.systems["NewClear"].canvasBox,NVision.systems["ClearVision"].canvasBox,"#fff", "#999|4"))
+            
+            //drawing all the links
+            for (var link in NVision.links){
+                var link=NVision.links[link],
+                    fromSys=NVision.systems[link.from]
+                    toSys=NVision.systems[link.to]
+                    
+                    var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#999|4");
+                    
+                    fromSys.canvasLink=fromSys.canvasLink?fromSys.canvasLink:[];
+                    fromSys.canvasLink.push(canvasLink);
+                    toSys.canvasLink=toSys.canvasLink?toSys.canvasLink:[];
+                    toSys.canvasLink.push(canvasLink);                    
+            }
             
             NVision._dbReady=true;
         }
