@@ -679,6 +679,13 @@
 		border:1px solid #999;
 	}
 	
+	#dashBoardView .systemBox h3{
+		-moz-border-radius: 6px 6px 6px 6px;
+		background-color: #DDDDDD;
+		font-size: 1.4em;
+		padding: 2px 5px;	
+	}
+	
 	#dashBoardView .systemBox .attr a{
 		font-size:1.1em;
 		font-weight:bold;

@@ -308,7 +308,7 @@ var NVision={
                     .append(
                         $("<a />")
                             .attr("href","#" + sysObj.name)
-                            .text("show details...")
+                            .text("show trades details...")
                             .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
                     )                                        
                     .appendTo(db);
