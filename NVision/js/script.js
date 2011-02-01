@@ -306,25 +306,19 @@ var NVision={
                             .text(sysObj.name)
                     )
                     .append(
-                        $("<p />")
-                            .text("as dasdasdasda dasd asd asdas dasd asd asdasdasda dsa")                           
-                    )
-                    .append(
                         $("<a />")
                             .attr("href","#" + sysObj.name)
                             .text("show details...")
                             .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
-                    )                    
-                    
+                    )                                        
                     .appendTo(db);
                     
-                sysDiv.find("h3").draggable({
+                var title=sysDiv.find("h3").draggable({
                                     draggingClass:"",
                                     elementToDrag:sysDiv,
-                                    container:db,
+                                    container:db,                                    
                                     onStart:function(div){
-                                        var sysObj=NVision.systems[div.attr("id")];
-                                        div.css("z-index",10)                                        
+                                        var sysObj=NVision.systems[div.attr("id")];                                        
                                     },
                                     onMove:function(div){
                                         var pos=div.position();
@@ -337,9 +331,59 @@ var NVision={
                                         }
                                     },
                                     onStop:function(div){
-                                        div.css("z-index",1)
                                     }
                                 })
+                sysDiv
+                    .mouseenter(function(){
+                        $(this).css("z-index",10)
+                    })
+                    .mouseleave(function(){
+                        $(this).css("z-index",1)
+                    })
+                
+                //adding the system attributes
+                for (var attr in sysObj.attributes){
+                    attr=sysObj.attributes[attr];
+                    
+                   var attrDiv=$("<div class='attr' />")
+                        .insertAfter(title)
+                        $("<a />")
+                            .attr("href","#" + sysObj.name)
+                            .click(function(){
+                                $(this).siblings(".other").toggle();
+                                
+                                var sysObj=NVision.systems[this.hash.replace("#","")]
+                                //redrawing the links of this object
+                                for(var link in sysObj.canvasLink){
+                                    link=sysObj.canvasLink[link];
+                                    paper.connection(link)
+                                }                                    
+
+
+                                
+                                return false;
+                            })
+                            .appendTo(attrDiv)
+                            .append($("<span/>").text(attr.name + ": "))
+                            .append($("<span/>").text(attr.value))
+
+                    if(attr.other){
+                        for (var other in attr.other){
+                            var div=$("<div class='other' />")
+                                .appendTo(attrDiv)                            
+                            
+                            var value=attr.other[other];
+                            
+                            div .append($("<span/>").text(other + ": "))
+                                .append($("<span/>").text(value))
+                            
+                        }                       
+                    }
+
+                }
+                
+                
+                
                 //making a note of the containing div
                 sysObj.canvasBox = sysDiv.get(0)
                 
@@ -363,6 +407,7 @@ var NVision={
             NVision._dbReady=true;
         }
     },
+
     
     createSystemsUpdateRequests:function(){
         // looping through the subSystems list and generating updatesRequest for each system       

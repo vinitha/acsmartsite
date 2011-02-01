@@ -662,12 +662,13 @@
 	#dashBoardView{
 		background-image:url(../images/bg-400-paper.jpg);
 		margin:0px 10px;
-		min-height:300px;
+		height:500px;
 		border:1px solid #ccc;	
 	}
 	
 	#dbContent{
 		position:relative;
+		height:100%;
 	}
 	
 	#dashBoardView .systemBox{
@@ -676,6 +677,19 @@
 		width:200px;
 		background-color:#fff;
 		border:1px solid #999;
+	}
+	
+	#dashBoardView .systemBox .attr a{
+		font-size:1.1em;
+		font-weight:bold;
+		color:#666;
+		margin-top:10px;
+		display:block;
+	}
+	
+	#dashBoardView .systemBox .attr .other{
+		display:none;
+		padding-left:10px;
 	}
 	
 	#dashBoardView .systemBox h3:hover{
