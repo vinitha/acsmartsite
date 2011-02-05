@@ -8,7 +8,7 @@
 		    var rules=[
 			       ".ixDropDown_A span{display:block}",
 			       ".ixDropDown_A {color:#069; padding-right:15px; display:inline-block; text-align:left; zoom: 1; *display: inline;vertical-align:bottom;outline:none}",
-			       ".ixDropDown_DIV {position:absolute; display:none;}",
+			       ".ixDropDown_DIV {position:absolute; display:none; z-index:10}",
 			       ".ixDropDown_Cont {zoom:1}",
 			       ".ixDropDown_UL {list-style-type:none; padding:0; margin:0px; outline:none}"
 			       ];
@@ -41,7 +41,16 @@
 			.insertAfter(thisObj)
 			.addClass("ixDropDown_A " + this.className)
 			.addClass(this.disabled?" disabled":(curOption?"":"disabled"))
-			.append($("<span />").text(curOption?(curOption.label||$(curOption).text()):"- empty -"))
+			.append(
+			    $("<span />").text(curOption?(curOption.label||$(curOption).text()):"- empty -")
+				.focus(function(e){
+				    e.preventDefault();
+				    
+				    clearTimeout(timerHnd);
+				    
+				    return false;
+				})
+			)
 			.focus(function(){
 				clearTimeout(timerHnd);
 			})
@@ -49,7 +58,7 @@
 				var $this=$(this);
 				timerHnd=setTimeout(function(){
 					close($this);
-				},100
+				    },100
 				);
 			})
 			.click(function(e){
@@ -83,7 +92,7 @@
 				.blur(function(){
 					timerHnd=setTimeout(function(){
 						close($anchor);
-					},100
+					    },100
 					);
 				})
 				.addClass("ixDropDown_UL")
@@ -204,57 +213,76 @@
 
 
 
-function myConfirm(msg,callback){
-    /*
+function confirm(options){
+    var defaults={
+	title:"Confirm",
+	yesCaption:"Ok",
+	noCaption:"Cancel",
+	onYes:function(){},
+	onNo:function(){},
+	msg:"Confirm message!",
+	msgClass:""
+    }
+    
+    $.extend(defaults,options)
+        
     var $msg=$("<div/>")
-	.addClass("confirm")
+	.attr("id","confirmBox")
+	.addClass(defaults.msgClass)
 	.append(
-	    $("<p />").text(msg)
+		$("<p />").text(defaults.msg)
 	    )
 	.append(
 	    $("<div/>")
-	    .addClass("buttonBar")
+	    .addClass("buttonsBar")
 	    .append(
 		$("<a/>")
 		.addClass("button")
-		.text("ok")
+		.text(defaults.yesCaption)
+		.click(function(){
+		    lb.closeIt();
+		    defaults.onYes();
+		})
 	    )
+	    .append(
+		$("<a/>")
+		.addClass("button")
+		.text(defaults.noCaption)
+		.click(function(){
+		    lb.closeIt();
+		    defaults.onNo();
+		})		
+	    )	    
 	)
-    $msg.lightBox({
+    var lb=$msg.lightBox({
 	modal:true,
-	onClose:function(){
-	    
-	}
+	title:defaults.title
     }).show();
-    */
-    if(confirm(msg)){
-	callback();
-    }
 }
 
 //lightBox widget
 (function($){
 
-	var defaults=null
-	    bg=null,
-	    lb=null;
-	    
+	var bg=null,
+	    lb=null;	    
 	
 	$.fn.lightBox = function(options) {		
-		$this=$(this);
-		defaults={
-				title:false,
-				onClose:function(){},
-				width:this.outerWidth(),
-				parent:null,
-				rtl:false,
-				modal:false
-			};		
-		
+		var $this=$(this),
+		    defaults={
+			title:false,
+			onClose:function(){},
+			width:this.outerWidth(true)+20,
+			parent:null,
+			rtl:false,
+			modal:false
+		    };		
+				
 		//extending the default options
 		$.extend(defaults,$.fn.lightBox.defaults,options)		
 		
 		defaults.parent=defaults.parent||this.parent();
+		
+		$(this).data("_lightBox",defaults);
 		
 		this.closeIt=function(){
 		    return closing.call(this)
@@ -267,19 +295,24 @@ function myConfirm(msg,callback){
 	
 	// defining the plugin custom methods
 	var closing=function(){
+			var defaults=$(this).data("_lightBox")
 			bg.hide(0);
 			lb.hide(200);			
-
-			this.appendTo(defaults.parent);
-			//firing the close event
-			defaults.onClose.call(this);
 			
+			if(defaults.parent){
+			    this.appendTo(defaults.parent);
+			}
+			
+			//firing the close event
+			if(defaults.onClose){
+			    defaults.onClose.call(this);
+			}
 			return this;
 	};
 	
 	var showing=function(){
-		
-		var thisObj=this;
+		var defaults=$(this).data("_lightBox"),
+		    thisObj=this;
 		
 		//get the background DIV (or create it)						
 		bg=document.getElementById("lightBoxBg");
@@ -294,7 +327,7 @@ function myConfirm(msg,callback){
 		    var rules=[
 			    "#lightBoxBg{position:fixed;height:100%;width:100%;background-color:#000;opacity:0.5;filter:alpha(opacity=50);top:0;left:0;z-index:9;display:none}",
 			    "#lightBoxPanel{position:fixed;top:50%;margin-top:-100px;left:50%;background-color:#FFF;border:1px solid #000;z-index:9;display:none;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 3px 10px rgba(0,0,0,0.6);-moz-box-shadow:0 3px 10px rgba(0,0,0,0.6);box-shadow:0 3px 10px rgba(0,0,0,0.6)}",
-			    "#lightBoxPanel .mainContent{outline:none;padding:10px}",
+			    "#lightBoxPanel .mainContent{outline:none;padding:10px;overflow:hidden}",
 			    "#lightBoxPanel .closeBtn{outline:none;background-position:0 0;height:16px;position:absolute;right:-8px;top:-9px;width:16px}",
 			    "#lightBoxPanel .closeBtn:hover,#lightBoxPanel .closeBtn:focus,#lightBoxPanel .closeBtn:active{background-position:0 bottom}",
 			    "#lightBoxPanel .lbTitle{background-color:#bbb;background-image:color:#FFF;font-size:1.2em;border-top-right-radius:4px;border-top-left-radius:4px;-webkit-border-top-right-radius:4px;-webkit-border-top-left-radius:4px;-moz-border-radius-topleft:4px;-moz-border-radius-topright:4px;margin:0;padding:5px 5px 4px}"				
@@ -321,7 +354,8 @@ function myConfirm(msg,callback){
 			closeBtn=lb.find("a.closeBtn");
 			
 			lb.unbind("keydown")
-			closeBtn.unbind("click")			
+			closeBtn.unbind("click")
+						
 		}else{
 			lb=jQuery("<div id='lightBoxPanel'></div>")
 				.appendTo("body");						
@@ -388,7 +422,7 @@ function myConfirm(msg,callback){
 		lbTitle.css("display",defaults.title?"block":"none");		
 		
 		
-		this.appendTo(mainContent)
+		this.appendTo(mainContent.empty())
 		
 		
 		lb.css("visibility","hidden");

@@ -1,0 +1,24 @@
+{
+    "name":"NewClear",
+    "alertLevel":20,
+    "alertThreshold":30,
+    "attributes":[
+        {
+            "name":"Breaks",
+            "value":27,
+            "other":{
+                "Avg Break Fix Rate":"2mins",
+                "Market Close":"1hr 00mins"                
+            }                             
+        },
+        {
+            "name":"ClearVision In Msgs",
+            "value":74,
+            "other":{
+                "Msg Throughput per hr":32,
+                "Throughput rate":6,
+                "Threshold":70
+            }
+        }            
+    ]        
+}
