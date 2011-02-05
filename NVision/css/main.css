@@ -19,32 +19,50 @@
 	text-shadow: 0px 0px 1px #333;
 }
 
+
 /* global rules */
 	#saveAs{
 		display:none;
 	}
 	
+	#hiddenBox{
+		display:none;
+	}
+	
 	html{
-		background-color:#e5e5e5;
+		background-color:#000;
+		background-image:url(../images/headerBG.jpg);
+		background-position:0px 0px;
+		background-repeat:no-repeat;
 	}
 	
 	h1{
-		 margin: 20px 10px;
+		height:140px;
+	}
+	
+	h1 span{
+		position:absolute;
+		left:-99999px;
 	}
 	
 	h2{
 		overflow:hidden;
 		padding: 10px 10px 5px;
 	}
+	
 	h2 span{
-    background-color: #46778C;
-    color: #FFFFFF;
-    float: left;
+		background-color: #46778C;
+		color: #FFFFFF;
+		float: left;
 		display:block;
-    font-weight: bold;
-    padding: 2px 10px;
+		font-weight: bold;
+		padding: 2px 10px;
 		-moz-border-radius: 5px;
 		border-radius: 5px;			
+	}
+	
+	header{
+		position:relative;
 	}
 	
 	.tabContent{
@@ -62,6 +80,7 @@
 			padding: 6px 10px 5px;
 			outline:none;
 			font-size:1.1em;
+			cursor:pointer;
 		}
 		
 	.button:hover,
@@ -89,7 +108,12 @@
 		background-color:#ddd;
 		color:#999;
 		border-color:#ccc;
-	}	
+	}
+	
+	.button.submit:hover,
+	.button.submit:focus{
+		background-color:#ffa600;
+	}
 	
 	select{
 		display:none;
@@ -106,8 +130,7 @@
 
 #main{
 	border: 1px solid #999999;
-	margin: 0 10px;
-	padding-bottom:10px;
+	margin:0px 20px 20px;
 	background-color:#fff;
 }
 
@@ -115,7 +138,7 @@
 	.tabMenu{
 		overflow:hidden;
 		float:left;
-		margin-left:10px;
+		margin-left:20px;
 	}
 	
 	.tabMenu li{
@@ -124,7 +147,7 @@
 	
 	.tabMenu li a{
     background-color: #d0d0d0;
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 1px solid #bbb;
     color: #666666;
     display: block;
     font-size: 1.2em;
@@ -137,15 +160,15 @@
 	.tabMenu li a:focus{
 		color:#444;
 		background-color:#c0c0c0;
-		border-bottom: 1px solid #bbb;
+		border-bottom: 1px solid #aaa;
 	}
 	
 	.tabMenu li.current a{
-		background-color:#fff;
+		background-color:#f9f9f9;
 		color:#444;
 		font-weight:bold;
 		border:1px solid #999;
-		border-bottom:1px solid #fff;
+		border-bottom:1px solid #f9f9f9;
 	}
 	
 	
@@ -153,9 +176,13 @@
 	
 /* searchForm */
 	#searchForm{
-		float:right;
-		margin-right:20px;
+		position:absolute;
 		overflow:hidden;
+		top:0px;
+		right:20px;
+		background-color:#eee;
+		-moz-border-radius:0px 0px 5px 5px;
+		padding:20px;
 	}
 	
 	#searchForm label{
@@ -213,9 +240,11 @@
 /* viewFilters */
 	#viewFilters {
 		overflow:hidden;
-		background-color:#e5e5e5;
+		background-color:#f9f9f9;
 		padding:10px;
-		margin:10px;
+		background-image:url(../images/topBarBG.png);
+		background-position:0px bottom;
+		background-repeat:repeat-x;
 	}
 	
 	#viewFilters label{
@@ -287,12 +316,16 @@
 	
 /* toolBar */
 	#toolBar{
-    background-color: #E5E5E5;
-    border: 1px solid #CCCCCC;
+		background-image:url(../images/topBarBG.png);
+		background-position:0px bottom;
+		background-repeat:repeat-x;
+		
+		border: 1px solid #CCCCCC;
 		border-bottom:none;
-    margin: 0 10px;
-    overflow: hidden;
-    padding: 4px;
+		
+		margin: 0 10px;
+		overflow: hidden;
+		padding: 4px;
 	}
 	
 	#toolBar .buttons{
@@ -330,17 +363,17 @@
 	}
 	
 	#updatesBtn span{
-    background-color: transparent;
-    background-image: url("../images/ajaxLoader2.gif");
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    color: #666666;
-    cursor: pointer;
-    display: block;
-    font-weight: bold;
-    padding: 3px;
-    text-align: center;
-    width: 24px;
+		background-color: transparent;
+		background-image: url("../images/ajaxLoader2.gif");
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		color: #666666;
+		cursor: pointer;
+		display: block;
+		font-weight: bold;
+		padding: 3px;
+		text-align: center;
+		width: 24px;
 	}
 	
 	#updatesBtn .pause span{
@@ -357,15 +390,21 @@
 	}
 	
 	#pagination .legend{
-    color: #444444;
-    float: left;
-    margin-right: 20px;
-    margin-top: 10px;
+		color: #444444;
+		float: left;
+		margin-right: 20px;
+		margin-top: 10px;
+	}
+	
+	#pagination .showAll{
+		float:left;
+		margin-top: 3px;
+		padding: 3px 10px 2px;		
 	}
 	
 	#pagination ul{
-    float: left;
-    margin-top: 3px;
+		float: left;
+		margin-top: 3px;
 	}
 	
 	#pagination li{
@@ -373,13 +412,13 @@
 	}
 	
 	#pagination li a{
-    background-color: #DDDDDD;
-    border: 1px solid transparent;
-    color: #666666;
-    display: block;
-    margin-left: 2px;
-    margin-top: 1px;
-    padding: 2px 4px;
+		background-color: #DDDDDD;
+		border: 1px solid transparent;
+		color: #666666;
+		display: block;
+		margin-left: 2px;
+		margin-top: 1px;
+		padding: 2px 4px;
 	}
 	
 	#pagination a:hover,
@@ -400,6 +439,7 @@
 /* tableData */
 	#tableData{
 		margin:0px 10px;
+		background-color:#fff;
 	}
 	
 	#tableData table{
@@ -474,8 +514,7 @@
 	}
 	
 	#tableData th{
-		border-left:1px solid #aabfc6;
-		border-top:1px solid #aabfc6;
+		border-left:1px solid #aabfc6;		
 		text-align:center;
 	}
 	
@@ -539,28 +578,45 @@
 	}
 	
 	#tableData .detailsContainer table{
-    background-color: #FFFCEC;
-    /*border: 5px solid #E6F8A7;*/
-    margin: 10px auto;
-    width: auto;
+		background-color: #FFFCEC;
+		/*border: 5px solid #E6F8A7;*/
+		margin: 10px auto;
+		width: auto;
 	}
 	
 	#tableData .detailsContainer thead span{
-    background-color: #DAD3A1;
-    color: #8C823E;
-    display: block;
-    float: none;
-    padding: 3px;
+		background-color: #DAD3A1;
+		color: #7c7436;
+		display: block;
+		float: none;
+		padding: 3px;
+		font-weight: bold;
 	}
 	
 	#tableData .detailsContainer thead p{
-    background-color: #DAD3A1;
+		background-color: #DAD3A1;
 	}	
 	
 	#tableData .detailsContainer th,
 	#tableData .detailsContainer table{
 		border-color:#b4ad7b;
+		border-top:1px solid #b4ad7b;
 	}
+	
+	#tableData .ok .status,
+	#tableData .nok .status{
+		background-image:url(../images/tick_small.png);
+		background-position:50% 50%;
+		background-repeat:no-repeat;
+	}
+	
+	#tableData .nok {
+		color:#de4d0e;
+	}
+	
+	#tableData .nok .status{
+		background-image:url(../images/error_small.png);
+	}		
 	/*
 	#tableData tr.detailsContainer tr,
 	#tableData tr.detailsContainer tr:hover{
@@ -658,16 +714,24 @@
 		display:none;
 	}
 	
+/* tableView */
+	#tableView{
+		padding:10px 0px;
+		background-color:#eee;
+	}
+	
 /* dashBoardView */
 	#dashBoardView{
-		background-image:url(../images/bg-400-paper.jpg);
-		margin:0px 10px;
+		background-image:url(../images/dbBG.png);
 		height:500px;
-		border:1px solid #ccc;	
 	}
 	
 	#dbContent{
 		position:relative;
+		background-image:url(../images/reflection.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;
+		
 		height:100%;
 	}
 	
@@ -675,35 +739,78 @@
 		padding:10px;		
 		position:absolute;
 		width:200px;
-		background-color:#fff;
-		border:1px solid #999;
+		background-color:#c1d3db;
+		border:1px solid #a5bfcb;
+		border-top-color:#dae4e9;
+		border-left-color:#dae4e9;
+		overflow:hidden;
+		background-image:url(../images/sysBg.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;
 	}
+	
+	#dashBoardView .systemBox.alert1{
+		border-color:#bdb122;
+		border-top-color:#ffff95;
+		border-left-color:#ffff95;		
+		background-color:#d9ce80;
+	}
+	
+	#dashBoardView .systemBox.alert2{
+		border-color:#fc6727;
+		border-top-color:#fec9b1;
+		border-left-color:#fec9b1;	
+		background-color:#ff9377;
+	}	
 	
 	#dashBoardView .systemBox h3{
 		-moz-border-radius: 6px 6px 6px 6px;
-		background-color: #DDDDDD;
+		background-color: #b1c8d8 ;
 		font-size: 1.4em;
 		padding: 2px 5px;	
 	}
 	
-	#dashBoardView .systemBox .attr a{
+	#dashBoardView .alert1 h3{
+		background-color: #b9b773 ;
+	}	
+
+	#dashBoardView .alert2 h3{
+		background-color: #ce7d79 ;
+	}
+	
+	
+	#dashBoardView .systemBox .attr{
+		margin-top:10px;	
+	}
+	
+	#dashBoardView .systemBox .attr a.more{
 		font-size:1.1em;
 		font-weight:bold;
-		color:#666;
-		margin-top:10px;
+		color:#246;
 		display:block;
+		padding-left:20px;
+		background-image:url(../images/more.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		margin-bottom:3px;
 	}
 	
 	#dashBoardView .systemBox .attr .other{
 		display:none;
-		padding-left:10px;
+		padding-left:21px;
 	}
 	
 	#dashBoardView .systemBox h3:hover{
 		cursor:move;
 	}
 	
-	
+	#dashBoardView .systemBox .showDetails{
+		color:#369;
+		font-weight:bold;
+		font-size:1.1em;
+		margin-top:10px;
+		float:right;
+	}
 	
 	
 /* ixDropDown */	
@@ -731,6 +838,7 @@
     background-color: #FFFFFF;
     min-width: 60px;
     padding: 2px 4px;
+		cursor:pointer;
 	}
 	
 	.ixDropDown_DIV{
@@ -768,12 +876,115 @@
 	
 /* lightBox */
 	#lightBoxPanel .closeBtn {
-		background-image:url(../images/closeBtn.png);		
+		background-image:url(../images/closeBtn.png);
+    right: 5px;
+    top: 4px;
+	}
+	
+	#lightBoxPanel .lbTitle	{
+		font-weight:bold;
+		background-color:#46778C;
+		color:#fff;
+	}
+	
+	#overwriteBox{
+		width:300px;
+		overflow:hidden;	
+	}
+	
+	#resubmitBox{
+		width:400px;
+		overflow:hidden;	
+	}
+	
+	#resubmitBox textarea{
+		border: 1px solid #999999;
+		display: block;
+		height: 90px;
+		width: 308px;	
+		font-size:1.1em;
+		color:#666;
+	}
+	
+	#confirmBox{
+		width:250px;
+	}
+	
+	#confirmBox p{
+		font-size: 1.1em;
+		padding: 10px 0;
+	}
+	
+	#confirmBox.ok p{	
+		background-image:url(../images/greenTick.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left: 30px;
+	}
+	
+	#confirmBox.error p{	
+		background-image:url(../images/commError.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left: 30px;
+	}	
+	
+	#lightBoxPanel .buttonsBar{
+		float:right;
+		margin-top:10px;
+	}
+	
+	#lightBoxPanel .button{
+		float: left;
+		margin-left: 5px;
+		padding: 2px 5px;
 	}
 	
 	
+	#lightBoxPanel form label{
+		display:block;
+		margin-bottom:3px;
+		clear:both;
+	}
+	
+	#lightBoxPanel label .caption{
+		float:left;
+		width:90px;
+		line-height:20px;
+		font-weight:bold;
+		color:#666;
+		font-size:1.1em;
+	}
+	
+	#lightBoxPanel form input[type="text"]{
+		border:1px solid #999;
+		padding:2px;
+		width:165px;
+		font-size:1.1em;
+	}
+	 
 /* ie hasLayout fix */
 	#tableData,
 	.tabContent{
 		zoom:1;
 	}
+	
+	
+	
+@media print{
+	#bcBar,
+	#systemName,
+	#searchForm,
+	#toolBar .buttons{
+		display:none;
+	}
+	#main{
+		margin:0px;
+	}
+	.tabContent{
+		width: 100%;
+		margin: 0;
+		float: none;
+		overflow:visible;
+	}
+}

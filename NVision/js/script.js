@@ -9,8 +9,9 @@ $().ready(function(){
     $("select").ixDropDown();
 })
 
-Element.prototype.getBBox=function(){
-    var $obj=$(this),
+
+function getBBox(obj){
+    var $obj=$(obj),
         pos=$obj.position();
     return {
         width:$obj.outerWidth(),
@@ -24,12 +25,116 @@ Element.prototype.getBBox=function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    systems:null,     //hashtable containing the subSystems
+    systems:null,       //hashtable containing the subSystems
+    currentSys:null,    //placeholder updated by showTable function
+    lightBoxes:{},      //hashtable of premade lightboxes      
     adapters:null,
     links:null,
     layout:null,
     sysReady:null,     //this function gets exectuted after the json data has been processed by the client
     init:function(sysReady){
+        
+        //creating the hidden div to store the lightBoxes
+        var hiddenBox=$("<div />").attr("id","hiddenBox").appendTo(document.body);
+        
+        //creating the overwite lightBox
+        (function(){
+            var $msg=$("<div id='overwriteBox' />")
+                .appendTo(hiddenBox);
+            
+            var form=   $("<form />").attr({
+                            "action":sysConfig.overwriteRequest,
+                            "id":"overwriteForm"
+                        })
+                        .append("<input type='hidden' id='_id' name='id' />")
+                        .append("<label><span class='caption'>Trading ref.</span><input type='text' id='_tradingRef' name='Trading Ref.' value='nothing' /></label>")
+                        .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='Trader' value='nothing' /></label>")
+                        .append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
+                        .appendTo($msg)
+                
+            form.find("input.cancel").click(function(){NVision.lightBoxes["overwrite"].closeIt()})
+            form.submit(function(e){
+                e.preventDefault();
+                
+                myConsole.log("todo: " + form.serialize(),10000)
+                NVision.lightBoxes["overwrite"].closeIt();
+                
+                //todo: waiting for the response and showing a confirm box
+                var confBox={
+                    title:"Overwrite confirmation",
+                    yesCaption:"Retry",
+                    noCaption:"Close",                    
+                    onYes:function(){myConsole.log("yes")},
+                    onNo:function(){myConsole.log("no")},
+                    msg:"Error xyz occured. Retry overwriting now?",
+                    msgClass:"error" // [ok||error]
+                }
+                
+                
+                setTimeout(function(){
+                    confirm(confBox);
+                },1000)                
+                
+                return false;
+            })
+            
+            NVision.lightBoxes["overwrite"]=$msg.lightBox({
+                                        modal:false,
+                                        title:"Overwrite",
+                                        parent:hiddenBox,
+                                        onClose:null
+                                    });        
+        })();
+        
+        
+        
+        //creating the resubmit lightBox
+        (function(){
+            var $msg=$("<div id='resubmitBox' />")
+                .appendTo(hiddenBox);
+            
+            var form=   $("<form />").attr({
+                            "action":sysConfig.resubmitRequest,
+                            "id":"resubmitForm"
+                        })
+                        .append("<input type='hidden' id='_id' name='id' />")
+                        .append("<label><span class='caption'>Select a reason</span><select id='_reason' name='reason' ><option value='staticData'>Static data</option><option value='jobFailing'>Job failing</option><option value='other'>Other</option></selet></label>")
+                        .append("<label><span class='caption'>Add comment</span><textarea id='_comment' name='comment' ></textarea></label>")
+                        .append("<div class='buttonsBar'><input class='button submit' type='submit' href='#resubmit' value='Resubmit' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
+                        .appendTo($msg)
+                
+            form.find("input.cancel").click(function(){NVision.lightBoxes["resubmit"].closeIt()})
+            form.submit(function(e){
+                e.preventDefault();
+                myConsole.log("todo: " + form.serialize(),10000)
+                NVision.lightBoxes["resubmit"].closeIt();
+                
+                //todo: waiting for the response and showing a confirm box
+                var confBox={
+                    title:"Resubmit confirmation",
+                    yesCaption:"View submitted trades",
+                    noCaption:"Close",                    
+                    onYes:function(){myConsole.log("yes")},
+                    onNo:function(){myConsole.log("no")},
+                    msg:"Message has been successfully resubmitted.",
+                    msgClass:"ok" // [ok||error]
+                }
+                
+                
+                setTimeout(function(){
+                    confirm(confBox);
+                },1000)
+                
+                return false;
+            })
+            
+            NVision.lightBoxes["resubmit"]=$msg.lightBox({
+                                        modal:false,
+                                        title:"Resubmit",
+                                        parent:hiddenBox,
+                                        onClose:null
+                                    });        
+        })();        
         
         NVision.sysReady=sysReady;
         
@@ -38,7 +143,7 @@ var NVision={
             url:sysConfig.sysComposition,
             dataType:"json",
             error:function(XMLHttpRequest, textStatus, errorThrown){
-                myConsole.error(textStatus);
+                myConsole.error(textStatus || errorThrown);
             },
             success:function(data){
                 
@@ -86,7 +191,7 @@ var NVision={
         });
         
         //starting the updateEngine
-        NVision.updateEngine.start();
+        //NVision.updateEngine.start();
         
         // setting the buttons function up
             $("#overwriteBtn").click(function(e){
@@ -95,7 +200,16 @@ var NVision={
                     return false;
                 }
                 
-                myConsole.log("overWriting...")
+                //getting the trade object from the selected row
+                var tradeObj=NVision.currentSys.trades[($("#tableData").find("input:checked").closest("tr").attr("data-id"))]
+                
+                //showing the Overwrite Overlay
+                NVision.lightBoxes["overwrite"]                    
+                .show()
+                .find("#_id").attr("value",tradeObj["id"]).end()
+                .find("#_trader").attr("value",tradeObj["Trader"]).end()
+                .find("#_tradingRef").attr("value",tradeObj["Trading Ref."]);
+                
             });
             
             $("#resubmitBtn").click(function(e){
@@ -104,13 +218,43 @@ var NVision={
                     return false;
                 }
                 
-                myConfirm("Resubmit the selected trade?",function(){
-                    myConsole.log("resubmitting...")
+                //getting the trade objects from the selected row
+                var checked=$.map($("#tableData").find("input:checked"),function(item,index){
+                            return $(item).closest("tr").attr("data-id")
+                        }),
+                    tradeObjs=[];
+                
+                $.each(checked,function(){
+                    tradeObjs.push(NVision.currentSys.trades[this])
                 })
+                    
+                var ids=$.map(tradeObjs,function(item,index){
+                            return item["id"];
+                        }).join(",")
+
+                //showing the resubmit Overlay
+                NVision.lightBoxes["resubmit"]                    
+                    .show()
+                    .find("#_id").attr("value",ids).end()
+                    .find("#_comment").attr("value","").end()
+                    .find("#_reason").find("option").eq(0).attr("selected",true);
             });
             
             $("#tableData input[type='checkbox']").live("change",function(){
-                var checkedCount=$("#tableData input[type='checkbox']:checked").length;
+                var chkBox=$("#tableData").find("tbody input[type='checkbox']"),
+                    checkedCount=chkBox.filter("input:checked").length;                
+                                
+                //setting the updateEngine
+                if(this.checked){
+                    if(checkedCount==1){NVision.updateEngine.stop()}
+                }else{
+                    if(checkedCount==0){NVision.updateEngine.start()}
+                };                
+                
+                //select all checkbox
+                (checkedCount==0)?$("#selectBtn").attr("checked",false):null;
+                (checkedCount==chkBox.length)?$("#selectBtn").attr("checked",true):null;
+                
                 
                 //overwrite button
                 (checkedCount==1) ?
@@ -119,7 +263,7 @@ var NVision={
                 :
                     $("#overwriteBtn").addClass("off");
                     
-                    
+                //resubmit button
                 (checkedCount==0) ?
                     $("#resubmitBtn").addClass("off")                                      
                 :
@@ -132,28 +276,30 @@ var NVision={
         })
         
         //setting the export button
-            $("#export").click(function(e){
-                e.preventDefault();
-                NVision.utils.exportToCSV(NVision.systems["ClearVision"].trades)
-            })
+        $("#export").click(function(e){
+            e.preventDefault();
+            NVision.utils.exportToCSV(NVision.systems["ClearVision"].trades)
+        })
         
         // setting the updateBtn function
-            $("#updatesBtn").find("a").click(            
-                function(){
-                    if($(this).hasClass("pause")){
-                        NVision.updateEngine.updateNow();
-                        NVision.updateEngine.start();
-                    }else{
-                        NVision.updateEngine.stop();
-                    }
+        $("#updatesBtn").find("a").click(            
+            function(){
+                if($(this).hasClass("pause")){
+                    NVision.updateEngine.updateNow();
+                    NVision.updateEngine.start();
+                }else{
+                    NVision.updateEngine.stop();
                 }
-            )
+            }
+        )
     },
     
     showTable:function(sysObj){
         $("#tableView").show(0);
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
+        
+        NVision.currentSys=sysObj;
         
         // clearing the update engine
         NVision.updateEngine.empty();        
@@ -165,7 +311,7 @@ var NVision={
         NVision.updateEngine.setCallback(function(){
 
             var now=(new Date()).getTime(),
-                timer=Math.round((sysObj.updatesInterval-(now-reqObj.timeStamp))/1000);
+                timer=Math.round((sysObj.updatesInterval-(now-reqObj.timeStamp))/1000),
                 span=$("#updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
@@ -176,7 +322,9 @@ var NVision={
             }
             
             span.text(timer);        
-        });        
+        });
+        
+        NVision.updateEngine.forceStart();
     },
     showDashboard:function(){
         
@@ -192,7 +340,29 @@ var NVision={
         NVision.drawSystems()
         
         //adding the systems to the updates queue
-        NVision.createSystemsUpdateRequests();            
+        NVision.createSystemsUpdateRequests();
+        
+        NVision.updateEngine.forceStart();
+        
+        //setting the function to highlight allerted systems
+        NVision.updateEngine.setCallback(function(){
+
+            for(var sysObj in NVision.systems){
+                sysObj=NVision.systems[sysObj];
+                var className=sysObj.canvasBox.className,
+                    $div=$(sysObj.canvasBox);
+                
+                
+                if(className.indexOf("alert")>-1){
+                    $div.removeClass("alert1 alert2")
+                }else{
+                    if(sysObj.displayLevel>0){
+                        $div.addClass("alert" + sysObj.displayLevel)
+                    }
+                }
+            }
+        })
+        
     },
     
     
@@ -201,7 +371,8 @@ var NVision={
         var tasks={},               //hash table
         engineTimer=1000,           //checks the tasks list every x millisec.
         intervalHnd=null,
-        loopCallback=function(){}   //executed every second
+        loopCallback=[],            //functions array to be executed every second
+        stopLevel=1,                
         
         add=function(obj){
             tasks[obj.id]=obj;
@@ -210,28 +381,45 @@ var NVision={
             delete tasks[obj.id];
         },        
         start=function(){
-            //starting the updates timer
+            stopLevel--;
+            
+            //starting the updates timer            
+            if(stopLevel>1){
+                
+                //console.log("leaving start" , stopLevel);
+                return false;
+            }
+            
+            stopLevel=1;
+            //console.log("start" , stopLevel);
+            
             if(!intervalHnd){
                 intervalHnd=setInterval(update,engineTimer);            
                 
-                myConsole.log("Update engine running...",3000)
-                $("#updatesBtn").find("a").removeClass("pause")
+                myConsole.log("Update engine running...",3000);
+                $("#updatesBtn").find("a").removeClass("pause");
                 
                 //running the first update
                 update();
             }
         },
+        forceStart=function(){
+            stopLevel=1;
+            start();
+        },        
         stop=function(){
+            stopLevel++;
             if(intervalHnd){                
                 myConsole.log("Update engine paused",3000)
                 $("#updatesBtn").find("a").addClass("pause")
                 clearInterval(intervalHnd);
                 intervalHnd=null;
             }
+            //console.log("stop" , stopLevel);
         },
         update=function(){
             var now=new Date();
-            now=now.getTime();
+            now=now.getTime();                    
                         
             //going through the tasks list to see what to update
             for(var reqObj in tasks){
@@ -245,14 +433,20 @@ var NVision={
                     myAjax({
                         logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
                         success:reqObj.callBack,
+                        error:function(a,b,c){
+                            console.log(a,b,c)
+                        },
                         url:reqObj.url,
                         data:reqObj.data
                     })
                 }                
             }
             
-            //executing the callback
-            loopCallback();            
+            //executing the callbacks
+            for(var f in loopCallback){
+                loopCallback[f]();
+            }
+                        
         },
         updateNow=function(){
             //reseting the timeStamp values
@@ -260,18 +454,20 @@ var NVision={
                 tasks[reqObj].timeStamp=null;
             }
             
+            stopLevel=0;
+            
             //calling the update function
             update();
         },
         empty=function(){
             tasks={};
-            loopCallback=function(){};
+            loopCallback=[];
         },
         
         setCallback=function(fn){
             //this function is executed every second
-            loopCallback=fn;
-        }
+            loopCallback.push(fn);
+        };
         
         //public functions
         return {
@@ -282,7 +478,8 @@ var NVision={
             update:update,
             empty:empty,
             setCallback:setCallback,
-            updateNow:updateNow
+            updateNow:updateNow,
+            forceStart:forceStart
         }
         
     })(),
@@ -307,8 +504,9 @@ var NVision={
                     )
                     .append(
                         $("<a />")
+                            .addClass("showDetails")
                             .attr("href","#" + sysObj.name)
-                            .text("show trades details...")
+                            .text("View breaks")
                             .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
                     )                                        
                     .appendTo(db);
@@ -349,6 +547,7 @@ var NVision={
                         .insertAfter(title)
                         $("<a />")
                             .attr("href","#" + sysObj.name)
+                            .addClass("more")
                             .click(function(){
                                 $(this).siblings(".other").toggle();
                                 
@@ -380,23 +579,20 @@ var NVision={
                         }                       
                     }
 
-                }
-                
-                
+                }                
                 
                 //making a note of the containing div
                 sysObj.canvasBox = sysDiv.get(0)
-                
-                
+                            
             }
             
             //drawing all the links
             for (var link in NVision.links){
                 var link=NVision.links[link],
-                    fromSys=NVision.systems[link.from]
+                    fromSys=NVision.systems[link.from],
                     toSys=NVision.systems[link.to]
                     
-                    var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#999|4");
+                    var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
                     
                     fromSys.canvasLink=fromSys.canvasLink?fromSys.canvasLink:[];
                     fromSys.canvasLink.push(canvasLink);
@@ -423,7 +619,11 @@ var NVision={
                 id:sysObj.name,
                 url:sysConfig.sysUpdates,
                 callBack:function(data){
-                    myConsole.alert("Todo: system status updated",2000)
+                    var sysObj=NVision.systems[data.name];
+                    
+                    sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel,data.alertThreshold);
+                    
+                    //todo: update the rest of the object
                 }
             })
             NVision.updateEngine.add(updateReq);          
@@ -476,8 +676,6 @@ var NVision={
                                 
                             })
                         }
-                        
-                        
                     }
                     
                     // creating the table
@@ -486,7 +684,7 @@ var NVision={
                         container:$("#tableData").empty(),
                         data:sysObj.trades,
                         tableHeadings:tableHeadings,
-                        itemsPerPage:sysObj.itemsPerPage,
+                        itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
                         currentPage:sysObj.currentPage,
                         headClick:function(anchor){
                             var $anchor=$(anchor);
@@ -514,8 +712,7 @@ var NVision={
                             updateTable()
                        
                         },
-                        rowClick:function(tr){
-                            NVision.updateEngine.stop();
+                        rowClick:function(tr){                            
                             showTradeDetails(tr)
                         }                
                     })
@@ -582,16 +779,16 @@ var NVision={
         function showTradeDetails(tr){
             var $tr=$(tr),
                 tradeId=tr.getAttribute("data-Id");
-            
-            
+                        
             //removing the details table 
             if($tr.next().hasClass("detailsContainer")){
                 $tr.removeClass("open");
                 $tr.next().remove();
-                if(!$tr.siblings().hasClass("detailsContainer")){
-                    NVision.updateEngine.start();
-                }
+                
+                NVision.updateEngine.start();
             }else{
+                NVision.updateEngine.stop();
+                
                 //generating the ajax request
                 $tr.addClass("open");
                 myAjax({
@@ -607,7 +804,7 @@ var NVision={
                         }
                         
                                                 
-                        NVision.utils.createTable({
+                        var table=NVision.utils.createTable({
                             container:newTr.find("td"),
                             tableHeadings:tableHeadings,
                             data:data.details,
@@ -650,6 +847,15 @@ var NVision={
                             },
                             headClick:null                        
                         })
+                        
+                        //replacing ok/nok with icons
+                        $.each(table.find("tbody tr"),function(){
+                                var td=$(this).children().eq(0),
+                                    text=td.text();
+                                    
+                                td.empty().addClass("status");                                
+                                $(this).addClass(text);                                
+                            })
                     },
                     url:sysConfig.tradeDetails
                 })    
@@ -658,6 +864,9 @@ var NVision={
     },
     
     utils:{
+        getLevel:function(lev,thr){
+            return lev<thr/2?0:lev<thr?1:2;        
+        },
         exportToCSV:function(data){
             var strArr=[];
             for(var d in data){
@@ -689,14 +898,39 @@ var NVision={
                     .text("Showing: 0/0")
                     .appendTo(options.container);
                     
-            if(options.system.trades.length==0 || options.system.itemsPerPage==0){
+
+            
+            
+            //adding the "displayAll" button
+            var all=$("<a />")
+                    .addClass("showAll button")
+                    .text(options.system.displayAll?"Paginate":"Display all")
+                    .click(function(){
+                        var $this=$(this);
+                        
+                        options.system.displayAll=options.system.displayAll?false:true;
+                        
+                        $this.text(options.system.displayAll?"Paginate":"Display all")
+                        options.pageClick(1);                    
+                    })
+                    .appendTo(options.container)
+                    
+            if(options.system.trades.length==0){
                 return false;
             }
             
-            var from=options.system.itemsPerPage*(options.system.currentPage-1),
+         
+            
+            var from=options.system.itemsPerPage*(options.system.currentPage-1)+1,
                 to=Math.min(options.system.trades.length,options.system.itemsPerPage*options.system.currentPage);
+                
+                to=options.system.displayAll?options.system.trades.length:to;
             
             legend.text("Showing: " + from + "-" + to +  " / " + options.system.trades.length)
+            
+            if(options.system.displayAll){
+                return false;
+            }               
             
             var pageCount=Math.ceil(options.system.trades.length/options.system.itemsPerPage),
                 ul=$("<ul/>");
@@ -758,6 +992,8 @@ var NVision={
                     //adding the selectAll function
                     hTr.find("input").change(function(){
                         tbody.children("tr").not(".detailsContainer").find("input").attr("checked",$(this).attr("checked"))
+                        
+                        this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
                     })
                     
                 for (var cell in options.tableHeadings){
@@ -794,7 +1030,7 @@ var NVision={
                                     options.rowClick?options.rowClick(this):null;
                                 }
                             })
-                            .attr("data-Id",trade[cellCaption])
+                            .attr("data-Id",first+tradeIdx)//trade[cellCaption])
                     }
                 }
                 

@@ -3,6 +3,7 @@
     "details":[
         {
             "id":"aa",
+            "Status":"ok",
             "Time":"12:25:06",
             "Market":"Eurex",
             "Broker":"BVABB",
@@ -16,6 +17,7 @@
         },
         {
             "id":"ab",
+            "Status":"ok",
             "Time":"12:25:07",
             "Market":"Eurex",
             "Broker":"BVABBxx",
@@ -29,6 +31,7 @@
         },
         {
             "id":"ac",
+            "Status":"ok",
             "Time":"12:25:06",
             "Market":"Eurex",
             "Broker":"BVABB",
@@ -42,6 +45,7 @@
         },
         {
             "id":"ad",
+            "Status":"nok",
             "Time":"12:25:07",
             "Market":"Eurex",
             "Broker":"BVABBxx",

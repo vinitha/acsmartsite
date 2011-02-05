@@ -28,8 +28,8 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
     
 
     
-    var bb1 = obj1.getBBox(),
-        bb2 = obj2.getBBox(),
+    var bb1 = getBBox(obj1),
+        bb2 = getBBox(obj2),
         p = [{x: bb1.x + (bb1.width / 7)*linkIndex_1, y: bb1.y - 0},
         {x: bb1.x + (bb1.width / 7)*linkIndex_1, y: bb1.y + bb1.height + 0},
         {x: bb1.x - 0, y: bb1.y + (bb1.height / 7)*linkIndex_1},

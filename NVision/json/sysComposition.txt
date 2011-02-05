@@ -3,7 +3,7 @@
         "type":"system",
         "name":"ClearVision",
         "alertLevel":"13",
-        "updatesInterval":60000,
+        "updatesInterval":20000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -137,6 +137,13 @@
         "from":"ClearVision",
         "to":"BMI"
     },    
+
+    {
+        "type":"link",
+        "name":"test link 4",
+        "from":"Caa",
+        "to":"BMI"
+    },  
     
     {
         "type":"layout",
@@ -149,13 +156,13 @@
             },
             {
                 "name":"NewClear",
-                "top":180,
-                "left":480
+                "top":120,
+                "left":580
             },
             {
                 "name":"Caa",
-                "top":260,
-                "left":280
+                "top":280,
+                "left":200
             },
             {
                 "name":"BMI",

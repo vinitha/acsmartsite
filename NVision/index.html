@@ -25,7 +25,7 @@
 
   <div id="container">
     <header>
-      <h1>NVision</h1>
+      <h1><span>NewEdge: NVision</span></h1>
       
       <div id="menuBar">        
         <!-- main menu -->
@@ -36,16 +36,17 @@
             <li><a href="#tab_4">Admin</a></li>
           </ul> 
         <!-- *** -->
-        
-        <!-- search -->
-          <form id="searchForm" action="dummy action">
-            <label for="keyword">Search</label>
-            <input type="text" name="keyword" id="keyword" value="" />
-            <button type="submit" class="searchBtn button"><span></span></button>
-            <a class="advancedSearch" href="#advanced" title="Click to expand/contract">Advanced</a>
-          </form>
-        <!-- *** -->        
+              
       </div>
+      
+      <!-- search -->
+        <form id="searchForm" action="dummy action">
+          <label for="keyword">Search</label>
+          <input type="text" name="keyword" id="keyword" value="" />
+          <button type="submit" class="searchBtn button"><span></span></button>
+          <a class="advancedSearch" href="#advanced" title="Click to expand/contract">Advanced</a>
+        </form>
+      <!-- *** -->        
       
     </header>
     
@@ -168,7 +169,6 @@
     </footer>
   </div> <!-- end of #container -->
 
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.4.4.min.js"%3E%3C/script%3E'))</script>
   
@@ -179,13 +179,18 @@
           sysComposition:"json/sysComposition.txt",  //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
           
           //called by the dashBoardView view
-          sysUpdates:"json/sysComposition.txt",     //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          sysUpdates:"json/sysUpdates.txt",     //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
           
           //called by the tableView view
           sysTrades:"json/systemTrades.txt",
           
           //called when the user clicks on a row in the tableView
           tradeDetails:"json/tradeDetails.txt",
+          
+          //Url which receives the overwrite request
+          overwriteRequest:"json/ok.txt",
+          
+          resubmitRequest:"json/ok.txt",
           
           //tableView configuration 
           tableView:{
