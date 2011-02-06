@@ -151,18 +151,18 @@
         "systems":[
             {
                 "name":"ClearVision",
-                "top":80,
-                "left":100
+                "top":269,
+                "left":869
             },
             {
                 "name":"NewClear",
-                "top":120,
-                "left":580
+                "top":56,
+                "left":142
             },
             {
                 "name":"Caa",
-                "top":280,
-                "left":200
+                "top":16,
+                "left":753
             },
             {
                 "name":"BMI",

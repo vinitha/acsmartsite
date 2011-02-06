@@ -722,16 +722,18 @@
 	
 /* dashBoardView */
 	#dashBoardView{
-		background-image:url(../images/dbBG.png);
+		background-color:#aaa;
 		height:500px;
+		padding-bottom:10px;
 	}
 	
 	#dbContent{
 		position:relative;
-		background-image:url(../images/reflection.png);
+		background-image:url(../images/dbBG2.png);
+		/*background-image:url(../images/60White.png);
 		background-position:0px 0px;
-		background-repeat:no-repeat;
-		
+		background-repeat:no-repeat;*/
+		border-bottom:1px solid #aaa;
 		height:100%;
 	}
 	
