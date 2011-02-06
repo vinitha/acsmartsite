@@ -966,7 +966,9 @@ var NVision={
             headClick
             rowClick
             selectRow
-            */            
+            */
+            
+            var stTime=(new Date()).getTime();
             
             var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>"),
                 thead=table.find("thead"),
@@ -1039,7 +1041,8 @@ var NVision={
                 
                 table.appendTo(options.container);
             }
-                        
+            var delta=((new Date()).getTime()-stTime)
+            myConsole.log("rendering time: " + delta,5000)
             return table;
         }
     }
