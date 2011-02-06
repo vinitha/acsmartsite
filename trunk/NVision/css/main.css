@@ -1,18 +1,23 @@
 .css-vertical-text {
 	color:#333;
 	border:0px solid red;
-	writing-mode:tb-rl;
 	
+	writing-mode:tb-rl;	
 	filter: flipv fliph;
+	/*filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
 	
-	-webkit-transform:rotate(90deg);
-	-moz-transform:rotate(90deg);
-	-o-transform: rotate(90deg);
+	-webkit-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	
+	-moz-transform-origin: bottom left;
+	-webkit-transform-origin: bottom left;
+	-o-transform-origin: bottom left;
+
 	white-space:nowrap;
 	display:block;
-	bottom:0;
-	width:20px;
-	height:20px;
+	
+
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 	font-size:24px;
 	font-weight:normal;
