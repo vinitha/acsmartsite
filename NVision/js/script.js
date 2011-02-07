@@ -956,7 +956,10 @@ var NVision={
             ul.find("li").eq(options.system.currentPage-1).addClass("current")
         },
         
-        createTable:function(options){
+	
+	
+	
+ createTable:function(options){
             /*
             container
             data
@@ -966,14 +969,26 @@ var NVision={
             headClick
             rowClick
             selectRow
-            */
-            
-            var stTime=(new Date()).getTime();
-            
+            */            
+            var stTime=(new Date()).getTime();	 
+	 
             var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>"),
                 thead=table.find("thead"),
-                tbody=table.find("tbody");
+                tbody=table.find("tbody"),                    
+		hTr=[],
+                bTr=[],
+		head=false;
             
+	 table.data("fnId","fn_" + stTime);
+	 
+	 /*	NVision.fnObj["fn_" + stTime]=options.rowClick;
+	 NVision.tableLiveEvents?(function(){
+			$("tr").live("click",function(){myConsole.log("click")})
+		 })()
+		 :null;
+	 */
+		 $("tr").live("click",function(){myConsole.log("click")})
+	
             options.itemsPerPage=options.itemsPerPage||9999999;
             
             //displaying the trades list
@@ -981,23 +996,38 @@ var NVision={
             
             for(var tradeIdx=0;tradeIdx<options.itemsPerPage && tradeIdx<options.data.length-first ;tradeIdx++){            
                 
-                var trade=options.data[first+tradeIdx],                    
-                    hTr=$("<tr />"),
-                    bTr=$("<tr />");
+                var trade=options.data[first+tradeIdx];
+		    /*
+			hTr=$("<tr />"),
+			bTr=$("<tr />");
+		    */
+		    if(!head){			    
+			hTr.push("<tr>") 
+		    }
+			
+			bTr.push("<tr>");		    
                     
                     if(options.selectRow){
                         //adding the checkBox to the first cell
-                        hTr.append($('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')),
-                        bTr.append($("<td class='chkbox'><input type='checkbox'/></td>"));                        
+			/*
+				hTr.append($('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')),
+				bTr.append($("<td class='chkbox'><input type='checkbox'/></td>"));                        
+			*/
+			    if(!head){	
+				hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
+			    }
+                        bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
                     }
-                    
+		    
+		    head=true;
+                    /*
                     //adding the selectAll function
                     hTr.find("input").change(function(){
                         tbody.children("tr").not(".detailsContainer").find("input").attr("checked",$(this).attr("checked"))
                         
                         this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
                     })
-                    
+                    */
                 for (var cell in options.tableHeadings){
                     
                     var cellCaption=options.tableHeadings[cell];
@@ -1006,6 +1036,16 @@ var NVision={
                     if(cellCaption!="id"){
                         //creating the table headers
                         if (tradeIdx==0){
+				
+				hTr.push("<th>")
+					if(options.headClick){
+						hTr.push("<a href='#sort' title='sort'>")
+							hTr.push("<span class='header'/>" + cellCaption+"<span/>")
+						hTr.push("</a>")					
+					}else{
+						hTr.push("<span class='header'>" + cellCaption+"<span/>")	
+					}					
+/*
                             $("<th />")
                                 .append(
                                     options.headClick?
@@ -1019,13 +1059,19 @@ var NVision={
                                         $("<span />").text(cellCaption)
                                 )
                                 .appendTo(hTr)
+*/					    
                         }
-                        
+			
+			bTr.push("<td class='cell' href='#trade'>" +trade[cellCaption] +"<span />")
+                        /*
                         $("<td class='cell' href='#trade' />")
                             .text(trade[cellCaption])
                             .appendTo(bTr);                              
+			*/
+			
                     }else{
                         //making a note of the trade ID
+			    /*
                         bTr
                             .click(function(e){
                                 if(e.target.tagName.toLowerCase()=="td"){
@@ -1033,19 +1079,58 @@ var NVision={
                                 }
                             })
                             .attr("data-Id",first+tradeIdx)//trade[cellCaption])
+			    */
                     }
                 }
-                
+                /*
                 hTr.children().length>(options.selectRow?1:0)?hTr.appendTo(thead):null;
                 bTr.appendTo(tbody);
-                
-                table.appendTo(options.container);
+                */
+		if(head){
+			hTr.push("</tr>")
+		}
+		bTr.push("</tr>")
+		
+
             }
+ 		thead.get(0).innerHTML=hTr.join("");
+		tbody.get(0).innerHTML=bTr.join("");
+		
+                table.appendTo(options.container);    
+	    
+		//adding the selectAll function
+		thead.find("input").change(function(){
+                        tbody.children("tr").not(".detailsContainer").find("input").attr("checked",$(this).attr("checked"))
+                        
+                        this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
+                    })	    
+		    
+		//sort
+		options.headClick?
+		    thead.find("a")
+			    .click(function(e){
+				e.preventDefault();
+				options.headClick(this);
+			    })
+			:
+			null;
+			/*    
+		//rowClick
+		tbody.find("tr")
+		    .click(function(e){
+			if(e.target.tagName.toLowerCase()=="td"){
+			    options.rowClick?options.rowClick(this):null;
+			}
+		    })
+			    */
+	    
             var delta=((new Date()).getTime()-stTime)
             myConsole.log("rendering time: " + delta,5000)
+	    
             return table;
         }
-    }
+    }	
+
 }
 
 
