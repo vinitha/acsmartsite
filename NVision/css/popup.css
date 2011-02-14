@@ -1,6 +1,69 @@
 html,body{margin:0px; padding:0px;font-size:100%}
-body{font-family:"arial";font-size:62.5%}
+body{font-family:"arial";font-size:62.5%;margin:10px}
+
+.popup{
+    width:800px;
+    height:450px;
+    overflow:auto;
+}
 .popup h1{
     font-size:2em;
     color:#408080;
+    height:auto;
+    margin-bottom:10px;
+    background-image:none;
+}
+
+
+.popup .details{
+    background-color: #e5e5e5;
+    background-image: url("../images/greenTick.png");
+    background-position: 3px 50%;
+    background-repeat: no-repeat;
+    line-height: 20px;
+    margin: 0;
+    padding: 5px 10px 5px 35px;
+}
+
+.popup .error{
+    background-image:url(../images/error_mid.png);
+}
+
+.popup .details strong{
+    font-size:1.1em;
+    font-weight:bold;
+    color:#000;
+}
+
+.popup .details span{
+    padding-right:20px;
+}
+
+.popup .tabMenu{
+    margin:10px 0 -1px 10px;
+    position:relative;
+    z-index:2;
+}
+
+.popup .tabMenu li a{
+        background-position:0px -96px;
+}
+
+.popup .tabMenu li a span{
+        background-position:right -144px;	
+}
+
+.popup .tabContent{
+    clear: both;
+    display: none;
+    padding: 10px;
+    background-color:#e0e0e0;
+    height:328px;
+    overflow:auto;
+    font-size:1.1em;
+}
+
+.popup .tabMenu li.current a {
+    background-color:#e0e0e0;
+    border-bottom-color:#e0e0e0;
 }

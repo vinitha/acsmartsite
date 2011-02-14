@@ -1,3 +1,29 @@
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
+
+
 //ixDropDown plugin
 (function($){
 	$.fn.ixDropDown=function(options){
@@ -22,7 +48,7 @@
 		return this.each(function(){
 
 			var thisObj=$(this).hide(0),
-			timerHnd=null;
+				timerHnd=null;
 
 			//binding the onChange event to the <select>
 			thisObj.change(function(){
@@ -255,9 +281,10 @@ function confirm(options){
 	    )	    
 	)
     var lb=$msg.lightBox({
-	modal:true,
-	title:defaults.title
-    }).show();
+					modal:true,
+					title:defaults.title,
+					width:270
+				}).show();
 }
 
 //lightBox widget
@@ -269,13 +296,13 @@ function confirm(options){
 	$.fn.lightBox = function(options) {		
 		var $this=$(this),
 		    defaults={
-			title:false,
-			onClose:function(){},
-			width:this.outerWidth(true)+20,
-			parent:null,
-			rtl:false,
-			modal:false
-		    };		
+				title:false,
+				onClose:function(){},
+				width:this.outerWidth(true)+20,
+				parent:null,
+				rtl:false,
+				modal:false
+			};		
 				
 		//extending the default options
 		$.extend(defaults,$.fn.lightBox.defaults,options)		
@@ -297,7 +324,7 @@ function confirm(options){
 	var closing=function(){
 			var defaults=$(this).data("_lightBox")
 			bg.hide(0);
-			lb.hide(200);			
+			lb.hide(200);
 			
 			if(defaults.parent){
 			    this.appendTo(defaults.parent);
@@ -313,7 +340,7 @@ function confirm(options){
 	var showing=function(){
 		var defaults=$(this).data("_lightBox"),
 		    thisObj=this;
-		
+			
 		//get the background DIV (or create it)						
 		bg=document.getElementById("lightBoxBg");
 		if(bg){
@@ -327,7 +354,7 @@ function confirm(options){
 		    var rules=[
 			    "#lightBoxBg{position:fixed;height:100%;width:100%;background-color:#000;opacity:0.5;filter:alpha(opacity=50);top:0;left:0;z-index:9;display:none}",
 			    "#lightBoxPanel{position:fixed;top:50%;margin-top:-100px;left:50%;background-color:#FFF;border:1px solid #000;z-index:9;display:none;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 3px 10px rgba(0,0,0,0.6);-moz-box-shadow:0 3px 10px rgba(0,0,0,0.6);box-shadow:0 3px 10px rgba(0,0,0,0.6)}",
-			    "#lightBoxPanel .mainContent{outline:none;padding:10px;overflow:hidden}",
+			    "#lightBoxPanel .mainContent{outline:none;padding:10px;overflow:hidden;position:relative}",
 			    "#lightBoxPanel .closeBtn{outline:none;background-position:0 0;height:16px;position:absolute;right:-8px;top:-9px;width:16px}",
 			    "#lightBoxPanel .closeBtn:hover,#lightBoxPanel .closeBtn:focus,#lightBoxPanel .closeBtn:active{background-position:0 bottom}",
 			    "#lightBoxPanel .lbTitle{background-color:#bbb;background-image:color:#FFF;font-size:1.2em;border-top-right-radius:4px;border-top-left-radius:4px;-webkit-border-top-right-radius:4px;-webkit-border-top-left-radius:4px;-moz-border-radius-topleft:4px;-moz-border-radius-topright:4px;margin:0;padding:5px 5px 4px}"				
@@ -372,9 +399,12 @@ function confirm(options){
 						lb.find("input:visible,a").not(".readonly").eq(0).focus()	
 						return false;
 					}
-				})					    
+				})
 		}
 		
+		lb.stop(false);
+		lb.css("height","auto")
+		lb.fadeTo(0,1)
 		
 		
 	    //binding the close event
@@ -403,12 +433,13 @@ function confirm(options){
 		    })
 		}
 		
-		
+
 		// handling the LB width and position
 		lb.css({
 		    width:defaults.width,
 		    marginLeft:-defaults.width/2
 		});
+
 		
 		// setting the reading direction class Name
 		if (defaults.rtl){
@@ -447,10 +478,10 @@ function confirm(options){
 		    if(mainContent.outerHeight()/2>10 && lb.css("margin-top")!=(-mainContent.outerHeight()/2)){
 			lb.animate({"margin-top":-mainContent.outerHeight()/2},200);
 		    }
-		}			
+		}
 		
-		setTimeout(checkPos,700);		
-				
+		checkPos();
+
 			
 		return thisObj;	    
 	};
@@ -1104,7 +1135,7 @@ var scroller=function(element){
 		var defaults={
 			draggingClass:"",
 			container:null,
-			elementToDrag:null,
+			elementToDrag:thisObj,
 			onStart:function(){},
 			onMove:function(){},
 			onStop:function(){}
@@ -1173,6 +1204,7 @@ var scroller=function(element){
 (function($){		  
 	window.myConsole={
 		prog:0,
+		timers:{},
 		init:function(){
 			myConsole.div=$("<div class='myConsole' />").appendTo(document.body);
 			myConsole.alDiv=$("<div class='alertBox myConsole' />").appendTo(document.body);
@@ -1203,7 +1235,25 @@ var scroller=function(element){
 			}					
 		},
 			
+		chkSpeed:function(msg,id){
+			
+			if (id){
 				
+				var Msg=$("#_console_" + id)							
+				
+				Msg.text(Msg.text().replace("***",(new Date()).getTime()- myConsole.timers["_console_" + id]));
+				
+				setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},10000);
+				
+				delete myConsole.timers["_console_" + id];
+				return false;
+			}
+			
+			id=myConsole.status(msg + "***");
+			
+			myConsole.timers["_console_" + id]=(new Date()).getTime();
+			return id;
+		},	
 		
 		status:function(msg,id,isError){	
 			

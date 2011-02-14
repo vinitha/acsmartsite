@@ -27,7 +27,59 @@
     
     {
         "type":"system",
-        "name":"BMI",
+        "name":"TEO",
+        "alertLevel":"18",
+        "updatesInterval":20000,
+        "attributes":[
+            {
+                "name":"Breaks",
+                "value":270,
+                "other":{
+                    "Avg Break Fix Rate":"2mins",
+                    "Market Close":"1hr 00mins"                
+                }                             
+            },
+            {
+                "name":"Teo In Msgs",
+                "value":74,
+                "other":{
+                    "Msg Throughput per hr":32,
+                    "Throughput rate":6,
+                    "Threshold":70
+                }
+            }            
+        ]        
+    },    
+    
+    {
+        "type":"system",
+        "name":"NewClear LITE",
+        "alertLevel":"13",
+        "updatesInterval":60000,
+        "attributes":[
+            {
+                "name":"Breaks",
+                "value":27,
+                "other":{
+                    "Avg Break Fix Rate":"2mins",
+                    "Market Close":"1hr 00mins"                
+                }                             
+            },
+            {
+                "name":"NC LITE In Msgs",
+                "value":74,
+                "other":{
+                    "Msg Throughput per hr":32,
+                    "Throughput rate":6,
+                    "Threshold":70
+                }
+            }            
+        ]        
+    },
+    
+    {
+        "type":"system",
+        "name":"GMI",
         "alertLevel":"13",
         "updatesInterval":60000,
         "attributes":[
@@ -53,7 +105,7 @@
     
     {
         "type":"system",
-        "name":"Caa",
+        "name":"CAA",
         "alertLevel":"13",
         "updatesInterval":60000,
         "attributes":[
@@ -112,67 +164,182 @@
         ]        
     },
     
+    
+    
+    {
+        "type":"exchange",
+        "name":"exchange"
+    },
+        
+    
+    
+    
     {
         "type":"adapter",
-        "name":"test"
+        "name":"EUREX Adapter"
     },
-    
     {
-        "type":"link",
-        "name":"test link",
-        "from":"ClearVision",
-        "to":"NewClear"
+        "type":"adapter",
+        "name":"GMI In Adapter"
     },
-    
     {
-        "type":"link",
-        "name":"test link 2",
-        "from":"ClearVision",
-        "to":"Caa"
+        "type":"adapter",
+        "name":"NewClear LITE In (Market)"
     },
-    
     {
-        "type":"link",
-        "name":"test link 3",
-        "from":"ClearVision",
-        "to":"BMI"
+        "type":"adapter",
+        "name":"CAA Out Adapter"
     },    
-
+    {
+        "type":"adapter",
+        "name":"TEO Out Adapter"
+    },
+    {
+        "type":"adapter",
+        "name":"NewClear In Adapter (Ticket)"
+    },
+    {
+        "type":"adapter",
+        "name":"NewClear In Adapter (Market)"
+    },
+    {
+        "type":"adapter",
+        "name":"NewClear Out Adapter"
+    },
+    {
+        "type":"adapter",
+        "name":"ClearVision In Adapter"
+    },    
+    
+    
+    
+    
+    
+    
+ 
     {
         "type":"link",
-        "name":"test link 4",
-        "from":"Caa",
-        "to":"BMI"
+        "name":"l1",
+        "from":"exchange",
+        "to":"EUREX Adapter"
+    },    
+    {
+        "type":"link",
+        "name":"l2",
+        "from":"EUREX Adapter",
+        "to":"NewClear In Adapter (Market)"
+    },
+    {
+        "type":"link",
+        "name":"l3",
+        "from":"EUREX Adapter",
+        "to":"NewClear LITE In (Market)"
+    },    
+    {
+        "type":"link",
+        "name":"l4",
+        "from":"EUREX Adapter",
+        "to":"GMI In Adapter"
     },  
+    {
+        "type":"link",
+        "name":"l5",
+        "from":"EUREX Adapter",
+        "to":"GMI In Adapter"
+    },  
+    {
+        "type":"link",
+        "name":"l4",
+        "from":"GMI In Adapter",
+        "to":"GMI"
+    },  
+    {
+        "type":"link",
+        "name":"l6",
+        "from":"GMI",
+        "to":"NewClear LITE"
+    },     
+    {
+        "type":"link",
+        "name":"l7",
+        "from":"NewClear LITE In (Market)",
+        "to":"NewClear LITE"
+    },      
+    {
+        "type":"link",
+        "name":"l8",
+        "from":"CAA",
+        "to":"CAA Out Adapter"
+    },             
+    {
+        "type":"link",
+        "name":"l9",
+        "from":"TEO Out Adapter",
+        "to":"NewClear In Adapter (Ticket)"
+    },     
+    {
+        "type":"link",
+        "name":"l10",
+        "from":"NewClear In Adapter (Ticket)",
+        "to":"NewClear"
+    },      
+    {
+        "type":"link",
+        "name":"l11",
+        "from":"NewClear",
+        "to":"NewClear Out Adapter"
+    },     
+    {
+        "type":"link",
+        "name":"l12",
+        "from":"NewClear Out Adapter",
+        "to":"ClearVision In Adapter"
+    },       
+    {
+        "type":"link",
+        "name":"l13",
+        "from":"ClearVision In Adapter",
+        "to":"ClearVision"
+    },       
+    {
+        "type":"link",
+        "name":"l14",
+        "from":"TEO",
+        "to":"TEO Out Adapter"
+    },    
+    {
+        "type":"link",
+        "name":"l15",
+        "from":"exchange",
+        "to":"ClearVision"
+    },
+    {
+        "type":"link",
+        "name":"l16",
+        "from":"ClearVision",
+        "to":"exchange"
+    },
+    {
+        "type":"link",
+        "name":"l17",
+        "from":"NewClear In Adapter (Market)",
+        "to":"NewClear"
+    },    
+    {
+        "type":"link",
+        "name":"l18",
+        "from":"CAA Out Adapter",
+        "to":"NewClear In Adapter (Ticket)"
+    },      
+    
+    
+    
+    
     
     {
         "type":"layout",
         "name":"NVision subSystem positioning",
-        "systems":[
-            {
-                "name":"ClearVision",
-                "top":269,
-                "left":869
-            },
-            {
-                "name":"NewClear",
-                "top":56,
-                "left":142
-            },
-            {
-                "name":"Caa",
-                "top":16,
-                "left":753
-            },
-            {
-                "name":"BMI",
-                "top":260,
-                "left":480
-            }
-        ]
-    
+        "objectsPos":{"EUREX Adapter":{"left":289,"top":368},"GMI In Adapter":{"left":521,"top":424},"NewClear LITE In (Market)":{"left":659,"top":351},"CAA Out Adapter":{"left":805,"top":206},"TEO Out Adapter":{"left":801,"top":34},"NewClear In Adapter (Ticket)":{"left":794,"top":115},"NewClear In Adapter (Market)":{"left":578,"top":259},"NewClear Out Adapter":{"left":337,"top":65},"ClearVision In Adapter":{"left":152,"top":54},"ClearVision":{"left":150,"top":138},"TEO":{"left":980,"top":7},"NewClear LITE":{"left":928,"top":452},"GMI":{"left":519,"top":492},"CAA":{"left":952,"top":232},"NewClear":{"left":545,"top":72},"exchange":{"left":34,"top":244}}
     }
-    
-    
     
 ]

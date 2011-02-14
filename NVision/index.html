@@ -1,4 +1,6 @@
-<!doctype html>  
+<!doctype html>
+
+<!--[if IE]><![endif]-->
 
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
@@ -18,7 +20,7 @@
   <link id="_popup" rel="stylesheet" href="css/popup.css?v=1" />    
   <link rel="stylesheet" href="css/reset.css?v=1" />
   <link rel="stylesheet" href="css/main.css?v=1" />
-    
+  <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.9.custom.css?v=1" />  
 </head>
 
 <body>
@@ -30,10 +32,9 @@
       <div id="menuBar">        
         <!-- main menu -->
           <ul id="mainMenu" class="tabMenu">
-            <li class="current"><a href="#tab_1">Trade Lifeycle</a></li>
-            <li><a href="#tab_2">Analysis &amp; Reports</a></li>
-            <li><a href="#tab_3">Rules editor</a></li>
-            <li><a href="#tab_4">Admin</a></li>
+            <li class="current"><a href="#tab_1"><span>Trade Lifeycle</span></a></li>
+            <li><a href="#tab_2"><span>Analysis &amp; Reports</span></a></li>
+            <li><a href="#tab_3"><span>Rules editor</span></a></li>
           </ul> 
         <!-- *** -->
               
@@ -82,11 +83,7 @@
           
           <label>
             <span>Date:</span>
-            <select name="asset">
-              <option value="01">Listed derivates</option>
-              <option value="02">Option 2</option>
-              <option value="03">Option 3</option>
-            </select>
+            <input type="text" class="datePicker" name="date" />
           </label>
           <label>
             <span>Time:</span>
@@ -107,7 +104,7 @@
         </div>
       <!-- *** -->
       
-      <div class="tabContent" id="tab_1">
+      <div class="tabContent current" id="tab_1">
         
         <div id="tableView" class="view">
           <!-- breadcrumb -->
@@ -153,10 +150,7 @@
           <div id="dbContent">
             
           </div>
-        </div>         
-        
-
-        
+        </div>                 
         
       </div>
       
@@ -188,9 +182,13 @@
           tradeDetails:"json/tradeDetails.txt",
           
           //Url which receives the overwrite request
-          overwriteRequest:"json/ok.txt",
+          overwriteRequest:"json/nok.txt",
           
           resubmitRequest:"json/ok.txt",
+          
+          msgDetails:"json/msgDetails.txt",
+          
+          searchUrl:"json/searchResults.txt",
           
           //tableView configuration 
           tableView:{
@@ -200,11 +198,12 @@
 
   </script>
   
-  
+  <script src="js/jquery-ui-1.8.9.custom.min.js"></script>
   <script src="js/raphael.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>  
   <script src="js/objects.js"></script>
+  
   <iframe id="saveAs"></iframe>
 </body>
 </html>
