@@ -7,6 +7,26 @@ $().ready(function(){
     NVision.init(function(){});
     
     $("select").ixDropDown();
+    
+    
+    //setting the tabMenus up
+    $("ul.tabMenu a").live("click",function(e){
+        e.preventDefault();
+        var $this=$(this),
+            oldTab=$this.closest("li").siblings(".current"),
+            oldId=oldTab.find("a").attr("hash");
+        
+        oldTab.removeClass("current");            
+        $(oldId).removeClass("current");
+        $(this).closest("li").addClass("current");
+        $(this.hash).addClass("current");
+    })
+    
+    //setting the datePicker up
+    $(".datePicker").datepicker({
+        inline: true
+    }); 
+    
 })
 
 
@@ -25,6 +45,7 @@ function getBBox(obj){
 
 // this object holds the logic of the entire app.
 var NVision={
+    ver:"1.1",          //Used to version the positioning cookies
     systems:null,       //hashtable containing the subSystems
     currentSys:null,    //placeholder updated by showTable function
     lightBoxes:{},      //hashtable of premade lightboxes      
@@ -33,6 +54,61 @@ var NVision={
     layout:null,
     sysReady:null,     //this function gets exectuted after the json data has been processed by the client
     init:function(sysReady){
+        
+        
+        //handling the search form
+        $("#searchForm").submit(function(e){
+            e.preventDefault();
+            NVision.doSearch(this);
+        })
+        
+        
+        //handling the resizing event
+        $(window).resize(function(){
+            var w=$("#dbContent").innerWidth(),
+                h=$("#dbContent").innerHeight();
+            
+            if ($.browser.msie){
+                    
+                $("#dbContent").find("div:first").css({
+                    "width":w,
+                    "height":h,
+                    "clip":"rect(0px " + w + "px " + h + "px 0px"
+                })      
+                
+            }else{
+                $("svg").css({
+                    "width":w,
+                    "height":h
+                })                
+            }
+
+        })
+        
+        //delegating the table row click event handler
+        $("tbody tr").live("click",function(e){
+            
+            if($(e.target).hasClass("header")){
+                return false;
+            };
+            
+            if(!$(this).hasClass("detailsContainer")&& e.target.tagName.toLowerCase()=="td"){
+                var fnId=$(this).closest("table").data("fnId");
+                if(NVision.fnObj[fnId]){
+                    NVision.fnObj[fnId](this);
+                }                
+            }
+        })
+        
+        
+        //adding the handle to resize the DashBoard
+        $("#dashBoardView").append(
+            $("<div class='resizer' />")
+                /*.append($("<span/>"))
+                .draggable({
+                    container:$("#dashBoardView")                            
+                })*/
+        )
         
         //creating the hidden div to store the lightBoxes
         var hiddenBox=$("<div />").attr("id","hiddenBox").appendTo(document.body);
@@ -56,24 +132,38 @@ var NVision={
             form.submit(function(e){
                 e.preventDefault();
                 
-                myConsole.log("todo: " + form.serialize(),10000)
-                NVision.lightBoxes["overwrite"].closeIt();
+                NVision.lightBoxes["overwrite"].closeIt();                
                 
-                //todo: waiting for the response and showing a confirm box
-                var confBox={
-                    title:"Overwrite confirmation",
-                    yesCaption:"Retry",
-                    noCaption:"Close",                    
-                    onYes:function(){myConsole.log("yes")},
-                    onNo:function(){myConsole.log("no")},
-                    msg:"Error xyz occured. Retry overwriting now?",
-                    msgClass:"error" // [ok||error]
-                }
-                
-                
-                setTimeout(function(){
-                    confirm(confBox);
-                },1000)                
+                //generating the ajax request
+                myAjax({
+                    logMsg:null, 
+                    success:function(data){
+                        
+                        myConsole.log("Refreshing the view...")
+                        
+                        //refreshing the tableView
+                        NVision.updateEngine.updateNow();
+                        NVision.updateEngine.start();
+                        
+                        var confBox={
+                            title:"Overwrite confirmation",
+                            yesCaption:data.code=="nok"?"Retry":"Resubmit",
+                            noCaption:"Close",                    
+                            onYes:function(){myConsole.log("yes")},
+                            onNo:function(){myConsole.log("no")},
+                            msg:data.msg,
+                            msgClass:data.code=="nok"?"error":"ok" // [ok||error]
+                        }
+                        
+                        confirm(confBox);
+                    
+                    },
+                    error:function(a,b,c){
+                        myConsole.log(a,b,c)
+                    },
+                    url:sysConfig.overwriteRequest,
+                    data:form.serialize()
+                })                
                 
                 return false;
             })
@@ -106,24 +196,39 @@ var NVision={
             form.find("input.cancel").click(function(){NVision.lightBoxes["resubmit"].closeIt()})
             form.submit(function(e){
                 e.preventDefault();
-                myConsole.log("todo: " + form.serialize(),10000)
+
                 NVision.lightBoxes["resubmit"].closeIt();
                 
-                //todo: waiting for the response and showing a confirm box
-                var confBox={
-                    title:"Resubmit confirmation",
-                    yesCaption:"View submitted trades",
-                    noCaption:"Close",                    
-                    onYes:function(){myConsole.log("yes")},
-                    onNo:function(){myConsole.log("no")},
-                    msg:"Message has been successfully resubmitted.",
-                    msgClass:"ok" // [ok||error]
-                }
-                
-                
-                setTimeout(function(){
-                    confirm(confBox);
-                },1000)
+                //generating the ajax request
+                myAjax({
+                    logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
+                    success:function(data){
+                        
+                        myConsole.log("Refreshing the view...")
+                        
+                        //refreshing the tableView
+                        NVision.updateEngine.updateNow();
+                        NVision.updateEngine.start();
+                        
+                        var confBox={
+                            title:"Resubmit confirmation",
+                            yesCaption:"View submitted trades",
+                            noCaption:"Close",                    
+                            onYes:function(){myConsole.log("yes")},
+                            onNo:function(){myConsole.log("no")},
+                            msg:data.msg,
+                            msgClass:data.code=="nok"?"error":"ok" // [ok||error]
+                        }
+                        
+                        confirm(confBox);
+                    
+                    },
+                    error:function(a,b,c){
+                        myConsole.log(a,b,c)
+                    },
+                    url:sysConfig.resubmitRequest,
+                    data:form.serialize()
+                })
                 
                 return false;
             })
@@ -160,7 +265,7 @@ var NVision={
                             //adding the system to the NVision obj
                             NVision.systems[this.name]=this;
                         break;
-                        
+                                            
                         case "adapter":
                             if(!NVision.adapters){NVision.adapters={}};
                             //adding the adapter to the NVision obj
@@ -174,10 +279,16 @@ var NVision={
                         break;
                         
                         case "layout":
-                            if(!NVision.layout){NVision.layout={}};
                             //adding the layout to the NVision obj
                             NVision.layout=this;
                         break;
+                        
+                        default :
+                          if(!NVision.otherObjects){NVision.otherObjects={}};
+                            //adding the otherObjects to the NVision obj
+                            NVision.otherObjects[this.name]=this;                            
+                        break;
+
                     }
                 })
                                 
@@ -294,10 +405,48 @@ var NVision={
         )
     },
     
-    showTable:function(sysObj){
+    doSearch:function(theForm){
         $("#tableView").show(0);
+        $("#tableData").empty();
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
+        
+        // clearing the update engine
+        NVision.updateEngine.empty();
+        
+        var searchObj={
+            name:"Search results",
+            currentPage:1,
+            itemsPerPage:sysConfig.tableView.itemsPerPage,
+            updatesInterval:1000,
+            type:"searchResults",
+            queryString:$(theForm).serialize()
+        };
+        
+        NVision.currentSys=searchObj;
+        
+        //adding the system to the updates queue
+        var reqObj=NVision.createBreaksUpdateRequests(searchObj);
+        
+        reqObj.url=sysConfig.searchUrl;
+        reqObj.data=$(theForm).serialize();
+        
+        $("#updatesBtn").hide(0);
+        
+         NVision.updateEngine.forceStart();
+         
+         NVision.updateEngine.setCallback(function(){
+            NVision.updateEngine.stop();
+         })
+        
+    },
+    
+    showTable:function(sysObj){
+        $("#tableView").show(0);
+        $("#tableData").empty();
+        $("#toolBar").show(0);
+        $("#dashBoardView").hide(0);
+        $("#updatesBtn").show(0);
         
         NVision.currentSys=sysObj;
         
@@ -321,7 +470,7 @@ var NVision={
                 span.parent().removeClass("on")
             }
             
-            span.text(timer);        
+            span.text(timer);            
         });
         
         NVision.updateEngine.forceStart();
@@ -331,13 +480,25 @@ var NVision={
         $("#tableView").hide(0);
         $("#toolBar").hide(0);
         $("#dashBoardView").show(0);
+        $("#updatesBtn").show(0);
+        
+        
+        //making sure the window and the SVG have the same size
+        $("svg").css({
+            "width":$("#dbContent").innerWidth(),
+            "height":$("#dbContent").innerHeight()
+        })        
         
         // clearing the update engine
         NVision.updateEngine.empty();
         
         
         //drawing the subSystem panels
-        NVision.drawSystems()
+        if(!NVision.drawSystems()){
+            myConsole.alert("Unable to proceed...",10000)
+            NVision.updateEngine.stop();
+            return false;
+        }
         
         //adding the systems to the updates queue
         NVision.createSystemsUpdateRequests();
@@ -347,8 +508,13 @@ var NVision={
         //setting the function to highlight allerted systems
         NVision.updateEngine.setCallback(function(){
 
-            for(var sysObj in NVision.systems){
+            for(var sysObj in NVision.systems){                
                 sysObj=NVision.systems[sysObj];
+                                
+                if(!sysObj) {
+                    myConsole.alert("Missing system definition for: " + sysObj,10000 )
+                    return false;
+                }
                 var className=sysObj.canvasBox.className,
                     $div=$(sysObj.canvasBox);
                 
@@ -375,7 +541,7 @@ var NVision={
         stopLevel=1,                
         
         add=function(obj){
-            tasks[obj.id]=obj;
+            tasks[obj.id]=obj;            
         },
         remove=function(obj){
             delete tasks[obj.id];
@@ -423,7 +589,8 @@ var NVision={
                         
             //going through the tasks list to see what to update
             for(var reqObj in tasks){
-                reqObj=tasks[reqObj];                
+                reqObj=tasks[reqObj];
+                
                 
                 if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updatesInterval<now)){
                     
@@ -434,7 +601,7 @@ var NVision={
                         logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
                         success:reqObj.callBack,
                         error:function(a,b,c){
-                            console.log(a,b,c)
+                            myConsole.log(a,b,c)
                         },
                         url:reqObj.url,
                         data:reqObj.data
@@ -453,8 +620,6 @@ var NVision={
             for(var reqObj in tasks){
                 tasks[reqObj].timeStamp=null;
             }
-            
-            stopLevel=0;
             
             //calling the update function
             update();
@@ -479,59 +644,97 @@ var NVision={
             empty:empty,
             setCallback:setCallback,
             updateNow:updateNow,
-            forceStart:forceStart
+            forceStart:forceStart,
+            tasks:tasks
         }
         
     })(),
     
     drawSystems:function(){
+        
+        
         // I am using NVision._dbReady to avoid drawing the dashBoard more than one time
         if(!NVision._dbReady){
+            
             var db=$("#dbContent"),
                 paper = Raphael("dbContent", db.innerWidth(), db.innerHeight());
+                
+            //getting the user defined systems positions
+            var pos=NVision.utils.getPositions(),
+                positions=null;
+            
+            if(pos){
+                positions=eval("(" + pos + ")");
+            }
 
-            for(var i in NVision.layout.systems){
+            for(var i in NVision.layout.objectsPos){
+
+                var layout=NVision.layout.objectsPos[i],
+                    sysObj=NVision.systems[i]||NVision.adapters[i]||NVision.otherObjects[i];                
+                    objPos=positions?positions[i]:layout;
+
+                var objDiv=$("<div />");
                 
-                var layout=NVision.layout.systems[i],
-                    sysObj=NVision.systems[layout.name];
-                
-                var sysDiv=$("<div id='" + sysObj.name + "' />")
-                    .addClass("systemBox")
-                    .css({"left":layout.left,"top":layout.top})
-                    .append(
-                        $("<h3 />")
-                            .text(sysObj.name)
-                    )
-                    .append(
-                        $("<a />")
-                            .addClass("showDetails")
-                            .attr("href","#" + sysObj.name)
-                            .text("View breaks")
-                            .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
-                    )                                        
-                    .appendTo(db);
+                if(pos && !objPos){
+                    myConsole.alert("Custom configuration data corrupted! Reverting to default",10000);
+                    eraseCookie("positions");
+                    positions=null;
+                    objPos=layout;
+                }
+
+                try{
+                    objDiv.attr("data_name",sysObj.name)
+                        .addClass(sysObj.type)
+                        .css({"left":objPos.left,"top":objPos.top})
+                        .append(
+                            $("<h3 />")
+                                .text(sysObj.name)
+                        )                                      
+                        .appendTo(db);
+                }catch(e){
+                    myConsole.alert("Systems configuration data corrupted!",10000);
+                    return false;
+                }
+
                     
-                var title=sysDiv.find("h3").draggable({
-                                    draggingClass:"",
-                                    elementToDrag:sysDiv,
-                                    container:db,                                    
-                                    onStart:function(div){
-                                        var sysObj=NVision.systems[div.attr("id")];                                        
-                                    },
-                                    onMove:function(div){
-                                        var pos=div.position();
-                                        var sysObj=NVision.systems[div.attr("id")]
-                                        
-                                        //redrawing the links
-                                        for(var link in sysObj.canvasLink){
-                                            link=sysObj.canvasLink[link];
-                                            paper.connection(link)
-                                        }
-                                    },
-                                    onStop:function(div){
+                var title=objDiv
+                            .find("h3").draggable({
+                                draggingClass:"",
+                                elementToDrag:objDiv,
+                                container:db,                                    
+                                onStart:function(div){
+                                },
+                                onMove:function(div){
+                                    var pos=div.position();
+                                    var sysObj=NVision.systems[div.attr("data_name")]||NVision.adapters[div.attr("data_name")]||NVision.otherObjects[div.attr("data_name")]
+                                    
+                                    //redrawing the links
+                                    for(var link in sysObj.canvasLink){
+                                        link=sysObj.canvasLink[link];
+                                        paper.connection(link)
                                     }
-                                })
-                sysDiv
+                                },
+                                onStop:function(div){
+                                    NVision.utils.savePositions();
+                                }
+                            })
+                      
+                if(sysObj.type=="adapter"){
+                    /*
+                    objDiv.addClass("css-vertical-text");
+                    
+                    
+                    if(!$.browser.msie){
+                        objDiv.css({
+                            width:title.outerHeight(),
+                            height:title.outerWidth()
+                        })    
+                    }
+                    */
+                    
+                }
+
+                objDiv
                     .mouseenter(function(){
                         $(this).css("z-index",10)
                     })
@@ -540,57 +743,64 @@ var NVision={
                     })
                 
                 //adding the system attributes
-                for (var attr in sysObj.attributes){
-                    attr=sysObj.attributes[attr];
-                    
-                   var attrDiv=$("<div class='attr' />")
-                        .insertAfter(title)
+                if(sysObj.type=="system"){
+                    objDiv.append(
                         $("<a />")
+                            .addClass("showDetails")
                             .attr("href","#" + sysObj.name)
-                            .addClass("more")
-                            .click(function(){
-                                $(this).siblings(".other").toggle();
+                            .text("View breaks")
+                            .click(function(){NVision.showTable(NVision.systems[this.hash.replace("#","")])})                           
+                    )  
+                    for (var attr in sysObj.attributes){
+                        attr=sysObj.attributes[attr];
+                        
+                       var attrDiv=$("<div class='attr' />")
+                            .insertAfter(title)
+                            $("<a />")
+                                .attr("href","#" + sysObj.name)
+                                .addClass("more")
+                                .click(function(){
+                                    $(this).siblings(".other").toggle();
+                                    
+                                    var sysObj=NVision.systems[this.hash.replace("#","")]
+                                    //redrawing the links of this object
+                                    for(var link in sysObj.canvasLink){
+                                        link=sysObj.canvasLink[link];
+                                        paper.connection(link)
+                                    }                                    
+                                    return false;
+                                })
+                                .appendTo(attrDiv)
+                                .append($("<span/>").text(attr.name + ": "))
+                                .append($("<strong/>").text(attr.value))
+    
+                        if(attr.other){
+                            for (var other in attr.other){
+                                var div=$("<div class='other' />")
+                                    .appendTo(attrDiv)                            
                                 
-                                var sysObj=NVision.systems[this.hash.replace("#","")]
-                                //redrawing the links of this object
-                                for(var link in sysObj.canvasLink){
-                                    link=sysObj.canvasLink[link];
-                                    paper.connection(link)
-                                }                                    
-
-
+                                var value=attr.other[other];
                                 
-                                return false;
-                            })
-                            .appendTo(attrDiv)
-                            .append($("<span/>").text(attr.name + ": "))
-                            .append($("<span/>").text(attr.value))
-
-                    if(attr.other){
-                        for (var other in attr.other){
-                            var div=$("<div class='other' />")
-                                .appendTo(attrDiv)                            
-                            
-                            var value=attr.other[other];
-                            
-                            div .append($("<span/>").text(other + ": "))
-                                .append($("<span/>").text(value))
-                            
-                        }                       
-                    }
-
-                }                
+                                div .append($("<span/>").text(other + ": "))
+                                    .append($("<strong/>").text(value))
+                                
+                            }                       
+                        }
+                    }                             
+                }                           
                 
                 //making a note of the containing div
-                sysObj.canvasBox = sysDiv.get(0)
+                sysObj.canvasBox = objDiv.get(0)
                             
             }
             
+  
             //drawing all the links
-            for (var link in NVision.links){
-                var link=NVision.links[link],
-                    fromSys=NVision.systems[link.from],
-                    toSys=NVision.systems[link.to]
+            for (var link in NVision.links){                
+                
+                var link=NVision.links[link],                
+                    fromSys=NVision.systems[link.from]||NVision.adapters[link.from]||NVision.otherObjects[link.from],
+                    toSys=NVision.systems[link.to]||NVision.adapters[link.to]||NVision.otherObjects[link.to];
                     
                     var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
                     
@@ -600,8 +810,11 @@ var NVision={
                     toSys.canvasLink.push(canvasLink);                    
             }
             
+            
             NVision._dbReady=true;
         }
+        
+        return true;
     },
 
     
@@ -618,9 +831,14 @@ var NVision={
                 updatesInterval:sysObj.updatesInterval,
                 id:sysObj.name,
                 url:sysConfig.sysUpdates,
+                data:{"sysId":sysObj.name},
                 callBack:function(data){
                     var sysObj=NVision.systems[data.name];
                     
+                    if(!sysObj){
+                        myConsole.alert("System not found: " + data.name,10000);
+                        return false;
+                    }
                     sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel,data.alertThreshold);
                     
                     //todo: update the rest of the object
@@ -639,16 +857,24 @@ var NVision={
             updatesInterval:sysObj.updatesInterval,
             id:sysObj.name,
             url:sysConfig.sysTrades,
-            data:{},
+            data:{"sysId":sysObj.name},
             callBack:function(data){
                 
                 //showing the system name
-                $("#systemName").find("span").text(data.system);
+                var nameSpan=$("#systemName").find("span").text(data.system);
+                
+                /*
+                if(sysObj.type=="searchResults"){
+                    nameSpan.after($("<strong />").text(sysObj.queryString))
+                }
+                */
                 
                 //updating the system trades object
                 sysObj.trades=data.trades;
                 
-                
+                //disabling the buttons
+                $("#overwriteBtn").addClass("off")
+                $("#resubmitBtn").addClass("off")
                 
                 
                 function updateTable(){
@@ -657,9 +883,8 @@ var NVision={
                     var tableHeadings=[]
                     for(var h in data.trades[0]){
                         tableHeadings.push(h);
-                    }
+                    }                                        
                                         
-                                    
                     if(sysObj.sortBy){
                         //defining the column order
                         for (var x=sysObj.sortBy.length-1;x>-1;x--){
@@ -678,6 +903,7 @@ var NVision={
                         }
                     }
                     
+                    
                     // creating the table
                     var table=NVision.utils.createTable({
                         selectRow:true,
@@ -687,7 +913,9 @@ var NVision={
                         itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
                         currentPage:sysObj.currentPage,
                         headClick:function(anchor){
+                            
                             var $anchor=$(anchor);
+                            var up=myConsole.chkSpeed("updateTable: ");
                             
                             sysObj.sortBy=sysObj.sortBy?sysObj.sortBy:sysObj.sortBy=[];
                             
@@ -709,8 +937,10 @@ var NVision={
                                 sysObj.sortBy.push({name:$anchor.text(),ascending:true})
                             }                            
                             
-                            updateTable()
-                       
+                            
+                            updateTable();
+                            myConsole.chkSpeed("",up)
+                            
                         },
                         rowClick:function(tr){                            
                             showTradeDetails(tr)
@@ -718,9 +948,23 @@ var NVision={
                     })
                     
                     
+                    //hiding the checkbox for the "COMPLETED" trades
+                    if(sysObj.type=="searchResults"){
+                        var tr=table.find("tbody").find("tr"),
+                            first=sysObj.itemsPerPage*(sysObj.currentPage-1)
+                        
+                        for(var x=first; x<sysObj.itemsPerPage*(sysObj.currentPage);x++){
+                            var trade=sysObj.trades[x]
+                            if (trade.Status=="Complete"){
+                                tr.eq(x-first).addClass("complete")
+                            }
+                        }
+                        
+                    }
+                    
                     //highlighting the columns I am sorting the table by
                     if(sysObj.sortBy){
-                        var headers=table.find("thead a");
+                        var headers=table.find("thead").find("a");
                         for (var x=0;x<sysObj.sortBy.length;x++){                            
                             headers.eq(x)
                                 .addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
@@ -737,8 +981,12 @@ var NVision={
                         }
                         
                         //highlighting the sorted column cells
-                        table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")                        
+                        setTimeout(function(){
+                            table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
+                        },10)
+                        
                     }
+                   
                     
                     
                     //adding the pagination
@@ -750,16 +998,6 @@ var NVision={
                             sysObj.currentPage=pageNum;
                             
                             updateTable();                    
-                            
-                            /*
-                            if (pageNum>1){                        
-                                //pause the engine
-                                NVision.updateEngine.stop();
-                            }else{
-                                //restart the engine
-                                NVision.updateEngine.start();
-                            }
-                            */
                         }
                     })
                 }
@@ -778,7 +1016,7 @@ var NVision={
         //this function fetches and displays the passed trade details
         function showTradeDetails(tr){
             var $tr=$(tr),
-                tradeId=tr.getAttribute("data-Id");
+                tradeId=NVision.currentSys.trades[tr.getAttribute("data-Id")].id;
                         
             //removing the details table 
             if($tr.next().hasClass("detailsContainer")){
@@ -792,8 +1030,11 @@ var NVision={
                 //generating the ajax request
                 $tr.addClass("open");
                 myAjax({
+                    data:{"tradeId":tradeId},
                     //logMsg:"Getting the breaks details for trade: " + tradeId,
                     success:function(data){
+                        var messageData=data;
+                        
                         //generating the table to display the trade details
                         var newTr=$("<tr class='detailsContainer'><td class='detailsContainer' colspan='" + $tr.children().length + "'></td></tr>").insertAfter(tr),
                             tableHeadings=[];
@@ -811,8 +1052,8 @@ var NVision={
                             itemsPerPage:0,     //-> all
                             currentPage:1,
                             rowClick:function(tr){
-                                
-                                var doc=window.open("","_blank",'width=800,height=400,resizable=yes').document,
+                                /*
+                                var doc=window.open("","_blank",'width=800,height=400,resizable=yes,scrollbars=yes').document,
                                     $doc=$(doc);
                                     
                                     //adding the css rules defined in the popup.css
@@ -823,27 +1064,73 @@ var NVision={
                                         return item.cssText||(item.selectorText + "{" + item.style.cssText + "}");
                                     });
                                     
-                                    $doc.find("head").append("<style type='text/css'>" + rules.join("\n") + "</style>");                                    
+                                    $doc.find("head").append("<style type='text/css'>" + rules.join("\n") + "</style>");
+                                    
                                 
                                 //setting the window title    
                                 doc.title="Message detail View";
-                                
-                                //IE bug
-                                var msg="<h1>Message details:</h1>";
-                                $doc.find("body").addClass("popup").append(msg)
-                                
-                                msg=$doc.find(".panel")
-                                    .click(function(){msg.css("font-size","20px")})
-                                    
-                                    
-                                //doc.write("<h1>xxxxxxxx</h1>")
-                                /*
-                                var lb=$("<p/>").text("click!").css("width",600)
-                                    .lightBox({
-                                        title:"Break details:"
-                                    })
-                                    .show();
                                 */
+                                var msgId=$(tr).attr("data-id");
+
+                                myAjax({
+                                    data:{"msgId":messageData.details[msgId].id},
+                                    success:function(msgDetails){
+                                        
+                                        var msg=$("<div />")
+                                            .addClass("popup")
+                                            .append("<h1>Message details:</h1>")
+                                            .append(
+                                                    $("<p class='details' />")
+                                                    .addClass(msgDetails.Status=="nok"?"error":"")
+                                                    .append($("<strong>Id: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["id"]))
+                                                    
+                                                    .append($("<strong>Route: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Route"]))
+                                                    
+                                                    .append($("<strong>Rabbit Exch: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Rabbit Exch"]))
+                                            
+                                                    .append($("<strong>Routing Key: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Routing Key"]))
+                                                )
+                                            
+                                            .append(
+                                                $("<ul/>").addClass("tabMenu")
+                                                    .append($("<li class='current'><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
+                                                    .append($("<li><a href='#_msg_in'><span>Incoming:</span></a></li>"))
+                                                    .append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
+                                                    .append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))                                            
+                                            )
+                                            
+                                            
+                                            .append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
+                                            .append($("<p class='tabContent' id='_msg_in'/>").text(msgDetails["Incoming"]))
+                                            .append($("<p class='tabContent' id='_msg_out'/>").text(msgDetails["Outgoing"]))
+                                            
+                                            var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
+                                            
+                                            for (var x in msgDetails["Steps"]){
+                                                var det=msgDetails["Steps"][x]
+                                                $("<p/>")
+                                                    .text(det)
+                                                    .appendTo(div)
+                                            }                                            
+                                            
+                                        var lb=msg
+                                            .lightBox({
+                                                title:"Break details:",
+                                                width:820
+                                            })
+                                            .show();
+                                    },
+                                    error:function(){
+                                        myConsole.log("Error!")
+                                    },
+                                    url:sysConfig.msgDetails
+                                })
+                                
+                                
                             },
                             headClick:null                        
                         })
@@ -865,8 +1152,50 @@ var NVision={
     
     utils:{
         getLevel:function(lev,thr){
+            //function to map the percentage with the error level
             return lev<thr/2?0:lev<thr?1:2;        
         },
+        
+        savePositions:function(){
+            var objs=[];
+            for (obj in NVision.adapters){
+                
+                var pos=$(NVision.adapters[obj].canvasBox).position();
+                
+                objs.push(
+                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
+                )
+            }
+            for (obj in NVision.systems){
+                var pos=$(NVision.systems[obj].canvasBox).position();
+                
+                objs.push(
+                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
+                )               
+            }
+            for (obj in NVision.otherObjects){
+                var pos=$(NVision.otherObjects[obj].canvasBox).position();
+                
+                objs.push(
+                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
+                )               
+            }
+            
+            createCookie("ver",NVision.ver,999);            
+            createCookie("positions","{" + objs.join(",") + "}",999);
+        },
+        
+        getPositions:function(){
+            var ver=readCookie("ver"),
+                pos=readCookie("positions");
+                
+                if(ver!=NVision.ver){
+                    myConsole.log("System updated to ver: " + NVision.ver,10000)
+                }
+            
+            return (ver==NVision.ver)?pos:null;
+        },
+        
         exportToCSV:function(data){
             var strArr=[];
             for(var d in data){
@@ -959,7 +1288,7 @@ var NVision={
 	
 	
 	
- createTable:function(options){
+        createTable:function(options){
             /*
             container
             data
@@ -970,64 +1299,50 @@ var NVision={
             rowClick
             selectRow
             */            
-            var stTime=(new Date()).getTime();	 
-	 
+            var stTime=(new Date()).getTime();
+        
             var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>"),
                 thead=table.find("thead"),
                 tbody=table.find("tbody"),                    
-		hTr=[],
+                hTr=[],
                 bTr=[],
-		head=false;
-            
-	 table.data("fnId","fn_" + stTime);
-	 
-	 /*	NVision.fnObj["fn_" + stTime]=options.rowClick;
-	 NVision.tableLiveEvents?(function(){
-			$("tr").live("click",function(){myConsole.log("click")})
-		 })()
-		 :null;
-	 */
-		 $("tr").live("click",function(){myConsole.log("click")})
-	
+                head=false;
+                        
+                    
+            if(options.rowClick){
+                //if the table has a rowClick function then 
+                table.data("fnId","fn_" + stTime);                
+                NVision.fnObj=NVision.fnObj?NVision.fnObj:{};                
+                NVision.fnObj["fn_" + stTime]=options.rowClick;
+            }
+        
             options.itemsPerPage=options.itemsPerPage||9999999;
             
             //displaying the trades list
             var first=options.itemsPerPage*(options.currentPage-1);
-            
+               
             for(var tradeIdx=0;tradeIdx<options.itemsPerPage && tradeIdx<options.data.length-first ;tradeIdx++){            
                 
                 var trade=options.data[first+tradeIdx];
-		    /*
-			hTr=$("<tr />"),
-			bTr=$("<tr />");
-		    */
-		    if(!head){			    
-			hTr.push("<tr>") 
-		    }
-			
-			bTr.push("<tr>");		    
-                    
-                    if(options.selectRow){
-                        //adding the checkBox to the first cell
-			/*
-				hTr.append($('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')),
-				bTr.append($("<td class='chkbox'><input type='checkbox'/></td>"));                        
-			*/
-			    if(!head){	
-				hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
-			    }
-                        bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
-                    }
-		    
-		    head=true;
-                    /*
-                    //adding the selectAll function
-                    hTr.find("input").change(function(){
-                        tbody.children("tr").not(".detailsContainer").find("input").attr("checked",$(this).attr("checked"))
+        
+                if(!head){			    
+                    hTr.push("<tr>") 
+                }
+                
+                bTr.push("<tr data-id='" + (first+tradeIdx) +"'>");		     //-1 to take the th in account
+                                
+                
                         
-                        this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
-                    })
-                    */
+                if(options.selectRow){
+                            //adding the checkBox to the first cell
+                    if(!head){	
+                        hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
+                    }
+                    bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
+                }
+                
+                
+        
                 for (var cell in options.tableHeadings){
                     
                     var cellCaption=options.tableHeadings[cell];
@@ -1036,97 +1351,55 @@ var NVision={
                     if(cellCaption!="id"){
                         //creating the table headers
                         if (tradeIdx==0){
-				
-				hTr.push("<th>")
-					if(options.headClick){
-						hTr.push("<a href='#sort' title='sort'>")
-							hTr.push("<span class='header'/>" + cellCaption+"<span/>")
-						hTr.push("</a>")					
-					}else{
-						hTr.push("<span class='header'>" + cellCaption+"<span/>")	
-					}					
-/*
-                            $("<th />")
-                                .append(
-                                    options.headClick?
-                                        $("<a href='#sort' title='sort'/>")
-                                            .append($("<span class='header'/>").text(cellCaption))                                            
-                                            .click(function(e){
-                                                e.preventDefault();
-                                                options.headClick(this);
-                                            })
-                                        :
-                                        $("<span />").text(cellCaption)
-                                )
-                                .appendTo(hTr)
-*/					    
-                        }
-			
-			bTr.push("<td class='cell' href='#trade'>" +trade[cellCaption] +"<span />")
-                        /*
-                        $("<td class='cell' href='#trade' />")
-                            .text(trade[cellCaption])
-                            .appendTo(bTr);                              
-			*/
-			
-                    }else{
-                        //making a note of the trade ID
-			    /*
-                        bTr
-                            .click(function(e){
-                                if(e.target.tagName.toLowerCase()=="td"){
-                                    options.rowClick?options.rowClick(this):null;
-                                }
-                            })
-                            .attr("data-Id",first+tradeIdx)//trade[cellCaption])
-			    */
+                            hTr.push("<th>")
+                            if(options.headClick){
+                                hTr.push("<a href='#sort' title='sort'>")
+                                    hTr.push("<span class='header'>" + cellCaption+"</span>")
+                                hTr.push("</a>")					
+                            }else{
+                                hTr.push("<span class='header'>" + cellCaption+"</span>")	
+                            }
+                            hTr.push("</th>");
+                        }          
+                        
+                        bTr.push("<td class='cell'>" +trade[cellCaption] +"</td>")                        
                     }
                 }
-                /*
-                hTr.children().length>(options.selectRow?1:0)?hTr.appendTo(thead):null;
-                bTr.appendTo(tbody);
-                */
-		if(head){
-			hTr.push("</tr>")
-		}
-		bTr.push("</tr>")
-		
-
+        
+                if(!head){
+                    hTr.push("</tr>")
+                }
+                
+                bTr.push("</tr>");
+                
+                head=true;
             }
- 		thead.get(0).innerHTML=hTr.join("");
-		tbody.get(0).innerHTML=bTr.join("");
-		
-                table.appendTo(options.container);    
-	    
-		//adding the selectAll function
-		thead.find("input").change(function(){
-                        tbody.children("tr").not(".detailsContainer").find("input").attr("checked",$(this).attr("checked"))
-                        
-                        this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
-                    })	    
-		    
-		//sort
-		options.headClick?
-		    thead.find("a")
-			    .click(function(e){
-				e.preventDefault();
-				options.headClick(this);
-			    })
-			:
-			null;
-			/*    
-		//rowClick
-		tbody.find("tr")
-		    .click(function(e){
-			if(e.target.tagName.toLowerCase()=="td"){
-			    options.rowClick?options.rowClick(this):null;
-			}
-		    })
-			    */
-	    
-            var delta=((new Date()).getTime()-stTime)
-            myConsole.log("rendering time: " + delta,5000)
-	    
+                   
+            
+            
+            thead.html(hTr.join(""));
+            tbody.html(bTr.join(""));
+            
+                  
+            table.appendTo(options.container);    
+        
+            //adding the selectAll function
+            thead.find("input").change(function(){
+                tbody.children("tr").not(".detailsContainer").find("input:visible").attr("checked",$(this).attr("checked"))                    
+                this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
+            })
+            
+              
+            //sort
+            options.headClick?
+                thead.find("a")
+                        .click(function(e){
+                            e.preventDefault();
+                            options.headClick(this);
+                        })
+                    :
+                    null;
+        
             return table;
         }
     }	

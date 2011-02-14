@@ -1,10 +1,9 @@
 .css-vertical-text {
 	color:#333;
-	border:0px solid red;
 	
-	writing-mode:tb-rl;	
-	filter: flipv fliph;
-	/*filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);*/
+	/*writing-mode:tb-rl;	
+	filter: flipv fliph;*/
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 	
 	-webkit-transform:rotate(-90deg);
 	-moz-transform:rotate(-90deg);
@@ -16,12 +15,7 @@
 
 	white-space:nowrap;
 	display:block;
-	
-
-	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	font-size:24px;
-	font-weight:normal;
-	text-shadow: 0px 0px 1px #333;
+	zoom:1;
 }
 
 
@@ -36,13 +30,24 @@
 	
 	html{
 		background-color:#000;
-		background-image:url(../images/headerBG.jpg);
-		background-position:0px 0px;
-		background-repeat:no-repeat;
+		background-image:url(../images/greenBG.png);
+		background-position:0px bottom;
+		background-repeat:repeat-x;
 	}
 	
+	body{
+		background-color:#000;
+		background-image:url(../images/headerBG2.png);
+		background-position:50% 30px;
+		background-repeat:no-repeat;
+		margin:0px 10px;
+	}	
+	
 	h1{
-		height:140px;
+		height:100px;
+		background-image:url(../images/logo2.png);
+		background-position:0px 20px;
+		background-repeat:no-repeat;		
 	}
 	
 	h1 span{
@@ -66,12 +71,26 @@
 		border-radius: 5px;			
 	}
 	
+	#systemName strong{
+		color:#666;
+		font-size:0.7em;
+		padding-top:3px;
+		float:left;
+		margin-left:10px;
+	}
+	
 	header{
 		position:relative;
 	}
 	
 	.tabContent{
 		overflow:hidden;
+		position:relative;
+		display:none;
+	}
+	
+	.tabContent.current{
+		display:block;
 	}
 	
 	.button{
@@ -124,18 +143,23 @@
 		display:none;
 	}
 	
+	.datePicker{
+		width:60px;
+	}
+	
+	
 /* *** */
 
 #menuBar{
 	margin-bottom: -1px;
-	overflow: hidden;
-	position: relative;
+	overflow: hidden;	
 	z-index: 2;
+	position: relative;
 }
 
 #main{
 	border: 1px solid #999999;
-	margin:0px 20px 20px;
+	margin:0px 0px 10px;
 	background-color:#fff;
 }
 
@@ -151,14 +175,26 @@
 	}
 	
 	.tabMenu li a{
-    background-color: #d0d0d0;
-    border-bottom: 1px solid #bbb;
-    color: #666666;
-    display: block;
-    font-size: 1.2em;
-    margin-right: 1px;
-    padding: 5px 10px;
-		-moz-border-radius:5px 5px 0px 0px;
+		background-image:url(../images/roundedCorners.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;		
+		background-color: #d0d0d0;
+		border-bottom: 1px solid #bbb;
+		color: #666666;
+		display: block;
+		font-size: 1.2em;
+		margin-right: 1px;
+		
+		
+		outline:none;
+	}
+	
+	.tabMenu li a span{
+		display:block;
+		padding: 5px 10px;
+		background-image:url(../images/roundedCorners.png);
+		background-position:right -48px ;
+		background-repeat:no-repeat;		
 	}
 	
 	.tabMenu li a:hover,
@@ -172,10 +208,8 @@
 		background-color:#f9f9f9;
 		color:#444;
 		font-weight:bold;
-		border:1px solid #999;
 		border-bottom:1px solid #f9f9f9;
 	}
-	
 	
 	
 	
@@ -187,32 +221,32 @@
 		right:20px;
 		background-color:#eee;
 		-moz-border-radius:0px 0px 5px 5px;
-		padding:20px;
+		padding:10px 20px;
 	}
 	
 	#searchForm label{
-    float: left;
-    line-height: 22px;
-    margin-right: 5px;
+		float: left;
+		line-height: 22px;
+		margin-right: 5px;
 		display:none;
 	}
 	#searchForm input{
-    border: 1px solid #CCCCCC;
-    float: left;
-    font-size: 1.2em;
-    margin-right: -1px;
-    padding: 2px;
+		border: 1px solid #CCCCCC;
+		float: left;
+		font-size: 1.2em;
+		margin-right: -1px;
+		padding: 2px;
 		width:200px;
 		color:#666;
 	}
 	
 	button.searchBtn span{
-    background-image: url("../images/search.png");
-    background-position: 3px 1px;
-    background-repeat: no-repeat;
-    display: block;
-    height: 17px;
-    width: 22px;
+		background-image: url("../images/search.png");
+		background-position: 3px 1px;
+		background-repeat: no-repeat;
+		display: block;
+		height: 17px;
+		width: 22px;
 		cursor:pointer;
 	}
 	
@@ -235,10 +269,10 @@
 	}
 	
 	#searchForm .advancedSearch{
-    color: #666666;
-    font-weight: bold;
-    line-height: 22px;
-    margin-left: 10px;		
+		color: #666666;
+		font-weight: bold;
+		line-height: 22px;
+		margin-left: 10px;		
 	}
 	
 	
@@ -259,6 +293,12 @@
 	
 	#viewFilters span{
 		display:block;
+	}
+	
+	#viewFilters input{
+		font-size:1.1em;
+		padding:2px;
+		color:#666;
 	}
 
 
@@ -472,7 +512,7 @@
 
 		color: #46778c;
 		display: block;
-		padding: 3px;
+		padding: 6px;
 		outline:none;
 		
 		font-weight:bold;		
@@ -487,6 +527,15 @@
 	#tableData .chkbox{
 		text-align:center;
 	}
+	
+	#tableData .complete{
+		color:#008000;
+	}
+	
+	#tableData .complete input[type=checkbox]{
+		display:none;
+	}
+	
 	#tableData thead .header{
 		/*background-color: #cbd8dc;*/
 		background-image:none;
@@ -513,7 +562,7 @@
     height: 16px;
     position: absolute;
     right: 0;
-    top: 0;
+    top: 3px;
     width: 16px;
 		cursor:pointer;
 	}
@@ -541,7 +590,8 @@
 	}
 	
 	#tableData tr:hover td.sorted{
-		background-color:#ffe7b9;
+		/*background-color:#ffe7b9;*/
+		background-image:url(../images/tableRowBG.png);
 	}	
 	
 	#tableData .order{
@@ -564,7 +614,8 @@
 	}
 	
 	#tableData tbody tr:hover{
-		background-color:#e5e5e5;
+		/*background-color:#e5e5e5;*/
+		background-image:url(../images/tableRowBG.png)
 	}	
 	
 	#tableData tr.open{
@@ -580,6 +631,7 @@
 	
 	#tableData td.detailsContainer{
 		padding:3px;
+		cursor:default;
 	}
 	
 	#tableData .detailsContainer table{
@@ -591,11 +643,14 @@
 	
 	#tableData .detailsContainer thead span{
 		background-color: #DAD3A1;
+		background-image: url("../images/btnBG.png");
+		background-position: 50% 55%;		
 		color: #7c7436;
 		display: block;
 		float: none;
 		padding: 3px;
 		font-weight: bold;
+		cursor:default;
 	}
 	
 	#tableData .detailsContainer thead p{
@@ -634,8 +689,8 @@
 	.myConsole {		
 		font-family:Verdana,Geneva,sans-serif;
 		left:2px;
-		opacity:0.8;
-		filter: alpha(opacity = 80);
+		opacity:0.9;
+		filter: alpha(opacity = 90);
 
 		position:fixed;
 		top:2px;
@@ -667,7 +722,7 @@
 		color:#FF9;
 		width:350px;
 		font-size:1.3em;	
-		white-space:nowrap;
+		white-space:normal;
 		line-height:1.5em;			
 	}
 	.myConsole span.error {
@@ -728,8 +783,34 @@
 /* dashBoardView */
 	#dashBoardView{
 		background-color:#aaa;
-		height:500px;
+		height:800px;
 		padding-bottom:10px;
+		position:relative;
+	}
+	
+	#dashBoardView .resizer{
+		position:absolute;
+		bottom:0px;
+		left:0px;
+		height:10px;
+		width:100%;
+		background-image:url(../images/bottomBar.png);
+		border-top:1px solid #aaa;
+		/*cursor:n-resize;*/
+		z-index:10;
+	}
+	
+	#dashBoardView .resizer span{
+		position:absolute;
+		display:block;
+		width:24px;
+		height:10px;
+		bottom:0px;
+		left:50%;
+		margin-left:-12px;
+		background-image:url(../images/grip.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
 	}
 	
 	#dbContent{
@@ -742,7 +823,7 @@
 		height:100%;
 	}
 	
-	#dashBoardView .systemBox{
+	#dashBoardView .system{
 		padding:10px;		
 		position:absolute;
 		width:200px;
@@ -756,29 +837,30 @@
 		background-repeat:no-repeat;
 	}
 	
-	#dashBoardView .systemBox.alert1{
+	#dashBoardView .system.alert1{
 		border-color:#bdb122;
 		border-top-color:#ffff95;
 		border-left-color:#ffff95;		
-		background-color:#d9ce80;
+		background-color:#ede06b;
 	}
 	
-	#dashBoardView .systemBox.alert2{
+	#dashBoardView .system.alert2{
 		border-color:#fc6727;
 		border-top-color:#fec9b1;
 		border-left-color:#fec9b1;	
 		background-color:#ff9377;
 	}	
 	
-	#dashBoardView .systemBox h3{
+	#dashBoardView .system h3{
 		-moz-border-radius: 6px 6px 6px 6px;
 		background-color: #b1c8d8 ;
 		font-size: 1.4em;
-		padding: 2px 5px;	
+		padding: 2px 5px;
+		cursor:move;
 	}
 	
 	#dashBoardView .alert1 h3{
-		background-color: #b9b773 ;
+		background-color: #d8d154 ;
 	}	
 
 	#dashBoardView .alert2 h3{
@@ -786,11 +868,11 @@
 	}
 	
 	
-	#dashBoardView .systemBox .attr{
+	#dashBoardView .system .attr{
 		margin-top:10px;	
 	}
 	
-	#dashBoardView .systemBox .attr a.more{
+	#dashBoardView .system .attr a.more{
 		font-size:1.1em;
 		font-weight:bold;
 		color:#246;
@@ -802,16 +884,22 @@
 		margin-bottom:3px;
 	}
 	
-	#dashBoardView .systemBox .attr .other{
+	#dashBoardView .system .attr .other{
 		display:none;
 		padding-left:21px;
 	}
 	
-	#dashBoardView .systemBox h3:hover{
-		cursor:move;
+	
+	#dashBoardView .system .attr .other span{
+		color:#666;
 	}
 	
-	#dashBoardView .systemBox .showDetails{
+	#dashBoardView .system .attr .other strong{
+		font-weight:bold;
+		font-size:1.1em;
+	}
+	
+	#dashBoardView .system .showDetails{
 		color:#369;
 		font-weight:bold;
 		font-size:1.1em;
@@ -819,7 +907,49 @@
 		float:right;
 	}
 	
+	#dashBoardView .adapter{
+		position: absolute;
+		background-image:url(../images/sysBg.png);
+		background-position:0px -73px;
+		background-repeat:no-repeat;
+		background-color: #ddd;		
+	}
 	
+	#dashBoardView .adapter h3{		
+		cursor: move;
+		font-size: 1.2em;
+		padding: 2px 15px;
+		border:1px solid #ccc;
+		border-top-color:#dedede;
+		border-left-color:#dedede;
+		color:#666;
+	}
+	
+	#dashBoardView .exchange{
+		position:absolute;
+		background-image:url(../images/sysBg.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;
+		background-color:#87b8d6;
+		border:1px solid #7ba0b3;
+		border-top-color:#cfdce2;
+		border-left-color:#cfdce2;		
+	}
+	
+	#dashBoardView .exchange h3{
+		background-image:url(../images/exchange.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;	
+		width:29px;
+		height:221px;
+		text-indent:-9999999px;
+		margin:20px 10px;
+		cursor: move;
+	}	
+	
+
+
+
 /* ixDropDown */	
 	.ixDropDown_A {
     -moz-border-radius: 4px 4px 4px 4px;
@@ -884,11 +1014,14 @@
 /* lightBox */
 	#lightBoxPanel .closeBtn {
 		background-image:url(../images/closeBtn.png);
-    right: 5px;
-    top: 4px;
+		right: 5px;
+		top: 4px;
 	}
 	
 	#lightBoxPanel .lbTitle	{
+		background-image:url("../images/lightBoxBG.png");
+		background-position:0px 0px;
+		background-repeat:no-repeat;
 		font-weight:bold;
 		background-color:#46778C;
 		color:#fff;
