@@ -73,7 +73,7 @@ $(function(){
         }        
     }
     
-
+    $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)  
   })
 
 });
@@ -765,10 +765,12 @@ var NVision={
                 
         
         //adding the system to the updates queue
-        var reqObj=NVision.createBreaksUpdateRequests(searchObj);
+        var reqObj=NVision.createSearchRequest(searchObj);
         
+        /*
         reqObj.url=sysConfig.searchUrl;
         reqObj.data=qs;        
+        */
         
         $("#updatesBtn").hide(0);
         
@@ -1117,6 +1119,35 @@ var NVision={
       
     },
     
+    createSearchRequest:function(searchObj){
+        var updateReq= new updateRequest({
+            callerObj:searchObj,
+            updatesInterval:searchObj.updatesInterval,
+            id:searchObj.name,
+            url:sysConfig.searchUrl,
+            data:{"sysId":searchObj.queryString},
+            callBack:function(data){
+                
+                /*
+                //looking for the searchResults Tab
+                var tab=$("#tab_results");
+                if(tab.length==0){
+                    //if it doesn't exist I create it
+                    tab=$("<div id='tab_results' class='tabContent' />").appendTo("#main");
+                    $("<li><a href='#tab_results'><span>Search results</span></a></li>").appendTo("#mainMenu")                    
+                }
+                
+                //showing the tab
+                $("#mainMenu").trigger("showTab","tab_results");
+                */
+                NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
+            }
+        })
+        NVision.updateEngine.add(updateReq);
+        
+        return updateReq;    
+    },
+    
     createBreaksUpdateRequests:function(sysObj){
         // generating breaks updatesRequest for the passed system
 
@@ -1127,59 +1158,7 @@ var NVision={
             url:sysConfig.sysTrades,
             data:{"sysId":sysObj.name},
             callBack:function(data){
-                
-                //showing the system name
-                var nameSpan=$("#systemName").find("span").text(data.system);
-                
-                /*
-                if(sysObj.type=="searchResults"){
-                    nameSpan.after($("<strong />").text(sysObj.queryString))
-                }
-                */
-                
-                //updating the system trades object
-                sysObj.trades=data.trades;
-                
-                //clearing the filters
-                delete(sysObj.filters)
-                delete(sysObj.filteredData)
-                
-                
-                //disabling the buttons
-                $("#overwriteBtn").addClass("off")
-                $("#resubmitBtn").addClass("off")
-                
-                
-                //clearing and recreating the table
-                NVision.utils.deleteTable($("#tableData").find("table"))
-                sysObj.showTrades($("#tableData"),$("#pagination"))
-                
-                
-                //creating the filters html
-                var html=NVision.utils.createFilters(data.trades,data.filters),                
-                    filtersDiv=$("#tradesFilters").empty();
-                
-                for(var filter in html){
-                    filtersDiv.append(html[filter])
-                    html[filter].find("select").change(function(){
-                        var selectObj=$(this);                        
-                                                
-                        sysObj.filters=sysObj.filters?sysObj.filters:{};
-                        if(selectObj.val()==""){
-                            delete(sysObj.filters[selectObj.attr("name")]);
-                            NVision.updateEngine.start();
-                        }else{
-                            sysObj.filters[selectObj.attr("name")]=selectObj.val();
-                            NVision.updateEngine.stop();
-                        }
-                        
-                        //moving to page 1
-                        sysObj.currentPage=1;
-                                                
-                        sysObj.showTrades($("#tableData"),$("#pagination"))
-                    })
-                }
-                
+                NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -1189,6 +1168,58 @@ var NVision={
     },
     
     utils:{
+        
+        showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
+                
+            //showing the system name
+            var nameSpan=$("#systemName").find("span").text(data.system),
+                sysObj=NVision.currentSys;
+            
+            //updating the system trades object
+            sysObj.trades=data.trades;
+            
+            //clearing the filters
+            delete(sysObj.filters)
+            delete(sysObj.filteredData)
+            
+            
+            //disabling the buttons
+            $("#overwriteBtn").addClass("off")
+            $("#resubmitBtn").addClass("off")
+            
+            
+            //clearing and recreating the table
+            NVision.utils.deleteTable(tableContainer.find("table"))
+            sysObj.showTrades(tableContainer,paginationContainer)
+            
+            
+            //creating the filters html
+            var html=NVision.utils.createFilters(data.trades,data.filters),                
+                filtersDiv=filtersContainer.empty();
+            
+            for(var filter in html){
+                filtersDiv.append(html[filter])
+                html[filter].find("select").change(function(){
+                    var selectObj=$(this);                        
+                                            
+                    sysObj.filters=sysObj.filters?sysObj.filters:{};
+                    if(selectObj.val()==""){
+                        delete(sysObj.filters[selectObj.attr("name")]);
+                        NVision.updateEngine.start();
+                    }else{
+                        sysObj.filters[selectObj.attr("name")]=selectObj.val();
+                        NVision.updateEngine.stop();
+                    }
+                    
+                    //moving to page 1
+                    sysObj.currentPage=1;
+                                            
+                    sysObj.showTrades(tableContainer,paginationContainer)
+                })
+            }
+            
+        },
+        
         getLevel:function(lev,thr){
             //function to map the percentage with the error level
             return lev<thr*0.6?0:lev<thr?1:2;        
