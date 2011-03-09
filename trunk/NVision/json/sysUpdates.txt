@@ -1,7 +1,7 @@
 {
-    "name":"NewClear",
-    "alertLevel":20,
-    "alertThreshold":30,
+    "name":"EUREX",
+    "alertLevel":99,
+    "alertThreshold":100,
     "attributes":[
         {
             "name":"Breaks",

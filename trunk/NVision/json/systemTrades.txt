@@ -1,5 +1,6 @@
 {
     "system":"ClearVision",
+    "filters":["Time","Market","Trader","Trading Ref.","Contract"],
     "trades":[
         {
             "id":1,
@@ -345,7 +346,7 @@
         },
         {
             "id":19,
-            "Status":"Break",
+            "Status":"Break 19",
             "Time":"12:25:07",
             "Market":"Eurex",
             "Broker":"BVABBxx",
@@ -364,7 +365,7 @@
         },
         {
             "id":20,
-            "Status":"Resubmitted",
+            "Status":"Resubmitted 20",
             "Time":"12:25:06",
             "Market":"Eurex",
             "Broker":"BVABB",
