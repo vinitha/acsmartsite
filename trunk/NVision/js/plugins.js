@@ -1,3 +1,96 @@
+
+//extending the Date Object
+Date.prototype.add=function(obj){
+    for(var prop in obj){
+        switch (prop){
+            case "days":
+                this.setDate(this.getDate()+obj[prop])
+            break;
+            case "months":
+                this.setMonth(this.getMonth()+obj[prop])
+            break;      
+            case "years":
+                this.setFullYear(this.getFullYear()+obj[prop])
+            break;                  
+        }
+    }
+    return this;
+}
+
+var weekday=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var yearmonth=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+Date.prototype.shortMonth=function(){           //i.e.  Jan
+    return yearmonth[this.getMonth()];
+}
+
+Date.prototype.shortDayMonth=function(sep){     //i.e.  02 Jan
+    return this.getDate() + (sep||" ") + yearmonth[this.getMonth()];
+}
+
+Date.prototype.day=function(){                  //i.e.  Mon
+    return weekday[this.getDay()];
+}
+
+Date.prototype.longDayMonth=function(){         //i.e.  Mon, 02 Jan
+    return weekday[this.getDay()] + ", " + this.getDate() + " " + yearmonth[this.getMonth()];
+}
+
+Date.prototype.shortMonthYear=function(sep){    //i.e.  12/2010 
+    var year=this.getFullYear().toString(),
+        month=utils.twoDigits(this.getMonth()+1);
+    sep=sep||"/";
+    return month + sep + year.substring(2,4);
+}
+
+Date.prototype.shortTime=function(){
+    return utils.twoDigits(this.getHours())+":" + utils.twoDigits(this.getMinutes());
+}
+
+Date.prototype.shortDate=function(sep){         //i.e. 22/11/1989
+    sep=sep||"/";
+   return utils.twoDigits(this.getDate()) + sep + utils.twoDigits(this.getMonth()+1) + sep + this.getFullYear();
+
+}
+
+//uself function
+var utils={
+    twoDigits:function(int){
+        if (int<10) return "0" + int;
+        if (int>99) {
+            var str=int.toString();
+            return str.substring(str.length-2);
+        }
+        return int.toString();
+    },
+    
+    dateDiff:function(date1,date2){
+        var baseDate=new Date(1970,01,01);
+        date1=date1||baseDate;
+        date2=date2||baseDate;
+        
+        return Math.abs(date1.getTime()-date2.getTime())
+    },  
+
+    RealTypeOf:function(v) {
+        if (typeof(v) == "object") {
+            if (v === null) return "null";
+            if (v.constructor == (new Array).constructor) return "array";
+            if (v.constructor == (new Date).constructor) return "date";
+            if (v.constructor == (new RegExp).constructor) return "regex";
+            return "object";
+        }
+        return typeof(v);
+    }   
+}
+
+
+
+
+
+
+
+
 function createCookie(name,value,days) {
 	if (days) {
 		var date = new Date();
@@ -24,6 +117,238 @@ function eraseCookie(name) {
 }
 
 
+function updating(div){
+	div=$(div).addClass("updating");
+	setTimeout(function(){
+		div.removeClass("updating")
+	},1000)  	
+}
+
+//adding the parseTime function to the string object
+String.prototype.parseTime=function() {
+	var timeString=$.trim(this);
+    if (timeString == '') return null;
+
+    var time = timeString.match(/(\d+)(:(\d\d))?\s*(p?)/i); 
+    if (time == null) return null;
+
+    var hours = parseInt(time[1],10);    
+    if (hours == 12 && !time[4]) {
+          hours = 12;
+    }
+    else {
+        hours += (hours < 12 && time[4])? 12 : 0;
+    }   
+    var d = new Date();             
+    d.setHours(hours);
+    d.setMinutes(parseInt(time[3],10) || 0);
+    d.setSeconds(0, 0);  
+    return d;
+};
+
+
+//implementing the reverse function in jQuery
+$.fn.reverse = [].reverse;
+
+
+
+//timePicker plugin
+(function($){
+	$.fn.timePicker=function(options){	    
+		var widget=window.x_timePicker
+		if(!widget){
+		    //defining the base style for this object. Style customisation can be done by assigning a className to the <input> element
+		    //and then defining its rules in your CSS
+		    var rules=[
+			       ".x_timePicker {position:absolute; z-index:99; text-align:center;font-size:1.3em;}",
+				   ".x_timePicker ul{background-color:#eee;border:1px solid #e0e0e0;}",
+				   '.x_timePicker ul:hover{opacity:1}',
+				   ".x_timePicker a{display:block;padding:2px 4px;cursor:pointer; background-color:#fff;}",
+				   ".x_timePicker .hover a{background-color:#977;color:#fff;}",
+				   ".x_timePicker a.btn{background-color:#999;color:#fff; font-weight:bold}",
+				   ".x_timePicker a.btn.on{background-color:#755;color:#fff; font-weight:bold}",
+				   "#x_amPm{position:absolute; top:1px; left:0px;}",
+				   "#x_tpM1,#x_tpM2 {position:absolute;display:none}"
+			       ];
+    
+		    $("<style type='text/css'>" + rules.join("\n") + "</style>").prependTo("head");
+		    widget=window.x_timePicker=$("<div class='x_timePicker' />")										
+			
+			var amPm=$("<div id='x_amPm'>").appendTo(widget)
+			var hUl=$("<ul id='_tpH' />").appendTo(widget)
+			var m1Ul=$("<ul id='x_tpM1' />").appendTo(widget)
+			var m2Ul=$("<ul id='x_tpM2' />").appendTo(widget)
+			
+			
+			$("<a class='btn' href='#pm' />").text("PM")
+				.click(function(e){
+					e.preventDefault();
+					
+					clearTimeout(widget.data("data-hnd"))
+					
+					$(this).addClass("on").siblings().removeClass("on")
+					hUl.find("li").css("display","none").slice(12,24).css("display","block")
+					
+					widget.data("data-input").focus();
+					return false;
+				})
+				.prependTo(amPm)
+			$("<a class='btn on' href='#am' />").text("AM")
+				.click(function(e){
+					e.preventDefault();
+					
+					clearTimeout(widget.data("data-hnd"))
+					
+					$(this).addClass("on").siblings().removeClass("on")
+					hUl.find("li").css("display","none").slice(0,12).css("display","block")
+					
+					widget.data("data-input").focus();
+					
+					return false;
+				})
+				.prependTo(amPm)
+						
+			
+			
+			for(var t=0;t<24;t++){
+				$("<li/>").append(
+						$("<a />")
+							.text(utils.twoDigits(t))
+							.data("data-value",utils.twoDigits(t))
+							.click(function(e){e.preventDefault(); return false;})
+							.mouseenter(function(){
+								
+								var thisObj=widget.data("data-input")
+								
+								thisObj.attr("value",($(this).data("data-value").parseTime().shortTime()))
+								
+								$(this)
+									.closest("li")
+									.addClass("hover")
+									.siblings().removeClass("hover")
+									
+								var pos=$(this).position();
+																
+								m1Ul.show(0)
+									.css({left:pos.left+$(this).outerWidth(),top:pos.top-m1Ul.outerHeight()/2})
+									.find("li").removeClass("hover")
+									
+								m2Ul.hide()
+							})
+					)
+				.appendTo(hUl)
+				.css("display",t>12?"none":"block")
+			}
+			
+			
+			for(var t=0;t<6;t++){
+				$("<li/>").append(
+						$("<a />")
+							.text(utils.twoDigits(t*10))
+							.data("data-value",utils.twoDigits(t*10))
+							.click(function(e){e.preventDefault(); return false;})
+							.mouseenter(function(){
+								
+								var thisObj=widget.data("data-input"),
+									aVal=parseInt($(this).data("data-value"));
+									
+								var timeVal=hUl.find("li.hover").find("a").data("data-value") + ":" + aVal;
+								
+								thisObj.attr("value",(timeVal.parseTime().shortTime()))
+								
+								$(this)
+									.closest("li")
+									.addClass("hover")
+									.siblings().removeClass("hover")
+									
+									
+								var ulPos=m1Ul.position(),
+									aPos=$(this).position();
+									
+								m2Ul.show(0)
+								
+								m2Ul.find("li").hide(0).slice(aVal+1,aVal+10).show()
+																
+								m2Ul.css({left:ulPos.left+$(this).outerWidth(),top:ulPos.top+aPos.top-m2Ul.outerHeight()/2})
+									.find("li").removeClass("hover")
+									
+							})
+
+					).appendTo(m1Ul)
+			}			
+			
+			
+			for(var t=0;t<60;t++){
+				$("<li/>").append(
+						$("<a />")
+							.text(utils.twoDigits(t))
+							.data("data-value",utils.twoDigits(t))
+							.click(function(e){e.preventDefault(); return false;})
+							.mouseenter(function(){
+								
+								var thisObj=widget.data("data-input"),
+									aVal=$(this).data("data-value");
+									
+								var timeVal=hUl.find("li.hover").find("a").data("data-value") + ":" + aVal;
+
+								thisObj.attr("value",(timeVal.parseTime().shortTime()))
+								
+								$(this)
+									.closest("li")
+									.addClass("hover")
+									.siblings().removeClass("hover")																	
+							})
+					).appendTo(m2Ul)
+			}							
+		}
+		
+		
+
+		return this.each(function(){
+
+			var thisObj=$(this);
+
+			thisObj
+				.focus(function(){
+					widget.data("data-input",thisObj);
+					
+					clearTimeout(widget.data("data-hnd"))
+					
+					var pos=$(this).offset();					
+					widget.appendTo(document.body);
+					widget.css({left:pos.left+2,top:pos.top+thisObj.outerHeight()});
+					hUl.find("li").removeClass("hover")
+					amPm.css("left",-amPm.outerWidth())
+				})
+				.blur(function (e) {
+					var val = $(this).val().parseTime(),
+						thisObj=$(this)
+					
+					var hnd=setTimeout(function(){
+						thisObj.val(val?val.shortTime():thisObj.attr("title"));
+						widget.detach();
+						
+						m2Ul.hide();
+						m1Ul.hide();
+					},400)
+										
+					widget.data("data-hnd",hnd)
+				})
+				.keypress(function(e){
+					if(e.keyCode==13){
+						$(this).blur()
+					}
+				})
+		});
+	}
+})(jQuery);
+
+
+
+
+
+
+
 //ixDropDown plugin
 (function($){
 	$.fn.ixDropDown=function(options){
@@ -34,7 +359,7 @@ function eraseCookie(name) {
 		    var rules=[
 			       ".ixDropDown_A span{display:block}",
 			       ".ixDropDown_A {color:#069; padding-right:15px; display:inline-block; text-align:left; zoom: 1; *display: inline;vertical-align:bottom;outline:none}",
-			       ".ixDropDown_DIV {position:absolute; display:none; z-index:10}",
+			       ".ixDropDown_DIV {position:absolute; display:none; z-index:20}",
 			       ".ixDropDown_Cont {zoom:1}",
 			       ".ixDropDown_UL {list-style-type:none; padding:0; margin:0px; outline:none}"
 			       ];
@@ -94,35 +419,36 @@ function eraseCookie(name) {
 				if ($anchor.hasClass("disabled")){return false;};
 
 				var select=$anchor.prev("select").get(0),
-				externalDiv=$("<div />")
-				.keydown(function(e){
-					switch(e.which){
-					case 40: //down
-						$(document.activeElement).closest("li").nextAll().find("a").eq(0).focus();
-						return false;
-						break;
-
-					case 38: //up
-						$(document.activeElement).closest("li").prevAll().find("a").eq(0).focus();
-						return false;
-						break;
-					}
-				})
-				.addClass("ixDropDown_DIV " + select.className),
-				contDiv=$("<div />").addClass("ixDropDown_Cont").appendTo(externalDiv),
-				ul=$("<ul />")
-				.attr("tabIndex",-1)
-				.focus(function(){
-					clearTimeout(timerHnd);
-				})
-				.blur(function(){
-					timerHnd=setTimeout(function(){
-						close($anchor);
-					    },100
-					);
-				})
-				.addClass("ixDropDown_UL")
-				.appendTo(contDiv);
+					externalDiv=$("<div />")
+						.keydown(function(e){
+							switch(e.which){
+							case 40: //down
+								$(document.activeElement).closest("li").nextAll().find("a").eq(0).focus();
+								return false;
+								break;
+		
+							case 38: //up
+								$(document.activeElement).closest("li").prevAll().find("a").eq(0).focus();
+								return false;
+								break;
+							}
+						})
+						.addClass("ixDropDown_DIV " + select.className),
+						
+					contDiv=$("<div />").addClass("ixDropDown_Cont").appendTo(externalDiv),
+					ul=$("<ul />")
+						.attr("tabIndex",-1)
+						.focus(function(){
+							clearTimeout(timerHnd);
+						})
+						.blur(function(){
+							timerHnd=setTimeout(function(){
+								close($anchor);
+								},100
+							);
+						})
+						.addClass("ixDropDown_UL")
+						.appendTo(contDiv);
 
 				var options=$(select).children();
 
@@ -202,7 +528,8 @@ function eraseCookie(name) {
 				externalDiv.appendTo(document.body)
 				.css({
 					left:pos.left,
-					top:pos.top+$anchor.outerHeight(true)
+					top:pos.top+$anchor.outerHeight(true),
+					minWidth:$anchor.innerWidth()
 				})
 				.slideDown(120,function(){ul.find("a:first").focus();});
 
@@ -352,8 +679,8 @@ function confirm(options){
 		    
 		    //setting the basic CSS rules		    
 		    var rules=[
-			    "#lightBoxBg{position:fixed;height:100%;width:100%;background-color:#000;opacity:0.5;filter:alpha(opacity=50);top:0;left:0;z-index:9;display:none}",
-			    "#lightBoxPanel{position:fixed;top:50%;margin-top:-100px;left:50%;background-color:#FFF;border:1px solid #000;z-index:9;display:none;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 3px 10px rgba(0,0,0,0.6);-moz-box-shadow:0 3px 10px rgba(0,0,0,0.6);box-shadow:0 3px 10px rgba(0,0,0,0.6)}",
+			    "#lightBoxBg{position:fixed;height:100%;width:100%;background-color:#000;opacity:0.5;filter:alpha(opacity=50);top:0;left:0;z-index:90;display:none}",
+			    "#lightBoxPanel{position:fixed;top:50%;margin-top:-100px;left:50%;background-color:#FFF;border:1px solid #000;z-index:91;display:none;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 3px 10px rgba(0,0,0,0.6);-moz-box-shadow:0 3px 10px rgba(0,0,0,0.6);box-shadow:0 3px 10px rgba(0,0,0,0.6)}",
 			    "#lightBoxPanel .mainContent{outline:none;padding:10px;overflow:hidden;position:relative}",
 			    "#lightBoxPanel .closeBtn{outline:none;background-position:0 0;height:16px;position:absolute;right:-8px;top:-9px;width:16px}",
 			    "#lightBoxPanel .closeBtn:hover,#lightBoxPanel .closeBtn:focus,#lightBoxPanel .closeBtn:active{background-position:0 bottom}",
@@ -404,7 +731,7 @@ function confirm(options){
 		
 		lb.stop(false);
 		lb.css("height","auto")
-		lb.fadeTo(0,1)
+		lb.fadeTo(0,1,function(){this.style.filter=""})
 		
 		
 	    //binding the close event
@@ -1171,11 +1498,15 @@ var scroller=function(element){
 				newTop=(ev.pageY-clickPos.top)+clickPos.elementTop;				
 	
 				if(defaults.container){
+					//checking the top/left corners
 					newLeft=newLeft>0?newLeft:0;
 					newTop=newTop>0?newTop:0;
 					
+					//checking the bottom/right ones. Uncomment this to constrain the movements within the container
+					/*
 					newLeft=newLeft+defaults.elementToDrag.outerWidth()<defaults.container.innerWidth()?newLeft:defaults.container.innerWidth()-defaults.elementToDrag.outerWidth();
 					newTop=newTop+defaults.elementToDrag.outerHeight()<defaults.container.innerHeight()?newTop:defaults.container.innerHeight()-defaults.elementToDrag.outerHeight();
+					*/
 				}
 				
 				
@@ -1234,6 +1565,17 @@ var scroller=function(element){
 			    setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},duration||5000)
 			}					
 		},
+		
+		info:function(msg,duration){
+			var Msg=$("<p />")
+				.click(function(){$(this).remove()})		
+				.addClass("info")
+				.appendTo(myConsole.alDiv)
+				.text(msg && msg.length>0?msg:"(no message)");
+			if (duration!=0){
+			    setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},duration||5000)
+			}					
+		},		
 			
 		chkSpeed:function(msg,id){
 			
