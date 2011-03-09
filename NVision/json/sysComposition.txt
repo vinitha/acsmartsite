@@ -3,7 +3,7 @@
         "type":"system",
         "name":"ClearVision",
         "alertLevel":"13",
-        "updatesInterval":20000,
+        "updatesInterval":18000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -28,8 +28,8 @@
     {
         "type":"system",
         "name":"TEO",
-        "alertLevel":"18",
-        "updatesInterval":20000,
+        "alertLevel":"180",
+        "updatesInterval":13000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -55,7 +55,7 @@
         "type":"system",
         "name":"NewClear LITE",
         "alertLevel":"13",
-        "updatesInterval":60000,
+        "updatesInterval":16000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -81,7 +81,7 @@
         "type":"system",
         "name":"GMI",
         "alertLevel":"13",
-        "updatesInterval":60000,
+        "updatesInterval":20000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -107,7 +107,7 @@
         "type":"system",
         "name":"CAA",
         "alertLevel":"13",
-        "updatesInterval":60000,
+        "updatesInterval":16500,
         "attributes":[
             {
                 "name":"Breaks",
@@ -133,7 +133,7 @@
         "type":"system",
         "name":"NewClear",
         "alertLevel":"28",
-        "updatesInterval":60000,
+        "updatesInterval":15000,
         "attributes":[
             {
                 "name":"Breaks",
@@ -164,6 +164,32 @@
         ]        
     },
     
+    {
+        "type":"system",
+        "name":"EUREX",
+        "alertLevel":"28",
+        "updatesInterval":15000,
+        "attributes":[
+            {
+                "name":"Breaks",
+                "value":32,
+                "other":{
+                    "Avg Break Fix Rate":"2mins",
+                    "Market Close":"1hr 00mins"                
+                }                             
+            },
+            {
+                "name":"Exchange in Msgs",
+                "value":26,
+                "other":{
+                    "Msg Throughput per hr":132,
+                    "Throughput rate":60,
+                    "Threshold":75
+                }
+            }              
+        ]        
+    },    
+    
     
     
     {
@@ -174,10 +200,7 @@
     
     
     
-    {
-        "type":"adapter",
-        "name":"EUREX Adapter"
-    },
+
     {
         "type":"adapter",
         "name":"GMI In Adapter"
@@ -221,30 +244,30 @@
         "type":"link",
         "name":"l1",
         "from":"exchange",
-        "to":"EUREX Adapter"
+        "to":"EUREX"
     },    
     {
         "type":"link",
         "name":"l2",
-        "from":"EUREX Adapter",
+        "from":"EUREX",
         "to":"NewClear In Adapter (Market)"
     },
     {
         "type":"link",
         "name":"l3",
-        "from":"EUREX Adapter",
+        "from":"EUREX",
         "to":"NewClear LITE In (Market)"
     },    
     {
         "type":"link",
         "name":"l4",
-        "from":"EUREX Adapter",
+        "from":"EUREX",
         "to":"GMI In Adapter"
     },  
     {
         "type":"link",
         "name":"l5",
-        "from":"EUREX Adapter",
+        "from":"EUREX",
         "to":"GMI In Adapter"
     },  
     {
@@ -339,7 +362,7 @@
     {
         "type":"layout",
         "name":"NVision subSystem positioning",
-        "objectsPos":{"EUREX Adapter":{"left":289,"top":368},"GMI In Adapter":{"left":521,"top":424},"NewClear LITE In (Market)":{"left":659,"top":351},"CAA Out Adapter":{"left":805,"top":206},"TEO Out Adapter":{"left":801,"top":34},"NewClear In Adapter (Ticket)":{"left":794,"top":115},"NewClear In Adapter (Market)":{"left":578,"top":259},"NewClear Out Adapter":{"left":337,"top":65},"ClearVision In Adapter":{"left":152,"top":54},"ClearVision":{"left":150,"top":138},"TEO":{"left":980,"top":7},"NewClear LITE":{"left":928,"top":452},"GMI":{"left":519,"top":492},"CAA":{"left":952,"top":232},"NewClear":{"left":545,"top":72},"exchange":{"left":34,"top":244}}
+        "objectsPos":{"GMI In Adapter":{"left":345,"top":581},"NewClear LITE In (Market)":{"left":595,"top":380},"CAA Out Adapter":{"left":807,"top":210},"TEO Out Adapter":{"left":818,"top":49},"NewClear In Adapter (Ticket)":{"left":784,"top":125},"NewClear In Adapter (Market)":{"left":594,"top":288},"NewClear Out Adapter":{"left":345,"top":63},"ClearVision In Adapter":{"left":130,"top":83},"ClearVision":{"left":135,"top":143},"TEO":{"left":980,"top":7},"NewClear LITE":{"left":925,"top":476},"GMI":{"left":554,"top":482},"CAA":{"left":976,"top":259},"NewClear":{"left":537,"top":8},"EUREX":{"left":230,"top":358},"exchange":{"left":29,"top":256}}
     }
     
 ]

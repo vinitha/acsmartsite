@@ -1,5 +1,6 @@
 {
-    "system":"Search results",
+    "system":"Search results:",
+    "filters":["Time","Market","Trader","Trading Ref.","Contract"],
     "trades":[
         {
             "id":20,

@@ -28,6 +28,27 @@
 		display:none;
 	}
 	
+	.bgFX{
+		width:697px;
+		height:76px;
+		background-image:url(../images/headerBG2.png);
+		position:absolute;
+		top:30px;
+		left:50%;
+		margin-left:-348px;
+		display:none;
+	}
+	
+	.hidden{
+		display:none;
+	}
+	
+	.hr{
+		border-bottom: 1px solid #FFFFFF;
+		border-top: 1px solid #999999;
+		margin: 10px 0px;
+	}	
+	
 	html{
 		background-color:#000;
 		background-image:url(../images/greenBG.png);
@@ -37,7 +58,7 @@
 	
 	body{
 		background-color:#000;
-		background-image:url(../images/headerBG2.png);
+		/*background-image:url(../images/headerBG2.png);*/
 		background-position:50% 30px;
 		background-repeat:no-repeat;
 		margin:0px 10px;
@@ -55,6 +76,14 @@
 		left:-99999px;
 	}
 	
+	h1 a{
+		height: 71px;
+		left: 0;
+		position: absolute;
+		top: 17px;
+		width: 161px;		
+	}
+	
 	h2{
 		overflow:hidden;
 		padding: 10px 10px 5px;
@@ -69,6 +98,13 @@
 		padding: 2px 10px;
 		-moz-border-radius: 5px;
 		border-radius: 5px;			
+	}
+	
+	#systemName .loading{
+		background-image:url(../images/loading.gif);
+		background-position:4px 50%;
+		background-repeat:no-repeat;
+		padding-left:25px;
 	}
 	
 	#systemName strong{
@@ -139,15 +175,31 @@
 		background-color:#ffa600;
 	}
 	
+	/*
 	select{
 		display:none;
 	}
+	*/
 	
 	.datePicker{
 		width:60px;
+		background-image:url(../images/calendar2.png);
+		background-position:2px 50%;
+		background-repeat:no-repeat;
+		padding-left:20px!important;
+		border: 1px solid #CCCCCC;
 	}
 	
+	.timePicker{
+		width:60px;
+		background-image: url("../images/time.png");
+		background-position: 2px 50%;
+		background-repeat: no-repeat;
+		padding-left:20px!important;
+		border: 1px solid #CCCCCC;
+	}
 	
+
 /* *** */
 
 #menuBar{
@@ -221,23 +273,45 @@
 		right:20px;
 		background-color:#eee;
 		-moz-border-radius:0px 0px 5px 5px;
-		padding:10px 20px;
+		border-radius:0px 0px 5px 5px;
+		
+		-moz-box-shadow:0px 1px 3px #000;		
+		box-shadow: 0px 1px 3px #000; /* CSS3    */
+		-webkit-box-shadow: 0px 1px 3px #000; /* Webkit  */
+
+		/* For IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+		/* For IE 5.5 - 7 */
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+		
+		padding:10px 0px;
+		z-index:12;
+				
 	}
 	
-	#searchForm label{
-		float: left;
-		line-height: 22px;
-		margin-right: 5px;
-		display:none;
+	.ie7 #searchForm,
+	.ie8 #searchForm{
+		width:315px;
 	}
+	
+	fieldset label{
+		/*float: left;
+		line-height: 22px;
+		margin-right: 5px;*/
+	}
+	
 	#searchForm input{
-		border: 1px solid #CCCCCC;
+		border: 1px solid #bbb;
 		float: left;
 		font-size: 1.2em;
-		margin-right: -1px;
+		
 		padding: 2px;
-		width:200px;
+		width:180px;
 		color:#666;
+	}
+	
+	#keyword{
+		margin-right: -1px;
 	}
 	
 	button.searchBtn span{
@@ -268,16 +342,178 @@
 		float:left;
 	}
 	
-	#searchForm .advancedSearch{
-		color: #666666;
-		font-weight: bold;
-		line-height: 22px;
-		margin-left: 10px;		
+	
+	#advancedSearch button.searchBtn{
+		float:right;
+		margin-right:5px;
+	}
+	#advancedSearch button.searchBtn span{
+		background-position: right 1px;
+		font-size: 1.1em;
+		line-height: 17px;
+		padding-right: 32px;
+		text-align: left;
+	}
+	
+	.ie7 #advancedSearch button.searchBtn span,
+	.ie8 #advancedSearch button.searchBtn span{	
+		line-height:19px;
+		font-size:1.1em;
 	}
 	
 	
-/* viewFilters */
-	#viewFilters {
+	#searchForm .advPanel{
+		color: #666666;
+		font-weight: bold;
+		margin-top:5px;
+		float:right;
+		margin-left: 10px;
+		padding-right:15px;
+		background-image:url(../images/tableBGSprite.png);
+		background-position:right 0px;
+		background-repeat:no-repeat;
+	}
+	
+	#searchForm .advPanel.bas{
+		background-position:right -19px;
+	}
+	
+	#searchForm .advPanel .bas{
+		display:none;
+	}
+
+	#searchForm .advPanel.bas .adv{
+		display:none;
+	}
+	
+	#searchForm .advPanel.bas .bas{
+		display:inline;
+	}
+	
+	.disabled input,
+	.disabled button{
+		display:none;
+	}
+	
+	#basicSearch.disabled{
+		background-image:url(../images/advancedSearch.png);
+		background-repeat:no-repeat;
+		background-position:0px 2px;
+	}
+	
+/* basicSearch */	
+	#basicSearch{
+		margin:0px 10px;
+	}
+	
+	.ie7 #basicSearch{
+		display:inline;
+	}
+	
+/* advancedSearch */
+	#advancedSearch {
+		background-color: #ddd;
+		background-image:url(../images/searchBG.png);
+		background-repeat:no-repeat;
+		margin-top: 10px;
+		padding: 10px;
+		border-top:1px solid #bbb;
+		border-bottom:1px solid #fff;
+		display:none;
+	}
+	
+	fieldset label,
+	fieldset p
+	{
+		line-height:normal;
+		display:block;
+		clear:both;
+		margin-bottom:2px;
+		overflow:hidden;
+	}
+	
+	fieldset label.chkLabel{
+		display: inline;
+		float: none;
+		line-height: 20px;
+		padding: 0 10px 0 5px;
+		vertical-align: bottom;		
+	}
+	
+	
+	fieldset span.label{
+		float:left;
+		width:100px;
+		line-height:20px;
+		font-size:1.1em;
+	}
+	
+	.currency{
+		text-align:right;
+	}
+	
+	#advancedSearch .resetBtn{
+		background-color: transparent;
+		border: medium none;
+		cursor: pointer;
+		float: left;
+		font-size: 1em;
+		width: auto;
+		text-decoration:underline;
+	}
+	
+	#advancedSearch input{
+		width:179px;
+	}
+	
+	#advancedSearch .datePicker{
+		width:161px;
+	}
+	
+	#advancedSearch input[type="radio"]{
+		width:auto;
+		float:none;
+	}
+	
+	#advancedSearch .short{
+		width:68px;
+		margin-right: 2px;
+	}
+	
+	#advancedSearch .other{
+		width:83px;
+		float:none;
+	}
+	
+	#advancedSearch .ixDropDown_A.short{
+		width:75px;
+	}
+	
+	#advancedSearch .ixDropDown_A.short span{
+		width:67px;
+	}	
+	
+	#advancedSearch .ixDropDown_A span{
+		width:160px;
+	}
+	
+	
+	#advancedSearch select{
+		width:185px;
+	}
+	
+	#advancedSearch select.short{
+		width:91px;
+	}	
+	
+	
+
+/* validation */	
+	form .validError{
+		background-color:#fffcb9;
+	}
+/* filtersView */
+	#filtersView {
 		overflow:hidden;
 		background-color:#f9f9f9;
 		padding:10px;
@@ -286,19 +522,27 @@
 		background-repeat:repeat-x;
 	}
 	
-	#viewFilters label{
+	#tradesFilters{
+		display:none;
+	}
+	
+	#filtersView label{
 		float:left;
 		margin-right:10px;
 	}
 	
-	#viewFilters span{
+	#filtersView span{
 		display:block;
 	}
 	
-	#viewFilters input{
+	#filtersView input{
 		font-size:1.1em;
 		padding:2px;
 		color:#666;
+	}
+	
+	#filtersView select{
+		display:block;
 	}
 
 
@@ -359,6 +603,7 @@
 	}
 
 	
+	
 /* toolBar */
 	#toolBar{
 		background-image:url(../images/topBarBG.png);
@@ -403,13 +648,14 @@
 	}
 	
 	#updatesBtn a.on{
-		background-color:#e6f8a7;
-		border-color:#fecb01;
+		background-color:#ebebeb;
+		border-color:#ffbc31;
+		
 	}
 	
 	#updatesBtn span{
 		background-color: transparent;
-		background-image: url("../images/ajaxLoader2.gif");
+		background-image: url("../images/ajaxLoader5.gif");
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
 		color: #666666;
@@ -419,6 +665,10 @@
 		padding: 3px;
 		text-align: center;
 		width: 24px;
+	}
+	
+	#updatesBtn a.on span{
+		color:#000;
 	}
 	
 	#updatesBtn .pause span{
@@ -586,7 +836,8 @@
 	}
 	
 	#tableData td.sorted{
-		background-color:#fff1d9;
+		/*background-color:#fff1d9;*/
+		background-image:url(../images/sortBG.png);
 	}
 	
 	#tableData tr:hover td.sorted{
@@ -620,6 +871,7 @@
 	
 	#tableData tr.open{
 		background-color:#e6e8d7;
+		background-image:url(../images/gradient.png)
 	}
 	
 	#tableData tbody tr.detailsContainer{
@@ -725,6 +977,20 @@
 		white-space:normal;
 		line-height:1.5em;			
 	}
+	
+	.myConsole p.info{	
+		background-image:url(../images/info.png);
+		background-position:10px 10px;
+		background-repeat:no-repeat;
+		padding:10px 10px 10px 40px;
+		background-color:#B1C8D8;
+		color:#333;
+		width:350px;
+		font-size:1.3em;	
+		white-space:normal;
+		line-height:1.5em;			
+	}
+	
 	.myConsole span.error {
 		padding:5px;
 	}
@@ -816,11 +1082,9 @@
 	#dbContent{
 		position:relative;
 		background-image:url(../images/dbBG2.png);
-		/*background-image:url(../images/60White.png);
-		background-position:0px 0px;
-		background-repeat:no-repeat;*/
 		border-bottom:1px solid #aaa;
 		height:100%;
+		/*overflow:auto;*/
 	}
 	
 	#dashBoardView .system{
@@ -832,7 +1096,7 @@
 		border-top-color:#dae4e9;
 		border-left-color:#dae4e9;
 		overflow:hidden;
-		background-image:url(../images/sysBg.png);
+		background-image:url(../images/sysBG.png);
 		background-position:0px 0px;
 		background-repeat:no-repeat;
 	}
@@ -857,6 +1121,13 @@
 		font-size: 1.4em;
 		padding: 2px 5px;
 		cursor:move;
+		color:#444;
+	}
+	
+	#dashBoardView .system.updating h3{
+		background-image:url(../images/refresh.gif);
+		background-position:180px 50%;
+		background-repeat:no-repeat;	
 	}
 	
 	#dashBoardView .alert1 h3{
@@ -971,7 +1242,7 @@
 	}
 	
 	.ixDropDown_A span{
-    -moz-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 0px 0px 4px;
     background-color: #FFFFFF;
     min-width: 60px;
     padding: 2px 4px;
@@ -1010,6 +1281,21 @@
 	}
 	
 	
+	
+	
+	
+/* timePicker */
+	.x_timePicker{
+		position:absolute;
+		z-index:99;
+		zoom:1;
+	}
+	.x_timePicker .hover a,
+	.x_timePicker a.on{
+		background-image:url("../images/btnBG.png");
+		background-repeat:no-repeat;
+		background-position:50% 55%;		
+	}
 	
 /* lightBox */
 	#lightBoxPanel .closeBtn {
@@ -1067,7 +1353,21 @@
 		background-position:0px 50%;
 		background-repeat:no-repeat;
 		padding-left: 30px;
+	}
+	
+	
+	#CSVbox{
+		width:800px;
+		overflow:hidden;
+	}
+
+	#CSVbox textarea{
+		overflow-y:auto;
+		width:100%;
+		height:450px;
+		font-size:1.1em;
 	}	
+	
 	
 	#lightBoxPanel .buttonsBar{
 		float:right;
@@ -1114,7 +1414,9 @@
 @media print{
 	#bcBar,
 	#systemName,
+	header,
 	#searchForm,
+	#pagination .showAll,
 	#toolBar .buttons{
 		display:none;
 	}
@@ -1126,5 +1428,9 @@
 		margin: 0;
 		float: none;
 		overflow:visible;
+	}
+	
+	#toolBar {
+		border-bottom:1px solid #999;
 	}
 }
