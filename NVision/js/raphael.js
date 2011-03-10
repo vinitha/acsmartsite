@@ -44,14 +44,14 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
     
     var bb1 = getBBox(obj1),
         bb2 = getBBox(obj2),
-        p = [{x: bb1.x + (bb1.width / 7)*linkIndex_1, y: bb1.y - 0},
-        {x: bb1.x + (bb1.width / 7)*linkIndex_1, y: bb1.y + bb1.height + 0},
-        {x: bb1.x - 0, y: bb1.y + (bb1.height / 7)*linkIndex_1},
-        {x: bb1.x + bb1.width + 0, y: bb1.y + bb1.height / 7*linkIndex_1},
-        {x: bb2.x + (bb2.width / 7)*linkIndex_2, y: bb2.y - 1},
-        {x: bb2.x + (bb2.width / 7)*linkIndex_2, y: bb2.y + bb2.height + 0},
-        {x: bb2.x - 0, y: bb2.y + bb2.height / 7*linkIndex_2},
-        {x: bb2.x + bb2.width + 0, y: bb2.y + bb2.height / 7*linkIndex_2}],
+        p = [{x: bb1.x + (bb1.width / 5)*linkIndex_1, y: bb1.y - 0},
+        {x: bb1.x + (bb1.width / 5)*linkIndex_1, y: bb1.y + bb1.height + 0},
+        {x: bb1.x - 0, y: bb1.y + (bb1.height / 5)*linkIndex_1},
+        {x: bb1.x + bb1.width + 0, y: bb1.y + bb1.height / 5*linkIndex_1},
+        {x: bb2.x + (bb2.width / 5)*linkIndex_2, y: bb2.y - 1},
+        {x: bb2.x + (bb2.width / 5)*linkIndex_2, y: bb2.y + bb2.height + 0},
+        {x: bb2.x - 0, y: bb2.y + bb2.height / 5*linkIndex_2},
+        {x: bb2.x + bb2.width + 0, y: bb2.y + bb2.height / 5*linkIndex_2}],
         d = {}, dis = [];
     for (var i = 0; i < 4; i++) {
         for (var j = 4; j < 8; j++) {

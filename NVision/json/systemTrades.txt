@@ -1,5 +1,5 @@
 {
-    "system":"ClearVision",
+    "adapter":"ClearVision IN",
     "filters":["Time","Market","Trader","Trading Ref.","Contract"],
     "trades":[
         {

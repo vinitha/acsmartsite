@@ -127,9 +127,91 @@ function myAjax(options){
     system.prototype=new baseObj();
     system.prototype.constructor=system;
     
-    system.prototype.showTrades=function(tableContainer,paginationContainer){    
+    
+
+
+//adapter object def
+    function adapter(obj){
+        baseObj.call(this,obj)
+    }
+    
+    adapter.prototype=new baseObj();
+    adapter.prototype.constructor=adapter;
+    
+    adapter.prototype.refresh=function(){
+        //refreshing the attributes view
+        var objDiv=$(this.canvasBox),
+            sysObj=this,
+            title=objDiv.find("h3");
+        
+        //clearing the object    
+        objDiv.find("div.attr").remove()
+        
+        
+        for (var attr in sysObj.attributes){
+            attr=sysObj.attributes[attr];
+            
+           var attrDiv=$("<div class='attr' />")
+                .insertAfter(title)
+                $("<p />")
+                    .addClass("more")
+                    .appendTo(attrDiv)
+                    .append($("<span/>").text(attr.name + ": "))
+                    .append($("<strong/>").text(attr.value))
+    
+            if(attr.other){
+                for (var other in attr.other){
+                    var div=$("<div class='other' />")
+                        .appendTo(attrDiv)                            
+                    
+                    var value=attr.other[other];
+                    
+                    div .append($("<span/>").text(other + ": "))
+                        .append($("<strong/>").text(value))
+                    
+                }                       
+            }
+        }    
+    }
+    
+    adapter.prototype.draw=function(objPos,container){
+        
+        //calling the base function first
+        baseObj.prototype.draw.call(this,objPos,container)
+       
+        var objDiv=$(this.canvasBox),
+            sysObj=this;
+            
+        //adding the "View breaks" button
+        objDiv.append(
+            $("<a />")
+                .addClass("showDetails")
+                .attr("href","#" + sysObj.name)
+                .text("View breaks")
+                .click(function(e){
+                    //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
+                    e.preventDefault();
+                    
+                    //putting the query into the browser history
+                    var newStatus = {
+                        tabId:"tab_1",
+                        view:{type:"adapter","sysName":this.hash.replace("#","")}
+                    }
+                    $.bbq.pushState( newStatus,2);                       
+    
+                })                           
+        )         
+       
+       
+       //displaying the attributes
+        this.refresh(); 
+        
+    }    
+
+    adapter.prototype.showTrades=function(tableContainer,paginationContainer){    
         // defining the table headings
         var sysObj=this;
+        
         
         var tableHeadings=[]
         for(var h in sysObj.trades[0]){
@@ -182,7 +264,7 @@ function myAjax(options){
             headClick:function(anchor){
                 
                 var $anchor=$(anchor);
-                var up=myConsole.chkSpeed("updateTable: ");
+                //var up=myConsole.chkSpeed("updateTable: ");
                 
                 sysObj.sortBy=sysObj.sortBy?sysObj.sortBy:[];
                 
@@ -205,8 +287,9 @@ function myAjax(options){
                 }                            
                 
                 
-                updateTable();
-                myConsole.chkSpeed("",up)
+                sysObj.showTrades(tableContainer,paginationContainer);
+                
+                //myConsole.chkSpeed("",up)
                 
             },
             rowClick:function(tr){                            
@@ -238,10 +321,13 @@ function myAjax(options){
                     .prepend("<span class='order'/>")
                     .append(
                         $("<span title='disable' class='remove'/>")
-                            .click(function(){
+                            .click(function(e){
+                                e.preventDefault();
+                                
                                 var x=$(this).attr("data-idx")
                                 sysObj.sortBy.splice(x,1);
-                                updateTable();
+                                
+                                sysObj.showTrades(tableContainer,paginationContainer); 
                             })
                             .attr("data-idx",x)                                   
                     )
@@ -409,83 +495,3 @@ function myAjax(options){
             }                           
         }        
     }
-    
-    system.prototype.draw=function(objPos,container){
-        
-        //calling the base function first
-        baseObj.prototype.draw.call(this,objPos,container)
-       
-        //then spicing it up!
-        var objDiv=$(this.canvasBox),
-            sysObj=this,
-            title=objDiv.find("h3")
-        
-       
-        //adding the system attributes
-        objDiv.append(
-            $("<a />")
-                .addClass("showDetails")
-                .attr("href","#" + sysObj.name)
-                .text("View breaks")
-                .click(function(e){
-                    //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
-                    e.preventDefault();
-                    
-                    //putting the query into the browser history
-                    var newStatus = {
-                        tabId:"tab_1",
-                        view:{type:"system","sysName":this.hash.replace("#","")}
-                    }
-                    $.bbq.pushState( newStatus,2);                       
-    
-                })                           
-        )  
-        for (var attr in sysObj.attributes){
-            attr=sysObj.attributes[attr];
-            
-           var attrDiv=$("<div class='attr' />")
-                .insertAfter(title)
-                $("<a />")
-                    .attr("href","#" + sysObj.name)
-                    .addClass("more")
-                    .click(function(){
-                        $(this).siblings(".other").toggle();
-                        
-                        var sysObj=NVision.systems[this.hash.replace("#","")]
-                        //redrawing the links of this object
-                        for(var link in sysObj.canvasLink){
-                            link=sysObj.canvasLink[link];
-                            NVision.paper.connection(link)
-                        }                                    
-                        return false;
-                    })
-                    .appendTo(attrDiv)
-                    .append($("<span/>").text(attr.name + ": "))
-                    .append($("<strong/>").text(attr.value))
-    
-            if(attr.other){
-                for (var other in attr.other){
-                    var div=$("<div class='other' />")
-                        .appendTo(attrDiv)                            
-                    
-                    var value=attr.other[other];
-                    
-                    div .append($("<span/>").text(other + ": "))
-                        .append($("<strong/>").text(value))
-                    
-                }                       
-            }
-        }    
-        
-    }
-
-
-
-
-//adapter object def
-    function adapter(obj){
-        baseObj.call(this,obj)
-    }
-    
-    adapter.prototype=new baseObj();
-    adapter.prototype.constructor=adapter;

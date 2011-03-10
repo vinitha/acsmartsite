@@ -1047,7 +1047,8 @@
 	
 /* dashBoardView */
 	#dashBoardView{
-		background-color:#aaa;
+
+		background-image:url(../images/dbBG2.png);
 		height:800px;
 		padding-bottom:10px;
 		position:relative;
@@ -1080,13 +1081,13 @@
 	
 	#dbContent{
 		position:relative;
-		background-image:url(../images/dbBG2.png);
+		background-image:url(../images/grid.png);
 		border-bottom:1px solid #aaa;
 		height:100%;
 		/*overflow:auto;*/
 	}
 	
-	#dashBoardView .system{
+	#dashBoardView .adapter{
 		padding:10px;		
 		position:absolute;
 		width:200px;
@@ -1100,21 +1101,21 @@
 		background-repeat:no-repeat;
 	}
 	
-	#dashBoardView .system.alert1{
+	#dashBoardView .adapter.alert1{
 		border-color:#bdb122;
 		border-top-color:#ffff95;
 		border-left-color:#ffff95;		
 		background-color:#ede06b;
 	}
 	
-	#dashBoardView .system.alert2{
+	#dashBoardView .adapter.alert2{
 		border-color:#fc6727;
 		border-top-color:#fec9b1;
 		border-left-color:#fec9b1;	
 		background-color:#ff9377;
 	}	
 	
-	#dashBoardView .system h3{
+	#dashBoardView .adapter h3{
 		-moz-border-radius: 6px 6px 6px 6px;
 		background-color: #b1c8d8 ;
 		font-size: 1.4em;
@@ -1123,7 +1124,7 @@
 		color:#444;
 	}
 	
-	#dashBoardView .system.updating h3{
+	#dashBoardView .adapter.updating h3{
 		background-image:url(../images/refresh.gif);
 		background-position:180px 50%;
 		background-repeat:no-repeat;	
@@ -1138,38 +1139,34 @@
 	}
 	
 	
-	#dashBoardView .system .attr{
-		margin-top:10px;	
+	#dashBoardView .adapter .attr{
+		margin-top:10px;
+		margin-left:25px;
+		font-size:1.1em;	
 	}
 	
-	#dashBoardView .system .attr a.more{
-		font-size:1.1em;
+	#dashBoardView .adapter .attr .more{		
 		font-weight:bold;
 		color:#246;
 		display:block;
-		padding-left:20px;
-		background-image:url(../images/more.png);
-		background-position:0px 50%;
-		background-repeat:no-repeat;
 		margin-bottom:3px;
 	}
 	
-	#dashBoardView .system .attr .other{
-		display:none;
-		padding-left:21px;
+	#dashBoardView .adapter .attr .other{
+		padding-left:10px;
 	}
 	
 	
-	#dashBoardView .system .attr .other span{
+	#dashBoardView .adapter .attr .other span{
 		color:#666;
 	}
 	
-	#dashBoardView .system .attr .other strong{
+	#dashBoardView .adapter .attr .other strong{
 		font-weight:bold;
 		font-size:1.1em;
 	}
 	
-	#dashBoardView .system .showDetails{
+	#dashBoardView .adapter .showDetails{
 		color:#369;
 		font-weight:bold;
 		font-size:1.1em;
@@ -1177,7 +1174,7 @@
 		float:right;
 	}
 	
-	#dashBoardView .adapter{
+	#dashBoardView .system{
 		position: absolute;
 		background-image:url(../images/sysBg.png);
 		background-position:0px -73px;
@@ -1185,35 +1182,51 @@
 		background-color: #ddd;		
 	}
 	
-	#dashBoardView .adapter h3{		
+	#dashBoardView .system h3{		
 		cursor: move;
 		font-size: 1.2em;
-		padding: 2px 15px;
+		padding: 10px 15px;
 		border:1px solid #ccc;
 		border-top-color:#dedede;
 		border-left-color:#dedede;
 		color:#666;
 	}
 	
+	#dashBoardView .root
+	{
+		position: absolute;
+		background-color: #fff;		
+	}
+	
+	#dashBoardView .root h3{		
+		cursor: move;
+		font-size: 1.2em;
+		padding: 10px 15px;
+		border:1px dotted #bbb;
+		color:#666;
+	}
+	
+	
 	#dashBoardView .exchange{
 		position:absolute;
 		background-image:url(../images/sysBg.png);
-		background-position:0px 0px;
+		background-position:0px 50%;
 		background-repeat:no-repeat;
 		background-color:#87b8d6;
 		border:1px solid #7ba0b3;
 		border-top-color:#cfdce2;
-		border-left-color:#cfdce2;		
+		border-left-color:#cfdce2;
+		height:500px;
 	}
 	
 	#dashBoardView .exchange h3{
 		background-image:url(../images/exchange.png);
-		background-position:0px 0px;
+		background-position:0px 50%;
 		background-repeat:no-repeat;	
 		width:29px;
-		height:221px;
+		height:100%;
 		text-indent:-9999999px;
-		margin:20px 10px;
+		margin:0px 10px;
 		cursor: move;
 	}	
 	

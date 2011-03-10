@@ -1,0 +1,306 @@
+[
+    {
+        "type":"exchange",
+        "name":"exchange"
+    },
+
+
+
+
+
+
+
+
+
+
+        
+    {
+        "type":"system",
+        "name":"ClearVision CORE"      
+    },
+    
+    {
+        "type":"system",
+        "name":"TEO CORE"
+    },    
+    
+    {
+        "type":"system",
+        "name":"Newclear Lite CORE"
+    },
+    
+    {
+        "type":"system",
+        "name":"GMI CORE"
+    },    
+    
+    {
+        "type":"system",
+        "name":"UBIX CORE"
+    },    
+    
+    {
+        "type":"system",
+        "name":"Newclear CORE"
+    },
+    
+    {
+        "type":"system",
+        "name":"CAA CORE"
+    },    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+
+    {
+        "type":"adapter",
+        "name":"ClearVision IN",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Newclear Out",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Newclear Ticket TEO",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"TEO Out",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Newclear Ticket CAA",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Newclear Market IN",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Newclear Lite IN",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"Exchange Adapter",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"GMI IN",
+        "updatesInterval":10000
+    },
+    {
+        "type":"adapter",
+        "name":"UBIX IN",
+        "updatesInterval":10000
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    {
+        "type":"root",
+        "name":"High Touch"
+    },
+    {
+        "type":"root",
+        "name":"Low Touch"
+    },
+    {
+        "type":"root",
+        "name":"Exec Only"
+    },
+    {
+        "type":"root",
+        "name":"Not NVision"
+    },
+    
+    
+    
+    
+    
+    
+ 
+    {
+        "type":"link",
+        "name":"L1",
+        "from":"exchange",
+        "to":"ClearVision CORE"
+    },
+    {
+        "type":"link",
+        "name":"L2",
+        "from":"ClearVision CORE",
+        "to":"exchange"
+    },
+    {
+        "type":"link",
+        "name":"L3",
+        "from":"ClearVision IN",
+        "to":"ClearVision CORE"
+    },
+    {
+        "type":"link",
+        "name":"L4",
+        "from":"Newclear Out",
+        "to":"ClearVision IN"
+    },
+    {
+        "type":"link",
+        "name":"L5",
+        "from":"Newclear CORE",
+        "to":"Newclear Out"
+    },
+    {
+        "type":"link",
+        "name":"L6",
+        "from":"Newclear Market IN",
+        "to":"Newclear CORE"
+    },
+    {
+        "type":"link",
+        "name":"L7",
+        "from":"Newclear Ticket TEO",
+        "to":"Newclear CORE"
+    },
+    {
+        "type":"link",
+        "name":"L8",
+        "from":"Newclear Ticket CAA",
+        "to":"Newclear CORE"
+    },
+    {
+        "type":"link",
+        "name":"L9",
+        "from":"TEO CORE",
+        "to":"TEO Out"
+    },
+    {
+        "type":"link",
+        "name":"L10",
+        "from":"CAA CORE",
+        "to":"Newclear Ticket CAA"
+    },
+    {
+        "type":"link",
+        "name":"L11",
+        "from":"High Touch",
+        "to":"Newclear Market IN"
+    },
+    {
+        "type":"link",
+        "name":"L12",
+        "from":"exchange",
+        "to":"Exchange Adapter"
+    },
+    {
+        "type":"link",
+        "name":"L13",
+        "from":"Exchange Adapter",
+        "to":"High Touch"
+    },
+    {
+        "type":"link",
+        "name":"L14",
+        "from":"Exchange Adapter",
+        "to":"Low Touch"
+    },
+    {
+        "type":"link",
+        "name":"L15",
+        "from":"Exchange Adapter",
+        "to":"Exec Only"
+    },
+    {
+        "type":"link",
+        "name":"L16",
+        "from":"Low Touch",
+        "to":"Newclear Lite IN"
+    },
+    {
+        "type":"link",
+        "name":"L17",
+        "from":"Low Touch",
+        "to":"GMI IN"
+    },
+    {
+        "type":"link",
+        "name":"L18",
+        "from":"Exec Only",
+        "to":"UBIX IN"
+    },
+    {
+        "type":"link",
+        "name":"L19",
+        "from":"UBIX IN",
+        "to":"UBIX CORE"
+    },
+    {
+        "type":"link",
+        "name":"L20",
+        "from":"GMI IN",
+        "to":"GMI CORE"
+    },
+    {
+        "type":"link",
+        "name":"L21",
+        "from":"GMI CORE",
+        "to":"Not NVision"
+    },
+    {
+        "type":"link",
+        "name":"L22",
+        "from":"Not NVision",
+        "to":"Newclear Lite CORE"
+    },
+    {
+        "type":"link",
+        "name":"L23",
+        "from":"Newclear Lite IN",
+        "to":"Newclear Lite CORE"
+    },
+    {
+        "type":"link",
+        "name":"L24",
+        "from":"TEO Out",
+        "to":"Newclear Ticket TEO"
+    },
+
+
+
+
+ 
+    
+    
+    
+    
+    
+    
+    
+    {
+        "type":"layout",
+        "name":"NVision subSystem positioning",
+        "objectsPos":{"ClearVision CORE":{"left":147,"top":266},"TEO CORE":{"left":1030,"top":131},"Newclear Lite CORE":{"left":1065,"top":323},"GMI CORE":{"left":1038,"top":486},"UBIX CORE":{"left":1034,"top":588},"Newclear CORE":{"left":454,"top":152},"CAA CORE":{"left":1021,"top":191},"ClearVision IN":{"left":131,"top":10},"Newclear Out":{"left":403,"top":37},"Newclear Ticket TEO":{"left":672,"top":23},"TEO Out":{"left":954,"top":46},"Newclear Ticket CAA":{"left":687,"top":180},"Newclear Market IN":{"left":426,"top":258},"Newclear Lite IN":{"left":730,"top":311},"Exchange Adapter":{"left":146,"top":422},"GMI IN":{"left":720,"top":467},"UBIX IN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"High Touch":{"left":469,"top":368},"Low Touch":{"left":469,"top":461},"Exec Only":{"left":469,"top":548},"Not NVision":{"left":1055,"top":375}}
+    }
+    
+]

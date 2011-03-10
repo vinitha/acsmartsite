@@ -1,7 +1,6 @@
 {
-    "name":"EUREX",
-    "alertLevel":99,
-    "alertThreshold":100,
+    "name":"ClearVision IN",
+    "alertLevel":90,
     "attributes":[
         {
             "name":"Breaks",
@@ -12,8 +11,8 @@
             }                             
         },
         {
-            "name":"ClearVision In Msgs",
-            "value":74,
+            "name":"In Messages",
+            "value":75,
             "other":{
                 "Msg Throughput per hr":32,
                 "Throughput rate":6,
