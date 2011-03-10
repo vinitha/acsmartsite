@@ -35,15 +35,15 @@ $(function(){
                 NVision.showDashboard();
             break;
             
-            case "system":
+            case "adapter":
                 if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
                     var sysName=newStatus.view.sysName;
-                        sysObj=NVision.systems[sysName];
+                        sysObj=NVision.adapters[sysName];
                     
                     if(sysObj){
                         NVision.showTable(sysObj);
                     }else{
-                        myConsole.alert("Unknown system [" + sysName +"]; ignored!")
+                        myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
                     }
                 }
             break;
@@ -579,16 +579,17 @@ var NVision={
                         case "system":
                             if(!NVision.systems){NVision.systems={}};
                             
-                            //base settings
-                            this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
-                            this.currentPage=1;
-                            
                             //adding the system to the NVision obj
                             NVision.systems[this.name]=new system(this);//this;
                         break;
                                             
                         case "adapter":
                             if(!NVision.adapters){NVision.adapters={}};
+                            
+                            //base settings
+                            this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
+                            this.currentPage=1;
+                            
                             //adding the adapter to the NVision obj
                             NVision.adapters[this.name]=new adapter(this);
                         break;
@@ -871,8 +872,8 @@ var NVision={
         //setting the function to highlight allerted systems
         NVision.updateEngine.setCallback(function(){
 
-            for(var sysObj in NVision.systems){                
-                sysObj=NVision.systems[sysObj];
+            for(var sysObj in NVision.adapters){                
+                sysObj=NVision.adapters[sysObj];
                                 
                 if(!sysObj) {
                     myConsole.alert("Missing system definition for: " + sysObj,10000 )
@@ -1048,12 +1049,12 @@ var NVision={
             }
 
             for(var i in NVision.layout.objectsPos){
-
-                var layout=NVision.layout.objectsPos[i],
+                var layout=NVision.layout.objectsPos[i]||{left:0,top:0},
                     objToDraw=NVision.systems[i]||NVision.adapters[i]||NVision.otherObjects[i],               
                     objPos=positions?positions[i]:layout;
-                
+                               
                 if(pos && !objPos){
+                    
                     myConsole.info("Custom configuration data corrupted! Reverting to default",10000);
                     eraseCookie("positions");
                     positions=null;
@@ -1070,6 +1071,8 @@ var NVision={
                 var link=NVision.links[link],                
                     fromSys=NVision.systems[link.from]||NVision.adapters[link.from]||NVision.otherObjects[link.from],
                     toSys=NVision.systems[link.to]||NVision.adapters[link.to]||NVision.otherObjects[link.to];
+                    
+                    
                     
                     var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
                     
@@ -1088,9 +1091,9 @@ var NVision={
 
     
     createSystemsUpdateRequests:function(){
-        // looping through the subSystems list and generating updatesRequest for each system       
-         for (var sysName in NVision.systems){    
-            var sysObj= NVision.systems[sysName];          
+        // looping through the adapters list and generating updatesRequest for each adapter       
+         for (var sysName in NVision.adapters){    
+            var sysObj= NVision.adapters[sysName];          
             
             //generating and adding updatesRequest
             //to the updating queue.
@@ -1101,16 +1104,23 @@ var NVision={
                 url:sysConfig.sysUpdates,
                 data:{"sysId":sysObj.name},
                 callBack:function(data){
-                    var sysObj=NVision.systems[data.name];
+                    var sysObj=NVision.adapters[data.name];
                     
                     if(!sysObj){
-                        myConsole.alert("System not found: " + data.name,10000);
+                        myConsole.alert("Adapter not found: " + data.name,10000);
                         return false;
                     }
-                    sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel,data.alertThreshold);
+                    sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel);
                     
-                    //todo: update the rest of the object
+                    //updating the rest of the object                    
+                    sysObj.attributes=data.attributes;                    
+                    sysObj.refresh();
                     
+                    //redrawing the links
+                    for(var link in sysObj.canvasLink){
+                        link=sysObj.canvasLink[link];
+                        NVision.paper.connection(link)
+                    }                     
                     
                 }
             })
@@ -1170,11 +1180,10 @@ var NVision={
     utils:{
         
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
-                
-            //showing the system name
-            var nameSpan=$("#systemName").find("span").text(data.system),
+            //showing the adapter name
+            var nameSpan=$("#systemName").find("span").text(data.adapter),
                 sysObj=NVision.currentSys;
-            
+
             //updating the system trades object
             sysObj.trades=data.trades;
             
@@ -1220,23 +1229,24 @@ var NVision={
             
         },
         
-        getLevel:function(lev,thr){
+        getLevel:function(lev){
+            var thr=100;
             //function to map the percentage with the error level
             return lev<thr*0.6?0:lev<thr?1:2;        
         },
         
         savePositions:function(){
             var objs=[];
-            for (var obj in NVision.adapters){
+            for (var obj in NVision.systems){
                 
-                var pos=$(NVision.adapters[obj].canvasBox).position();
+                var pos=$(NVision.systems[obj].canvasBox).position();
                 
                 objs.push(
                     '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
                 )
             }
-            for (var obj in NVision.systems){
-                var pos=$(NVision.systems[obj].canvasBox).position();
+            for (var obj in NVision.adapters){
+                var pos=$(NVision.adapters[obj].canvasBox).position();
                 
                 objs.push(
                     '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
