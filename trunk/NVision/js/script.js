@@ -82,8 +82,7 @@ $().ready(function(){
     //init. the NVision object (passing a function to be executed when the system is ready)
     NVision.init(function(){
         $(window).trigger("hashchange")
-        
-        
+        $(window).resize()        
     });
     
     //theaming the dropdowns
@@ -317,15 +316,20 @@ var NVision={
             }
             $.bbq.pushState( newStatus,2);         
             
-            //collapsing the advance search
+            //collapsing the advanced search
             $(theForm).find("a.advPanel").trigger("hideAdv");
         })
         
         
         //handling the resizing event
         $(window).resize(function(){
-            var w=$("#dbContent").innerWidth(),
-                h=$("#dbContent").innerHeight();
+            
+            var h=$("html").innerHeight()-$("#filtersView").innerHeight()-$("header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
+        
+            $("div.tabContent").css("height",h);
+            
+            var w=$("#dbContent").get(0).scrollWidth,
+                h=$("#dbContent").get(0).scrollHeight;
             
             if ($.browser.msie){
                     
