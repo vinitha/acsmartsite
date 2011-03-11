@@ -20,7 +20,8 @@ function getBBox(obj){
 Raphael.fn.connection = function (obj1, obj2, line, bg) {
     var linkIndex_1,
         linkIndex_2,
-        end;
+        end,
+        f=NVision.zoomFactor;
         
     linkIndex_1=linkIndex_2=end=null;
     
@@ -79,6 +80,12 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
         y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
     var path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+    
+    
+    
+    
+    
+    
     if (line && line.line) {
         line.bg && line.bg.attr({path: path});
         line.line.attr({path: path});
@@ -88,9 +95,16 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         line.end.attr({
             cx:x1.toFixed(3),
             cy:y1.toFixed(3),
-            r:4
+            r:4*f
         })
         
+        if(NVision.zoomFactor>0){
+            line.line.hide()
+        }else{
+            line.line.show()
+        }
+        
+        line.bg.attr({"stroke-width":4*f})
     } else {
         var color = typeof line == "string" ? line : "#000";
         
@@ -99,9 +113,17 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
             line: this.path(path).attr({stroke: color, fill: "none"}),
             from: obj1,
             to: obj2,
-            end:this.circle(x1.toFixed(3), y1.toFixed(3),4).attr({stroke: bg.split("|")[0], fill: "#fff", "stroke-width": 2})
+            end:this.circle(x1.toFixed(3), y1.toFixed(3),4*f).attr({stroke: bg.split("|")[0], fill: "#fff", "stroke-width": 2})
         };
         
+        
+        if(NVision.zoomFactor>0){
+            obj.line.hide();
+        }else{
+            obj.line.show();            
+        }
+        
+        obj.bg.attr({"stroke-width":4*f})
         obj.line.linkIndex_1=linkIndex_1;
         obj.line.linkIndex_2=linkIndex_2;
         
