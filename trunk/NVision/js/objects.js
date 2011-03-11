@@ -115,7 +115,15 @@ function myAjax(options){
         sysObj.canvasBox = objDiv.get(0)
     }
 
-
+    baseObj.prototype.getPosition=function(){
+        //returns the obj position regardless the zoom level
+        var pos=$(this.canvasBox).position();
+        
+        pos.left/=NVision.zoomFactor;
+        pos.top/=NVision.zoomFactor;
+        
+        return pos;
+    }
 
 
 
