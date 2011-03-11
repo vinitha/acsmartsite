@@ -54,6 +54,7 @@
 		background-image:url(../images/greenBG.png);
 		background-position:0px bottom;
 		background-repeat:repeat-x;
+		height:100%;
 	}
 	
 	body{
@@ -208,10 +209,11 @@
 	position: relative;
 }
 
+
 #main{
 	border: 1px solid #999999;
-	margin:0px 0px 10px;
-	background-color:#fff;
+	margin:0px;
+	background-color:#eee;
 }
 
 /* tabMenu */
@@ -220,7 +222,6 @@
 		float:left;
 		margin-left:20px;
 	}
-	
 	.tabMenu li{
 		float:left;
 	}
@@ -732,8 +733,13 @@
 	
 /* tableData */
 	#tableData{
-		margin:0px 10px;
-		background-color:#fff;
+		background-color: #FFFFFF;
+		bottom: 0;
+		left: 10px;
+		overflow: auto;
+		position: absolute;
+		right: 10px;
+		top: 99px;
 	}
 	
 	#tableData table{
@@ -1041,16 +1047,20 @@
 	
 /* tableView */
 	#tableView{
-		padding:10px 0px;
-		background-color:#eee;
+		background-color: #EEEEEE;
+		bottom: 10px;
+		left: 0;
+		overflow: auto;
+		position: absolute;
+		right: 0;
+		top: 10px;
 	}
 	
 /* dashBoardView */
 	#dashBoardView{
 		line-height:1em;
 		background-image:url(../images/dbBG2.png);
-		height:800px;
-		padding-bottom:10px;
+		height:100%;
 		position:relative;
 	}
 	
@@ -1084,7 +1094,6 @@
 		background-image:url(../images/grid.png);
 		border-bottom:1px solid #aaa;
 		height:100%;
-		/*overflow:auto;*/
 	}
 	
 	#dashBoardView .adapter{
