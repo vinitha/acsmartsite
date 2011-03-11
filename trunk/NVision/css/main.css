@@ -585,12 +585,12 @@
 	}
 
 	.tools a span{
-    background-position: 5px 50%;
-    background-repeat: no-repeat;
-    display: block;
-    height: 16px;
-    line-height: 16px;
-    padding: 3px 10px 3px 27px;
+		background-position: 5px 50%;
+		background-repeat: no-repeat;
+		display: block;
+		height: 16px;
+		line-height: 16px;
+		padding: 3px 10px 3px 27px;
 		cursor:pointer;
 	}
 	.tools .print span{
@@ -1047,7 +1047,7 @@
 	
 /* dashBoardView */
 	#dashBoardView{
-
+		line-height:1em;
 		background-image:url(../images/dbBG2.png);
 		height:800px;
 		padding-bottom:10px;
@@ -1088,9 +1088,9 @@
 	}
 	
 	#dashBoardView .adapter{
-		padding:10px;		
+		padding:1em;		
 		position:absolute;
-		width:200px;
+		width:20em;
 		background-color:#c1d3db;
 		border:1px solid #a5bfcb;
 		border-top-color:#dae4e9;
@@ -1119,14 +1119,14 @@
 		-moz-border-radius: 6px 6px 6px 6px;
 		background-color: #b1c8d8 ;
 		font-size: 1.4em;
-		padding: 2px 5px;
+		padding: 0.4em 0.5em;
 		cursor:move;
 		color:#444;
 	}
 	
 	#dashBoardView .adapter.updating h3{
 		background-image:url(../images/refresh_0.gif);
-		background-position:180px 50%;
+		background-position:18em 50%;
 		background-repeat:no-repeat;	
 	}
 	
@@ -1140,8 +1140,8 @@
 	
 	
 	#dashBoardView .adapter .attr{
-		margin-top:10px;
-		margin-left:25px;
+		margin-top:1em;
+		margin-left:2.5em;
 		font-size:1.1em;	
 	}
 	
@@ -1149,11 +1149,12 @@
 		font-weight:bold;
 		color:#246;
 		display:block;
-		margin-bottom:3px;
+		margin-bottom:0.3em;
+		padding:0.2em 0em;
 	}
 	
 	#dashBoardView .adapter .attr .other{
-		padding-left:10px;
+		padding:0.2em 0em 0.2em 1em;
 	}
 	
 	
@@ -1170,7 +1171,7 @@
 		color:#369;
 		font-weight:bold;
 		font-size:1.1em;
-		margin-top:10px;
+		margin-top:1em;
 		float:right;
 	}
 	
@@ -1185,7 +1186,7 @@
 	#dashBoardView .system h3{		
 		cursor: move;
 		font-size: 1.2em;
-		padding: 10px 15px;
+		padding: 1em 1.5em;
 		border:1px solid #ccc;
 		border-top-color:#dedede;
 		border-left-color:#dedede;
@@ -1201,7 +1202,7 @@
 	#dashBoardView .root h3{		
 		cursor: move;
 		font-size: 1.2em;
-		padding: 10px 15px;
+		padding: 1em 1.5em;
 		border:1px dotted #bbb;
 		color:#666;
 	}
@@ -1216,17 +1217,17 @@
 		border:1px solid #7ba0b3;
 		border-top-color:#cfdce2;
 		border-left-color:#cfdce2;
-		height:500px;
+		height:50em;
 	}
 	
 	#dashBoardView .exchange h3{
 		background-image:url(../images/exchange.png);
 		background-position:0px 50%;
 		background-repeat:no-repeat;	
-		width:29px;
+		width:2.9em;
 		height:100%;
 		text-indent:-9999999px;
-		margin:0px 10px;
+		margin:0px 1em;
 		cursor: move;
 	}	
 	
