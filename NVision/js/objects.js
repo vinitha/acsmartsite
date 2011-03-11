@@ -119,6 +119,7 @@ function myAjax(options){
 
 
 
+
 // System object def
     function system(obj){
         baseObj.call(this,obj)
@@ -128,87 +129,15 @@ function myAjax(options){
     system.prototype.constructor=system;
     
     
-
-
-//adapter object def
-    function adapter(obj){
+// tradeHolder object def
+    function tradeHolder(obj){
         baseObj.call(this,obj)
     }
     
-    adapter.prototype=new baseObj();
-    adapter.prototype.constructor=adapter;
-    
-    adapter.prototype.refresh=function(){
-        //refreshing the attributes view
-        var objDiv=$(this.canvasBox),
-            sysObj=this,
-            title=objDiv.find("h3");
-        
-        //clearing the object    
-        objDiv.find("div.attr").remove()
-        
-        
-        for (var attr in sysObj.attributes){
-            attr=sysObj.attributes[attr];
-            
-           var attrDiv=$("<div class='attr' />")
-                .insertAfter(title)
-                $("<p />")
-                    .addClass("more")
-                    .appendTo(attrDiv)
-                    .append($("<span/>").text(attr.name + ": "))
-                    .append($("<strong/>").text(attr.value))
-    
-            if(attr.other){
-                for (var other in attr.other){
-                    var div=$("<div class='other' />")
-                        .appendTo(attrDiv)                            
-                    
-                    var value=attr.other[other];
-                    
-                    div .append($("<span/>").text(other + ": "))
-                        .append($("<strong/>").text(value))
-                    
-                }                       
-            }
-        }    
-    }
-    
-    adapter.prototype.draw=function(objPos,container){
-        
-        //calling the base function first
-        baseObj.prototype.draw.call(this,objPos,container)
-       
-        var objDiv=$(this.canvasBox),
-            sysObj=this;
-            
-        //adding the "View breaks" button
-        objDiv.append(
-            $("<a />")
-                .addClass("showDetails")
-                .attr("href","#" + sysObj.name)
-                .text("View breaks")
-                .click(function(e){
-                    //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
-                    e.preventDefault();
-                    
-                    //putting the query into the browser history
-                    var newStatus = {
-                        tabId:"tab_1",
-                        view:{type:"adapter","sysName":this.hash.replace("#","")}
-                    }
-                    $.bbq.pushState( newStatus,2);                       
-    
-                })                           
-        )         
-       
-       
-       //displaying the attributes
-        this.refresh(); 
-        
-    }    
+    tradeHolder.prototype=new baseObj();
+    tradeHolder.prototype.constructor=tradeHolder;    
 
-    adapter.prototype.showTrades=function(tableContainer,paginationContainer){    
+    tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer){    
         // defining the table headings
         var sysObj=this;
         
@@ -494,4 +423,102 @@ function myAjax(options){
                 })    
             }                           
         }        
+    }    
+
+
+
+
+
+
+// searchObj object def
+    function searchObj(obj){
+        tradeHolder.call(this,obj)
     }
+    
+    searchObj.prototype=new tradeHolder();
+    searchObj.prototype.constructor=searchObj;   
+
+
+
+//adapter object def
+    function adapter(obj){
+        tradeHolder.call(this,obj)
+    }
+    
+    adapter.prototype=new tradeHolder();
+    adapter.prototype.constructor=adapter;
+    
+    adapter.prototype.refresh=function(){
+        //refreshing the attributes view
+        var objDiv=$(this.canvasBox),
+            sysObj=this,
+            title=objDiv.find("h3");
+        
+        //clearing the object    
+        objDiv.find("div.attr").remove()
+        
+        
+        for (var attr in sysObj.attributes){
+            attr=sysObj.attributes[attr];
+            
+           var attrDiv=$("<div class='attr' />")
+                .insertAfter(title)
+                $("<p />")
+                    .addClass("more")
+                    .appendTo(attrDiv)
+                    .append($("<span/>").text(attr.name + ": "))
+                    .append($("<strong/>").text(attr.value))
+    
+            if(attr.other){
+                for (var other in attr.other){
+                    var div=$("<div class='other' />")
+                        .appendTo(attrDiv)                            
+                    
+                    var value=attr.other[other];
+                    
+                    div .append($("<span/>").text(other + ": "))
+                        .append($("<strong/>").text(value))
+                    
+                }                       
+            }
+        }    
+    }
+    
+    adapter.prototype.draw=function(objPos,container){
+        
+        //calling the base function first
+        baseObj.prototype.draw.call(this,objPos,container)
+       
+        var objDiv=$(this.canvasBox),
+            sysObj=this;
+            
+        //adding the "View breaks" button
+        objDiv.append(
+            $("<a />")
+                .addClass("showDetails")
+                .attr("href","#" + sysObj.name)
+                .text("View breaks")
+                .click(function(e){
+                    //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
+                    e.preventDefault();
+                    
+                    //putting the query into the browser history
+                    var newStatus = {
+                        tabId:"tab_1",
+                        view:{type:"adapter","sysName":this.hash.replace("#","")}
+                    }
+                    $.bbq.pushState( newStatus,2);                       
+    
+                })                           
+        )         
+       
+       
+       //displaying the attributes
+        this.refresh(); 
+        
+    }
+    
+    
+    
+    
+    
