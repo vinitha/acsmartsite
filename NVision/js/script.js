@@ -341,7 +341,6 @@ var NVision={
                     "height":h
                 })                
             }
-
         })
         
         //delegating the table row click event handler
@@ -1047,14 +1046,13 @@ var NVision={
         
         for(var obj in objects){
             var $obj=$(objects[obj].canvasBox),
-                size=getBBox($obj)                
+                pos=objects[obj].getPosition();
 
-            $obj.css({left:size.x*f,top:size.y*f})
+            $obj.css({left:pos.left*f,top:pos.top*f})
         }
         
-        //updating the zoomFactor (before redrawing the links)
-        NVision.zoomFactor=f;
-        
+        //updating the zoomFactor
+        NVision.zoomFactor=f;        
         
         for(var obj in objects){
             var sysObj=objects[obj];
@@ -1283,9 +1281,9 @@ var NVision={
             
             
             for (var obj in objects){                
-                var pos=$(objects[obj].canvasBox).position();                
+                var pos=objects[obj].getPosition();                
                 coords.push(
-                    '"' + obj + '":{' + '"left":' + pos.left/NVision.zoomFactor + ',"top":' + pos.top/NVision.zoomFactor +"}"
+                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
                 )
             }
 

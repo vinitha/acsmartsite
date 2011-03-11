@@ -98,7 +98,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
             r:4*f
         })
         
-        if(NVision.zoomFactor>0){
+        if(NVision.zoomFactor<1){
             line.line.hide()
         }else{
             line.line.show()
@@ -117,7 +117,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         };
         
         
-        if(NVision.zoomFactor>0){
+        if(NVision.zoomFactor<1){
             obj.line.hide();
         }else{
             obj.line.show();            
