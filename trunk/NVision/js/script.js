@@ -753,7 +753,7 @@ var NVision={
             .addClass("loading")
             .text("searching...")
         
-        var searchObj=new system({
+        var search=new searchObj({
             name:"Search results:",
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
@@ -762,17 +762,12 @@ var NVision={
             queryString:qs
         });
         
-        NVision.currentSys=searchObj;
+        NVision.currentSys=search;
                 
         
-        //adding the system to the updates queue
-        var reqObj=NVision.createSearchRequest(searchObj);
-        
-        /*
-        reqObj.url=sysConfig.searchUrl;
-        reqObj.data=qs;        
-        */
-        
+        //adding the searchObj to the updates queue
+        var reqObj=NVision.createSearchRequest(search);
+                
         $("#updatesBtn").hide(0);
         
          NVision.updateEngine.forceStart();
@@ -782,8 +777,6 @@ var NVision={
             $("#systemName span").removeClass("loading")
             NVision.updateEngine.stop();
         })         
-
-        
     },
     
     showTable:function(sysObj){
