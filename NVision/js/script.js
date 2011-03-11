@@ -1052,6 +1052,10 @@ var NVision={
             $obj.css({left:size.x*f,top:size.y*f})
         }
         
+        //updating the zoomFactor (before redrawing the links)
+        NVision.zoomFactor=f;
+        
+        
         for(var obj in objects){
             var sysObj=objects[obj];
             //redrawing the links
@@ -1061,7 +1065,7 @@ var NVision={
             }
         }
         
-        NVision.zoomFactor=zFactor;
+        
     },
     
     drawSystems:function(){
@@ -1094,7 +1098,7 @@ var NVision={
                     objPos=layout;
                 }
                 
-                objToDraw.draw(objPos,db)   
+                objToDraw.draw(objPos,db)
             }
             
   
@@ -1269,31 +1273,24 @@ var NVision={
         },
         
         savePositions:function(){
-            var objs=[];
-            for (var obj in NVision.systems){
-                
-                var pos=$(NVision.systems[obj].canvasBox).position();
-                
-                objs.push(
-                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
+            var coords=[],
+                objects={}
+            
+            //putting al the dashboard objects together
+            objects=$.extend(objects,NVision.adapters);
+            objects=$.extend(objects,NVision.systems);
+            objects=$.extend(objects,NVision.otherObjects);            
+            
+            
+            for (var obj in objects){                
+                var pos=$(objects[obj].canvasBox).position();                
+                coords.push(
+                    '"' + obj + '":{' + '"left":' + pos.left/NVision.zoomFactor + ',"top":' + pos.top/NVision.zoomFactor +"}"
                 )
             }
-            for (var obj in NVision.adapters){
-                var pos=$(NVision.adapters[obj].canvasBox).position();
-                
-                objs.push(
-                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
-                )               
-            }
-            for (var obj in NVision.otherObjects){
-                var pos=$(NVision.otherObjects[obj].canvasBox).position();
-                
-                objs.push(
-                    '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
-                )               
-            }
+
                        
-            createCookie("positions","{" + objs.join(",") + "}",999);
+            createCookie("positions","{" + coords.join(",") + "}",999);
         },
         
         getPositions:function(){
