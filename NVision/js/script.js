@@ -82,6 +82,8 @@ $().ready(function(){
     //init. the NVision object (passing a function to be executed when the system is ready)
     NVision.init(function(){
         $(window).trigger("hashchange")
+        
+        
     });
     
     //theaming the dropdowns
@@ -96,7 +98,7 @@ $().ready(function(){
             tabId:"tab_1",
             view:{type:"dashBoard"}
         }
-        $.bbq.pushState( newStatus,2);  
+        $.bbq.pushState(newStatus,2);  
     })
     
     //setting the main tabMenus custom events
@@ -220,6 +222,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
+    zoomFactor:1,       //the dashBoard elements size/position is multiplied by this value
     appStatus:{},       //this object holds the app status and is used to optimise the browser history navigation
     systems:null,       //hashtable containing the subSystems
     currentSys:null,    //placeholder updated by showTable function
@@ -1024,6 +1027,43 @@ var NVision={
         
     })(),
     
+    zoom:function(zFactor){
+        var objects={},
+            f=(4-zFactor)/4;        //formula to zoom the dashboard by 1/4 every step ()
+                
+        
+        if (zFactor>3 || zFactor<0){
+            myConsole.alert("Zoom range must be between 0 and 3.");
+            return false;
+        }
+        
+        //setting the dashBoardView font-size
+        $("#dashBoardView").css("font-size",f + "em")
+        
+        //putting al the dashboard objects together
+        objects=$.extend(objects,NVision.adapters);
+        objects=$.extend(objects,NVision.systems);
+        objects=$.extend(objects,NVision.otherObjects);
+        
+        for(var obj in objects){
+            var $obj=$(objects[obj].canvasBox),
+                size=getBBox($obj)                
+
+            $obj.css({left:size.x*f,top:size.y*f})
+        }
+        
+        for(var obj in objects){
+            var sysObj=objects[obj];
+            //redrawing the links
+            for(var link in sysObj.canvasLink){
+                link=sysObj.canvasLink[link];
+                NVision.paper.connection(link)
+            }
+        }
+        
+        NVision.zoomFactor=zFactor;
+    },
+    
     drawSystems:function(){
         
         // I am using NVision._dbReady to avoid drawing the dashBoard more than one time
@@ -1033,7 +1073,7 @@ var NVision={
                 paper = Raphael("dbContent", db.innerWidth(), db.innerHeight());
                 NVision.paper=paper;
                 
-            //getting the user defined systems positions
+            //getting the user defined adapters positions
             var pos=NVision.utils.getPositions(),
                 positions=null;
             
