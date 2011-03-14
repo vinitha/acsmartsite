@@ -79,6 +79,8 @@ $(function(){
 });
 
 $().ready(function(){
+   
+    
     //init. the NVision object (passing a function to be executed when the system is ready)
     NVision.init(function(){
         $(window).trigger("hashchange")
@@ -221,6 +223,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
+    zoomLevel:0,
     zoomFactor:1,       //the dashBoard elements size/position is multiplied by this value
     appStatus:{},       //this object holds the app status and is used to optimise the browser history navigation
     systems:null,       //hashtable containing the subSystems
@@ -245,6 +248,22 @@ var NVision={
     },
     init:function(sysReady){
         
+        // adding the panning function to the dashBoard        
+        $("#dashBoardView").draggable({
+            elementToDrag:$("#dbContent")
+            })
+        
+        //binding the mouseWheel event to the zoom function
+	    .mousewheel(function(event, delta) {
+		    event.preventDefault();
+		    
+		    if(delta<0){
+			    NVision.zoom(NVision.zoomLevel-1)
+		    }else{
+			    NVision.zoom(NVision.zoomLevel+1)				
+		    }			
+		    return false;
+	    });
         
         //handling the search form
         $("#searchForm").submit(function(e){
@@ -261,8 +280,7 @@ var NVision={
                     missingField=missingField?missingField:$this;
                 }else{
                     $this.removeClass("validError")
-                }
-                                
+                }                                
             })
             
             var fields=theForm.find(".currency:visible").each(function(){
@@ -281,7 +299,6 @@ var NVision={
                 }else{
                     $this.removeClass("validError")
                 }
-                                
             })            
             
             var fields=theForm.find(".integer:visible").each(function(){
@@ -328,23 +345,6 @@ var NVision={
         
             $("div.tabContent").css("height",h);
             
-            var w=$("#dbContent").get(0).scrollWidth,
-                h=$("#dbContent").get(0).scrollHeight;
-            
-            if ($.browser.msie){
-                    
-                $("#dbContent").find("div:first").css({
-                    "width":w,
-                    "height":h,
-                    "clip":"rect(0px " + w + "px " + h + "px 0px"
-                })      
-                
-            }else{
-                $("svg").css({
-                    "width":w,
-                    "height":h
-                })                
-            }
         })
         
         //delegating the table row click event handler
@@ -579,14 +579,15 @@ var NVision={
             },
             success:function(data){
                 
+                
                 //add the objects to NVision
                 $(data).each(function(){
                     switch(this.type){
                         case "system":
                             if(!NVision.systems){NVision.systems={}};
-                            
+
                             //adding the system to the NVision obj
-                            NVision.systems[this.name]=new system(this);//this;
+                            NVision.systems[this.name]=new system(this);
                         break;
                                             
                         case "adapter":
@@ -610,6 +611,12 @@ var NVision={
                             //adding the layout to the NVision obj
                             NVision.layout=this;
                         break;
+                    
+                        case "exchange":
+                          if(!NVision.otherObjects){NVision.otherObjects={}};
+                            //adding the exchange to the NVision obj
+                            NVision.otherObjects[this.name]=new exchange(this);
+                        break;                    
                         
                         default :
                           if(!NVision.otherObjects){NVision.otherObjects={}};
@@ -863,6 +870,7 @@ var NVision={
             return false;
         }
         
+        
         //adding the systems to the updates queue
         NVision.createSystemsUpdateRequests();
         
@@ -957,21 +965,34 @@ var NVision={
                                 
                 if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updatesInterval<now)){                    
                     
-                    updating(reqObj.callerObj.canvasBox);
+                    var cb=$(reqObj.callerObj.canvasBox);
+                    
+                    cb.addClass("updating");
                     
                     reqObj.timeStamp=now;
                      
+                    
                     //generating the ajax request
                     myAjax({
-                        logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
+                        logMsg:null,//"Updating sys.: " + reqObj.callerObj.name,
                         success:function(data){
+                            
                             //executing the newDataCallbacks
                             for (var f in newDataCallback){
                                 //executing and removing it
                                 newDataCallback[f]();
                                 newDataCallback.splice(f,1);                                
-                            }                                
-                            reqObj.callBack(data)
+                            }
+
+                            var reqObj=tasks[data.name]
+                            reqObj.callBack(data);
+                            
+                            var cb=$(reqObj.callerObj.canvasBox);
+                            
+                            setTimeout(function(){
+                                cb.removeClass("updating");
+                            },1000)
+                            
                         }
                         ,
                         error:function(a,b,c){
@@ -1035,13 +1056,20 @@ var NVision={
             f=(4-zFactor)/4;        //formula to zoom the dashboard by 1/4 every step ()
                 
         
-        if (zFactor>3 || zFactor<0){
-            myConsole.alert("Zoom range must be between 0 and 3.");
+        if (zFactor>3 || zFactor<-1){
+            myConsole.alert("Max zoom level reached!");
             return false;
         }
         
-        //setting the dashBoardView font-size
-        $("#dashBoardView").css("font-size",f + "em")
+        myConsole.info("Zoom: " + f*100 + "%" )
+          
+        //setting the dashBoardView className according to the zoom level
+        $("#dashBoardView")
+            .css("font-size",f + "em")
+            .removeClass("zoom" + NVision.zoomLevel)
+            .addClass("zoom" + zFactor)
+        
+        NVision.zoomLevel=zFactor;
         
         //putting al the dashboard objects together
         objects=$.extend(objects,NVision.adapters);
@@ -1050,7 +1078,7 @@ var NVision={
         
         for(var obj in objects){
             var $obj=$(objects[obj].canvasBox),
-                pos=objects[obj].getPosition();
+                pos=objects[obj].getZoomedPosition();
 
             $obj.css({left:pos.left*f,top:pos.top*f})
         }
@@ -1058,15 +1086,8 @@ var NVision={
         //updating the zoomFactor
         NVision.zoomFactor=f;        
         
-        for(var obj in objects){
-            var sysObj=objects[obj];
-            //redrawing the links
-            for(var link in sysObj.canvasLink){
-                link=sysObj.canvasLink[link];
-                NVision.paper.connection(link)
-            }
-        }
-        
+        //redrawing the links
+        NVision.redrawLinks(objects);
         
     },
     
@@ -1103,29 +1124,67 @@ var NVision={
                 objToDraw.draw(objPos,db)
             }
             
-  
+            //resizing the dashboard to contain all the objects
+            NVision.utils.checkDbSize();
+            
             //drawing all the links
-            for (var link in NVision.links){                
-                
-                var link=NVision.links[link],                
-                    fromSys=NVision.systems[link.from]||NVision.adapters[link.from]||NVision.otherObjects[link.from],
-                    toSys=NVision.systems[link.to]||NVision.adapters[link.to]||NVision.otherObjects[link.to];
-                    
-                    
-                    
-                    var canvasLink=paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
-                    
-                    fromSys.canvasLink=fromSys.canvasLink?fromSys.canvasLink:[];
-                    fromSys.canvasLink.push(canvasLink);
-                    toSys.canvasLink=toSys.canvasLink?toSys.canvasLink:[];
-                    toSys.canvasLink.push(canvasLink);                    
-            }
-            
-            
+            NVision.drawLinks();
+                        
             NVision._dbReady=true;
         }
         
         return true;
+    },
+    
+    drawLinks:function(){
+        //drawing all the links
+        for (var link in NVision.links){                
+            
+            var link=NVision.links[link],                
+                fromSys=NVision.systems[link.from]||NVision.adapters[link.from]||NVision.otherObjects[link.from],
+                toSys=NVision.systems[link.to]||NVision.adapters[link.to]||NVision.otherObjects[link.to];
+                
+                
+                
+                var canvasLink=NVision.paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
+                
+                fromSys.canvasLink=fromSys.canvasLink?fromSys.canvasLink:[];
+                fromSys.canvasLink.push(canvasLink);
+                toSys.canvasLink=toSys.canvasLink?toSys.canvasLink:[];
+                toSys.canvasLink.push(canvasLink);                    
+        }
+    },
+    
+    redrawLinks:function(objects){
+        //redrawing all the links
+                
+        if(!objects){
+            objects={};
+            
+            //putting al the dashboard objects together
+            objects=$.extend(objects,NVision.adapters);
+            objects=$.extend(objects,NVision.systems);
+            objects=$.extend(objects,NVision.otherObjects);
+        }
+        
+        //if the passed obj is a single object (i.e. is not an hashTable)
+        if(objects instanceof  baseObj){
+            //redrawing the links
+            for(var link in objects.canvasLink){
+                link=objects.canvasLink[link];
+                NVision.paper.connection(link)
+            }            
+        }else{
+            for(var obj in objects){
+                var sysObj=objects[obj];
+                //redrawing the links
+                for(var link in sysObj.canvasLink){
+                    link=sysObj.canvasLink[link];
+                    NVision.paper.connection(link)
+                }
+            }            
+        }
+              
     },
 
     
@@ -1156,10 +1215,7 @@ var NVision={
                     sysObj.refresh();
                     
                     //redrawing the links
-                    for(var link in sysObj.canvasLink){
-                        link=sysObj.canvasLink[link];
-                        NVision.paper.connection(link)
-                    }                     
+                    NVision.redrawLinks(sysObj)
                     
                 }
             })
@@ -1217,6 +1273,54 @@ var NVision={
     },
     
     utils:{
+        checkDbSize:function(){
+            
+            //todo: calculate the dashboard size
+            
+            var objects={}
+            
+            //putting al the dashboard objects together
+            objects=$.extend(objects,NVision.adapters);
+            objects=$.extend(objects,NVision.systems);
+            objects=$.extend(objects,NVision.otherObjects);
+            
+            var w=h=null;
+                
+            for(var obj in objects){
+                var pos=getBBox(objects[obj].canvasBox);
+                
+                if(!w || w<pos.x+pos.width){
+                    w=pos.x+pos.width
+                }
+
+                if(!h || h<pos.y+pos.height){
+                    h=pos.y+pos.height
+                }                                
+            }
+            
+            //adding a padding to minimize the link croppings
+            w+=200;
+            h+=200;
+                
+            $("#dbContent").css({
+                    "width":w,
+                    "height":h})
+            
+            if ($.browser.msie){
+                    
+                $("#dbContent").find("div:first").css({
+                    "width":w,
+                    "height":h,
+                    "clip":"rect(0px " + w + "px " + h + "px 0px"
+                })      
+                
+            }else{
+                $("svg").css({
+                    "width":w,
+                    "height":h
+                })                
+            }        
+        },
         
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
             //showing the adapter name
@@ -1285,7 +1389,7 @@ var NVision={
             
             
             for (var obj in objects){                
-                var pos=objects[obj].getPosition();                
+                var pos=objects[obj].getZoomedPosition();                
                 coords.push(
                     '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
                 )

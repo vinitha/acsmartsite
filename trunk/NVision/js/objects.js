@@ -79,8 +79,7 @@ function myAjax(options){
             myConsole.alert("Systems configuration data corrupted! - " + e,10000);
             return false;
         }
-    
-            
+                
         var title=objDiv
                     .find("h3").draggable({
                         draggingClass:"",
@@ -93,12 +92,11 @@ function myAjax(options){
                             var sysObj=NVision.systems[div.attr("data_name")]||NVision.adapters[div.attr("data_name")]||NVision.otherObjects[div.attr("data_name")]
                             
                             //redrawing the links
-                            for(var link in sysObj.canvasLink){
-                                link=sysObj.canvasLink[link];
-                                NVision.paper.connection(link)
-                            }
+                            NVision.redrawLinks(sysObj)
+
                         },
                         onStop:function(div){
+                            NVision.utils.checkDbSize();
                             NVision.utils.savePositions();
                         }
                     })                
@@ -115,7 +113,7 @@ function myAjax(options){
         sysObj.canvasBox = objDiv.get(0)
     }
 
-    baseObj.prototype.getPosition=function(){
+    baseObj.prototype.getZoomedPosition=function(){
         //returns the obj position regardless the zoom level
         var pos=$(this.canvasBox).position();
         
@@ -125,6 +123,23 @@ function myAjax(options){
         return pos;
     }
 
+
+
+
+// exchange object def
+    function exchange(obj){
+        baseObj.call(this,obj)
+    }
+    
+    exchange.prototype=new baseObj();
+    exchange.prototype.constructor=exchange;
+    
+    exchange.prototype.draw=function(objPos,container){
+        
+        //calling the base function first
+        baseObj.prototype.draw.call(this,objPos,container)
+        $(this.canvasBox).addClass("verticalText")
+    }
 
 
 
@@ -380,15 +395,15 @@ function myAjax(options){
                                             
                                             .append(
                                                 $("<ul/>").addClass("tabMenu")
-                                                    .append($("<li class='current'><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
-                                                    .append($("<li><a href='#_msg_in'><span>Incoming:</span></a></li>"))
+                                                    //.append($("<li><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
+                                                    .append($("<li class='current'><a href='#_msg_in'><span>Incoming:</span></a></li>"))
                                                     .append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
                                                     .append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))                                            
                                             )
                                             
                                             
-                                            .append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
-                                            .append($("<p class='tabContent' id='_msg_in'/>").text(msgDetails["Incoming"]))
+                                            //.append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
+                                            .append($("<p class='tabContent current' id='_msg_in'/>").text(msgDetails["Incoming"]))
                                             .append($("<p class='tabContent' id='_msg_out'/>").text(msgDetails["Outgoing"]))
                                             
                                             var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
@@ -465,6 +480,7 @@ function myAjax(options){
         //clearing the object    
         objDiv.find("div.attr").remove()
         
+        //todo: improve performance here!!!
         
         for (var attr in sysObj.attributes){
             attr=sysObj.attributes[attr];
