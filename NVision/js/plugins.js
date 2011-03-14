@@ -117,13 +117,6 @@ function eraseCookie(name) {
 }
 
 
-function updating(div){
-	div=$(div).addClass("updating");
-	setTimeout(function(){
-		div.removeClass("updating")
-	},1000)  	
-}
-
 //adding the parseTime function to the string object
 String.prototype.parseTime=function() {
 	var timeString=$.trim(this);
@@ -1471,6 +1464,13 @@ var scroller=function(element){
 		$.extend(defaults,options)		
 			
 		thisObj.mousedown(function(ev){
+			ev.preventDefault();
+			if (ev.cancelBubble){
+				ev.cancelBubble = true;
+			}else{
+				ev.stopPropagation();
+			}
+			
 			var $this=$(this),
 				pos=defaults.elementToDrag.position();
 			
@@ -1487,11 +1487,18 @@ var scroller=function(element){
 			
 			defaults.onStart(defaults.elementToDrag);
 			
+			
+			
 		})
 		
 		//event function
 		function _Mousemove(ev){
 			ev.preventDefault();
+			if (ev.cancelBubble){
+				ev.cancelBubble = true;
+			}else{
+				ev.stopPropagation();
+			}
 			
 			var $obj=defaults.elementToDrag,
 				newLeft=(ev.pageX-clickPos.left)+clickPos.elementLeft,
@@ -1517,6 +1524,13 @@ var scroller=function(element){
 		}
 		
 		function _MouseUp(ev){
+			ev.preventDefault();
+			if (ev.cancelBubble){
+				ev.cancelBubble = true;
+			}else{
+				ev.stopPropagation();
+			}
+			
 			moving=false;
 			$(document).unbind("mousemove",_Mousemove);
 			$(document).unbind("mouseup",_MouseUp);

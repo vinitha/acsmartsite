@@ -8,13 +8,31 @@
 
 function getBBox(obj){
     var $obj=$(obj),
-        pos=$obj.position();
-    return {
-        width:$obj.outerWidth(),
-        height:$obj.outerHeight(),
-        x:pos.left,
-        y:pos.top
+        pos=$obj.position(),
+        tmpObj={
+            width:$obj.outerWidth(),
+            height:$obj.outerHeight(),
+            x:pos.left,
+            y:pos.top
+        }
+    
+    if($obj.hasClass("verticalText")){
+        if ($.browser.mozilla){        
+                tmpObj.y-=tmpObj.width;
+                var w=tmpObj.width;
+                tmpObj.width=tmpObj.height;
+                tmpObj.height=w;
+        }
+        
+        if ($.browser.webkit){        
+
+            var w=tmpObj.width;
+            tmpObj.width=tmpObj.height;
+            tmpObj.height=w;
+        }
     }
+    
+    return tmpObj;
 }
 
 Raphael.fn.connection = function (obj1, obj2, line, bg) {

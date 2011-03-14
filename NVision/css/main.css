@@ -18,6 +18,18 @@
 	zoom:1;
 }
 
+	.verticalText{
+		filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+		
+		-webkit-transform:rotate(-90deg);
+		-moz-transform:rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		
+		-moz-transform-origin: top left;
+		-webkit-transform-origin: top left;
+		-o-transform-origin: top left;		
+	}
+
 
 /* global rules */
 	#saveAs{
@@ -1062,6 +1074,7 @@
 		background-image:url(../images/dbBG2.png);
 		height:100%;
 		position:relative;
+		-webkit-text-size-adjust:none;
 	}
 	
 	#dashBoardView .resizer{
@@ -1090,9 +1103,9 @@
 	}
 	
 	#dbContent{
-		position:relative;
-		background-image:url(../images/grid.png);
-		border-bottom:1px solid #aaa;
+		position:absolute;
+		/*background-image:url(../images/grid.png);
+		border-bottom:1px solid #aaa;*/
 		height:100%;
 	}
 	
@@ -1131,12 +1144,25 @@
 		padding: 0.4em 0.5em;
 		cursor:move;
 		color:#444;
+		white-space:nowrap;
 	}
 	
 	#dashBoardView .adapter.updating h3{
 		background-image:url(../images/refresh_0.gif);
-		background-position:18em 50%;
+		background-position:13em 50%;
 		background-repeat:no-repeat;	
+	}
+	
+	#dashBoardView.zoom1 .adapter.updating h3{
+		background-image:url(../images/refresh_1.gif);
+	}
+
+	#dashBoardView.zoom2 .adapter.updating h3{
+		background-image:url(../images/refresh_2.gif);
+	}
+	
+	#dashBoardView.zoom3 .adapter.updating h3{
+		background-image:url(../images/refresh_3.gif);
 	}
 	
 	#dashBoardView .alert1 h3{
@@ -1144,7 +1170,7 @@
 	}	
 
 	#dashBoardView .alert2 h3{
-		background-color: #ce7d79 ;
+		background-color: #d85f5f ;
 	}
 	
 	
@@ -1200,6 +1226,7 @@
 		border-top-color:#dedede;
 		border-left-color:#dedede;
 		color:#666;
+		white-space:nowrap;
 	}
 	
 	#dashBoardView .root
@@ -1214,8 +1241,7 @@
 		padding: 1em 1.5em;
 		border:1px dotted #bbb;
 		color:#666;
-	}
-	
+	}	
 	
 	#dashBoardView .exchange{
 		position:absolute;
@@ -1225,18 +1251,14 @@
 		background-color:#87b8d6;
 		border:1px solid #7ba0b3;
 		border-top-color:#cfdce2;
-		border-left-color:#cfdce2;
-		height:50em;
+		border-left-color:#cfdce2;			
 	}
 	
+	
 	#dashBoardView .exchange h3{
-		background-image:url(../images/exchange.png);
-		background-position:0px 50%;
-		background-repeat:no-repeat;	
-		width:2.9em;
-		height:100%;
-		text-indent:-9999999px;
-		margin:0px 1em;
+		font-size:2em;
+		color:#fff;	
+		padding:1em 5em;
 		cursor: move;
 	}	
 	
