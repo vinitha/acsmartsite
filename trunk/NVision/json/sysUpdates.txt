@@ -1,4 +1,5 @@
 {
+    "id":"ClearVisionIN",
     "name":"ClearVision IN",
     "alertLevel":90,
     "attributes":[
