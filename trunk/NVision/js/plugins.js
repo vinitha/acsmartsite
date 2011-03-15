@@ -1480,14 +1480,11 @@ var scroller=function(element){
 			clickPos.top=ev.pageY;
 			clickPos.elementLeft=pos.left;
 			clickPos.elementTop=pos.top;
-	
 			
 			$(document).bind("mousemove",_Mousemove);										
 			$(document).bind("mouseup",_MouseUp);
 			
 			defaults.onStart(defaults.elementToDrag);
-			
-			
 			
 		})
 		
