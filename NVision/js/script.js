@@ -255,35 +255,50 @@ var NVision={
             onStop:function(){$("#dashBoardView").removeClass("dragging")}
             });
         
+        //zooming on dblclick
+        $("#dbContent").dblclick(function(ev){
+            var ePos=getBBox($(this));
+            var cPos={
+                width:Math.abs(ev.pageX-ePos.x),
+                height:Math.abs(ev.pageY-ePos.y)
+            }
+            NVision.zoom(0,cPos);
+        });
+        
         //creating the zoomWidget
         (function(){
             var zWidget=$("<ul id='zoomWidget' />")
-            $("<li class='In' ><a href='#in' title='Zoom In'>+<a/></li>").appendTo(zWidget);
+            $("<li class='In' ><a href='#in' title='Zoom In'>+</a></li>").appendTo(zWidget);
                 
             for(var x=-1;x<4;x++){
-                $("<li class='step' ><a href='#" + x + "' title='" + (4-x)/4*100 + "%'>" + ((4-x)/4*100) + "%<a/></li>").appendTo(zWidget);
+                $("<li class='step' ><a href='#" + x + "' class='z" + x + "' title='" + (4-x)/4*100 + "%'><span>" + ((4-x)/4*100) + "%</span></a></li>").appendTo(zWidget);
             }
             
-            $("<li class='Out' ><a href='#out' title='Zoom Out'>-<a/></li>").appendTo(zWidget);
+            $("<li class='Out' ><a href='#out' title='Zoom Out'>-</a></li>").appendTo(zWidget);
             
-            zWidget.appendTo("#dashBoardView")
+            zWidget.appendTo("#dashBoardView");
             
             $("#dashBoardView a").live("click",function(e){
 
                 e.preventDefault();
-                var type=$(this).parent().get(0).className;
+                var $this=$(this),
+                    type=$this.parent().get(0).className,
+                    ul=$this.closest("ul");
+                    
+                
                 
                 switch(type){
                     case "In":
-                        NVision.zoom(NVision.zoomLevel+1)
-                    break;
-                    case "Out":
                         NVision.zoom(NVision.zoomLevel-1)
                     break;
+                    case "Out":
+                        NVision.zoom(NVision.zoomLevel+1)
+                    break;
                     case "step":
-                        NVision.zoom(this.hash.replace("#",""))
+                        NVision.zoom(parseInt(this.hash.replace("#","")))                        
                     break;                
-                }
+                }                
+                
             })
         })();
 
@@ -657,7 +672,11 @@ var NVision={
                 }
                                 
                 //firing the ready event!
-                NVision.sysReady();                            
+                NVision.sysReady();
+                
+                
+                //setting the zoom level to 100%
+                NVision.zoom(0);
             }
         });
         
@@ -1085,19 +1104,22 @@ var NVision={
     
     zoom:function(zFactor,center){
         
+        if (zFactor>3 || zFactor<-1){
+            return false;
+        }
+        
+        //updating the zoomWidget        
+        var ul=$("#zoomWidget")
+        ul.find("a").removeClass("current");
+        ul.find("a.z" + zFactor).addClass("current");
+        
         if (zFactor==NVision.zoomLevel){
             return false;
         }
         
         var objects={},
             f=(4-zFactor)/4;        //formula to zoom the dashboard by 1/4 every step ()
-                
-        
-        if (zFactor>3 || zFactor<-1){
-            myConsole.alert("Max zoom level reached!");
-            return false;
-        }
-        
+  
         var dBoard=$("#dbContent");
         
         //hidding the links            
@@ -1107,12 +1129,20 @@ var NVision={
         
         var dbPos=getBBox(dBoard),
             deltaFactor=(NVision.zoomFactor-f);
-          
+        
+        //if center==null we assume the zoom center is in the center of the dashboard
+        dbPos.width/=2;
+        dbPos.height/=2;
+        
+        var cPoint=center||dbPos;
+        
+        dBoard.stop(true,true);
+        
         NVision.updateEngine.stop()
         dBoard.animate({
                 "font-size":f + "em",
-                "left":dbPos.x+deltaFactor*dbPos.width/2,
-                "top":dbPos.y+deltaFactor*dbPos.height/2
+                "left":dbPos.x+deltaFactor*cPoint.width,
+                "top":dbPos.y+deltaFactor*cPoint.height
             },700,function(){
         
             //updating the zoomFactor
@@ -1142,10 +1172,8 @@ var NVision={
             var $obj=$(objects[obj].canvasBox),
                 pos=objects[obj].getZoomedPosition();
 
-            $obj.animate({left:pos.left*f,top:pos.top*f},500)
-        }
-        
-
+            $obj.stop(true,true).animate({left:pos.left*f,top:pos.top*f},400)
+        }      
         
     },
     
@@ -1341,7 +1369,8 @@ var NVision={
             objects=$.extend(objects,NVision.systems);
             objects=$.extend(objects,NVision.otherObjects);
             
-            var w=h=null;
+            var w=null,
+                h=null;
                 
             for(var obj in objects){
                 var pos=getBBox(objects[obj].canvasBox);

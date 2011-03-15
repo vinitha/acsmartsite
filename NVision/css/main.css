@@ -109,8 +109,9 @@
 		display:block;
 		font-weight: bold;
 		padding: 2px 10px;
-		-moz-border-radius: 5px;
-		border-radius: 5px;			
+		-moz-border-radius: 5px; /* For FireFox */
+		-webkit-border-radius: 5px; /* For Safari/Chrome */
+		border-radius: 5px; /* For when the standard gets fully supported */	
 	}
 	
 	#systemName .loading{
@@ -284,17 +285,16 @@
 		top:0px;
 		right:20px;
 		background-color:#eee;
-		-moz-border-radius:0px 0px 5px 5px;
-		border-radius:0px 0px 5px 5px;
+		
+		-moz-border-radius: 0px 0px 5px 5px; /* For FireFox */
+		-webkit-border-radius: 0px 0px 5px 5px; /* For Safari/Chrome */
+		border-radius: 0px 0px 5px 5px; /* For when the standard gets fully supported */			
 		
 		-moz-box-shadow:0px 1px 3px #000;		
 		box-shadow: 0px 1px 3px #000; /* CSS3    */
 		-webkit-box-shadow: 0px 1px 3px #000; /* Webkit  */
 
-		/* For IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
-		/* For IE 5.5 - 7 */
-		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+
 		
 		padding:10px 0px;
 		z-index:12;
@@ -304,6 +304,11 @@
 	.ie7 #searchForm,
 	.ie8 #searchForm{
 		width:315px;
+		
+		/* For IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+		/* For IE 5.5 - 7 */
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
 	}
 	
 	fieldset label{
@@ -1081,7 +1086,72 @@
 		position:absolute;
 		top:10px;
 		left:10px;
-		background-color:rgba(30,30,30,0.6);
+		background-color:#666;
+		background-color:rgba(0,0,0,0.6);
+		z-index:10;
+		
+		
+		-moz-box-shadow:0px 1px 3px #000;		
+		box-shadow: 0px 1px 3px #000; /* CSS3    */
+		-webkit-box-shadow: 0px 1px 3px #000; /* Webkit  */
+		
+		-moz-border-radius: 3px; /* For FireFox */
+		-webkit-border-radius: 3px; /* For Safari/Chrome */
+		border-radius: 3px; /* For when the standard gets fully supported */		
+	}
+	
+	.ie8 #dashBoardView #zoomWidget,
+	.ie7 #dashBoardView #zoomWidget{
+		border:1px solid #444;
+	}
+	
+
+	
+	#zoomWidget a{
+		color:#fff;
+		font-weight:bold;
+		font-size:1.1em;
+		display:block;
+		padding:0px 3px;
+		text-align:center;
+		width:8px;
+		
+		background-color:#444;
+
+		-moz-border-radius: 3px; /* For FireFox */
+		-webkit-border-radius: 3px; /* For Safari/Chrome */
+		border-radius: 3px; /* For when the standard gets fully supported */					
+	}
+	
+	#zoomWidget li{
+		float:left;
+		clear:both;
+	}	
+	
+	#zoomWidget .step {
+		height:6px;
+		overflow:hidden;
+		display:block;
+	}
+	
+	#zoomWidget .step a{
+		height:6px;
+		background-color:transparent;
+		overflow:hidden;
+	}
+	
+	#zoomWidget a:hover{
+		background-color:#333;
+		background-color:rgba(30,30,30,0.7);
+	}
+	
+	#zoomWidget a.current{
+		background-color:#ddd;
+		background-color:rgba(230,230,230,0.5);
+	}	
+	
+	#zoomWidget span{
+		display:none;
 	}
 	
 	#dashBoardView.dragging{
@@ -1151,7 +1221,11 @@
 	}	
 	
 	#dashBoardView .adapter h3{
-		-moz-border-radius: 6px 6px 6px 6px;
+
+		-moz-border-radius: 6px; /* For FireFox */
+		-webkit-border-radius: 6px; /* For Safari/Chrome */
+		border-radius: 6px; /* For when the standard gets fully supported */
+		
 		background-color: #b1c8d8 ;
 		font-size: 1.4em;
 		padding: 0.4em 0.5em;
