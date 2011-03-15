@@ -1070,11 +1070,22 @@
 	
 /* dashBoardView */
 	#dashBoardView{
-		line-height:1em;
 		background-image:url(../images/dbBG2.png);
 		height:100%;
 		position:relative;
 		-webkit-text-size-adjust:none;
+		cursor: url(hand.cur),url(../images/openhand.ico),default;
+	}
+	
+	#dashBoardView #zoomWidget{
+		position:absolute;
+		top:10px;
+		left:10px;
+		background-color:rgba(30,30,30,0.6);
+	}
+	
+	#dashBoardView.dragging{
+		cursor: url(drag_hand.cur),url(../images/drag_hand.ico),default;
 	}
 	
 	#dashBoardView .resizer{
@@ -1107,6 +1118,7 @@
 		/*background-image:url(../images/grid.png);
 		border-bottom:1px solid #aaa;*/
 		height:100%;
+		line-height:1em;
 	}
 	
 	#dashBoardView .adapter{
@@ -1121,6 +1133,7 @@
 		background-image:url(../images/sysBG.png);
 		background-position:0px 0px;
 		background-repeat:no-repeat;
+		cursor:default;
 	}
 	
 	#dashBoardView .adapter.alert1{
@@ -1170,7 +1183,7 @@
 	}	
 
 	#dashBoardView .alert2 h3{
-		background-color: #d85f5f ;
+		background-color: #df7b7b ;
 	}
 	
 	
@@ -1215,7 +1228,8 @@
 		background-image:url(../images/sysBg.png);
 		background-position:0px -73px;
 		background-repeat:no-repeat;
-		background-color: #ddd;		
+		background-color: #ddd;
+		cursor:default;
 	}
 	
 	#dashBoardView .system h3{		
@@ -1229,10 +1243,10 @@
 		white-space:nowrap;
 	}
 	
-	#dashBoardView .root
-	{
+	#dashBoardView .root{
 		position: absolute;
-		background-color: #fff;		
+		background-color: #fff;
+		cursor:default;
 	}
 	
 	#dashBoardView .root h3{		
@@ -1251,7 +1265,8 @@
 		background-color:#87b8d6;
 		border:1px solid #7ba0b3;
 		border-top-color:#cfdce2;
-		border-left-color:#cfdce2;			
+		border-left-color:#cfdce2;
+		cursor:default;
 	}
 	
 	

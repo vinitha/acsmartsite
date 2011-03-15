@@ -520,7 +520,7 @@ function myAjax(options){
         objDiv.append(
             $("<a />")
                 .addClass("showDetails")
-                .attr("href","#" + sysObj.name)
+                .attr("href","#" + sysObj.id)
                 .text("View breaks")
                 .click(function(e){
                     //NVision.showTable(NVision.systems[this.hash.replace("#","")]);

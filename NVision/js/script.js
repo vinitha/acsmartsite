@@ -250,20 +250,44 @@ var NVision={
         
         // adding the panning function to the dashBoard        
         $("#dashBoardView").draggable({
-            elementToDrag:$("#dbContent")
-            })
+            elementToDrag:$("#dbContent"),
+            onStart:function(){$("#dashBoardView").addClass("dragging")},
+            onStop:function(){$("#dashBoardView").removeClass("dragging")}
+            });
         
-        //binding the mouseWheel event to the zoom function
-	    .mousewheel(function(event, delta) {
-		    event.preventDefault();
-		    
-		    if(delta<0){
-			    NVision.zoom(NVision.zoomLevel-1)
-		    }else{
-			    NVision.zoom(NVision.zoomLevel+1)				
-		    }			
-		    return false;
-	    });
+        //creating the zoomWidget
+        (function(){
+            var zWidget=$("<ul id='zoomWidget' />")
+            $("<li class='In' ><a href='#in' title='Zoom In'>+<a/></li>").appendTo(zWidget);
+                
+            for(var x=-1;x<4;x++){
+                $("<li class='step' ><a href='#" + x + "' title='" + (4-x)/4*100 + "%'>" + ((4-x)/4*100) + "%<a/></li>").appendTo(zWidget);
+            }
+            
+            $("<li class='Out' ><a href='#out' title='Zoom Out'>-<a/></li>").appendTo(zWidget);
+            
+            zWidget.appendTo("#dashBoardView")
+            
+            $("#dashBoardView a").live("click",function(e){
+
+                e.preventDefault();
+                var type=$(this).parent().get(0).className;
+                
+                switch(type){
+                    case "In":
+                        NVision.zoom(NVision.zoomLevel+1)
+                    break;
+                    case "Out":
+                        NVision.zoom(NVision.zoomLevel-1)
+                    break;
+                    case "step":
+                        NVision.zoom(this.hash.replace("#",""))
+                    break;                
+                }
+            })
+        })();
+
+        
         
         //handling the search form
         $("#searchForm").submit(function(e){
@@ -587,7 +611,7 @@ var NVision={
                             if(!NVision.systems){NVision.systems={}};
 
                             //adding the system to the NVision obj
-                            NVision.systems[this.name]=new system(this);
+                            NVision.systems[this.id]=new system(this);
                         break;
                                             
                         case "adapter":
@@ -598,13 +622,13 @@ var NVision={
                             this.currentPage=1;
                             
                             //adding the adapter to the NVision obj
-                            NVision.adapters[this.name]=new adapter(this);
+                            NVision.adapters[this.id]=new adapter(this);
                         break;
                         
                         case "link":
                             if(!NVision.links){NVision.links={}};
                             //adding the link to the NVision obj
-                            NVision.links[this.name]=this;
+                            NVision.links[this.id]=this;
                         break;
                         
                         case "layout":
@@ -615,13 +639,13 @@ var NVision={
                         case "exchange":
                           if(!NVision.otherObjects){NVision.otherObjects={}};
                             //adding the exchange to the NVision obj
-                            NVision.otherObjects[this.name]=new exchange(this);
+                            NVision.otherObjects[this.id]=new exchange(this);
                         break;                    
                         
                         default :
                           if(!NVision.otherObjects){NVision.otherObjects={}};
                             //adding the otherObjects to the NVision obj
-                            NVision.otherObjects[this.name]=new baseObj(this);                            
+                            NVision.otherObjects[this.id]=new baseObj(this);                            
                         break;
 
                     }
@@ -768,6 +792,7 @@ var NVision={
         
         var search=new searchObj({
             name:"Search results:",
+            id:"searchResults",
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
             updatesInterval:10000,
@@ -837,7 +862,9 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span").removeClass("loading")
+            $("#systemName span")
+                
+                .removeClass("loading")
         })
         
         NVision.updateEngine.forceStart();
@@ -984,7 +1011,12 @@ var NVision={
                                 newDataCallback.splice(f,1);                                
                             }
 
-                            var reqObj=tasks[data.name]
+                            var reqObj=tasks[data.id]
+
+                            if(!reqObj){
+                                myConsole.alert("Unexpected data received: " + data.id)
+                                return false;
+                            }
                             reqObj.callBack(data);
                             
                             var cb=$(reqObj.callerObj.canvasBox);
@@ -1051,7 +1083,12 @@ var NVision={
         
     })(),
     
-    zoom:function(zFactor){
+    zoom:function(zFactor,center){
+        
+        if (zFactor==NVision.zoomLevel){
+            return false;
+        }
+        
         var objects={},
             f=(4-zFactor)/4;        //formula to zoom the dashboard by 1/4 every step ()
                 
@@ -1061,17 +1098,42 @@ var NVision={
             return false;
         }
         
-        myConsole.info("Zoom: " + f*100 + "%" )
+        var dBoard=$("#dbContent");
+        
+        //hidding the links            
+        var svg=$("svg");
+        svg=svg.length==0?dBoard.find("div:first"):svg;
+        svg.css({display:"none"})
+        
+        var dbPos=getBBox(dBoard),
+            deltaFactor=(NVision.zoomFactor-f);
           
+        NVision.updateEngine.stop()
+        dBoard.animate({
+                "font-size":f + "em",
+                "left":dbPos.x+deltaFactor*dbPos.width/2,
+                "top":dbPos.y+deltaFactor*dbPos.height/2
+            },700,function(){
+        
+            //updating the zoomFactor
+            NVision.zoomFactor=f;
+                        
+            //redrawing the links
+            NVision.redrawLinks(objects);
+            
+            svg.css({display:"block"})
+            
+            NVision.updateEngine.start()
+        })
+        
         //setting the dashBoardView className according to the zoom level
         $("#dashBoardView")
-            .css("font-size",f + "em")
             .removeClass("zoom" + NVision.zoomLevel)
             .addClass("zoom" + zFactor)
         
         NVision.zoomLevel=zFactor;
         
-        //putting al the dashboard objects together
+        //putting all the dashboard objects together
         objects=$.extend(objects,NVision.adapters);
         objects=$.extend(objects,NVision.systems);
         objects=$.extend(objects,NVision.otherObjects);
@@ -1080,14 +1142,10 @@ var NVision={
             var $obj=$(objects[obj].canvasBox),
                 pos=objects[obj].getZoomedPosition();
 
-            $obj.css({left:pos.left*f,top:pos.top*f})
+            $obj.animate({left:pos.left*f,top:pos.top*f},500)
         }
         
-        //updating the zoomFactor
-        NVision.zoomFactor=f;        
-        
-        //redrawing the links
-        NVision.redrawLinks(objects);
+
         
     },
     
@@ -1119,8 +1177,7 @@ var NVision={
                     eraseCookie("positions");
                     positions=null;
                     objPos=layout;
-                }
-                
+                }                
                 objToDraw.draw(objPos,db)
             }
             
@@ -1198,14 +1255,14 @@ var NVision={
             var updateReq= new updateRequest({
                 callerObj:sysObj,
                 updatesInterval:sysObj.updatesInterval,
-                id:sysObj.name,
+                id:sysObj.id,
                 url:sysConfig.sysUpdates,
-                data:{"sysId":sysObj.name},
+                data:{"sysId":sysObj.id},
                 callBack:function(data){
-                    var sysObj=NVision.adapters[data.name];
+                    var sysObj=NVision.adapters[data.id];
                     
                     if(!sysObj){
-                        myConsole.alert("Adapter not found: " + data.name,10000);
+                        myConsole.alert("Adapter not found: " + data.id,10000);
                         return false;
                     }
                     sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel);
@@ -1228,7 +1285,7 @@ var NVision={
         var updateReq= new updateRequest({
             callerObj:searchObj,
             updatesInterval:searchObj.updatesInterval,
-            id:searchObj.name,
+            id:searchObj.id,
             url:sysConfig.searchUrl,
             data:{"sysId":searchObj.queryString},
             callBack:function(data){
@@ -1259,9 +1316,9 @@ var NVision={
         var updateReq= new updateRequest({
             callerObj:sysObj,
             updatesInterval:sysObj.updatesInterval,
-            id:sysObj.name,
+            id:sysObj.id,
             url:sysConfig.sysTrades,
-            data:{"sysId":sysObj.name},
+            data:{"sysId":sysObj.id},
             callBack:function(data){
                 NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
             }
@@ -1306,7 +1363,7 @@ var NVision={
                     "width":w,
                     "height":h})
             
-            if ($.browser.msie){
+            if ($.browser.msie && $.browser.version<9){
                     
                 $("#dbContent").find("div:first").css({
                     "width":w,
@@ -1323,8 +1380,9 @@ var NVision={
         },
         
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
+
             //showing the adapter name
-            var nameSpan=$("#systemName").find("span").text(data.adapter),
+            var nameSpan=$("#systemName").find("span").text(data.name),
                 sysObj=NVision.currentSys;
 
             //updating the system trades object
