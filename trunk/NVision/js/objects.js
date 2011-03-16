@@ -85,8 +85,7 @@ function myAjax(options){
                         draggingClass:"",
                         elementToDrag:objDiv,
                         container:container,                                    
-                        onStart:function(div,cPos){
-                            console.dir(cPos)
+                        onStart:function(div){
                         },
                         onMove:function(div){
                             var pos=div.position();
