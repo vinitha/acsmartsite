@@ -1104,7 +1104,7 @@ var NVision={
     
     zoom:function(zFactor,center){
         
-        if (zFactor>3 || zFactor<-1){
+        if (zFactor>3 || zFactor<-1 || NVision.zooming){
             return false;
         }
         
@@ -1116,6 +1116,8 @@ var NVision={
         if (zFactor==NVision.zoomLevel){
             return false;
         }
+        
+        NVision.zooming=true;
         
         var objects={},
             f=(4-zFactor)/4;        //formula to zoom the dashboard by 1/4 every step ()
@@ -1138,7 +1140,11 @@ var NVision={
         
         dBoard.stop(true,true);
         
-        NVision.updateEngine.stop()
+        //avoiding logging the status
+        myConsole.enabled=false;
+        NVision.updateEngine.stop();
+        
+        
         dBoard.animate({
                 "font-size":f + "em",
                 "left":dbPos.x+deltaFactor*cPoint.width,
@@ -1154,6 +1160,10 @@ var NVision={
             svg.css({display:"block"})
             
             NVision.updateEngine.start()
+            myConsole.enabled=true;
+            
+            
+            NVision.zooming=false;
         })
         
         //setting the dashBoardView className according to the zoom level

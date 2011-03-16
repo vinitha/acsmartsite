@@ -85,10 +85,12 @@ function myAjax(options){
                         draggingClass:"",
                         elementToDrag:objDiv,
                         container:container,                                    
-                        onStart:function(div){
+                        onStart:function(div,cPos){
+                            console.dir(cPos)
                         },
                         onMove:function(div){
                             var pos=div.position();
+                            
                             var sysObj=NVision.systems[div.attr("data_name")]||NVision.adapters[div.attr("data_name")]||NVision.otherObjects[div.attr("data_name")]
                             
                             //redrawing the links
@@ -138,7 +140,20 @@ function myAjax(options){
         
         //calling the base function first
         baseObj.prototype.draw.call(this,objPos,container)
-        $(this.canvasBox).addClass("verticalText")
+        var title=$(this.canvasBox)
+            .addClass("verticalText")
+            .find("h3"),
+            newText=[],
+            titText=title.text();
+        
+        
+        for (var x=0; x<titText.length;x++){
+            var c=titText.substr(x,1);
+            newText.push(c==" "?"&nbsp;":c)
+        }
+        
+        title.html(newText.join(" "))
+        
     }
 
 

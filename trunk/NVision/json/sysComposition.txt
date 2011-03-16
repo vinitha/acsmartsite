@@ -1,7 +1,7 @@
 [
     {
         "type":"exchange",
-        "name":"exchange",
+        "name":"Exchange",
         "id":"exchange"
     },
 

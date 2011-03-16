@@ -1484,7 +1484,7 @@ var scroller=function(element){
 			$(document).bind("mousemove",_Mousemove);										
 			$(document).bind("mouseup",_MouseUp);
 			
-			defaults.onStart(defaults.elementToDrag);
+			defaults.onStart(defaults.elementToDrag,clickPos);
 			
 		})
 		
@@ -1545,6 +1545,7 @@ var scroller=function(element){
 // messages displaying tool
 (function($){		  
 	window.myConsole={
+		enabled:true,
 		prog:0,
 		timers:{},
 		init:function(){
@@ -1556,17 +1557,22 @@ var scroller=function(element){
 			if (id){
 				myConsole.status(msg,id,true);
 			}else{
+				
+				if(!myConsole.enabled) return false;
+				
 				var Msg=myConsole.showMsg(msg,"error");
 				setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},5000)		
 			}
 		},
 		
 		log:function(msg,duration){
+			if(!myConsole.enabled) return false;
 			var Msg=myConsole.showMsg(msg);
 			setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},duration||2000)		
 		},
 			
 		alert:function(msg,duration){
+			if(!myConsole.enabled) return false;
 			var Msg=$("<p />")
 				.click(function(){$(this).remove()})		
 				.addClass("alert")
@@ -1578,6 +1584,7 @@ var scroller=function(element){
 		},
 		
 		info:function(msg,duration){
+			if(!myConsole.enabled) return false;
 			var Msg=$("<p />")
 				.click(function(){$(this).remove()})		
 				.addClass("info")
@@ -1619,6 +1626,9 @@ var scroller=function(element){
 				setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},isError?5000:2000)
 				return false;
 			}
+			
+			if(!myConsole.enabled) return false;
+			
 			var Msg=myConsole.showMsg(msg);
 			
 			myConsole.prog++;

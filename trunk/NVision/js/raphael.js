@@ -16,22 +16,6 @@ function getBBox(obj){
             y:pos.top
         }
     
-    if($obj.hasClass("verticalText")){
-        if ($.browser.mozilla){        
-                tmpObj.y-=tmpObj.width;
-                var w=tmpObj.width;
-                tmpObj.width=tmpObj.height;
-                tmpObj.height=w;
-        }
-        
-        if ($.browser.webkit){        
-
-            var w=tmpObj.width;
-            tmpObj.width=tmpObj.height;
-            tmpObj.height=w;
-        }
-    }
-    
     return tmpObj;
 }
 
