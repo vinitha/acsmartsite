@@ -248,6 +248,8 @@ var NVision={
     },
     init:function(sysReady){
         
+        NVision.sysReady=sysReady;
+        
         // adding the panning function to the dashBoard        
         $("#dashBoardView").draggable({
             elementToDrag:$("#dbContent"),
@@ -380,7 +382,7 @@ var NVision={
         //handling the resizing event
         $(window).resize(function(){
             
-            var h=$("html").innerHeight()-$("#filtersView").innerHeight()-$("header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
+            var h=$("html").innerHeight()-$("#filtersView").innerHeight()-$("#header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
         
             $("div.tabContent").css("height",h);
             
@@ -606,8 +608,7 @@ var NVision={
                                         onClose:null
                                     })            
         })();
-        
-        NVision.sysReady=sysReady;
+                
         
         //getting the system definition
         $.ajax({
@@ -666,10 +667,6 @@ var NVision={
                     }
                 })
                                 
-                
-                if(!NVision.sysReady){
-                    NVision.showDashboard();   
-                }
                                 
                 //firing the ready event!
                 NVision.sysReady();
@@ -978,7 +975,7 @@ var NVision={
             //console.log("start" , stopLevel);
             
             if(!intervalHnd){
-                intervalHnd=setInterval(update,engineTimer);            
+                //intervalHnd=setTimeout(update,engineTimer);            
                 
                 myConsole.log("Update engine running...",3000);
                 $("#updatesBtn").find("a").removeClass("pause");
@@ -1059,6 +1056,9 @@ var NVision={
             for(var f in loopCallback){
                 loopCallback[f]();
             }
+            
+            //setting the timeout again
+            intervalHnd=setTimeout(update,engineTimer);  
                         
         },
         updateNow=function(){

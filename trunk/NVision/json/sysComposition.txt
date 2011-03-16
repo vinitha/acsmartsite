@@ -1,3 +1,7 @@
+                                                                     
+                                                                     
+                                                                     
+                                             
 [
     {
         "type":"exchange",
@@ -96,31 +100,31 @@
         "type":"adapter",
         "name":"Newclear Ticket CAA",
         "updatesInterval":10000,
-        "id":"NewclearTicketCAA"
+        "id":"NEWCLEAR-TICKET-IN"
     },
     {
         "type":"adapter",
         "name":"Newclear Market IN",
         "updatesInterval":10000,
-        "id":"NewclearMarketIN"
+        "id":"NEWCLEAR-MARKET-IN"
     },
     {
         "type":"adapter",
         "name":"Newclear Lite IN",
         "updatesInterval":10000,
-        "id":"NewclearLiteIN"
+        "id":"NEWCLEAR-LITE-MARKET-IN"
     },
     {
         "type":"adapter",
         "name":"Exchange Adapter",
         "updatesInterval":10000,
-        "id":"ExchangeAdapter"
+        "id":"EUREX"
     },
     {
         "type":"adapter",
         "name":"GMI IN",
         "updatesInterval":10000,
-        "id":"GMIIN"
+        "id":"GMI"
     },
     {
         "type":"adapter",
@@ -196,7 +200,7 @@
     {
         "type":"link",
         "id":"L6",
-        "from":"NewclearMarketIN",
+        "from":"NEWCLEAR-MARKET-IN",
         "to":"NewclearCORE"
     },
     {
@@ -208,7 +212,7 @@
     {
         "type":"link",
         "id":"L8",
-        "from":"NewclearTicketCAA",
+        "from":"NEWCLEAR-TICKET-IN",
         "to":"NewclearCORE"
     },
     {
@@ -221,49 +225,49 @@
         "type":"link",
         "id":"L10",
         "from":"CAACORE",
-        "to":"NewclearTicketCAA"
+        "to":"NEWCLEAR-TICKET-IN"
     },
     {
         "type":"link",
         "id":"L11",
         "from":"HighTouch",
-        "to":"NewclearMarketIN"
+        "to":"NEWCLEAR-MARKET-IN"
     },
     {
         "type":"link",
         "id":"L12",
         "from":"exchange",
-        "to":"ExchangeAdapter"
+        "to":"EUREX"
     },
     {
         "type":"link",
         "id":"L13",
-        "from":"ExchangeAdapter",
+        "from":"EUREX",
         "to":"HighTouch"
     },
     {
         "type":"link",
         "id":"L14",
-        "from":"ExchangeAdapter",
+        "from":"EUREX",
         "to":"LowTouch"
     },
     {
         "type":"link",
         "id":"L15",
-        "from":"ExchangeAdapter",
+        "from":"EUREX",
         "to":"ExecOnly"
     },
     {
         "type":"link",
         "id":"L16",
         "from":"LowTouch",
-        "to":"NewclearLiteIN"
+        "to":"NEWCLEAR-LITE-MARKET-IN"
     },
     {
         "type":"link",
         "id":"L17",
         "from":"LowTouch",
-        "to":"GMIIN"
+        "to":"GMI"
     },
     {
         "type":"link",
@@ -280,7 +284,7 @@
     {
         "type":"link",
         "id":"L20",
-        "from":"GMIIN",
+        "from":"GMI",
         "to":"GMICORE"
     },
     {
@@ -298,7 +302,7 @@
     {
         "type":"link",
         "id":"L23",
-        "from":"NewclearLiteIN",
+        "from":"NEWCLEAR-LITE-MARKET-IN",
         "to":"NewclearLiteCORE"
     },
     {
@@ -322,7 +326,7 @@
     {
         "type":"layout",
         "name":"NVision subSystem positioning",
-        "objectsPos":{"ClearVisionCORE":{"left":147,"top":266},"TEOCORE":{"left":1030,"top":131},"NewclearLiteCORE":{"left":1065,"top":323},"GMICORE":{"left":1038,"top":486},"UBIXCORE":{"left":1034,"top":588},"NewclearCORE":{"left":454,"top":152},"CAACORE":{"left":1021,"top":191},"ClearVisionIN":{"left":131,"top":10},"NewclearOut":{"left":403,"top":37},"NewclearTicketTEO":{"left":672,"top":23},"TEOOut":{"left":954,"top":46},"NewclearTicketCAA":{"left":687,"top":180},"NewclearMarketIN":{"left":426,"top":258},"NewclearLiteIN":{"left":730,"top":311},"ExchangeAdapter":{"left":146,"top":422},"GMIIN":{"left":720,"top":467},"UBIXIN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"HighTouch":{"left":469,"top":368},"LowTouch":{"left":469,"top":461},"ExecOnly":{"left":469,"top":548},"NotNVision":{"left":1055,"top":375}}
+        "objectsPos":{"ClearVisionCORE":{"left":147,"top":266},"TEOCORE":{"left":1030,"top":131},"NewclearLiteCORE":{"left":1065,"top":323},"GMICORE":{"left":1038,"top":486},"UBIXCORE":{"left":1034,"top":588},"NewclearCORE":{"left":454,"top":152},"CAACORE":{"left":1021,"top":191},"ClearVisionIN":{"left":131,"top":10},"NewclearOut":{"left":403,"top":37},"NewclearTicketTEO":{"left":672,"top":23},"TEOOut":{"left":954,"top":46},"NEWCLEAR-TICKET-IN":{"left":687,"top":180},"NEWCLEAR-MARKET-IN":{"left":426,"top":258},"NEWCLEAR-LITE-MARKET-IN":{"left":730,"top":311},"EUREX":{"left":146,"top":422},"GMI":{"left":720,"top":467},"UBIXIN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"HighTouch":{"left":469,"top":368},"LowTouch":{"left":469,"top":461},"ExecOnly":{"left":469,"top":548},"NotNVision":{"left":1055,"top":375}}
     }
     
 ]
