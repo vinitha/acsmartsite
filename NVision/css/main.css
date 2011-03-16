@@ -120,8 +120,10 @@
 		margin-left:10px;
 	}
 	
-	header{
+	#header{
 		position:relative;
+		display:block;
+		height:126px;
 	}
 	
 	.tabContent{
@@ -1339,7 +1341,7 @@
 	#dashBoardView .exchange h3{
 		font-size:2em;
 		color:#fff;	
-		padding:3em 1em;
+		padding:3em 0.5em;
 		cursor: move;
 		text-align:center;
 	}	
@@ -1540,7 +1542,7 @@
 @media print{
 	#bcBar,
 	#systemName,
-	header,
+	#header,
 	#searchForm,
 	#pagination .showAll,
 	#toolBar .buttons{

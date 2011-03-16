@@ -16,7 +16,7 @@ function updateRequest(options){
 
 
 
-// function used to bind the ajax request with the myConsole message
+// function used to bind the ajax request with myConsole message
 function myAjax(options){
     
     var attributes={
@@ -35,6 +35,7 @@ function myAjax(options){
     
     $.ajax({
         url:attributes.url,
+        type:"GET",
         dataType:"json",
         data:attributes.data,
         success:function(data){
