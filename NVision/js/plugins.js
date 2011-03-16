@@ -1484,7 +1484,7 @@ var scroller=function(element){
 			$(document).bind("mousemove",_Mousemove);										
 			$(document).bind("mouseup",_MouseUp);
 			
-			defaults.onStart(defaults.elementToDrag,clickPos);
+			defaults.onStart(defaults.elementToDrag);
 			
 		})
 		
