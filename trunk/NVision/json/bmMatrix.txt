@@ -1,22 +1,22 @@
 {
-    "matrix":{
+    "MarketsMatrix":{
         "Listed derivatives":{
             "Emea":{
-                "Eurex":{name:"Eurex",id:"BM_1"},
-                "Kospi":"BM_2",
-                "CME":"BM_3"
+                "Eurex":{"name":"Eurex","id":"BM_1"},
+                "Kospi":{"name":"xxx","id":"BM_2"},
+                "CME":{"name":"xxx","id":"BM_3"}
             },            
             
             "Ncsa":{
-                "Eurex":"BM_4",
-                "Kospi":"BM_5",
-                "CME":"BM_6"
+                "Eurex":{"name":"xxx","id":"BM_4"},
+                "Kospi":{"name":"xxx","id":"BM_5"},
+                "CME":{"name":"xxx","id":"BM_6"}
             },
             
             "Seap":{
-                "Eurex":"BM_7",
-                "Kospi":"BM_8",
-                "CME":"BM_9"
+                "Eurex":{"name":"xxx","id":"BM_7"},
+                "Kospi":{"name":"xxx","id":"BM_8"},
+                "CME":{"name":"xxx","id":"BM_9"}
             }            
         },
         
@@ -24,21 +24,21 @@
         
         "Otc":{
             "Emea":{
-                "Eurex":"BM_10",
-                "Kospi":"BM_11",
-                "CME":"BM_12"
+                "Eurex":{"name":"xxx","id":"BM_10"},
+                "Kospi":{"name":"xxx","id":"BM_11"},
+                "CME":{"name":"xxx","id":"BM_12"}
             },            
             
             "Ncsa":{
-                "Eurex":"BM_13",
-                "Kospi":"BM_14",
-                "CME":"BM_15"
+                "Eurex":{"name":"xxx","id":"BM_13"},
+                "Kospi":{"name":"xxx","id":"BM_14"},
+                "CME":{"name":"xxx","id":"BM_15"}
             },
             
             "Seap":{
-                "Eurex":"BM_16",
-                "Kospi":"BM_17",
-                "CME":"BM_18"
+                "Eurex":{"name":"xxx","id":"BM_16"},
+                "Kospi":{"name":"xxx","id":"BM_17"},
+                "CME":{"name":"xxx","id":"BM_18"}
             }      
         }                
     }
