@@ -7,74 +7,80 @@
 $(function(){
     // Bind the event.
     $(window).bind("hashchange",function(){
-    
-    var newStatus=$.deparam($.param.fragment())
-    
-    newStatus.tabId=newStatus.tabId?newStatus.tabId:"tab_1";
-    
-    //updating the tabMenu
-    if(NVision.appStatus.tabId!=newStatus.tabId){
-        $("#mainMenu").trigger("showTab",newStatus.tabId);
-    }
-    
-    //if there's no view defined than exit
-    if(!newStatus.view) {
-        //checking if the tab content has been already initialised
-        if($("#" + newStatus.tabId).children(":visible").length==0){
-            //if not then runs its init function
-            NVision.tabMenuDefaults[newStatus.tabId]();
-        }        
-        return false;
-    }
-    
-    
-    //updating the view
-    if(!NVision.appStatus.view || NVision.appStatus.view.type!=newStatus.view.type){
-        switch(newStatus.view.type){
-            case "dashBoard":
-                NVision.showDashboard();
-            break;
-            
-            case "adapter":
-                if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
-                    var sysName=newStatus.view.sysName;
-                        sysObj=NVision.adapters[sysName];
-                    
-                    if(sysObj){
-                        NVision.showTable(sysObj);
-                    }else{
-                        myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
-                    }
-                }
-            break;
         
-            case "search":
+        var newStatus=$.deparam($.param.fragment())
+        
+        newStatus.tabId=newStatus.tabId?newStatus.tabId:"tab_1";
+        
+        //updating the tabMenu
+        if(NVision.appStatus.tabId!=newStatus.tabId){            
+            $("#mainMenu").trigger("showTab",newStatus.tabId);
+        }
+        
+        //if there's no view defined than exit
+        if(!newStatus.view) {
+            //checking if the tab content has been already initialised
+            if($("#" + newStatus.tabId).children(":visible").length==0){
+                //if not then runs its init function
+                NVision.tabMenuDefaults[newStatus.tabId]();
+            }
+            NVision.appStatus.currentTab=newStatus.tabId;
+            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab}
+                        
+            return false;
+        }
+        
+        
+        //updating the view
+        if(!NVision.appStatus.view || NVision.appStatus.view.type!=newStatus.view.type){
+            switch(newStatus.view.type){
+                case "dashBoard":
+                    NVision.showDashboard();
+                break;
                 
-                if(!NVision.appStatus.view || NVision.appStatus.view.query!=newStatus.view.query){
-                    var fields=$("#searchForm").find("input,select");
+                case "adapter":
+                    if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
+                        var sysName=newStatus.view.sysName;
+                            sysObj=NVision.adapters[sysName];
+                        
+                        if(sysObj){
+                            NVision.showTable(sysObj);
+                        }else{
+                            myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
+                        }
+                    }
+                break;
             
-                    for (var q in newStatus.view.query){
-                        var param=newStatus.view.query[q];
-                        var f=fields.filter("[name='"+ param.name +"']");
-                            if(f.attr("type")=="radio"){
-                                f.filter("[value='" + param.value + "']").attr("checked",true)
-                            }else{
-                                f.attr("value",param.value)
-                            }
-                            
-                    };
-                    NVision.doSearch(newStatus.view.query);
-                }
-            break;
+                case "search":
+                    
+                    if(!NVision.appStatus.view || NVision.appStatus.view.query!=newStatus.view.query){
+                        var fields=$("#searchForm").find("input,select");
+                
+                        for (var q in newStatus.view.query){
+                            var param=newStatus.view.query[q];
+                            var f=fields.filter("[name='"+ param.name +"']");
+                                if(f.attr("type")=="radio"){
+                                    f.filter("[value='" + param.value + "']").attr("checked",true)
+                                }else{
+                                    f.attr("value",param.value)
+                                }
+                                
+                        };
+                        NVision.doSearch(newStatus.view.query);
+                    }
+                break;
+            
+                default:
+                    myConsole.alert("Unknown bookmark ignored!")                        
+                break;
+            }        
+        }
         
-            default:
-                myConsole.alert("Unknown bookmark ignored!")                        
-            break;
-        }        
-    }
-    
-    $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)  
-  })
+        //updating the current appStatus
+        NVision.appStatus[NVision.appStatus.currentTab]=newStatus;        
+        
+        $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)  
+    })
 
 });
 
@@ -95,11 +101,10 @@ $().ready(function(){
     $("h1 a").click(function(e){
         e.preventDefault();
         
-        var newStatus = {
-            tabId:"tab_1",
-            view:{type:"dashBoard"}
-        }
-        $.bbq.pushState(newStatus,2);  
+        
+        NVision.appStatus.currentTab="tab_1";
+        NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};
+        $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);  
     })
     
     //setting the main tabMenus custom events
@@ -116,11 +121,15 @@ $().ready(function(){
         })
     
     tabMenu.find("a").live("click",function(e){
-        e.preventDefault();
-        var newStatus = {
-            tabId:this.hash.replace("#","")
+        e.preventDefault();           
+        
+        NVision.appStatus.currentTab=this.hash.replace("#","");
+        
+        if(!NVision.appStatus[NVision.appStatus.currentTab]){
+            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab}
         }
-        $.bbq.pushState( newStatus,2);           
+        
+        $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);           
     })
     
     
@@ -368,12 +377,15 @@ var NVision={
 
             var qs=theForm.find("input:visible, select:visible").serializeArray();
             //putting the query into the browser history
-            
+            /*
             var newStatus = {
                 tabId:"tab_1",
                 view:{type:"search",query:qs}
             }
-            $.bbq.pushState( newStatus,2);         
+            */
+            NVision.appStatus[NVision.appStatus.currentTab].view={type:"search",query:qs}
+            
+            $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);         
             
             //collapsing the advanced search
             $(theForm).find("a.advPanel").trigger("hideAdv");
@@ -759,12 +771,16 @@ var NVision={
             e.preventDefault();
             //NVision.showDashboard();
             //putting the query into the browser history
-            
+            /*
             var newStatus = {
                 tabId:"tab_1",
                 view:{type:"dashBoard"}
             }
-            $.bbq.pushState( newStatus,2);               
+            */
+            
+            NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};
+            
+            $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
             
         })
         

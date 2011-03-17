@@ -543,11 +543,13 @@ function myAjax(options){
                     e.preventDefault();
                     
                     //putting the query into the browser history
+                    /*
                     var newStatus = {
                         tabId:"tab_1",
                         view:{type:"adapter","sysName":this.hash.replace("#","")}
-                    }
-                    $.bbq.pushState( newStatus,2);                       
+                    }*/
+                    NVision.appStatus[NVision.appStatus.currentTab].view={type:"adapter","sysName":this.hash.replace("#","")}
+                    $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
     
                 })                           
         )         
