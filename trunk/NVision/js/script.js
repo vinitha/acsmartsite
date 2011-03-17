@@ -800,8 +800,8 @@ var NVision={
         $("#tableView").show(0);        
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
-        $("#dbFilters").hide(0);
-        $("#tradesFilters").show(0);          
+        $("#dbTools").hide(0);
+        //$("#tradesFilters").show(0);          
         
         // clearing the update engine
         NVision.updateEngine.empty();
@@ -845,8 +845,8 @@ var NVision={
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
         $("#updatesBtn").show(0);
-        $("#dbFilters").hide(0);
-        $("#tradesFilters").show(0);
+        $("#dbTools").hide(0);
+        //$("#tradesFilters").show(0);
         
         //setting the table title....
         $("#systemName span")
@@ -899,8 +899,8 @@ var NVision={
         $("#toolBar").hide(0);
         $("#dashBoardView").show(0);
         $("#updatesBtn").show(0);
-        $("#dbFilters").show(0);
-        $("#tradesFilters").hide(0);
+        $("#dbTools").show(0);
+        //$("#tradesFilters").hide(0);
         
         
         //making sure the window and the SVG have the same size
@@ -1423,7 +1423,6 @@ var NVision={
                     "height":h
                 })                
             }
-            
             
         },
         

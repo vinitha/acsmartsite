@@ -2,7 +2,7 @@
     "matrix":{
         "Listed derivatives":{
             "Emea":{
-                "Eurex":"BM_1",
+                "Eurex":{name:"Eurex",id:"BM_1"},
                 "Kospi":"BM_2",
                 "CME":"BM_3"
             },            
