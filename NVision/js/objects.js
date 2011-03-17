@@ -28,7 +28,7 @@ function myAjax(options){
     }
         
     $.extend(attributes,options)
-    $.extend(attributes.data,{"BM":NVision.businessMarket})
+    $.extend(attributes.data,{"BM":NVision.appStatus.BM})
     
     if(attributes.logMsg){
         var msgId=myConsole.status(attributes.logMsg);    

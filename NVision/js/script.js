@@ -12,6 +12,14 @@ $(function(){
         
         newStatus.tabId=newStatus.tabId?newStatus.tabId:"tab_1";
         
+        //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
+        if(!newStatus.BM){
+            myConsole.alert("Business Market undefined!")
+            //return false;
+        }
+        NVision.appStatus.BM=newStatus.BM||"xxx";
+        
+        
         //updating the tabMenu
         if(NVision.appStatus.tabId!=newStatus.tabId){            
             $("#mainMenu").trigger("showTab",newStatus.tabId);
@@ -232,7 +240,6 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    businessMarket:"BM_xx",   //it's the Id used to identify the business market whose data the user is seeing
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -625,7 +632,7 @@ var NVision={
         
         //getting the system definition
         myAjax({
-            logMsg:"getting the sysConfig",
+            logMsg:null,
             url:sysConfig.sysComposition,
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 myConsole.error(textStatus || errorThrown);
