@@ -1334,12 +1334,13 @@ var NVision={
     },
     
     createSearchRequest:function(searchObj){
+
         var updateReq= new updateRequest({
             callerObj:searchObj,
             updatesInterval:searchObj.updatesInterval,
             id:searchObj.id,
             url:sysConfig.searchUrl,
-            data:{"sysId":searchObj.queryString},
+            data:searchObj.queryString,
             callBack:function(data){
                 
                 /*
