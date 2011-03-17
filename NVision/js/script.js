@@ -88,7 +88,7 @@ $().ready(function(){
    
     
     //init. the NVision object (passing a function to be executed when the system is ready)
-    NVision.init(function(){
+    NVision.init(function(){        
         $(window).trigger("hashchange")
         $(window).resize()        
     });
@@ -769,14 +769,6 @@ var NVision={
         //setting the back button
         $("#backToDB").click(function(e){
             e.preventDefault();
-            //NVision.showDashboard();
-            //putting the query into the browser history
-            /*
-            var newStatus = {
-                tabId:"tab_1",
-                view:{type:"dashBoard"}
-            }
-            */
             
             NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};
             
@@ -1385,8 +1377,6 @@ var NVision={
     utils:{
         checkDbSize:function(){
             
-            //todo: calculate the dashboard size
-            
             var objects={}
             
             //putting al the dashboard objects together
@@ -1417,8 +1407,10 @@ var NVision={
                     "width":w,
                     "height":h})
             
-            if ($.browser.msie && $.browser.version<9){
-                    
+            var ver=parseInt(document.documentElement.className.replace("ie",""));
+            
+            if ($.browser.msie && ver<9){
+                  
                 $("#dbContent").find("div:first").css({
                     "width":w,
                     "height":h,
@@ -1430,7 +1422,9 @@ var NVision={
                     "width":w,
                     "height":h
                 })                
-            }        
+            }
+            
+            
         },
         
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
