@@ -105,6 +105,19 @@
 		border-radius: 5px; /* For when the standard gets fully supported */	
 	}
 	
+	#businessMarket{
+		padding:0px 10px;
+		color:#999;		
+	}
+	
+	#systemName{
+		float:left;
+	}
+	
+	#businessMarket strong{
+		color:#444;		
+	}
+	
 	#systemName .loading{
 		background-image:url(../images/loading.gif);
 		background-position:4px 50%;
@@ -123,7 +136,7 @@
 	#header{
 		position:relative;
 		display:block;
-		height:126px;
+		height:125px;
 	}
 	
 	.tabContent{
@@ -533,26 +546,28 @@
 	}
 	
 	#tradesFilters{
-		display:none;
+		float:right;
+		margin-top: 15px;		
 	}
 	
-	#filtersView label{
+	#tradesFilters label{
 		float:left;
 		margin-right:10px;
 	}
 	
-	#filtersView span{
-		display:block;
+	#tradesFilters span{
+		
+		color:#666;
 	}
 	
-	#filtersView input{
+	#tradesFilters input{
 		font-size:1.1em;
 		padding:2px;
 		color:#666;
 	}
 	
-	#filtersView select{
-		display:block;
+	#tradesFilters select{
+
 	}
 
 
@@ -626,6 +641,8 @@
 		margin: 0 10px;
 		overflow: hidden;
 		padding: 4px;
+		
+		clear:both;
 	}
 	
 	#toolBar .buttons{
