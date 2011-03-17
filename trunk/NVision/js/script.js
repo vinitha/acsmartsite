@@ -223,17 +223,18 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    zoomLevel:0,
-    zoomFactor:1,       //the dashBoard elements size/position is multiplied by this value
-    appStatus:{},       //this object holds the app status and is used to optimise the browser history navigation
-    systems:null,       //hashtable containing the subSystems
-    currentSys:null,    //placeholder updated by showTable function
-    lightBoxes:{},      //hashtable of premade lightboxes      
+    businessMarket:"BM_xx",   //it's the Id used to identify the business market whose data the user is seeing
+    zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
+    zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
+    appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
+    systems:null,           //hashtable containing the subSystems
+    currentSys:null,        //placeholder updated by showTable function
+    lightBoxes:{},          //hashtable of premade lightboxes      
     adapters:null,
     links:null,
     layout:null,
-    sysReady:null,      //this function gets exectuted after the json data has been processed by the client
-    tabMenuDefaults:{   //this Object defines the function to call to create the default tab content
+    sysReady:null,          //this function gets exectuted after the json data has been processed by the client
+    tabMenuDefaults:{       //this Object defines the function to call to create the default tab content
         tab_1:function(){
             NVision.showDashboard()
         },
@@ -611,15 +612,13 @@ var NVision={
                 
         
         //getting the system definition
-        $.ajax({
+        myAjax({
+            logMsg:"getting the sysConfig",
             url:sysConfig.sysComposition,
-            dataType:"json",
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 myConsole.error(textStatus || errorThrown);
             },
             success:function(data){
-                
-                
                 //add the objects to NVision
                 $(data).each(function(){
                     switch(this.type){

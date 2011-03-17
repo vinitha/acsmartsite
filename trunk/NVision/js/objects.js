@@ -24,10 +24,11 @@ function myAjax(options){
         url:"",
         success:function(){},
         error:function(){},
-        data:null
+        data:{}
     }
         
     $.extend(attributes,options)
+    $.extend(attributes.data,{"BM":NVision.businessMarket})
     
     if(attributes.logMsg){
         var msgId=myConsole.status(attributes.logMsg);    
