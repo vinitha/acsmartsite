@@ -35,7 +35,7 @@
                 "CME":{"name":"xxx","id":"BM_15"}
             },
             
-            "Seap":{
+            "Seap2":{
                 "Eurex":{"name":"xxx","id":"BM_16"},
                 "Kospi":{"name":"xxx","id":"BM_17"},
                 "CME":{"name":"xxx","id":"BM_18"}
