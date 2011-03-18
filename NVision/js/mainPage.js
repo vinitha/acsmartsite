@@ -21,29 +21,42 @@ var bmMatrix={
     buildWidget:function(data){
         bmMatrix.matrix=data.MarketsMatrix;
         
-        console.dir(bmMatrix.getBMs(null,null,"Eurex"))
+        console.dir(bmMatrix.getBMs(null,"Ncsa",null))
     },
 
     getBMs:function (asset,region,exchange){
         
-        return bmMatrix.getObjsAtLevel(bmMatrix.matrix,1, "Seap")
+        var obj=bmMatrix.getObjsAtLevel(bmMatrix.matrix,0,asset);
+        obj=bmMatrix.getObjsAtLevel(obj,1,region);
+        obj=bmMatrix.getObjsAtLevel(obj,2,exchange);
+        
+        return obj
     
     },
     
     getObjsAtLevel:function(obj,level,name){
-        //traverses an object and returns an hashtable of that object Nth-level children.
-        if (level==0){            
-            return name?obj[name]:obj;
+        //traverses an object and returns an hashtable of that object Nth-level children (optionally filtered by "name").
+        
+        var newObj={};
+        
+        if (level==0){
+            newObj[name]=obj[name];
+            return name?(newObj[name]?newObj:null):obj
         }
         
         level--;
         
-        var lObj={};
+        var hasChildren=false;
         for (var o in obj){
-            lObj=$.extend(lObj,bmMatrix.getObjsAtLevel(obj[o],level,name))
+            
+            var child=bmMatrix.getObjsAtLevel(obj[o],level,name)
+            if(child){
+                newObj[o]=child;
+                hasChildren=true;
+            }            
+            
         }
-        
-        return lObj;
+        return hasChildren?newObj:null;
 
     }
 }

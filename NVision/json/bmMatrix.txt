@@ -24,15 +24,13 @@
         
         "Otc":{
             "Emea":{
-                "Eurex":{"name":"xxx","id":"BM_10"},
                 "Kospi":{"name":"xxx","id":"BM_11"},
                 "CME":{"name":"xxx","id":"BM_12"}
             },            
             
             "Ncsa":{
                 "Eurex":{"name":"xxx","id":"BM_13"},
-                "Kospi":{"name":"xxx","id":"BM_14"},
-                "CME":{"name":"xxx","id":"BM_15"}
+                "Kospi":{"name":"xxx","id":"BM_14"}
             },
             
             "Seap2":{
