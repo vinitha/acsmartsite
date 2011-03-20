@@ -1,0 +1,7 @@
+- form validation:
+  obbligatori e date. 
+- calendario per date (anche no, range troppo grande)
+- "fondi" sinonimo? (solo per utenti esperti)
+- dizionario come suggestBox?
+ok ma considerare tutti gli archivi (aggiungere selezione degli archivi non troppo evidente)
+- su ricerca avanz. aggiungere: Includi risultati simili (equivalente al vecchio "ignora desinenza" e "per somiglianza"), "imposta archivi" => visualizza gli archivi (checkboxes) su cui fare le ricerche e dropdown per Ordinamento risultati.
