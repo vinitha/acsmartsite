@@ -8,78 +8,150 @@
 <!--[if IE 9 ]>    <html lang="it" class="no-js ie9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="it" class="no-js"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-  <title>HAP</title>
-  <meta name="description" content="HAP">
-  <meta name="author" content="HiveSoft">
-
-  <link rel="shortcut icon" href="/favicon.ico">
+    <meta charset="utf-8">
+        
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+    Remove this if you use the .htaccess -->    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>HAP</title>
+    <meta name="description" content="HAP">
+    <meta name="author" content="HiveSoft">
+    
+    <link rel="shortcut icon" href="images/favicon.ico">
      
-  <link rel="stylesheet" href="css/reset.css?v=1" />
-  <link rel="stylesheet" href="css/main.css?v=1" />
-  
-  <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <script src="js/modernizr-1.5.min.js"></script>  
+    <link rel="stylesheet" href="css/reset.css?v=1" />
+    <link rel="stylesheet" href="css/main.css?v=1" />
+    
+    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+    <script src="js/modernizr-1.5.min.js"></script>  
 </head>
 
 <body>
 
-    <header>
-      <h1><a title="Home page" href="index.html"><span>Hap</span></a></h1>
-      <h2>Sottotitolo</h2>
+    <div id="header">
+      <h1><a title="Home page" href="index.html"><span>Logo</span></a></h1>
+      <h2>Nome del sito</h2>
       
       <div id="menuBar">        
         <!-- main menu -->
           <ul class="tabMenu">
-            <li class="current"><a href="#tab_1"><span>Home</span></a></li>
-            <li><a href="#tab_2"><span>Fondi per tipologia</span></a></li>
-            <li><a href="#tab_3"><span>Archivi di stato</span></a></li>
-            <li><a href="#tab_4"><span>Atlante storico</span></a></li>
+            <li class="current"><a href="home.html"><span>Home</span></a></li>
+            <li><a href="fondi.html"><span>Fondi per tipologia</span></a></li>
+            <li><a href="archivi.html"><span>Archivi di stato</span></a></li>
+            <li><a href="atlante.html"><span>Atlante storico</span></a></li>
           </ul> 
         <!-- *** -->              
       </div>       
       
-    </header>
+    </div>
     
     <div id="main">
         <!-- Left Col -->
-        <aside>
+        <div class="leftCol">
+            <!-- pannello di ricerca -->
             <div id="searchPanel">
                 <h3>Ricerca</h3>
                 
-                <form id="stdSearch">
-                    <label for=""><input type="text" name="" value="semplice"></label>
+                <!-- semplice -->
+                <form id="stdSearch" action="toFormUrl" method="post" >
+                    <p><label for="semplice">Ricerca</label> <input type="text" id="semplice" name="semplice" value=""></p>
+                    <button type="submit" class="button searchBtn"><span>Vai</span></button>
                 </form>
                 
                 <ul class="switch" id="searchSwitch">
                     <li class="current"><a href="#stdSearch">Semplice</a></li>
                     <li><a href="#advSearch">Avanzata</a></li>
                 </ul>
+                <!-- *** -->
                 
-                <form id="advSearch">
-                    <label for=""><input type="text" name="" value="avanzata"></label>
+                <hr class="hr" />
+                
+                <!-- avanzata -->
+                <form id="advSearch" action="toFormUrl" method="post" >
+                  
+                  <fieldset>
+                    <select name="campo_1">
+                        <option value="tutti">Tutti i campi</option>
+                        <option value="denominazione">Denominazione</option>
+                        <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
+                        <option value="luogo">Luogo</option>
+                        <option value="tipologia">Tipologia sogg. produttore</option>
+                    </select>
+                    <span>=</span>
+                    <label class="testo" for="valore_1">Testo</label><input class="testo" type="text" id="valore_1" name="semplice" value="">
                     
-                    <ul class="switch">
-                        <li class="current"><a href="#and">AND</a></li>
-                        <li><a href="#or">OR</a></li>
-                    </ul>                       
+                    <a class="addRule" href="#add">+</a>
+                    
+                    <div class="operatori">
+                        <span><input type="radio" id="op_And" checked="checked" name="operatore" value="and"><label for="op_And"> AND</label></span>
+                        <span><input type="radio" id="op_Or" name="operatore" value="or"><label for="op_Or"> OR</label></span>
+                    </div>
+                    
+                  </fieldset>
+                  
+                  <fieldset>
+                    <select name="campo_2">
+                        <option value="">- - -</option>
+                        <option value="tutti">Tutti i campi</option>
+                        <option value="denominazione">Denominazione</option>
+                        <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
+                        <option value="luogo">Luogo</option>
+                        <option value="tipologia">Tipologia sogg. produttore</option>
+                    </select>
+                    <span>=</span>
+                    <label class="testo" for="valore_2">Testo</label><input class="testo" type="text" id="valore_2" name="semplice" value="">                    
+                  </fieldset>                  
+                
+                    <div class="buttonsBar">
+                        <button type="submit" class="button searchBtn"><span>Vai</span></button>
+                    </div>
                 </form>
+                <!-- *** -->
+                
                 
             </div>
-        </aside>
+            <!-- *** -->
+            
+            <!-- sezioni -->
+            <div class="sezioni">
+                <dl>
+                    <dt class="fondi"><a href="#fondi.html">Fondi per Tipologia</a></dt>
+                    <dd>I Catasti, i Notai e la documentazione prodotta da enti pubblici, istituzioni private e religiose e da famiglie e persone sono raggruppati per tipologie (pulsante fondi per tipologia).</dd>
+                    
+                    <dt class="archivi"><a href="#archivi.html">Archivi di Stato</a></dt>
+                    <dd>Attraverso il pulsante archivi di stato è possibile accedere alla navigazione della descrizione dei fondi archivistici conservati da uno specifico Archivio di Stato selezionato da una lista dinamica. </dd>
+                    
+                    <dt class="atlante"><a href="#atlante.html">Atlante storico</a></dt>
+                    <dd>La documentazione prodotta dalle istituzioni statali è inquadrata nell'ambito di periodizzazioni storiche: Antichi regimi, Periodo napoleonico, Restaurazione, Regno d'Italia poi Repubblica italiana.</dd>
+                </dl>
+                
+            </div>            
+            <!-- *** -->            
+
+        </div>
         <!-- *** -->
       
       
         <!-- body col -->
+        <div id="bodyCol">
+            <div class="descrizione">
+                <p><em>La Guida generale degli Archivi di Stato Italiani</em> escrive in maniera organica e secondo criteri uniformi tutti i fondi archivistici conservati presso l'Archivio centrale dello Stato e gli Archivi di Stato istituiti in ogni capoluogo di provincia, con le eventuali Sezioni dipendenti.</p>
+                <p>Nel Sistema Guida generale, oltre alla descrizione analitica dei singoli Soggetti produttori cui risultano intestati i fondi, è presente un profilo istituzionale generale di riferimento per quei Soggetti produttori retti da una normativa comune o afferenti ad una medesima tipologia: si tratta in prevalenza di uffici periferici dello Stato, ma anche di alcune tipologie di enti pubblici e alcune tipologie di documenti, quali ad esempio lo Stato civile; tali profili (o schede-repertorio) sono stati introdotti per tutti i Soggetti produttori a normativa comune del periodo preunitario e postunitario, ma risultano completi solo a partire dagli Stati del Periodo napoleonico.</p>
+            </div>
+            
+            <ul class="links">
+                <li><a href="storia.html">La storia</a></li>
+                <li><a href="sistemaInformativo.html">Il sistema informativo</a></li>
+            </ul>            
+        </div>
         <!-- *** -->
       
     </div>
     
-    <footer>
-
-    </footer>
+    <div id="footer">
+        <p><a href="credits.html">Credits and copyrights</a></p>
+    </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.4.4.min.js"%3E%3C/script%3E'))</script>
@@ -88,7 +160,7 @@
     //use this object to configure the app. settings
     var sysConfig={
           //called once when the system starts
-          sysComposition:"json/sysComposition.txt",   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          sysComposition:"json/sysComposition.txt"   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
     }
 
   </script>
