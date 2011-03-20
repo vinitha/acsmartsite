@@ -1,7 +1,7 @@
 $().ready(function(){
     
-    //widget init function
-    widget.init()
+    //widgets init function
+    widgets.init()
     
     //handling the searchSwitch change event
     $("#searchSwitch").change(function(e,aObj){
@@ -20,12 +20,31 @@ $().ready(function(){
     $("#stdSearch").find("label").inFieldLabels();
     
     
+    var stdForm=$("#stdSearch")
+    //on std submit..
+    stdForm.submit(function(e){
+        e.preventDefault();
+        var data=stdForm.serialize();
+        
+        myConsole.info(data)
+        
+    })     
+    
     //setting the advanced search module up.
     var advForm=$("#advSearch"),
         fieldset=advForm.find("fieldset").eq(0),
         select=fieldset.find("select"),
         input=fieldset.find("input");
         
+    
+    //on adv submit..
+    advForm.submit(function(e){
+        e.preventDefault();
+        var data=advQueryObj.getQueriesString();
+        
+        myConsole.info(data)
+        
+    })
     
     //removing all the fieldsets but the first one.
     advForm.find("fieldset").not(":first").remove();
@@ -48,6 +67,7 @@ $().ready(function(){
                 name:select.val(),
                 value:input.val()
             })
+            input.val("");
                         
         }else{
             myConsole.alert("Inserire il valore su cui effettuare la ricerca!")
@@ -85,8 +105,13 @@ var advQueryObj=(function(){
         showOnElement=elem;
     }
     
-    getQueriesHash=function(){
-        return queriesHash;
+    getQueriesString=function(){
+        var str="";
+        for (var obj in queriesHash){
+            var tmpObj=queriesHash[obj]
+            str+=(tmpObj.operator?" " + tmpObj.operator + " ":" ") + tmpObj.name + "=" + tmpObj.value
+        }
+        return str;
     }
     
     addQuery=function(obj){
@@ -144,7 +169,7 @@ var advQueryObj=(function(){
     
     removeQuery=function(qI){
         qCount--;
-        console.log(qI, qCount)
+
         delete(queriesHash[qI]);
         
         var i=0;
@@ -163,7 +188,7 @@ var advQueryObj=(function(){
     //public propeties/methods
     return {
         addQuery:addQuery,
-        getQueriesHash:getQueriesHash,
+        getQueriesString:getQueriesString,
         clear:clear,
         showOn:showOn
     }
@@ -177,7 +202,7 @@ var advQueryObj=(function(){
 
 ////// widgets ////////
 
-    var widget={
+    var widgets={
         init:function(){
             //setting the switch widget up
             doSwitch($("ul.switch"))
