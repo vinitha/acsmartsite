@@ -258,7 +258,7 @@ h2{
 	}
 	
 	.js #advSearch input.testo{
-		width: 135px;
+		width: 133px;
 	}
 	
 	#advSearch select{
@@ -287,7 +287,11 @@ h2{
 		color: #FFFFFF;
 		font-size: 1.2em;
 		font-weight: bold;
-		padding: 1px 2px;
+		padding: 1px 3px;
+		
+		-moz-border-radius: 3px; /* For FireFox */
+		-webkit-border-radius: 3px; /* For Safari/Chrome */
+		border-radius: 3px; /* For when the standard gets fully supported */		
 	}
 	
 	#advSearch .addRule:hover,
@@ -300,12 +304,37 @@ h2{
 		border:1px solid #aaa;
 		padding:10px;
 		color:#666;
+		margin-top:10px;
+		background-color:#eee;
 	}
+	
+	.advQuery .remove{
+		background-color: #AAAAAA;
+		color: #FFFFFF;
+		cursor: pointer;
+		font-weight: bold;
+		margin-right: 5px;
+		padding: 0 4px;
+		
+		-moz-border-radius: 3px; /* For FireFox */
+		-webkit-border-radius: 3px; /* For Safari/Chrome */
+		border-radius: 3px; /* For when the standard gets fully supported */		
+	}
+	
+	.advQuery .remove:hover,
+	.advQuery .remove:focus{
+		background-color:#999;
+	}	
 	
 	.advQuery p{
 		font-size:1.4em;
 	}
 	
+	.advQuery .switch{
+		margin-bottom: 3px;
+		margin-left: 15px;
+		margin-top: 6px;
+	}
 	
 	
 	.buttonsBar {
