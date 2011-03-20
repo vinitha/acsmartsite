@@ -4,7 +4,21 @@
 /* global rules */
 	body{
 		margin:10px;
+		color:#444;
 	}
+	
+	a{
+		color:#666;
+	}
+	
+	.error{
+		background-color:#ffffb0;
+	}
+	
+	a:hover,
+	a:focus{
+		color:#444;
+	}	
 	
 	#hiddenBox{
 		display:none;
@@ -16,6 +30,45 @@
 		margin: 10px 0px;
 	}	
 	
+	.leftCol{
+		width:320px;
+		float:left;
+		padding:10px 10px 10px 0px;
+		margin-top:20px;
+	}
+	
+	form{
+		overflow:hidden;
+	}
+	
+	form p{
+		position:relative;
+	}
+	
+	form .infield{
+		color:#999;
+		color:rgba(0,0,0,0.5);
+		font-style:italic;
+	}
+	
+	
+	#header{
+		background-color:#eee;
+		
+	}
+	
+	.ie7 form .infield{
+		color:#999;
+	}
+	
+	.no-js #searchSwitch{
+		display:none;
+	}
+	
+	#searchSwitch{
+		margin:10px 0px;
+		clear:both;
+	}
 	
 	.button{
 		background-color: #d0d0d0;
@@ -25,10 +78,13 @@
 		border: 1px solid #bbb;
 		color: #444444;
 		display: block;
-		padding: 6px 10px 5px;
+		padding: 2px 5px 1px;
 		outline:none;
 		font-size:1.1em;
 		cursor:pointer;
+		height:20px;
+		overflow:hidden;
+		text-align:center;
 	}
 		
 	.button:hover,
@@ -39,7 +95,7 @@
 	}
 	
 	button.button{
-		display:inline;
+		display:inline-block;
 		font-size:1em;
 	}
 	
@@ -64,6 +120,18 @@
 	
 /* *** */
 
+h1{
+	font-size:2.5em;
+	padding:10px 10px 10px 10px
+}
+
+h2{
+	font-size:1.6em;
+	font-style:italic;
+	padding:0px 10px 10px 10px
+}
+
+
 #menuBar{
 	margin-bottom: -1px;
 	overflow: hidden;	
@@ -76,6 +144,8 @@
 	border: 1px solid #999999;
 	margin:0px;
 	background-color:#F9F9F9;
+	overflow:hidden;
+	padding-left:10px;
 }
 
 /* tabMenu */
@@ -111,7 +181,6 @@
 	
 	.tabMenu li a:hover,
 	.tabMenu li a:focus{
-		color:#444;
 		background-color:#c0c0c0;
 		border-bottom: 1px solid #aaa;
 	}
@@ -120,24 +189,230 @@
 		background-color:#f9f9f9;
 		color:#444;
 		font-weight:bold;
+		border:1px solid #999;
 		border-bottom:1px solid #f9f9f9;
 	}
 	
 
 /* searchPanel */
-	#searchPanel h3{
+	#searchPanel{
+		background-color:#e0e0e0;
+		
+		-moz-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.5);		
+		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* CSS3    */
+		-webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* Webkit  */
+		
+		padding:10px;
+		
+		margin-bottom:30px;
+	}
+	.js #searchPanel h3{
+		display:none;
+	}
+	
+	.js #searchPanel hr{
 		display:none;
 	}
 	
 /* stdSearch */
-	#stdSearch{
-		
+	#stdSearch p{
+		font-size:1.4em;
+		float:left;
+	}
+	
+	#stdSearch label{		
+		padding:2px;
+	}
+	
+	.no-js #stdSearch label{
+		display:none;
+	}
+	
+	#stdSearch input {
+		border: 1px solid #AAAAAA;
+		padding: 1px;
+		width: 253px;
+		margin-right:-1px;
+	}
+	
+	#stdSearch .button{
+		width:30px;
 	}
 	
 	
 /* advSearch */
-	#advSearch{
+	.js #advSearch{
 		display:none;
+	}
+	
+	#advSearch label.testo{
+		position:absolute;
+		left:-99999px;
+	}
+	
+	#advSearch input.testo{
+		font-size: 1.1em;
+		width: 149px;
+		padding:1px;
+		border:1px solid #aaa;
+	}
+	
+	.js #advSearch input.testo{
+		width: 135px;
+	}
+	
+	#advSearch select{
+		font-size: 1.1em;
+		width: 135px;
+		padding:1px;
+		border:1px solid #aaa;
+		color:#444;
+	}
+	
+	.operatori{
+		text-align:center;
+		margin:10px 0px;
+	}
+	
+	.operatori span{
+		margin:0px 5px;
+	}
+	
+	.no-js #advSearch .addRule{
+		display:none;
+	}
+	
+	#advSearch .addRule{
+		background-color: #AAAAAA;
+		color: #FFFFFF;
+		font-size: 1.2em;
+		font-weight: bold;
+		padding: 1px 2px;
+	}
+	
+	#advSearch .addRule:hover,
+	#advSearch .addRule:focus{
+		background-color:#999;
+	}
+	
+	
+	.advQuery{
+		border:1px solid #aaa;
+		padding:10px;
+		color:#666;
+	}
+	
+	.advQuery p{
+		font-size:1.4em;
+	}
+	
+	
+	
+	.buttonsBar {
+		margin:10px 0px 0px;
+		overflow:hidden;
+		text-align:right;
+	}
+	
+	
+	
+	
+	
+/* sezioni */
+
+	.sezioni{
+		margin-bottom:30px;
+	}
+	.sezioni dt{
+		position:relative;
+		z-index:2;
+	}
+
+	.sezioni dt a{
+		font-size:1.8em;
+		color:#666;
+		background-color:#eee;
+		display:block;
+		padding-left:122px;
+		line-height:49px;
+		background-position:1px 1px;
+		background-repeat:no-repeat;
+		
+		-moz-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.5);		
+		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* CSS3    */
+		-webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* Webkit  */
+				
+	}
+	
+	.sezioni dt a:hover,
+	.sezioni dt a:focus{
+		background-color:#e0e0e0;
+	}
+	
+	.sezioni .archivi a{
+		background-image:url(../images/icoArchivi.png)
+	}
+	
+	.sezioni .fondi a{
+		background-image:url(../images/icoFondi.png)
+	}
+	
+	.sezioni .atlante a{
+		background-image:url(../images/icoAtlante.png)
+	}
+	
+	.sezioni dd{
+		padding:10px;
+		background-color:#f2ecd9;
+		margin-bottom:10px;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/* bodyCol */
+	#bodyCol {
+		overflow:hidden;
+		margin-top:20px;
+		padding:10px 30px 10px 20px;
+	}
+	
+	
+	
+	.descrizione {
+		overflow:hidden;
+	}
+	.descrizione p{
+		border-top:10px solid #99a1a6;
+		padding-top:10px;
+		margin-bottom:30px;
+		font-size:1.4em;
+		line-height:1.6em;
+		word-spacing:0.3em;
+	}
+	
+	.descrizione p em{
+		font-size:1.4em
+	}
+	
+	
+	.links li{
+		background-image:url(../images/ulDot.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left:25px;
+		margin-bottom:5px;
+	}
+	
+	.links li a{
+		font-size:1.4em;		
 	}
 	
 /* switch widget */
@@ -152,27 +427,41 @@
 	.switch a{
 		display:block;
 		padding:2px 5px;
-		background-color:#dde7ee;
-		color:#a8bec6;
+		background-color:#e6e6e6;
+		color:#adadad;
 		-moz-border-radius: 3px; /* For FireFox */
 		-webkit-border-radius: 3px; /* For Safari/Chrome */
-		border-radius: 3px; /* For when the standard gets fully supported */		
+		border-radius: 3px; /* For when the standard gets fully supported */
+		border:1px solid transparent;
+		outline:none;
 	}
 	
-	.switch .current a{
-		background-color:#afd3e4;
-		color:#496c76;
-		
-		-moz-box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);		
-		box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* CSS3    */
-		-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Webkit  */		
+	.js .switch .current a,
+	.no-js .switch a:active,
+	.switch a:hover,
+	.switch a:focus{
+		background-color:#c9c9c9;
+		color:#5f5f5f;		
+		border-color:#aaa;	
+	}
+	
+	
+	
+	
+/* footer */
+	#footer{
+		margin-top:5px;
+		padding:5px 10px;
+		background-color:#eee;
+		text-align:right;
 	}
 	
 	
 		 
 /* ie hasLayout fix */
 	#tableData,
-	.tabContent{
+	.tabContent,
+	dt{
 		zoom:1;
 	}
 	
@@ -186,4 +475,100 @@
 		margin:0px;
 	}
 
+}
+
+
+
+
+
+
+
+
+/* myConsole */
+	.myConsole {		
+		font-family:Verdana,Geneva,sans-serif;
+		left:2px;
+		opacity:0.9;
+		filter: alpha(opacity = 90);
+
+		position:fixed;
+		top:2px;
+		z-index:1000;
+	}
+	
+	.alertBox{
+		left:50%;
+		width:400px;
+		margin-left:-200px;
+	}
+		
+	.myConsole span{
+		margin-left:5px;	
+		margin-right:-5px;
+		-moz-border-radius: 3px; /* For FireFox */
+		-webkit-border-radius: 3px; /* For Safari/Chrome */
+		border-radius: 3px; /* For when the standard gets fully supported */
+	}
+	.myConsole .error {
+		background-color:#C00!important;		
+	}
+	
+	.myConsole p.alert {	
+		background-image:url(../images/alertIconMedium.png);
+		background-position:10px 10px;
+		background-repeat:no-repeat;
+		padding:10px 10px 10px 40px;
+		color:#FF9;
+		width:350px;
+		font-size:1.3em;	
+		white-space:normal;
+		line-height:1.5em;			
+	}
+	
+	.myConsole p.info{	
+		background-image:url(../images/info.png);
+		background-position:10px 10px;
+		background-repeat:no-repeat;
+		padding:10px 10px 10px 40px;
+		background-color:#B1C8D8;
+		color:#333;
+		width:350px;
+		font-size:1.3em;	
+		white-space:normal;
+		line-height:1.5em;			
+	}
+	
+	.myConsole span.error {
+		padding:5px;
+	}
+	.myConsole span.ok {
+		background-color:#090!important;
+		padding:5px;
+	}
+
+	.myConsole p{
+		background-color:#444444;
+		color:#FFFFFF;
+		font-size:1em;
+		font-weight:bold;
+		margin:0px;
+		margin-bottom:2px;
+		padding:8px;				
+		cursor:pointer;
+		white-space:nowrap;
+		-moz-border-radius: 4px; /* For FireFox */
+		-webkit-border-radius: 4px; /* For Safari/Chrome */
+		border-radius: 4px; /* For when the standard gets fully supported */
+		-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+		-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);			
+		overflow:hidden;	
+		float:left;
+		clear:both;
+	}
+	
+@media print{
+	.myConsole{
+		display:none!important;	
+	}	
 }
