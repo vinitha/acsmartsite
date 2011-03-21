@@ -214,7 +214,7 @@ var advQueryObj=(function(){
 
 
 
-    //Switch    
+    //Switch widget   
     function doSwitch(ulElem){
         //setting the widget custom event
         ulElem.bind("change",function(e,currentA){
@@ -230,8 +230,8 @@ var advQueryObj=(function(){
         //widget init.
         ulElem.trigger("change",ulElem.find(".current a"))
         
-        //defining the click event delegation
-        $("ul.switch a").live("click",function(e){
+        //defining the click event
+        ulElem.find("a").click(function(e){
             e.preventDefault();
             
             var $this=$(this);
