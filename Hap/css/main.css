@@ -196,14 +196,11 @@ h2{
 
 /* searchPanel */
 	#searchPanel{
-		background-color:#e0e0e0;
-		
+		background-color:#e0e0e0;		
 		-moz-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.5);		
 		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* CSS3    */
-		-webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* Webkit  */
-		
-		padding:10px;
-		
+		-webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* Webkit  */		
+		padding:10px;		
 		margin-bottom:30px;
 	}
 	.js #searchPanel h3{
@@ -287,8 +284,7 @@ h2{
 		color: #FFFFFF;
 		font-size: 1.2em;
 		font-weight: bold;
-		padding: 1px 3px;
-		
+		padding: 1px 3px;		
 		-moz-border-radius: 3px; /* For FireFox */
 		-webkit-border-radius: 3px; /* For Safari/Chrome */
 		border-radius: 3px; /* For when the standard gets fully supported */		
@@ -314,8 +310,7 @@ h2{
 		cursor: pointer;
 		font-weight: bold;
 		margin-right: 5px;
-		padding: 0 4px;
-		
+		padding: 0px 4px;		
 		-moz-border-radius: 3px; /* For FireFox */
 		-webkit-border-radius: 3px; /* For Safari/Chrome */
 		border-radius: 3px; /* For when the standard gets fully supported */		
@@ -365,8 +360,7 @@ h2{
 		padding-left:122px;
 		line-height:49px;
 		background-position:1px 1px;
-		background-repeat:no-repeat;
-		
+		background-repeat:no-repeat;		
 		-moz-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.5);		
 		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* CSS3    */
 		-webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5); /* Webkit  */
@@ -519,7 +513,6 @@ h2{
 		left:2px;
 		opacity:0.9;
 		filter: alpha(opacity = 90);
-
 		position:fixed;
 		top:2px;
 		z-index:1000;
@@ -588,9 +581,9 @@ h2{
 		-moz-border-radius: 4px; /* For FireFox */
 		-webkit-border-radius: 4px; /* For Safari/Chrome */
 		border-radius: 4px; /* For when the standard gets fully supported */
-		-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-		-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);			
+		-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+		-moz-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+		box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);			
 		overflow:hidden;	
 		float:left;
 		clear:both;
