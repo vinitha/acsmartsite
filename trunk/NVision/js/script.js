@@ -222,6 +222,7 @@ $().ready(function(){
             }
         })
         
+    /*
     //pulse BG "animation"
     setTimeout(function(){
         var fx=$("<div/>")
@@ -229,7 +230,7 @@ $().ready(function(){
                     .addClass("bgFX")            
                     .fadeTo(2000,1,function(){fx.fadeTo(2000,0.2,function(){fx.fadeTo(600,1)})})    
     },1000)
-    
+    */
 
 })
 

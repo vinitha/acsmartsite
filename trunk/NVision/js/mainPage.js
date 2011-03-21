@@ -16,26 +16,72 @@ $().ready(function(){
 
 
 
-var bmMatrix={
-    matrix:null,
-    buildWidget:function(data){
-        bmMatrix.matrix=data.MarketsMatrix;
+var bmMatrix=(function(){
+    var _matrix=null;
+    var filterObj={};
+    
+    _buildWidget=function(data){
+        _matrix=data.MarketsMatrix;
         
-        console.dir(bmMatrix.getBMs(null,"Ncsa",null))
-    },
+        var cmbAsset=$("#asset"),
+            cmbRegion=$("#region"),
+            cmbExchange=$("#exchange")
 
-    getBMs:function (asset,region,exchange){
         
-        var obj=bmMatrix.getObjsAtLevel(bmMatrix.matrix,0,asset);
-        obj=bmMatrix.getObjsAtLevel(obj,1,region);
-        obj=bmMatrix.getObjsAtLevel(obj,2,exchange);
+        //creating the first level buttons
+        _populateCombo(cmbAsset,"Asset class",_getObjsAtLevel(_matrix,0))
+        _populateCombo(cmbRegion,"Regions",_getObjsAtLevel(_matrix,1))
+        _populateCombo(cmbExchange,"Exchange",_getObjsAtLevel(_matrix,2))
+              
+            
+        $("#marketPicker select").change(function(ev){
+                var comboVal=$(this).attr("value");
+                
+                filterObj[this.id]=(comboVal=="")?null:comboVal;
+                        
+                var bmTable=_getBMs(filterObj);            
+            
+            $("#availableBMs").empty();
+            
+            var bms=_getObjsAtLevel(bmTable,2);
+            
+            for(var bm in bms){
+                $("<a />")
+                    .attr("href","#" + bm)
+                    .text(bm)
+                    .appendTo("#availableBMs")
+            }
+        })
+            
         
-        return obj
+    };
     
-    },
+    _populateCombo=function(combo,title,data){
+        combo.empty();
+        
+        $("<option />")
+            .text("- - -")
+            .attr("value","")
+            .appendTo(combo)
+            
+        for (var obj in data){
+            $("<option/>")
+                .text(obj)
+                .attr("value",obj)
+                .appendTo(combo)
+        }
+    };
+
+    _getBMs=function (filters){        
+        var obj=_getObjsByName(_matrix,0,filters.asset);
+        obj=_getObjsByName(obj,1,filters.region);
+        obj=_getObjsByName(obj,2,filters.exchange);
+        
+        return obj    
+    };
     
-    getObjsAtLevel:function(obj,level,name){
-        //traverses an object and returns an hashtable of that object Nth-level children (optionally filtered by "name").
+    _getObjsByName=function(obj,level,name){
+        //traverses an object and returns an hashtable of that object filtered by "name".
         
         var newObj={};
         
@@ -49,7 +95,7 @@ var bmMatrix={
         var hasChildren=false;
         for (var o in obj){
             
-            var child=bmMatrix.getObjsAtLevel(obj[o],level,name)
+            var child=_getObjsByName(obj[o],level,name)
             if(child){
                 newObj[o]=child;
                 hasChildren=true;
@@ -57,8 +103,66 @@ var bmMatrix={
             
         }
         return hasChildren?newObj:null;
+    };   
+    
+    _getObjsAtLevel=function(obj,level){
+        //traverses an object and returns an hashtable of that object Nth-level children.
+        
+        var newObj={};
+        
+        if (level==0){
+            return obj
+        }
+        
+        level--;
+        
+        for (var o in obj){
+            
+            var child=_getObjsAtLevel(obj[o],level)
+            
+            for (var c in child){
+                newObj[c]=child[c]
+            }            
+        }
+        return newObj;
 
-    }
+    };      
+    
+    
+    return   {
+       buildWidget:_buildWidget, 
+    };
+    
+    })();
+
+
+
+
+
+
+
+
+//Switch widget   
+function doSwitch(ulElem){
+    //setting the widget custom event
+    ulElem.bind("change",function(e,currentA){
+            if(!currentA){return false};
+            
+            var $A=$(currentA);
+            $A.closest("ul")
+                .data("value",$A.attr("hash").replace("#",""))
+                .find("li").removeClass("current");
+            $A.closest("li").addClass("current")
+        });
+        
+    //widget init.
+    ulElem.trigger("change",ulElem.find(".current a"))
+    
+    //defining the click event
+    ulElem.find("a").click(function(e){
+        e.preventDefault();
+        
+        var $this=$(this);
+        $this.closest("ul").trigger("change",$this)
+    })        
 }
-
-

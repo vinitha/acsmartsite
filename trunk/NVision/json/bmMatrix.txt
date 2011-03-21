@@ -3,20 +3,20 @@
         "Listed derivatives":{
             "Emea":{
                 "Eurex":{"name":"Eurex","id":"BM_1"},
-                "Kospi":{"name":"xxx","id":"BM_2"},
-                "CME":{"name":"xxx","id":"BM_3"}
+                "Kospi":{"name":"xxx_2","id":"BM_2"},
+                "CME":{"name":"xxx_3","id":"BM_3"}
             },            
             
             "Ncsa":{
-                "Eurex":{"name":"xxx","id":"BM_4"},
-                "Kospi":{"name":"xxx","id":"BM_5"},
-                "CME":{"name":"xxx","id":"BM_6"}
+                "Eurex":{"name":"xxx_4","id":"BM_4"},
+                "Kospi":{"name":"xxx_5","id":"BM_5"},
+                "CME":{"name":"xxx_6","id":"BM_6"}
             },
             
             "Seap":{
-                "Eurex":{"name":"xxx","id":"BM_7"},
-                "Kospi":{"name":"xxx","id":"BM_8"},
-                "CME":{"name":"xxx","id":"BM_9"}
+                "Eurex":{"name":"xxx_7","id":"BM_7"},
+                "Kospi":{"name":"xxx_8","id":"BM_8"},
+                "CME":{"name":"xxx_9","id":"BM_9"}
             }            
         },
         
@@ -24,19 +24,19 @@
         
         "Otc":{
             "Emea":{
-                "Kospi":{"name":"xxx","id":"BM_11"},
-                "CME":{"name":"xxx","id":"BM_12"}
+                "Kospi":{"name":"xxx_11","id":"BM_11"},
+                "CME":{"name":"xxx_12","id":"BM_12"}
             },            
             
             "Ncsa":{
-                "Eurex":{"name":"xxx","id":"BM_13"},
-                "Kospi":{"name":"xxx","id":"BM_14"}
+                "Eurex":{"name":"xxx_13","id":"BM_13"},
+                "Kospi":{"name":"xxx_14","id":"BM_14"}
             },
             
             "Seap2":{
-                "Eurex":{"name":"xxx","id":"BM_16"},
-                "Kospi":{"name":"xxx","id":"BM_17"},
-                "CME":{"name":"xxx","id":"BM_18"}
+                "Eurex":{"name":"xxx_16","id":"BM_16"},
+                "Kospi":{"name":"xxx_17","id":"BM_17"},
+                "CME2":{"name":"xxx_18","id":"BM_18"}
             }      
         }                
     }
