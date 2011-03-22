@@ -35,19 +35,21 @@
           
       <div id="marketPicker">
         <!-- js generated content goes here -->
-        <label for="asset">Asset class
+        <label for="asset"><span>Asset class</span>
         <select id="asset"></select></label>
         
-        <label for="region">Regions
+        <label for="region"><span>Regions</span>
         <select id="region"></select></label>
         
-        <label for="exchange">Exchange
+        <label for="exchange"><span>Exchange</span>
         <select id="exchange"></select></label>
       </div>
       
       <div id="availableBMs">
         <!-- js generated content goes here -->
+        <p class="info">Please use the above DropDowns to select the Business Market to open.</p>
       </div>
+      <p class="tip"><strong>Ctrl + click</strong> to open it in a new Tab.</p>
       
     </div>
     
@@ -63,7 +65,8 @@
   <script type="text/javascript">
     //use this object to configure the app. settings
     var sysConfig={
-          bmMatrix:"json/bmMatrix.txt"          
+          bmMatrix:"json/bmMatrix.txt",
+          bmUrl:"index.html"
     }
   </script>
   

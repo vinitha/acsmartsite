@@ -248,7 +248,6 @@
 	background-color:transparent;
 	background-image:url(../images/black50.png);
 	margin:100px auto;
-	height:200px;
 
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
@@ -998,45 +997,79 @@
 /* marketPicker */
 	#marketPicker{
 		overflow:hidden;
-		padding:0px 10px;
+		padding:4px 10px;
+		background-color:#333;
 	}
 	
-	#marketPicker ul{
+	#marketPicker label{
 		float:left;
 		margin-right:10px;
 	}
 	
-	
-	#marketPicker li{
-		margin-bottom:5px;
+	#marketPicker label span{
+		font-size:1.1em;
+		color:#ddd;
 	}
 	
-	#marketPicker ul a{
+	.tip{
+		background-color: #666;
+		background-image: url("../images/tip.png");
+		background-position: 5px 50%;
+		background-repeat: no-repeat;
+		color: #333333;
+		display: none;
+		font-size: 1.1em;
+		font-style: italic;
+		margin: 5px;
+		padding: 3px 0 3px 25px;
+		-moz-border-radius: 5px; /* For FireFox */
+		-webkit-border-radius: 5px; /* For Safari/Chrome */
+		border-radius: 5px; /* For when the standard gets fully supported */			
+	}
+	
+	#availableBMs{
+		padding:10px 0px 10px 5px;
+		overflow:hidden;
+		max-height:125px;
+		overflow-y:auto;
+	}
+	
+	#availableBMs p{
+		margin:20px 0px;
+		color:#ccc;
 		font-size:1.2em;
-		display:block;
+		font-style:italic;
+		text-align:center;
+	}
+	
+	#availableBMs a{
+		float:left;
+		font-size:1.2em;
 		padding:2px 10px;
-		color:#aaa;
-		background-color:#666;
+		color:#a4b0bf;
+		background-color:#677789;
+		margin-right:5px;
+		margin-top:5px;
 		
 		border:1px solid transparent;
 
 		-moz-border-radius: 3px; /* For FireFox */
 		-webkit-border-radius: 3px; /* For Safari/Chrome */
-		border-radius: 3px; /* For when the standard gets fully supported */		
+		border-radius: 3px; /* For when the standard gets fully supported */			
+		
 	}
 	
-	#marketPicker ul .current a,
-	#marketPicker ul a:hover,
-	#marketPicker ul a:focus{		
-		color:#eee;
-		background-color:#999;
+	#availableBMs a:hover,
+	#availableBMs a:focus{		
+		color:#fff;
+		background-color:#8d9daf;
 		outline:none;
 		border-color:#ccc;
-	}	
-	
-	
-	
-	
+
+		background-image: url("../images/btnBG.png");
+		background-position: 50% 52%;
+		background-repeat:no-repeat;
+	}		
 	
 	
 	

@@ -13,11 +13,11 @@ $(function(){
         newStatus.tabId=newStatus.tabId?newStatus.tabId:"tab_1";
         
         //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
-        if(!newStatus.BM){
+        if(!newStatus.BM && !NVision.appStatus.BM){
             myConsole.alert("Business Market undefined!")
-            //return false;
+            return false;
         }
-        NVision.appStatus.BM=newStatus.BM||"xxx";
+        NVision.appStatus.BM=newStatus.BM||NVision.appStatus.BM;
         
         
         //updating the tabMenu
@@ -33,7 +33,7 @@ $(function(){
                 NVision.tabMenuDefaults[newStatus.tabId]();
             }
             NVision.appStatus.currentTab=newStatus.tabId;
-            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab}
+            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab, BM:NVision.appStatus.BM}
                         
             return false;
         }
@@ -134,7 +134,7 @@ $().ready(function(){
         NVision.appStatus.currentTab=this.hash.replace("#","");
         
         if(!NVision.appStatus[NVision.appStatus.currentTab]){
-            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab}
+            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab,BM:NVision.appStatus.BM}
         }
         
         $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);           
@@ -638,7 +638,12 @@ var NVision={
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 myConsole.error(textStatus || errorThrown);
             },
-            success:function(data){
+            success:function(dataObj){
+                
+                $("#businessMarket strong").text(dataObj.bm);
+                
+                var data=dataObj.composition;
+                
                 //add the objects to NVision
                 $(data).each(function(){
                     switch(this.type){
@@ -1028,8 +1033,7 @@ var NVision={
                     cb.addClass("updating");
                     
                     reqObj.timeStamp=now;
-                     
-                    
+
                     //generating the ajax request
                     myAjax({
                         logMsg:null,//"Updating sys.: " + reqObj.callerObj.name,
