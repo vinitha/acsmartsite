@@ -34,8 +34,30 @@ $().ready(function(){
     var advForm=$("#advSearch"),
         fieldset=advForm.find("fieldset").eq(0),
         select=fieldset.find("select"),
-        input=fieldset.find("input");
+        input=fieldset.find("input"),
+        addRuleBtn=fieldset.find("a.addRule");
+    
+    //changing the input field according to the selected data-type
+    select.change(function(e){
+        var opt=$(this).find("option:selected"),
+            type=opt.data("type");
+            
+            input.remove();
+        switch(type){
+            case "text":
+                input=$('<input class="testo" type="text" id="valore_1" name="avanzata" value="" />').insertBefore(addRuleBtn)
+            break;
+            
+            case "date":                
+                $('<input maxlength="10" class="date" title="da" type="text" id="date_From" name="date_From" value="" />').insertBefore(addRuleBtn);
+                $('<input maxlength="10" class="date" title="a" type="text" id="date_to" name="date_to" value="" />').insertBefore(addRuleBtn);
+                input=fieldset.find("input");
+            break;
+        }
         
+    })
+    
+    
     
     //on adv submit..
     advForm.submit(function(e){
@@ -58,21 +80,48 @@ $().ready(function(){
     advQueryObj.showOn(div)
     
     //handling the + button
-    fieldset.find("a.addRule").click(function(e){
+    addRuleBtn.click(function(e){
         e.preventDefault();
-        if(input.val()!=""){
-            input.removeClass("error");
+        
+        var opt=select.find("option:selected"),
+            type=opt.data("type");
             
-            advQueryObj.addQuery({
-                name:select.val(),
-                value:input.val()
-            })
-            input.val("");
-                        
-        }else{
-            myConsole.alert("Inserire il valore su cui effettuare la ricerca!")
-            input.addClass("error").focus();
-        }
+        switch(type){
+            case "text":
+                if(input.val()!=""){
+                    input.removeClass("error");
+                    
+                    advQueryObj.addQuery({
+                        name:select.val(),
+                        value:input.val()
+                    })
+                    input.val("");
+                                
+                }else{
+                    myConsole.alert("Inserire il valore su cui effettuare la ricerca!")
+                    input.addClass("error").focus();
+                }                
+            break;
+            
+            case "date":
+                var da=input.eq(0),
+                    a=input.eq(1);
+                    
+                if(da.val()=="" && a.val()==""){
+
+                    myConsole.alert("Inserire almeno una data!")
+                    input.eq(0).addClass("error").focus();
+                                                    
+                }else{
+                                        
+                    input.removeClass("error");                    
+                    advQueryObj.addQuery({
+                        name:select.val(),
+                        value:(da.val()||" - - ") + " , " + (a.val()||" - - ")
+                    })                   
+                }
+            break;
+        }        
         
     })
   
