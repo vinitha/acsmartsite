@@ -20,36 +20,232 @@
   <link id="_popup" rel="stylesheet" href="css/popup.css?v=1" />    
   <link rel="stylesheet" href="css/reset.css?v=1" />
   <link rel="stylesheet" href="css/main.css?v=1" />
+  <link rel="stylesheet" href="css/smoothness/jquery-ui-1.8.9.custom.css?v=1" />  
 </head>
 
-<body class="mainPage">
+<body>
 
   <div id="container">
     <div id="header">
-      <h1><a title="NVision home page" href="/main.html"></a><span>NewEdge: NVision</span></h1>      
+      <h1><a title="Back to the B.M. selector" href="/index.html"></a><span>NewEdge: NVision</span></h1>
+      
+      <div id="menuBar">        
+        <!-- main menu -->
+          <ul id="mainMenu" class="tabMenu">
+            <li class="current"><a href="#tab_1"><span>Trade Lifeycle</span></a></li>
+            <li><a href="#tab_2"><span>Analysis &amp; Reports</span></a></li>
+            <li><a href="#tab_3"><span>Admin</span></a></li>
+          </ul> 
+        <!-- *** -->              
+      </div>
+      
+      <!-- search -->
+        <form id="searchForm" action="dummy action">
+          <fieldset id="basicSearch">
+            <label class="hidden" for="keyword">Search</label>
+            <input type="text" name="keyword" id="keyword" class="mandatory" value="" />
+            <button type="submit" class="searchBtn button"><span></span></button>
+            <a class="advPanel" href="#advancedSearch" title="Click to expand/contract"><span class="adv">Advanced</span><span class="bas">Standard</span></a>                        
+          </fieldset>
+
+          
+          <fieldset id="advancedSearch" >
+            <label>
+              <span class="label">Market:</span>
+              <select name="market">
+                <option value="01">Eurex</option>
+                <option value="02">Option 2</option>
+                <option value="03">Option 3</option>
+              </select>
+            </label>
+            
+            <label>
+              <span class="label">Asset Class:</span>
+              <select name="asset">
+                <option value="01">Listed derivates</option>
+                <option value="02">Option 2</option>
+                <option value="03">Option 3</option>
+              </select>
+            </label>            
+            
+            <label>
+              <span class="label">Acc. type:</span>
+              <select name="accType">
+                <option value="01">Option 1</option>
+                <option value="02">Option 2</option>
+                <option value="03">Option 3</option>
+              </select>
+            </label>
+            
+            <label>
+              <span class="label">Order No:</span>
+              <input class="mandatory" type="text" name="orderN" value="" />  
+            </label>          
+            
+            <label>
+              <span class="label">Contract:</span>
+              <input type="text" name="contract" value="" />  
+            </label>
+            
+            <p>
+              <span class="label">Exp. date:</span>
+              <input type="text" class="datePicker short" name="expDate" />
+              <input type="text" class="timePicker short" name="expTime" />
+            </p>            
+            
+            <div class="hr"></div>
+            
+            <p>
+              <span class="label">Trade type:</span>
+              
+              <input type="radio" id="tt_Buy" name="tradeType" value="Buy"/>
+              <label class="chkLabel" for="tt_Buy">Buy</label>
+              
+              <input type="radio" id="tt_Sell" name="tradeType" value="Sell" />
+              <label class="chkLabel" for="tt_Sell">Sell</label>
+              
+              <input checked="checked" type="radio" id="tt_Both" name="tradeType" value="Both" />
+              <label class="chkLabel" for="tt_Both">Both</label>              
+            </p>
+            
+            <label>
+              <span class="label">Price:</span>
+              <input type="text" class="currency short" name="price" value="" />  
+            </label>            
+            
+            <label>
+              <span class="label">Price type:</span>
+              <select name="priceType">
+                <option value="01">Strike</option>
+                <option value="02">Option 2</option>
+                <option value="03">Option 3</option>
+              </select>
+            </label>            
+            
+            <label>
+              <span class="label">Quantity:</span>
+              <input type="text" class="integer" name="quantity" value="" />  
+            </label>             
+                        
+            <p>
+              <span class="label">Trade date:</span>
+              <input type="text" class="datePicker" name="tradeDate" />
+            </p>
+            
+            <p>
+              <span class="label">Trade time:</span>
+              <input type="text" title="from" class="timePicker short" name="tradeFrom" value="from" />
+              <input type="text" title="to" class="timePicker short" name="tradeTo" value="to"/>
+            </p>
+            
+            <div class="hr"></div>
+            
+            <p>
+              <span class="label">Other:</span>
+              <select name="other" class="short">
+                <option value="broker">Broker =</option>
+                <option value="traderId">Trader Id =</option>
+                <option value="tradingRef">Trading Ref =</option>
+                <option value="inputAgent">Input agent =</option>
+              </select>
+              <input type="text" class="short other" name="otherVal" value="" /> 
+            </p>            
+            
+            
+            
+            <label>
+              <span class="label">Client Id:</span>
+              <input type="text" name="clientId" value="" />  
+            </label>
+            
+            <label>
+              <span class="label">Client acc. Id:</span>
+              <input type="text" name="clientAccountId" value="" />  
+            </label>
+            
+            <div class="hr"></div>
+            
+            <input type="reset" title="Clear the form" class="resetBtn" value="reset" />
+            <button type="submit" class="searchBtn button"><span>Search</span></button>
+            
+            
+          </fieldset>
+        </form>
+      <!-- *** -->
+            
+      
     </div>
     
     <div id="main">
-      <h2 id="businessMarket">Business Markets:</h2>
       
+      <!-- filtersView -->      
+        <div id="filtersView">
           
-      <div id="marketPicker">
-        <!-- js generated content goes here -->
-        <label for="asset"><span>Asset class</span>
-        <select id="asset"></select></label>
+          <h2 id="businessMarket">Business market: <strong>- - -</strong></h2>
+          
+          <div id="dbTools">
+            
+          </div>
+                               
+          
+        </div>
+      <!-- *** -->
+      
+      <div class="tabContent current" id="tab_1">
         
-        <label for="region"><span>Regions</span>
-        <select id="region"></select></label>
+        <div id="tableView" class="view">
+          <!-- breadcrumb -->
+            <div id="bcBar">
+              <!--<p class="breadcrumb">You are here:<a href="#parent">Trade Lifecycle</a> / <span>Trade Breaks</span></p>-->
+              
+              <p class="breadcrumb"><a id="backToDB" title="Go back to the DashBoard" href="#dashBoard"><span>back to the DashBoard</span></a></p>              
+          
+              <div class="tools">
+                <ul>
+                  <li><a title="Export to Excell" id="export" class="export button" href="#export"><span>Export</span></a></li>
+                  <li><a title="Print" class="print button" href="#print"><span>Print</span></a></li>
+                  <li id="updatesBtn">
+                    <a href="#update" title="Automatic updates" class="button"><span>0</span></a> 
+                  </li>                  
+                </ul>
+              </div>
+            </div>
+          <!-- *** -->        
+          
+          <h2 id="systemName"><span>system name</span></h2>
+          
+          <form id="tradesFilters" method="post" action="#">
+            <!-- the content is automatically generated by javascript -->            
+          </form>
+              
+          <!-- data toolBar -->
+            <div id="toolBar">
+              <ul class="buttons">                                
+                <li><a id="resubmitBtn" class="button off" title="Resubmit" href="#resubmit">Resubmit</a></li>
+                <li><a id="overwriteBtn" class="button off" title="Overwrite" href="#overwrite">Overwrite</a></li>
+                <li><a id="resubmitted" class="link" title="View resubmitted Trades" href="#resubmitted">View resubmitted Trades</a></li>                
+              </ul>
+              <div id="pagination">
+              </div>
+            </div>
+          <!-- *** -->
+            
+          <!-- table -->
+            <div id="tableData">
+              <!-- the content is automatically generated by javascript -->
+            </div>          
+          <!-- * table * -->
+        </div>
         
-        <label for="exchange"><span>Exchange</span>
-        <select id="exchange"></select></label>
+        <div id="dashBoardView" class="view">
+          <div id="dbContent">
+            
+          </div>
+        </div>                 
+        
       </div>
       
-      <div id="availableBMs">
-        <!-- js generated content goes here -->
-        <p class="info">Please use the above DropDowns to select the Business Market to open.</p>
-      </div>
-      <p class="tip"><strong>Ctrl + click</strong> to open the B.M. in a new Tab.</p>
+      
       
     </div>
     
@@ -61,16 +257,44 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.5.1.min.js"%3E%3C/script%3E'))</script>
   
-
   <script type="text/javascript">
     //use this object to configure the app. settings
     var sysConfig={
-          bmMatrix:"json/bmMatrix.txt",
-          bmUrl:"index.html"
+          //called once when the system starts
+          sysComposition:"json/sysComposition.txt",   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          
+          //called by the dashBoardView view
+          sysUpdates:"json/sysUpdates.txt",           //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          
+          //called by the tableView view
+          sysTrades:"json/systemTrades.txt",
+          
+          //called when the user clicks on a row in the tableView
+          tradeDetails:"json/tradeDetails.txt",
+          
+          //Url which receives the overwrite request
+          overwriteRequest:"json/nok.txt",
+          
+          resubmitRequest:"json/ok.txt",
+          
+          msgDetails:"json/msgDetails.txt",
+          
+          searchUrl:"json/searchResults.txt",
+          
+          //tableView configuration 
+          tableView:{
+            itemsPerPage:20
+          }
     }
+
   </script>
   
-  <script src="js/mainPage.js"></script>  
+  <script src="js/jquery-ui-1.8.9.custom.min.js"></script>
+  <script src="js/raphael.js"></script>
+  <script src="js/hashChange.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>  
+  <script src="js/objects.js"></script>
   
 </body>
 </html>

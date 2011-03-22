@@ -113,7 +113,7 @@
 		color:#999;		
 	}
 	
-	.mainPage #businessMarket{
+	.indexPage #businessMarket{
 		color:#eee;
 		padding:10px;
 	}
@@ -243,7 +243,7 @@
 	background-color:#eee;
 }
 
-.mainPage #main{
+.indexPage #main{
 	width:500px;
 	background-color:transparent;
 	background-image:url(../images/black50.png);
