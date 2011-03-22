@@ -105,16 +105,6 @@ $().ready(function(){
     //$("select").ixDropDown();
     
     
-    //making the logo sending the user to the dashBoard
-    $("h1 a").click(function(e){
-        e.preventDefault();
-        
-        
-        NVision.appStatus.currentTab="tab_1";
-        NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};
-        $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);  
-    })
-    
     //setting the main tabMenus custom events
     var tabMenu=$("#mainMenu");
     tabMenu.bind("showTab",function(e,tabId){
