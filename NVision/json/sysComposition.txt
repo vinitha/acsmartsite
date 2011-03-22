@@ -1,332 +1,328 @@
                                                                      
                                                                      
-                                                                     
-                                             
-[
-    {
-        "type":"exchange",
-        "name":"Exchange",
-        "id":"exchange"
-    },
-
-
-
-
-
-
-
-
-
-
+{
+    "bm":"Eurex 2",
+    "composition":[
+    
+        {
+            "type":"exchange",
+            "name":"Exchange",
+            "id":"exchange"
+        },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+        {
+            "type":"system",
+            "name":"ClearVision CORE",
+            "id":"ClearVisionCORE"
+        },
         
-    {
-        "type":"system",
-        "name":"ClearVision CORE",
-        "id":"ClearVisionCORE"
-    },
+        {
+            "type":"system",
+            "name":"TEO CORE",
+            "id":"TEOCORE"
+        },    
+        
+        {
+            "type":"system",
+            "name":"Newclear Lite CORE",
+            "id":"NewclearLiteCORE"
+        },
+        
+        {
+            "type":"system",
+            "name":"GMI CORE",
+            "id":"GMICORE"
+        },    
+        
+        {
+            "type":"system",
+            "name":"UBIX CORE",
+            "id":"UBIXCORE"
+        },    
+        
+        {
+            "type":"system",
+            "name":"Newclear CORE",
+            "id":"NewclearCORE"
+        },
+        
+        {
+            "type":"system",
+            "name":"CAA CORE",
+            "id":"CAACORE"
+        },    
+        
+        
+        
+        
+        
+        
+        
     
-    {
-        "type":"system",
-        "name":"TEO CORE",
-        "id":"TEOCORE"
-    },    
+        
+        
+        
     
-    {
-        "type":"system",
-        "name":"Newclear Lite CORE",
-        "id":"NewclearLiteCORE"
-    },
-    
-    {
-        "type":"system",
-        "name":"GMI CORE",
-        "id":"GMICORE"
-    },    
-    
-    {
-        "type":"system",
-        "name":"UBIX CORE",
-        "id":"UBIXCORE"
-    },    
-    
-    {
-        "type":"system",
-        "name":"Newclear CORE",
-        "id":"NewclearCORE"
-    },
-    
-    {
-        "type":"system",
-        "name":"CAA CORE",
-        "id":"CAACORE"
-    },    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-    {
-        "type":"adapter",
-        "name":"ClearVision IN",
-        "updatesInterval":10000,
-        "id":"ClearVisionIN"
-    },
-    {
-        "type":"adapter",
-        "name":"Newclear Out",
-        "updatesInterval":10000,
-        "id":"NewclearOut"
-    },
-    {
-        "type":"adapter",
-        "name":"Newclear Ticket TEO",
-        "updatesInterval":10000,
-        "id":"NewclearTicketTEO"
-    },
-    {
-        "type":"adapter",
-        "name":"TEO Out",
-        "updatesInterval":10000,
-        "id":"TEOOut"
-    },
-    {
-        "type":"adapter",
-        "name":"Newclear Ticket CAA",
-        "updatesInterval":10000,
-        "id":"NEWCLEAR-TICKET-IN"
-    },
-    {
-        "type":"adapter",
-        "name":"Newclear Market IN",
-        "updatesInterval":10000,
-        "id":"NEWCLEAR-MARKET-IN"
-    },
-    {
-        "type":"adapter",
-        "name":"Newclear Lite IN",
-        "updatesInterval":10000,
-        "id":"NEWCLEAR-LITE-MARKET-IN"
-    },
-    {
-        "type":"adapter",
-        "name":"Exchange Adapter",
-        "updatesInterval":10000,
-        "id":"EUREX"
-    },
-    {
-        "type":"adapter",
-        "name":"GMI IN",
-        "updatesInterval":10000,
-        "id":"GMI"
-    },
-    {
-        "type":"adapter",
-        "name":"UBIX IN",
-        "updatesInterval":10000,
-        "id":"UBIXIN"
-    },
-    
-    
-    
-    
-    
-    
-    
-    
-    {
-        "type":"root",
-        "name":"High Touch",
-        "id":"HighTouch"
-    },
-    {
-        "type":"root",
-        "name":"Low Touch",
-        "id":"LowTouch"
-    },
-    {
-        "type":"root",
-        "name":"Exec Only",
-        "id":"ExecOnly"
-    },
-    {
-        "type":"root",
-        "name":"Not NVision",
-        "id":"NotNVision"
-    },
-    
-    
-    
-    
-    
-    
- 
-    {
-        "type":"link",
-        "id":"L1",
-        "from":"exchange",
-        "to":"ClearVisionCORE"
-    },
-    {
-        "type":"link",
-        "id":"L2",
-        "from":"ClearVisionCORE",
-        "to":"exchange"
-    },
-    {
-        "type":"link",
-        "id":"L3",
-        "from":"ClearVisionIN",
-        "to":"ClearVisionCORE"
-    },
-    {
-        "type":"link",
-        "id":"L4",
-        "from":"NewclearOut",
-        "to":"ClearVisionIN"
-    },
-    {
-        "type":"link",
-        "id":"L5",
-        "from":"NewclearCORE",
-        "to":"NewclearOut"
-    },
-    {
-        "type":"link",
-        "id":"L6",
-        "from":"NEWCLEAR-MARKET-IN",
-        "to":"NewclearCORE"
-    },
-    {
-        "type":"link",
-        "id":"L7",
-        "from":"NewclearTicketTEO",
-        "to":"NewclearCORE"
-    },
-    {
-        "type":"link",
-        "id":"L8",
-        "from":"NEWCLEAR-TICKET-IN",
-        "to":"NewclearCORE"
-    },
-    {
-        "type":"link",
-        "id":"L9",
-        "from":"TEOCORE",
-        "to":"TEOOut"
-    },
-    {
-        "type":"link",
-        "id":"L10",
-        "from":"CAACORE",
-        "to":"NEWCLEAR-TICKET-IN"
-    },
-    {
-        "type":"link",
-        "id":"L11",
-        "from":"HighTouch",
-        "to":"NEWCLEAR-MARKET-IN"
-    },
-    {
-        "type":"link",
-        "id":"L12",
-        "from":"exchange",
-        "to":"EUREX"
-    },
-    {
-        "type":"link",
-        "id":"L13",
-        "from":"EUREX",
-        "to":"HighTouch"
-    },
-    {
-        "type":"link",
-        "id":"L14",
-        "from":"EUREX",
-        "to":"LowTouch"
-    },
-    {
-        "type":"link",
-        "id":"L15",
-        "from":"EUREX",
-        "to":"ExecOnly"
-    },
-    {
-        "type":"link",
-        "id":"L16",
-        "from":"LowTouch",
-        "to":"NEWCLEAR-LITE-MARKET-IN"
-    },
-    {
-        "type":"link",
-        "id":"L17",
-        "from":"LowTouch",
-        "to":"GMI"
-    },
-    {
-        "type":"link",
-        "id":"L18",
-        "from":"ExecOnly",
-        "to":"UBIXIN"
-    },
-    {
-        "type":"link",
-        "id":"L19",
-        "from":"UBIXIN",
-        "to":"UBIXCORE"
-    },
-    {
-        "type":"link",
-        "id":"L20",
-        "from":"GMI",
-        "to":"GMICORE"
-    },
-    {
-        "type":"link",
-        "id":"L21",
-        "from":"GMICORE",
-        "to":"NotNVision"
-    },
-    {
-        "type":"link",
-        "id":"L22",
-        "from":"NotNVision",
-        "to":"NewclearLiteCORE"
-    },
-    {
-        "type":"link",
-        "id":"L23",
-        "from":"NEWCLEAR-LITE-MARKET-IN",
-        "to":"NewclearLiteCORE"
-    },
-    {
-        "type":"link",
-        "id":"L24",
-        "from":"TEOOut",
-        "to":"NewclearTicketTEO"
-    },
-
-
-
-
- 
+        {
+            "type":"adapter",
+            "name":"ClearVision IN",
+            "updatesInterval":10000,
+            "id":"ClearVisionIN"
+        },
+        {
+            "type":"adapter",
+            "name":"Newclear Out",
+            "updatesInterval":10000,
+            "id":"NewclearOut"
+        },
+        {
+            "type":"adapter",
+            "name":"Newclear Ticket TEO",
+            "updatesInterval":10000,
+            "id":"NewclearTicketTEO"
+        },
+        {
+            "type":"adapter",
+            "name":"TEO Out",
+            "updatesInterval":10000,
+            "id":"TEOOut"
+        },
+        {
+            "type":"adapter",
+            "name":"Newclear Ticket CAA",
+            "updatesInterval":10000,
+            "id":"NEWCLEAR-TICKET-IN"
+        },
+        {
+            "type":"adapter",
+            "name":"Newclear Market IN",
+            "updatesInterval":10000,
+            "id":"NEWCLEAR-MARKET-IN"
+        },
+        {
+            "type":"adapter",
+            "name":"Newclear Lite IN",
+            "updatesInterval":10000,
+            "id":"NEWCLEAR-LITE-MARKET-IN"
+        },
+        {
+            "type":"adapter",
+            "name":"Exchange Adapter",
+            "updatesInterval":10000,
+            "id":"EUREX"
+        },
+        {
+            "type":"adapter",
+            "name":"GMI IN",
+            "updatesInterval":10000,
+            "id":"GMI"
+        },
+        {
+            "type":"adapter",
+            "name":"UBIX IN",
+            "updatesInterval":10000,
+            "id":"UBIXIN"
+        },
+        
+        
+        
+        
+        
+        
+        
+        
+        {
+            "type":"root",
+            "name":"High Touch",
+            "id":"HighTouch"
+        },
+        {
+            "type":"root",
+            "name":"Low Touch",
+            "id":"LowTouch"
+        },
+        {
+            "type":"root",
+            "name":"Exec Only",
+            "id":"ExecOnly"
+        },
+        {
+            "type":"root",
+            "name":"Not NVision",
+            "id":"NotNVision"
+        },
+        
+        
+        
+        
+        
+        
+     
+        {
+            "type":"link",
+            "id":"L1",
+            "from":"exchange",
+            "to":"ClearVisionCORE"
+        },
+        {
+            "type":"link",
+            "id":"L2",
+            "from":"ClearVisionCORE",
+            "to":"exchange"
+        },
+        {
+            "type":"link",
+            "id":"L3",
+            "from":"ClearVisionIN",
+            "to":"ClearVisionCORE"
+        },
+        {
+            "type":"link",
+            "id":"L4",
+            "from":"NewclearOut",
+            "to":"ClearVisionIN"
+        },
+        {
+            "type":"link",
+            "id":"L5",
+            "from":"NewclearCORE",
+            "to":"NewclearOut"
+        },
+        {
+            "type":"link",
+            "id":"L6",
+            "from":"NEWCLEAR-MARKET-IN",
+            "to":"NewclearCORE"
+        },
+        {
+            "type":"link",
+            "id":"L7",
+            "from":"NewclearTicketTEO",
+            "to":"NewclearCORE"
+        },
+        {
+            "type":"link",
+            "id":"L8",
+            "from":"NEWCLEAR-TICKET-IN",
+            "to":"NewclearCORE"
+        },
+        {
+            "type":"link",
+            "id":"L9",
+            "from":"TEOCORE",
+            "to":"TEOOut"
+        },
+        {
+            "type":"link",
+            "id":"L10",
+            "from":"CAACORE",
+            "to":"NEWCLEAR-TICKET-IN"
+        },
+        {
+            "type":"link",
+            "id":"L11",
+            "from":"HighTouch",
+            "to":"NEWCLEAR-MARKET-IN"
+        },
+        {
+            "type":"link",
+            "id":"L12",
+            "from":"exchange",
+            "to":"EUREX"
+        },
+        {
+            "type":"link",
+            "id":"L13",
+            "from":"EUREX",
+            "to":"HighTouch"
+        },
+        {
+            "type":"link",
+            "id":"L14",
+            "from":"EUREX",
+            "to":"LowTouch"
+        },
+        {
+            "type":"link",
+            "id":"L15",
+            "from":"EUREX",
+            "to":"ExecOnly"
+        },
+        {
+            "type":"link",
+            "id":"L16",
+            "from":"LowTouch",
+            "to":"NEWCLEAR-LITE-MARKET-IN"
+        },
+        {
+            "type":"link",
+            "id":"L17",
+            "from":"LowTouch",
+            "to":"GMI"
+        },
+        {
+            "type":"link",
+            "id":"L18",
+            "from":"ExecOnly",
+            "to":"UBIXIN"
+        },
+        {
+            "type":"link",
+            "id":"L19",
+            "from":"UBIXIN",
+            "to":"UBIXCORE"
+        },
+        {
+            "type":"link",
+            "id":"L20",
+            "from":"GMI",
+            "to":"GMICORE"
+        },
+        {
+            "type":"link",
+            "id":"L21",
+            "from":"GMICORE",
+            "to":"NotNVision"
+        },
+        {
+            "type":"link",
+            "id":"L22",
+            "from":"NotNVision",
+            "to":"NewclearLiteCORE"
+        },
+        {
+            "type":"link",
+            "id":"L23",
+            "from":"NEWCLEAR-LITE-MARKET-IN",
+            "to":"NewclearLiteCORE"
+        },
+        {
+            "type":"link",
+            "id":"L24",
+            "from":"TEOOut",
+            "to":"NewclearTicketTEO"
+        },
     
     
     
-    
-    
-    
-    
-    {
-        "type":"layout",
-        "name":"NVision subSystem positioning",
-        "objectsPos":{"ClearVisionCORE":{"left":147,"top":266},"TEOCORE":{"left":1030,"top":131},"NewclearLiteCORE":{"left":1065,"top":323},"GMICORE":{"left":1038,"top":486},"UBIXCORE":{"left":1034,"top":588},"NewclearCORE":{"left":454,"top":152},"CAACORE":{"left":1021,"top":191},"ClearVisionIN":{"left":131,"top":10},"NewclearOut":{"left":403,"top":37},"NewclearTicketTEO":{"left":672,"top":23},"TEOOut":{"left":954,"top":46},"NEWCLEAR-TICKET-IN":{"left":687,"top":180},"NEWCLEAR-MARKET-IN":{"left":426,"top":258},"NEWCLEAR-LITE-MARKET-IN":{"left":730,"top":311},"EUREX":{"left":146,"top":422},"GMI":{"left":720,"top":467},"UBIXIN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"HighTouch":{"left":469,"top":368},"LowTouch":{"left":469,"top":461},"ExecOnly":{"left":469,"top":548},"NotNVision":{"left":1055,"top":375}}
-    }
-    
-]
+     
+        
+        
+        {
+            "type":"layout",
+            "name":"NVision subSystem positioning",
+            "objectsPos":{"ClearVisionCORE":{"left":147,"top":266},"TEOCORE":{"left":1030,"top":131},"NewclearLiteCORE":{"left":1065,"top":323},"GMICORE":{"left":1038,"top":486},"UBIXCORE":{"left":1034,"top":588},"NewclearCORE":{"left":454,"top":152},"CAACORE":{"left":1021,"top":191},"ClearVisionIN":{"left":131,"top":10},"NewclearOut":{"left":403,"top":37},"NewclearTicketTEO":{"left":672,"top":23},"TEOOut":{"left":954,"top":46},"NEWCLEAR-TICKET-IN":{"left":687,"top":180},"NEWCLEAR-MARKET-IN":{"left":426,"top":258},"NEWCLEAR-LITE-MARKET-IN":{"left":730,"top":311},"EUREX":{"left":146,"top":422},"GMI":{"left":720,"top":467},"UBIXIN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"HighTouch":{"left":469,"top":368},"LowTouch":{"left":469,"top":461},"ExecOnly":{"left":469,"top":548},"NotNVision":{"left":1055,"top":375}}
+        }
+        
+    ]
+}

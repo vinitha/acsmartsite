@@ -471,6 +471,9 @@ function myAjax(options){
 
 // searchObj object def
     function searchObj(obj){
+        //adding the BusinessMarket id to the query string
+        obj.queryString.push({name:"BM",value:NVision.appStatus.BM});
+        
         tradeHolder.call(this,obj)
     }
     
