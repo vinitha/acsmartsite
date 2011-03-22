@@ -6,6 +6,19 @@
 		margin:10px;
 		color:#444;
 	}
+	legend{
+		font-size:1.2em;
+		margin:10px 0px 5px 0px;
+	}
+	.hidden{
+		position:absolute;
+		left:-9999999px;
+	}
+	
+	.js .jsHidden{
+		position:absolute;
+		left:-9999999px;
+	}
 	
 	a{
 		color:#666;
@@ -242,12 +255,8 @@ h2{
 		display:none;
 	}
 	
-	#advSearch label.testo{
-		position:absolute;
-		left:-99999px;
-	}
-	
-	#advSearch input.testo{
+	#advSearch input.testo,
+	#advSearch input.date{
 		font-size: 1.1em;
 		width: 149px;
 		padding:1px;
@@ -255,8 +264,15 @@ h2{
 	}
 	
 	.js #advSearch input.testo{
-		width: 133px;
+		width: 135px;
+		margin-right:1px;		
 	}
+
+	.js #advSearch input.date{
+		width: 65px;
+		margin-right:1px;
+	}	
+	
 	
 	#advSearch select{
 		font-size: 1.1em;
