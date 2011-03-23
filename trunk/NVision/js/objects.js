@@ -419,8 +419,8 @@ function myAjax(options){
                                             
                                             
                                             //.append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
-                                            .append($("<p class='tabContent current' id='_msg_in'/>").text(msgDetails["Incoming"]))
-                                            .append($("<p class='tabContent' id='_msg_out'/>").text(msgDetails["Outgoing"]))
+                                            .append($("<p class='tabContent current' id='_msg_in'/>").append($("<pre />").text(msgDetails["Incoming"])))
+                                            .append($("<p class='tabContent' id='_msg_out'/>").append($("<pre />").text(msgDetails["Outgoing"])))
                                             
                                             var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
                                             
@@ -545,15 +545,8 @@ function myAjax(options){
                     //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
                     e.preventDefault();
                     
-                    //putting the query into the browser history
-                    /*
-                    var newStatus = {
-                        tabId:"tab_1",
-                        view:{type:"adapter","sysName":this.hash.replace("#","")}
-                    }*/
                     NVision.appStatus[NVision.appStatus.currentTab].view={type:"adapter","sysName":this.hash.replace("#","")}
-                    $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
-    
+                    $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);    
                 })                           
         )         
        

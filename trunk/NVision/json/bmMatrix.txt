@@ -1,43 +1,46 @@
 {
     "MarketsMatrix":{
-        "Listed derivatives":{
-            "Emea":{
-                "Eurex":{"name":"Eurex","id":"BM_1"},
-                "Kospi":{"name":"xxx_2","id":"BM_2"},
-                "CME":{"name":"xxx_3","id":"BM_3"}
+        "Listed Derivatives":{
+            "EMEA":{
+                "Eurex":{"name":"EUREX","id":"BM_1"},
+                "LD Exchange2 Eu":{"name":"LD Exchange2 Eu","id":"BM_2"},
+                "LD Exchange3 Eu":{"name":"LD Exchange3 Eu","id":"BM_3"}
             },            
             
-            "Ncsa":{
-                "Eurex":{"name":"asd ss xxx_4","id":"BM_4"},
-                "Kospi":{"name":"xx sax_5","id":"BM_5"},
-                "CME":{"name":"xd daxx_6","id":"BM_6"}
+            "AMERICA":{
+                "CME":{"name":"CME","id":"BM_4"},
+                "LD Exchange2 Na":{"name":"LD Exchange2 Na","id":"BM_5"},
+                "LD Exchange3 Na":{"name":"LD Exchange3 Na","id":"BM_6"}
             },
             
-            "Seap":{
-                "Eurex":{"name":"xqwe xx_7","id":"BM_7"},
-                "Kospi":{"name":"xerw xx_8","id":"BM_8"},
-                "CME":{"name":"xxxre _9","id":"BM_9"}
+            "APAC":{
+                "LD Exchange1 Apac":{"name":"LD Exchange1 Apac","id":"BM_7"},
+                "LD Exchange2 Apac":{"name":"LD Exchange2 Apac","id":"BM_8"},
+                "LD Exchange3 Apac":{"name":"LD Exchange3 Apac","id":"BM_9"}
             }            
         },
         
         
         
-        "Otc":{
-            "Emea":{
-                "Kospi":{"name":"xxx_11","id":"BM_11"},
-                "CME":{"name":"xxx_12","id":"BM_12"}
+        "Foreign Exchange":{
+            "EMEA":{
+                "FX Exchange1 Eu":{"name":"FX Exchange1 Eu","id":"BM_11"},
+                "FX Exchange2 Eu":{"name":"FX Exchange2 Eu","id":"BM_12"}
             },            
-            
-            "Ncsa":{
-                "Eurex":{"name":"xxx_13","id":"BM_13"},
-                "Kospi":{"name":"xxx_14","id":"BM_14"}
-            },
-            
-            "Seap2":{
-                "Eurex":{"name":"xxx_16","id":"BM_16"},
-                "Kospi":{"name":"xxx_17","id":"BM_17"},
-                "CME2":{"name":"xxx_18","id":"BM_18"}
+                    
+            "APAC":{
+                "FX Exchange1 Apac":{"name":"FX Exchange1 Apac","id":"BM_16"},
+                "FX Exchange2 Apac":{"name":"FX Exchange2 Apac","id":"BM_17"},
+                "FX Exchange3 Apac":{"name":"FX Exchange3 Apac","id":"BM_18"},
+                "FX Exchange4 Apac":{"name":"FX Exchange4 Apac","id":"BM_19"}
             }      
-        }                
+        },
+
+		"Equities":{
+            "AMERICA":{
+                "EQT Exchange1 Na":{"name":"EQT Exchange1 Na","id":"BM_11"},
+                "EQT Exchange2 Na":{"name":"EQT Exchange2 Na","id":"BM_12"}
+            }
+        }     		
     }
 }
