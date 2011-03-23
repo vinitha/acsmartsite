@@ -69,8 +69,8 @@ var bmMatrix=(function(){
         
         $("<option />")
             .text("- - -")
-            .attr("value","")            
-            .appendTo(combo)
+            .attr("value","")
+            .appendTo(combo)    
             
         for (var obj in data){
             $("<option/>")
@@ -78,7 +78,8 @@ var bmMatrix=(function(){
                 .attr("value",obj)
                 .attr("selected",selectedValue==obj?"selected":"")
                 .appendTo(combo)
-        }
+        }        
+    
     };
 
     _getBMs=function (filters){        

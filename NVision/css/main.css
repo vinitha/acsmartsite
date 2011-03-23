@@ -244,7 +244,7 @@
 }
 
 .indexPage #main{
-	width:500px;
+	width:600px;
 	background-color:transparent;
 	background-image:url(../images/black50.png);
 	margin:100px auto;
@@ -1016,7 +1016,7 @@
 		background-image: url("../images/tip.png");
 		background-position: 5px 50%;
 		background-repeat: no-repeat;
-		color: #333333;
+		color: #222;
 		display: none;
 		font-size: 1.1em;
 		font-style: italic;

@@ -63,6 +63,10 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
     font-size:1.1em;
 }
 
+.popup .tabContent pre{
+     font-size: 1.2em;
+}
+
 .popup .tabMenu li.current a {
     background-color:#e0e0e0;
     border-bottom-color:#e0e0e0;
