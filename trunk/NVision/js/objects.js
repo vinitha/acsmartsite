@@ -102,15 +102,7 @@ function myAjax(options){
                             NVision.utils.checkDbSize();
                             NVision.utils.savePositions();
                         }
-                    })                
-        
-        objDiv
-            .mouseenter(function(){
-                $(this).css("z-index",10)
-            })
-            .mouseleave(function(){
-                $(this).css("z-index",1)
-            })        
+                    })                    
         
         //making a note of the containing div
         sysObj.canvasBox = objDiv.get(0)
@@ -496,13 +488,45 @@ function myAjax(options){
             sysObj=this,
             title=objDiv.find("h3");
         
+        
+        if(sysObj.data){
+            //thermometer thing
+            var therm=$("div.therm",objDiv),
+                perc=$("p.perc",objDiv);
+            
+            
+            if(therm.length==0){
+                therm=$("<div class='therm' />").appendTo(objDiv);
+                $("<div class='lev' />").appendTo(therm);
+                
+                perc=$("<p class='perc' />").appendTo(therm);
+            }
+            
+            perc.text(sysObj.data.alertLevel + "%");
+            
+            
+            //todo:remove this line for real data
+            therm=therm.not(":animated");
+      
+            if(therm.length>0){
+                var left=sysObj.displayLevel*12,
+                    level=Math.max(0,(50-50*sysObj.data.alertLevel/100));
+            
+                var top=therm.css("background-position")||"".split(" ")[1];
+    
+                therm.css({backgroundPosition: -1 * left  + "px " + top});
+                therm.stop(true,true).animate({backgroundPosition: -1 * left  + "px " + level +"px"},1600)                        
+            }
+        }
+        
         //clearing the object    
         objDiv.find("div.attr").remove()
         
         //todo: improve performance here!!!
+        var attributes=sysObj.data?sysObj.data.attributes:null;
         
-        for (var attr in sysObj.attributes){
-            attr=sysObj.attributes[attr];
+        for (var attr in attributes){
+            attr=attributes[attr];
             
            var attrDiv=$("<div class='attr' />")
                 .insertAfter(title)

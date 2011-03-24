@@ -1320,6 +1320,10 @@
 		line-height:1em;
 	}
 	
+	#dbContent .hover{
+		z-index:10;
+	}
+	
 	#dashBoardView .adapter{
 		padding:1em;		
 		position:absolute;
@@ -1424,6 +1428,47 @@
 		font-size:1.1em;
 		margin-top:1em;
 		float:right;
+	}
+	
+	#dashBoardView .adapter .therm{
+		background-image:url(../images/thermometer.png);
+		background-position:left 0px;
+		background-repeat:no-repeat;
+		bottom: 10px;
+		left:10px;
+		height: 50px;
+		position: absolute;
+		width: 9px;		
+	}
+	
+	#dashBoardView .adapter .lev{
+		position:absolute;
+		left:0px;
+		bottom:0px;
+		background-image:url(../images/thermometer.png);
+		background-position:right 0px;
+		background-repeat:no-repeat;
+		width:100%;
+		height:100%;
+	}
+	
+	#dashBoardView .adapter .perc{
+		background-image: url("../images/callout.png");
+		background-repeat: no-repeat;
+		color: #FFFFFF;
+		font-size: 1.1em;
+		height: 23px;
+		left: -8px;
+		line-height: 1.6em;
+		position: absolute;
+		text-align: center;
+		top: -24px;
+		width: 35px;
+		display:none;
+	}
+	
+	#dbContent .hover .perc{
+		display:block;
 	}
 	
 	#dashBoardView .system{

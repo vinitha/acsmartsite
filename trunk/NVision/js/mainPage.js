@@ -78,8 +78,7 @@ var bmMatrix=(function(){
                 .attr("value",obj)
                 .attr("selected",selectedValue==obj?"selected":"")
                 .appendTo(combo)
-        }        
-    
+        }            
     };
 
     _getBMs=function (filters){        
@@ -163,7 +162,7 @@ var bmMatrix=(function(){
     };      
     
     return   {
-       buildWidget:_buildWidget, 
+       buildWidget:_buildWidget
     };
     
     })();
