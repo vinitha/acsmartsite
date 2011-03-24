@@ -87,7 +87,8 @@ $(function(){
         //updating the current appStatus
         NVision.appStatus[NVision.appStatus.currentTab]=newStatus;        
         
-        $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)  
+        $("#main, #marketPicker label").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
+        
     })
 
 });
@@ -412,8 +413,17 @@ var NVision={
                     NVision.fnObj[fnId](this);
                 }                
             }
-        })
+        });
         
+        
+        //delegating the mouseenter event
+        $("#dbContent .system, #dbContent .adapter, #dbContent .exchange,#dbContent .root")
+            .live("mouseenter",function(){
+                $(this).addClass("hover")
+            })
+            .live("mouseleave",function(){
+                $(this).removeClass("hover")
+            })            
         
         //adding the handle to resize the DashBoard
         $("#dashBoardView").append(
@@ -1315,7 +1325,7 @@ var NVision={
                     sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel);
                     
                     //updating the rest of the object                    
-                    sysObj.attributes=data.attributes;                    
+                    sysObj.data=data;                    
                     sysObj.refresh();
                     
                     //redrawing the links

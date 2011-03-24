@@ -1,7 +1,7 @@
 {
     "id":"ClearVisionIN",
     "name":"ClearVision IN",
-    "alertLevel":90,
+    "alertLevel":30,
     "attributes":[
         {
             "name":"Breaks",
