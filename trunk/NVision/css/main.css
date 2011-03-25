@@ -110,12 +110,24 @@
 	
 	#businessMarket{
 		padding:0px 10px;
-		color:#999;		
+		color:#999;
+		float:left;
+	}
+	
+	#sysVer{
+		float:right;
+		color:#999;
+		line-height:2em;
+	}
+	
+	#sysVer span{
+		color:#444;
 	}
 	
 	.indexPage #businessMarket{
 		color:#eee;
 		padding:10px;
+		float:none;
 	}
 	
 	#systemName{
@@ -1004,6 +1016,7 @@
 	#marketPicker label{
 		float:left;
 		margin-right:10px;
+		display:block;
 	}
 	
 	#marketPicker label span{
@@ -1052,6 +1065,8 @@
 		margin-top:5px;
 		
 		border:1px solid transparent;
+		
+		white-space:nowrap;
 
 		-moz-border-radius: 3px; /* For FireFox */
 		-webkit-border-radius: 3px; /* For Safari/Chrome */
@@ -1430,15 +1445,19 @@
 		float:right;
 	}
 	
+	.zooming .therm{
+		display:none;
+	}
+	
 	#dashBoardView .adapter .therm{
 		background-image:url(../images/thermometer.png);
 		background-position:left 0px;
 		background-repeat:no-repeat;
-		bottom: 10px;
-		left:10px;
-		height: 50px;
+		bottom: 1em;
+		left:1em;
+		height: 5em;
 		position: absolute;
-		width: 9px;		
+		width: 0.9em;		
 	}
 	
 	#dashBoardView .adapter .lev{
@@ -1452,19 +1471,40 @@
 		height:100%;
 	}
 	
+	#dashBoardView.zoom1 .adapter .therm,
+	#dashBoardView.zoom1 .adapter .lev{
+		background-image:url(../images/thermometer75.png);
+	}
+
+	#dashBoardView.zoom2 .adapter .therm,
+	#dashBoardView.zoom2 .adapter .lev{
+		background-image:url(../images/thermometer50.png);
+	}
+	
+	#dashBoardView.zoom3 .adapter .therm,
+	#dashBoardView.zoom3 .adapter .lev{
+		background-image:url(../images/thermometer25.png);
+	}
+	
+	#dashBoardView.zoom-1 .adapter .therm,
+	#dashBoardView.zoom-1 .adapter .lev{
+		background-image:url(../images/thermometer125.png);
+	}
+	
 	#dashBoardView .adapter .perc{
 		background-image: url("../images/callout.png");
 		background-repeat: no-repeat;
 		color: #FFFFFF;
-		font-size: 1.1em;
+		font-size: 11px;
 		height: 23px;
 		left: -8px;
-		line-height: 1.6em;
+		line-height: 16px;
 		position: absolute;
 		text-align: center;
 		top: -24px;
 		width: 35px;
 		display:none;
+				
 	}
 	
 	#dbContent .hover .perc{
@@ -1712,6 +1752,7 @@
 	}
 	 
 /* ie hasLayout fix */
+	#marketPicker label,
 	#tableData,
 	.tabContent{
 		zoom:1;
