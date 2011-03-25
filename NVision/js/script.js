@@ -86,9 +86,7 @@ $(function(){
         
         //updating the current appStatus
         NVision.appStatus[NVision.appStatus.currentTab]=newStatus;        
-        
-        $("#main, #marketPicker label").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
-        
+        $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
     })
 
 });
@@ -232,6 +230,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
+    ver:234,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -258,6 +257,9 @@ var NVision={
     init:function(sysReady){
         
         NVision.sysReady=sysReady;
+        
+        //showin the version number
+        $("#sysVer .frontEnd").text(NVision.ver);
         
         // adding the panning function to the dashBoard        
         $("#dashBoardView").draggable({
@@ -641,9 +643,12 @@ var NVision={
             success:function(dataObj){
                 
                 $("#businessMarket strong").text(dataObj.bm);
-                
+                //showin the version number
+                $("#sysVer .backEnd").text(dataObj.ver);
+        
                 var data=dataObj.composition;
                 
+                $("#sysVer")
                 //add the objects to NVision
                 $(data).each(function(){
                     switch(this.type){
@@ -1143,6 +1148,8 @@ var NVision={
   
         var dBoard=$("#dbContent");
         
+        dBoard.addClass("zooming");
+        
         //hidding the links            
         var svg=$("svg");
         svg=svg.length==0?dBoard.find("div:first"):svg;
@@ -1183,6 +1190,8 @@ var NVision={
             
             
             NVision.zooming=false;
+            
+            dBoard.removeClass("zooming");
         })
         
         //setting the dashBoardView className according to the zoom level

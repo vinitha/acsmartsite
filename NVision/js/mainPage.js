@@ -1,3 +1,6 @@
+
+
+
 $().ready(function(){
     
     //getting the bmMAtrix
@@ -7,6 +10,8 @@ $().ready(function(){
         dataType:"json",
         success:function(data){
             bmMatrix.buildWidget(data);
+            
+            $("#marketPicker label").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
             alert(textStatus||errorThrown);            

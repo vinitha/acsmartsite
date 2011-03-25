@@ -509,13 +509,11 @@ function myAjax(options){
             therm=therm.not(":animated");
       
             if(therm.length>0){
-                var left=sysObj.displayLevel*12,
-                    level=Math.max(0,(50-50*sysObj.data.alertLevel/100));
-            
-                var top=therm.css("background-position")||"".split(" ")[1];
-    
-                therm.css({backgroundPosition: -1 * left  + "px " + top});
-                therm.stop(true,true).animate({backgroundPosition: -1 * left  + "px " + level +"px"},1600)                        
+                var left=sysObj.displayLevel*1.2,
+                    level=Math.max(0,(50-50*sysObj.data.alertLevel/100))/10,
+                    css= -1 * left  + "em " + level + "em";
+                    
+                therm.css({backgroundPosition:css})                        
             }
         }
         
