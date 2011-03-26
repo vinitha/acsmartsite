@@ -70,41 +70,47 @@
                 <!-- avanzata -->
                 <form id="advSearch" action="toFormUrl" method="post" >
                   
-                  <fieldset>
-                    <legend class="jsHidden">Opzioni avanzate</legend>
-                    <label class="hidden" for="campo_1">Tipo campo</label>
-                    <select name="campo_1" id="campo_1">
-                        <option value="tutti" data-type="text">Tutti i campi</option>
-                        <option value="denominazione" data-type="text">Denominazione</option>
-                        <option value="periodo" data-type="date">Periodo (mm/yyyy , mm/yyyy)</option>
-                        <option value="luogo" data-type="text">Luogo</option>
-                        <option value="tipologia" data-type="text">Tipologia sogg. produttore</option>
-                    </select>
-                    <span>=</span>
-                    <label class="hidden" for="valore_1">Testo</label><input class="testo" type="text" id="valore_1" name="avanzata" value="" /><a class="addRule" href="#add">+</a>
+                    <fieldset class="multiple">
+                        <legend class="jsHidden">Opzioni avanzate</legend>
+                        <label class="hidden" for="campo_1">Tipo campo</label>
+                        <select name="campo_1" id="campo_1">
+                            <option value="tutti" data-type="text">Tutti i campi</option>
+                            <option value="denominazione" data-type="text">Denominazione</option>
+                            <option value="periodo" data-type="date">Periodo (mm/yyyy , mm/yyyy)</option>
+                            <option value="luogo" data-type="text">Luogo</option>
+                            <option value="tipologia" data-type="text">Tipologia sogg. produttore</option>
+                        </select>
+                        <span>=</span>
+                        <label class="hidden" for="valore_1">Testo</label><input class="testo" type="text" id="valore_1" name="avanzata" value="" /><a class="addRule" href="#add">+</a>
+                        
+                        <div class="operatori">
+                            <span><input type="radio" id="op_And" checked="checked" name="operatore" value="and" /><label for="op_And"> AND</label></span>
+                            <span><input type="radio" id="op_Or" name="operatore" value="or"><label for="op_Or" /> OR</label></span>
+                        </div>
+                      
+                    </fieldset>
                     
-                    <div class="operatori">
-                        <span><input type="radio" id="op_And" checked="checked" name="operatore" value="and" /><label for="op_And"> AND</label></span>
-                        <span><input type="radio" id="op_Or" name="operatore" value="or"><label for="op_Or" /> OR</label></span>
-                    </div>
+                    <fieldset class="multiple">
+                        <legend class="hidden">Opzioni avanzate</legend>
+                        <label class="hidden" for="campo_2">Tipo campo</label>
+                        <select name="campo_2" id="campo_2">
+                            <option value="">- - -</option>
+                            <option value="tutti">Tutti i campi</option>
+                            <option value="denominazione">Denominazione</option>
+                            <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
+                            <option value="luogo">Luogo</option>
+                            <option value="tipologia">Tipologia sogg. produttore</option>
+                        </select>
+                        <span>=</span>
+                        <label class="hidden"  for="valore_2">Testo</label><input class="testo" type="text" id="valore_2" name="semplice" value="">                    
+                    </fieldset>                  
                     
-                  </fieldset>
-                  
-                  <fieldset>
-                    <legend class="hidden">Opzioni avanzate</legend>
-                    <label class="hidden" for="campo_2">Tipo campo</label>
-                    <select name="campo_2" id="campo_2">
-                        <option value="">- - -</option>
-                        <option value="tutti">Tutti i campi</option>
-                        <option value="denominazione">Denominazione</option>
-                        <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
-                        <option value="luogo">Luogo</option>
-                        <option value="tipologia">Tipologia sogg. produttore</option>
-                    </select>
-                    <span>=</span>
-                    <label class="hidden"  for="valore_2">Testo</label><input class="testo" type="text" id="valore_2" name="semplice" value="">                    
-                  </fieldset>                  
-                
+                    <fieldset id="archivi">
+                        <legend>Ricerca in:</legend>
+                        <label for="arch_produttori"><input checked="checked" type="checkbox" id="arch_produttori" name="arch_produttori" value="true"> Soggetti produttori</label>
+                        <label for="arch_patrimonio"><input checked="checked" type="checkbox" id="arch_patrimonio" name="arch_patrimonio" value="true"> Patrimonio documentario</label>
+                        <label for="arch_istituti"><input checked="checked" type="checkbox" id="arch_istituti" name="arch_istituti" value="true"> Istituti conservatori</label>
+                    </fieldset>
                     <div class="buttonsBar">
                         <button type="submit" class="button searchBtn"><span>Vai</span></button>
                     </div>
@@ -138,7 +144,7 @@
         <!-- body col -->
         <div id="bodyCol">
             <div class="descrizione">
-                <p><em>La Guida generale degli Archivi di Stato Italiani</em> escrive in maniera organica e secondo criteri uniformi tutti i fondi archivistici conservati presso l'Archivio centrale dello Stato e gli Archivi di Stato istituiti in ogni capoluogo di provincia, con le eventuali Sezioni dipendenti.</p>
+                <p><em>La Guida generale degli Archivi di Stato Italiani</em> descrive in maniera organica e secondo criteri uniformi tutti i fondi archivistici conservati presso l'Archivio centrale dello Stato e gli Archivi di Stato istituiti in ogni capoluogo di provincia, con le eventuali Sezioni dipendenti.</p>
                 <p>Nel Sistema Guida generale, oltre alla descrizione analitica dei singoli Soggetti produttori cui risultano intestati i fondi, è presente un profilo istituzionale generale di riferimento per quei Soggetti produttori retti da una normativa comune o afferenti ad una medesima tipologia: si tratta in prevalenza di uffici periferici dello Stato, ma anche di alcune tipologie di enti pubblici e alcune tipologie di documenti, quali ad esempio lo Stato civile; tali profili (o schede-repertorio) sono stati introdotti per tutti i Soggetti produttori a normativa comune del periodo preunitario e postunitario, ma risultano completi solo a partire dagli Stati del Periodo napoleonico.</p>
             </div>
             
