@@ -9,6 +9,7 @@
 	legend{
 		font-size:1.2em;
 		margin:10px 0px 5px 0px;
+		color:#444;
 	}
 	.hidden{
 		position:absolute;
@@ -347,6 +348,17 @@ h2{
 		margin-top: 6px;
 	}
 	
+	#archivi{
+		margin-top:20px;
+		border:1px solid #aaa;
+		padding:10px;
+	}
+	#archivi label{
+		display: block;
+		font-size: 1.2em;
+		margin-bottom: 5px;
+	}
+
 	
 	.buttonsBar {
 		margin:10px 0px 0px;

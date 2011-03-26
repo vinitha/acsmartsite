@@ -32,7 +32,7 @@ $().ready(function(){
     
     //setting the advanced search module up.
     var advForm=$("#advSearch"),
-        fieldset=advForm.find("fieldset").eq(0),
+        fieldset=advForm.find("fieldset.multiple").eq(0),
         select=fieldset.find("select"),
         input=fieldset.find("input"),
         addRuleBtn=fieldset.find("a.addRule");
@@ -55,21 +55,35 @@ $().ready(function(){
             break;
         }
         
+        input.eq(0).focus();
+        
     })
-    
-    
+    // firing the event when the page loads
+    select.change();
     
     //on adv submit..
     advForm.submit(function(e){
         e.preventDefault();
-        var data=advQueryObj.getQueriesString();
         
-        myConsole.info(data)
+        var advString=advQueryObj.getQueriesString(),
+            qString=advString + "&" + $("#archivi input").serialize();
+
+        if(input.val()!=""){
+            addRuleBtn.click();
+            return false;
+        }else{
+            if(advString==""){
+                myConsole.alert("Inserire un valore su qui effettuare la ricerca.")
+                return false;
+            }
+        }
+        
+        myConsole.info(qString)
         
     })
     
     //removing all the fieldsets but the first one.
-    advForm.find("fieldset").not(":first").remove();
+    advForm.find("fieldset.multiple").not(":first").remove();
     //removing the operators
     fieldset.find(".operatori").remove();
     
@@ -98,8 +112,8 @@ $().ready(function(){
                     input.val("");
                                 
                 }else{
-                    myConsole.alert("Inserire il valore su cui effettuare la ricerca!")
-                    input.addClass("error").focus();
+                    //myConsole.alert("Inserire il valore su cui effettuare la ricerca!")
+                    input.focus();
                 }                
             break;
             
@@ -109,17 +123,19 @@ $().ready(function(){
                     
                 if(da.val()=="" && a.val()==""){
 
-                    myConsole.alert("Inserire almeno una data!")
-                    input.eq(0).addClass("error").focus();
+                    //myConsole.alert("Inserire almeno una data!")
+                    input.eq(0).focus();
                                                     
                 }else{
                                         
                     input.removeClass("error");                    
                     advQueryObj.addQuery({
                         name:select.val(),
-                        value:(da.val()||" - - ") + " , " + (a.val()||" - - ")
+                        value:(da.val()||" - - ") + " \u2192 " + (a.val()||" - - ")
                     })                   
                 }
+                input.val("");
+                da.focus();
             break;
         }        
         
@@ -160,6 +176,7 @@ var advQueryObj=(function(){
             var tmpObj=queriesHash[obj]
             str+=(tmpObj.operator?" " + tmpObj.operator + " ":" ") + tmpObj.name + "=" + tmpObj.value
         }
+        
         return str;
     }
     
