@@ -161,6 +161,7 @@ h2{
 	overflow: hidden;	
 	z-index: 2;
 	position: relative;
+	padding:0px 20px;
 }
 
 
@@ -176,10 +177,14 @@ h2{
 	.tabMenu{
 		overflow:hidden;
 		float:left;
-		margin-left:20px;
+		width:100%;
 	}
 	.tabMenu li{
 		float:left;
+	}
+	
+	.tabMenu .newItem{
+		float:right;
 	}
 	
 	.tabMenu li a{
@@ -352,7 +357,7 @@ h2{
 		font-size:1.4em;
 	}
 	
-	.advQuery .switch{
+	.advQuery .btnsSwitch{
 		margin-bottom: 3px;
 		margin-left: 15px;
 		margin-top: 6px;
@@ -476,16 +481,91 @@ h2{
 		font-size:1.4em;		
 	}
 	
+	
+	
+	/* risultati della ricerca */
+	#risultatiRicerca h3.titoloPannello{
+		color: #666666;
+		font-size: 2em;
+		margin-bottom: 15px;
+	}
+	
+	
+	ul.archivi{
+		margin-bottom:-1px;
+		overflow:hidden;
+	}
+	
+	.archivi li.current a {
+		border-color:#ccc #ccc #f9f9f9 #ccc;
+	}
+	.archDiv {
+		border:1px solid #ccc;
+		clear:both;
+		padding:10px 0px 10px 10px;
+		overflow:hidden;
+	}
+	.li_arch a{
+		display:block;
+		font-size:1.2em;
+	}
+	
+	.li_doc{
+		float: left;
+		margin-bottom: 15px;
+		margin-right: 12px;
+		position: relative;
+	}
+	
+	.li_doc a.doc{
+		background-image: url("../images/doc.png");
+		display: block;
+		height: 77px;
+		overflow: hidden;
+		padding: 7px;
+		width: 115px;
+		color:#666;
+		opacity:0.8;
+		filter: alpha(opacity = 80);
+	}
+
+	.li_doc a.doc:hover,
+	.li_doc a.doc:focus,
+	.li_doc a.doc:active{
+		opacity:1;
+		filter:"";
+	}
+	
+	.li_doc a.add{
+		position:absolute;
+		right:3px;
+		bottom:1px;
+		overflow:hidden;
+		width:25px;
+		height:22px;
+		background-image:url(../images/add.png);
+		display:none;
+	}
+	
+	
+	.li_doc a.doc:hover a.add,
+	.li_doc a.doc:focus a.add,
+	.li_doc a.doc:active a.add{
+		display:block;
+	}
+	
+	
+	
 /* switch widget */
 	
-	.switch{
+	.btnsSwitch{
 		display:inline-block;
 	}
-	.switch li{
+	.btnsSwitch li{
 		float:left;
 		margin:0px 2px;
 	}
-	.switch a{
+	.btnsSwitch a{
 		display:block;
 		padding:2px 5px;
 		background-color:#e6e6e6;
@@ -497,10 +577,10 @@ h2{
 		outline:none;
 	}
 	
-	.js .switch .current a,
-	.no-js .switch a:active,
-	.switch a:hover,
-	.switch a:focus{
+	.js .btnsSwitch .current a,
+	.no-js .btnsSwitch a:active,
+	.btnsSwitch a:hover,
+	.btnsSwitch a:focus{
 		background-color:#c9c9c9;
 		color:#5f5f5f;		
 		border-color:#aaa;	
