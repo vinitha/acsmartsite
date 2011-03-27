@@ -54,7 +54,7 @@
                 <h3>Ricerca</h3>
                 
                 <!-- semplice -->
-                <form id="stdSearch" action="toFormUrl" method="post" >
+                <form id="stdSearch" action="json/risultatiRicerca.txt" method="post" >
                     <p><label for="semplice">Ricerca</label> <input type="text" id="semplice" name="semplice" value=""></p>
                     <button type="submit" class="button searchBtn"><span>Vai</span></button>
                 </form>
@@ -68,7 +68,7 @@
                 <hr class="hr" />
                 
                 <!-- avanzata -->
-                <form id="advSearch" action="toFormUrl" method="post" >
+                <form id="advSearch" action="json/risultatiRicerca.txt" method="post" >
                   
                     <fieldset class="multiple">
                         <legend class="jsHidden">Opzioni avanzate</legend>
@@ -143,15 +143,18 @@
       
         <!-- body col -->
         <div id="bodyCol">
-            <div class="descrizione">
-                <p><em>La Guida generale degli Archivi di Stato Italiani</em> descrive in maniera organica e secondo criteri uniformi tutti i fondi archivistici conservati presso l'Archivio centrale dello Stato e gli Archivi di Stato istituiti in ogni capoluogo di provincia, con le eventuali Sezioni dipendenti.</p>
-                <p>Nel Sistema Guida generale, oltre alla descrizione analitica dei singoli Soggetti produttori cui risultano intestati i fondi, è presente un profilo istituzionale generale di riferimento per quei Soggetti produttori retti da una normativa comune o afferenti ad una medesima tipologia: si tratta in prevalenza di uffici periferici dello Stato, ma anche di alcune tipologie di enti pubblici e alcune tipologie di documenti, quali ad esempio lo Stato civile; tali profili (o schede-repertorio) sono stati introdotti per tutti i Soggetti produttori a normativa comune del periodo preunitario e postunitario, ma risultano completi solo a partire dagli Stati del Periodo napoleonico.</p>
+            <div id="homeContent">
+                <div class="descrizione">
+                    <p><em>La Guida generale degli Archivi di Stato Italiani</em> descrive in maniera organica e secondo criteri uniformi tutti i fondi archivistici conservati presso l'Archivio centrale dello Stato e gli Archivi di Stato istituiti in ogni capoluogo di provincia, con le eventuali Sezioni dipendenti.</p>
+                    <p>Nel Sistema Guida generale, oltre alla descrizione analitica dei singoli Soggetti produttori cui risultano intestati i fondi, è presente un profilo istituzionale generale di riferimento per quei Soggetti produttori retti da una normativa comune o afferenti ad una medesima tipologia: si tratta in prevalenza di uffici periferici dello Stato, ma anche di alcune tipologie di enti pubblici e alcune tipologie di documenti, quali ad esempio lo Stato civile; tali profili (o schede-repertorio) sono stati introdotti per tutti i Soggetti produttori a normativa comune del periodo preunitario e postunitario, ma risultano completi solo a partire dagli Stati del Periodo napoleonico.</p>
+                </div>
+                
+                <ul class="links">
+                    <li><a href="storia.html">La storia</a></li>
+                    <li><a href="sistemaInformativo.html">Il sistema informativo</a></li>
+                </ul>       
             </div>
-            
-            <ul class="links">
-                <li><a href="storia.html">La storia</a></li>
-                <li><a href="sistemaInformativo.html">Il sistema informativo</a></li>
-            </ul>            
+                        
         </div>
         <!-- *** -->
       
@@ -168,7 +171,7 @@
     //use this object to configure the app. settings
     var sysConfig={
           //called once when the system starts
-          sysComposition:"json/sysComposition.txt"   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+          sysComposition:"json/risultatiRicerca.txt"   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
     }
 
   </script>

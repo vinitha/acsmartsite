@@ -38,6 +38,16 @@
 		display:none;
 	}
 	
+	.verticalText{
+		-moz-transform: rotate(-90deg);  
+		-o-transform: rotate(-90deg);  
+		-webkit-transform: rotate(-90deg);  
+		-ms-transform: rotate(-90deg);  
+		transform: rotate(-90deg);  
+		filter: progid:DXImageTransform.Microsoft.Matrix(M11=6.123233995736766e-17, M12=1, M21=-1, M22=6.123233995736766e-17, sizingMethod='auto expand');
+		zoom: 1;
+	}
+	
 	.hr{
 		border-bottom: 1px solid #FFFFFF;
 		border-top: 1px solid #999999;
