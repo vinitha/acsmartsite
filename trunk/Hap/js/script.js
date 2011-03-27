@@ -3,23 +3,7 @@ $().ready(function(){
     //widgets init function
     widgets.init()
     
-    //handling the searchSwitch change event
-    $("#searchSwitch").change(function(e,aObj){
-        var toShow=aObj.hash,
-            toHide=(toShow=="#advSearch")?"#stdSearch":"#advSearch",
-            title=$("#searchPanel").find("h3");
-    
-        $(toShow).slideDown(300,function(){$(this).find("input").eq(0).focus()});
-        $(toHide).slideUp(300);
-        
-        toShow=="#advSearch"?(title.slideDown(300)):(title.slideUp(300));
-        
-    })
-    
-    //in-field labels
-    $("#stdSearch").find("label").inFieldLabels();
-    
-    var stdForm=$("#stdSearch")
+    var stdForm=$("#stdSearch");
     //on std submit..
     stdForm.submit(function(e){
         e.preventDefault();
@@ -36,11 +20,21 @@ $().ready(function(){
         
         HAP.doSearch({
             qForm:stdForm,
-            callback:function(json){
-                
-            }
+            callback:HAP.showResults
         })
     })     
+    
+    
+    var mainMenu=$("#menuBar ul:first");
+    mainMenu.change(function(e,aObj){
+        
+        if(!aObj.hash){
+            location.href=aObj.href;
+            return false;
+        }
+        
+        $(aObj.hash).slideDown(300).siblings().slideUp(300);
+    })
     
     //setting the advanced search module up.
     var advForm=$("#advSearch"),
@@ -48,6 +42,23 @@ $().ready(function(){
         select=fieldset.find("select"),
         input=fieldset.find("input"),
         addRuleBtn=fieldset.find("a.addRule");
+        
+    //handling the searchSwitch change event
+    $("#searchSwitch").change(function(e,aObj){
+        var toShow=aObj.hash,
+            toHide=(toShow=="#advSearch")?"#stdSearch":"#advSearch",
+            title=$("#searchPanel").find("h3");
+    
+        $(toShow).slideDown(300,function(){$(this).find("input").eq(0).focus()});
+        $(toHide).slideUp(300);
+        
+        toShow=="#advSearch"?(title.slideDown(300)):(title.slideUp(300));
+        
+    })
+    
+    //in-field labels
+    $("#stdSearch").find("label").inFieldLabels();    
+
     
     //changing the input field according to the selected data-type
     select.change(function(e){
@@ -93,9 +104,7 @@ $().ready(function(){
         HAP.doSearch({
                 qForm:advForm,
                 qData:qString,
-                callback:function(json){
-                    
-                }
+                callback:HAP.showResults
             })
         
     })
@@ -169,10 +178,6 @@ $().ready(function(){
 
 var HAP=(function(){
     var _searchHistory=[];
-        
-    var _showResults=function(resultsDiv){
-        console.log(_results);
-    }
 
     //la logica della ricerca avanzata e' mappata su quest'oggetto
     var _advQueryObj=(function(){
@@ -226,7 +231,7 @@ var HAP=(function(){
                     .appendTo(showOnElement)
                 if(obj.operator){
                     //creating the operators/switch widget
-                    var ul=$('<ul class="switch"><li class="current"><a href="#AND">AND</a></li><li><a href="#OR">OR</a></li></ul>').appendTo(div)
+                    var ul=$('<ul class="switch btnsSwitch"><li class="current"><a href="#AND">AND</a></li><li><a href="#OR">OR</a></li></ul>').appendTo(div)
                     
                     //calling the init function
                     doSwitch(ul)
@@ -290,8 +295,9 @@ var HAP=(function(){
     
     
     
+    
     //effettua la ricerca
-    var _doSearch=function(qObj){
+    function _doSearch(qObj){
         /*qObj structure:            
             qForm,qData,callback
         */
@@ -308,7 +314,7 @@ var HAP=(function(){
             success:function(data){
                 
                 //aggiungo la ricerca all'history
-                searchHistory.push({query:qData,data:data});
+                _searchHistory.push({query:qData,data:data});
                 
                 qObj.callback?qObj.callback(data):null;
             },
@@ -318,6 +324,73 @@ var HAP=(function(){
         })
     };
     
+    
+
+
+    
+    function _showResults(json){
+        var mainMenu=$("#menuBar ul:first")
+        var risLi=$("li.risultati",mainMenu),
+            risDiv=$("#risultatiRicerca");
+            
+        if(risLi.length==0){
+            risLi=$("<li class='risultati newItem' ><a href='#risultatiRicerca' title='Risultati' ><span>Risultati</span></a></li>")
+                .appendTo(mainMenu);
+         
+            risDiv=$("<div id='risultatiRicerca' />").appendTo("#bodyCol").hide(0);
+        }
+        risDiv
+            .empty()
+            .append($("<h3 class='titoloPannello'>Risultati della ricerca:<h3/>"));
+        
+        risLi.find("a").click();
+        
+        var arUL=$("<ul class='archivi tabMenu switch' />");
+        arUL.appendTo(risDiv);
+        
+        //lo rendo uno switch
+        doSwitch(arUL);
+        
+        arUL.change(function(e,aObj){
+            $(aObj.hash).show(0).siblings("div").hide(0);
+        })
+        
+        for (var x=0;x<json.length;x++){
+            var obj=json[x];
+            //creo l'entry nel tabmenu
+            $("<li class='li_arch' ><a class='' href='#arch_"+obj.id+"' title='Apri archivio' ><span>"+obj.nome+" ("+obj.totaleDocs+")</span></a></li>")
+                .appendTo(arUL);
+            
+            //creo il div che conterra' i documenti
+            var docDiv=$("<div class='archDiv' id='arch_"+obj.id+"' />").appendTo(risDiv).hide(0)
+            
+            //creo i documenti
+            var docUL=$("<ul class='documenti' />");
+            
+            for (var d=0;d<obj.risultati.length;d++){
+                var doc=obj.risultati[d];
+                
+                $("<li class='li_doc' />")
+                    .append(
+                        $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
+                            .append($("<a class='add' href='#doc_"+doc.id+"' title='Aggiungi al raccoglitore' ><span class='hidden'>Aggiungi al raccoglitore</span></a>")
+                                .click(function(){
+                                    myConsole.log("Todo: inserirlo nel raccoglitore")}
+                                )
+                        )                                
+                    )                                
+                    .appendTo(docUL);
+                    
+            }
+            
+            docUL.appendTo(docDiv);                        
+        }
+        
+        arUL.find("a:first").click();
+    }
+
+
+
     
     return {
         advQueryObj:_advQueryObj,
@@ -341,6 +414,14 @@ var HAP=(function(){
         init:function(){
             //setting the switch widget up
             doSwitch($("ul.switch"))
+            
+            //defining the click event
+            $($("ul.switch a").live("click",function(e){
+                e.preventDefault();
+                
+                var $this=$(this);
+                $this.closest("ul").trigger("change",$this)
+            }));           
         }
     };
 
@@ -361,15 +442,7 @@ var HAP=(function(){
                     .find("li").removeClass("current");
                 $A.closest("li").addClass("current")
             });
-            
         //widget init.
         ulElem.trigger("change",ulElem.find(".current a"))
-        
-        //defining the click event
-        ulElem.find("a").click(function(e){
-            e.preventDefault();
-            
-            var $this=$(this);
-            $this.closest("ul").trigger("change",$this)
-        })        
+                
     }
