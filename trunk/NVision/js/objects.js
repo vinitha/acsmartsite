@@ -541,8 +541,10 @@ function myAjax(options){
         var objDiv=$(this.canvasBox),
             sysObj=this;
             
-        //adding the showHide button
-        
+            objDiv.addClass(sysObj.collapsed==true?"":"expanded");
+            
+            
+        //adding the showHide button            
             $("<a href='#attr' class='showHide' title='Expand / collapse' />")
                 .click(function(e){
                     e.preventDefault();
