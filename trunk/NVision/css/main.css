@@ -1375,17 +1375,50 @@
 		-webkit-border-radius: 6px; /* For Safari/Chrome */
 		border-radius: 6px; /* For when the standard gets fully supported */
 		
-		background-color: #b1c8d8 ;
+		background-color: #B1C8D8;
+		color: #444444;
+		cursor: move;
 		font-size: 1.4em;
-		padding: 0.4em 0.5em;
-		cursor:move;
-		color:#444;
-		white-space:nowrap;
+		line-height: 1.5em;
+		padding-left: 0.5em;
+		white-space: nowrap;
 	}
+	
+	#dashBoardView .showHide{
+		background-image: url("../images/showHide.png");
+		background-position: right 0;
+		background-repeat: no-repeat;
+		display: block;
+		height: 1.7em;
+		position: absolute;
+		right: 1.2em;
+		top: 1.2em;
+		width: 1.7em;
+	}
+	
+	#dashBoardView .expanded .showHide{
+		background-position:0px 0px;
+	}
+	
+	#dashBoardView.zoom1 .showHide{
+		background-image:url(../images/showHide75.png);
+	}
+	
+	#dashBoardView.zoom2 .showHide{
+		background-image:url(../images/showHide50.png);
+	}
+	
+	#dashBoardView.zoom3 .showHide{
+		background-image:url(../images/showHide25.png);
+	}
+	
+	#dashBoardView.zoom-1 .showHide{
+		background-image:url(../images/showHide125.png);
+	}	
 	
 	#dashBoardView .adapter.updating h3{
 		background-image:url(../images/refresh_0.gif);
-		background-position:13em 50%;
+		background-position:11.7em 50%;
 		background-repeat:no-repeat;	
 	}
 	
@@ -1410,30 +1443,29 @@
 	}
 	
 	
-	#dashBoardView .adapter .attr{
+	#dashBoardView .attr{
 		margin-top:1em;
 		margin-left:2.5em;
-		font-size:1.1em;	
+		font-size:1.1em;
+		display:none;
+	}
+	
+	#dashBoardView .expanded .attr{
+		display:block;
 	}
 	
 	#dashBoardView .adapter .attr .more{		
-		font-weight:bold;
 		color:#246;
 		display:block;
 		margin-bottom:0.3em;
 		padding:0.2em 0em;
 	}
 	
-	#dashBoardView .adapter .attr .other{
-		padding:0.2em 0em 0.2em 1em;
-	}
-	
-	
-	#dashBoardView .adapter .attr .other span{
+	#dashBoardView .adapter .attr span{
 		color:#666;
 	}
 	
-	#dashBoardView .adapter .attr .other strong{
+	#dashBoardView .adapter .attr strong{
 		font-weight:bold;
 		font-size:1.1em;
 	}
@@ -1446,9 +1478,15 @@
 		float:right;
 	}
 	
-	.zooming .therm{
+	.expanded .therm{
+		display:block;
+	}
+	
+	.zooming .therm,
+	.therm{
 		display:none;
 	}
+	
 	
 	#dashBoardView .adapter .therm{
 		background-image:url(../images/thermometer.png);
@@ -1456,9 +1494,9 @@
 		background-repeat:no-repeat;
 		bottom: 1em;
 		left:1em;
-		height: 5em;
+		height: 5.01em;
 		position: absolute;
-		width: 0.9em;		
+		width: 0.91em;		
 	}
 	
 	#dashBoardView .adapter .lev{
@@ -1532,13 +1570,13 @@
 		white-space:nowrap;
 	}
 	
-	#dashBoardView .root{
+	#dashBoardView .route{
 		position: absolute;
 		background-color: #fff;
 		cursor:default;
 	}
 	
-	#dashBoardView .root h3{		
+	#dashBoardView .route h3{		
 		cursor: move;
 		font-size: 1.2em;
 		padding: 1em 1.5em;

@@ -239,7 +239,7 @@ var NVision={
     lightBoxes:{},          //hashtable of premade lightboxes      
     adapters:null,
     links:null,
-    layout:null,
+    //layout:null,
     sysReady:null,          //this function gets exectuted after the json data has been processed by the client
     tabMenuDefaults:{       //this Object defines the function to call to create the default tab content
         tab_1:function(){
@@ -419,7 +419,7 @@ var NVision={
         
         
         //delegating the mouseenter event
-        $("#dbContent .system, #dbContent .adapter, #dbContent .exchange,#dbContent .root")
+        $("#dbContent .system, #dbContent .adapter, #dbContent .exchange,#dbContent .route")
             .live("mouseenter",function(){
                 $(this).addClass("hover")
             })
@@ -676,11 +676,13 @@ var NVision={
                             NVision.links[this.id]=this;
                         break;
                         
+                        /*
                         case "layout":
                             //adding the layout to the NVision obj
                             NVision.layout=this;
                         break;
-                    
+                        */
+                        
                         case "exchange":
                           if(!NVision.otherObjects){NVision.otherObjects={}};
                             //adding the exchange to the NVision obj
@@ -1231,10 +1233,17 @@ var NVision={
             if(pos){
                 positions=eval("(" + pos + ")");
             }
+            
+            var objects={};
+                //putting all the dashboard objects together
+                objects=$.extend(objects,NVision.adapters);
+                objects=$.extend(objects,NVision.systems);
+                objects=$.extend(objects,NVision.otherObjects);
 
-            for(var i in NVision.layout.objectsPos){
-                var layout=NVision.layout.objectsPos[i]||{left:0,top:0},
-                    objToDraw=NVision.systems[i]||NVision.adapters[i]||NVision.otherObjects[i],               
+            for(var i in objects){
+                var obj=objects[i],
+                    layout={left:obj.left||0,top:obj.top||0},
+                    //objToDraw=NVision.systems[i]||NVision.adapters[i]||NVision.otherObjects[i],               
                     objPos=positions?positions[i]:layout;
                                
                 if(pos && !objPos){
@@ -1244,7 +1253,7 @@ var NVision={
                     positions=null;
                     objPos=layout;
                 }                
-                objToDraw.draw(objPos,db)
+                obj.draw(objPos,db)
             }
             
             //resizing the dashboard to contain all the objects
@@ -1509,7 +1518,7 @@ var NVision={
             var coords=[],
                 objects={}
             
-            //putting al the dashboard objects together
+            //putting all the dashboard objects together
             objects=$.extend(objects,NVision.adapters);
             objects=$.extend(objects,NVision.systems);
             objects=$.extend(objects,NVision.otherObjects);            
@@ -1520,6 +1529,10 @@ var NVision={
                 coords.push(
                     '"' + obj + '":{' + '"left":' + pos.left + ',"top":' + pos.top +"}"
                 )
+                
+                //updating the object itself
+                objects[obj].left=pos.left;
+                objects[obj].top=pos.top;
             }
 
                        
