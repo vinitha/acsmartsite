@@ -1,0 +1,108 @@
+{
+   "AssetClasses":{
+      "Equities":{
+         "Regions":{
+            "AMERICA":{
+                "BusinessMarkets":{
+                    "EQT Exchange1 Na":{
+                        "name":"EQT Exchange1 Na",
+                        "id":"EQT Exchange1 Na_AMERICA_Equities"
+                    },
+                    "EQT Exchange2 Na":{
+                        "name":"EQT Exchange2 Na",
+                        "id":"EQT Exchange2 Na_AMERICA_Equities"
+                  }
+               }
+            }
+         }
+      },
+      "Foreign Exchange":{
+         "Regions":{
+            "APAC":{
+               "BusinessMarkets":{
+                  "FX Exchange1 Apac":{
+                     "name":"FX Exchange1 Apac",
+                     "id":"FX Exchange1 Apac_APAC_Foreign Exchange"
+                  },
+                  "FX Exchange2 Apac":{
+                     "name":"FX Exchange2 Apac",
+                     "id":"FX Exchange2 Apac_APAC_Foreign Exchange"
+                  },
+                  "FX Exchange3 Apac":{
+                     "name":"FX Exchange3 Apac",
+                     "id":"FX Exchange3 Apac_APAC_Foreign Exchange"
+                  },
+                  "FX Exchange4 Apac":{
+                     "name":"FX Exchange4 Apac",
+                     "id":"FX Exchange4 Apac_APAC_Foreign Exchange"
+                  }
+               }
+            },
+            "EMEA":{
+               "BusinessMarkets":{
+                  "FX Exchange1 Eu":{
+                     "name":"FX Exchange1 Eu",
+                     "id":"FX Exchange1 Eu_EMEA_Foreign Exchange"
+                  },
+                  "FX Exchange2 Eu":{
+                     "name":"FX Exchange2 Eu",
+                     "id":"FX Exchange2 Eu_EMEA_Foreign Exchange"
+                  }
+               }
+            }
+         }
+      },
+      "Listed Derivatives":{
+         "Regions":{
+            "AMERICA":{
+               "BusinessMarkets":{
+                  "CME":{
+                     "name":"CME",
+                     "id":"CME_AMERICA_Listed Derivatives"
+                  },
+                  "LD Exchange2 Na":{
+                     "name":"LD Exchange2 Na",
+                     "id":"LD Exchange2 Na_AMERICA_Listed Derivatives"
+                  },
+                  "LD Exchange3 Na":{
+                     "name":"LD Exchange3 Na",
+                     "id":"LD Exchange3 Na_AMERICA_Listed Derivatives"
+                  }
+               }
+            },
+            "APAC":{
+               "BusinessMarkets":{
+                  "LD Exchange1 Apac":{
+                     "name":"LD Exchange1 Apac",
+                     "id":"LD Exchange1 Apac_APAC_Listed Derivatives"
+                  },
+                  "LD Exchange2 Apac":{
+                     "name":"LD Exchange2 Apac",
+                     "id":"LD Exchange2 Apac_APAC_Listed Derivatives"
+                  },
+                  "LD Exchange3 Apac":{
+                     "name":"LD Exchange3 Apac",
+                     "id":"LD Exchange3 Apac_APAC_Listed Derivatives"
+                  }
+               }
+            },
+            "EMEA":{
+               "BusinessMarkets":{
+                  "EUREX":{
+                     "name":"EUREX",
+                     "id":"EUREX_EMEA_Listed Derivatives"
+                  },
+                  "LD Exchange2 Eu":{
+                     "name":"LD Exchange2 Eu",
+                     "id":"LD Exchange2 Eu_EMEA_Listed Derivatives"
+                  },
+                  "LD Exchange3 Eu":{
+                     "name":"LD Exchange3 Eu",
+                     "id":"LD Exchange3 Eu_EMEA_Listed Derivatives"
+                  }
+               }
+            }
+         }
+      }
+   }
+}

@@ -96,7 +96,8 @@
             "updatesInterval":10000,
             "id":"ClearVisionIN",
             "left":123,
-            "top":40
+            "top":40,
+            "collapsed":false
         },
         {
             "type":"adapter",
@@ -104,7 +105,8 @@
             "updatesInterval":10000,
             "id":"NewclearOut",
             "left":391,
-            "top":68
+            "top":68,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -112,7 +114,8 @@
             "updatesInterval":10000,
             "id":"NewclearTicketTEO",
             "left":676,
-            "top":39
+            "top":39,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -120,7 +123,8 @@
             "updatesInterval":10000,
             "id":"TEOOut",
             "left":954,
-            "top":46
+            "top":46,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -128,7 +132,8 @@
             "updatesInterval":10000,
             "id":"NEWCLEAR-TICKET-IN",
             "left":677,
-            "top":187
+            "top":187,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -136,7 +141,8 @@
             "updatesInterval":10000,
             "id":"NEWCLEAR-MARKET-IN",
             "left":428,
-            "top":283
+            "top":283,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -144,7 +150,8 @@
             "updatesInterval":10000,
             "id":"NEWCLEAR-LITE-MARKET-IN",
             "left":713,
-            "top":339
+            "top":339,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -152,7 +159,8 @@
             "updatesInterval":10000,
             "id":"EUREX",
             "left":135,
-            "top":426
+            "top":426,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -160,7 +168,8 @@
             "updatesInterval":10000,
             "id":"GMI",
             "left":715,
-            "top":455
+            "top":455,
+            "collapsed":true
         },
         {
             "type":"adapter",
@@ -168,7 +177,8 @@
             "updatesInterval":10000,
             "id":"UBIXIN",
             "left":728,
-            "top":547
+            "top":547,
+            "collapsed":true
         },
         
         
