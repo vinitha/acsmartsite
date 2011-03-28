@@ -8,7 +8,9 @@
         {
             "type":"exchange",
             "name":"Exchange",
-            "id":"exchange"
+            "id":"exchange",
+            "left":20,
+            "top":232
         },
     
     
@@ -24,43 +26,57 @@
         {
             "type":"system",
             "name":"ClearVision CORE",
-            "id":"ClearVisionCORE"
+            "id":"ClearVisionCORE",
+            "left":111,
+            "top":290
         },
         
         {
             "type":"system",
             "name":"TEO CORE",
-            "id":"TEOCORE"
+            "id":"TEOCORE",
+            "left":1026,
+            "top":139
         },    
         
         {
             "type":"system",
             "name":"Newclear Lite CORE",
-            "id":"NewclearLiteCORE"
+            "id":"NewclearLiteCORE",
+            "left":1037,
+            "top":332
         },
         
         {
             "type":"system",
             "name":"GMI CORE",
-            "id":"GMICORE"
+            "id":"GMICORE",
+            "left":1034,
+            "top":499
         },    
         
         {
             "type":"system",
             "name":"UBIX CORE",
-            "id":"UBIXCORE"
+            "id":"UBIXCORE",
+            "left":1035,
+            "top":560
         },    
         
         {
             "type":"system",
             "name":"Newclear CORE",
-            "id":"NewclearCORE"
+            "id":"NewclearCORE",
+            "left":437,
+            "top":185
         },
         
         {
             "type":"system",
             "name":"CAA CORE",
-            "id":"CAACORE"
+            "id":"CAACORE",
+            "left":1010,
+            "top":217
         },    
         
         
@@ -78,61 +94,81 @@
             "type":"adapter",
             "name":"ClearVision IN",
             "updatesInterval":10000,
-            "id":"ClearVisionIN"
+            "id":"ClearVisionIN",
+            "left":123,
+            "top":40
         },
         {
             "type":"adapter",
             "name":"Newclear Out",
             "updatesInterval":10000,
-            "id":"NewclearOut"
+            "id":"NewclearOut",
+            "left":391,
+            "top":68
         },
         {
             "type":"adapter",
             "name":"Newclear Ticket TEO",
             "updatesInterval":10000,
-            "id":"NewclearTicketTEO"
+            "id":"NewclearTicketTEO",
+            "left":676,
+            "top":39
         },
         {
             "type":"adapter",
             "name":"TEO Out",
             "updatesInterval":10000,
-            "id":"TEOOut"
+            "id":"TEOOut",
+            "left":954,
+            "top":46
         },
         {
             "type":"adapter",
             "name":"Newclear Ticket CAA",
             "updatesInterval":10000,
-            "id":"NEWCLEAR-TICKET-IN"
+            "id":"NEWCLEAR-TICKET-IN",
+            "left":677,
+            "top":187
         },
         {
             "type":"adapter",
             "name":"Newclear Market IN",
             "updatesInterval":10000,
-            "id":"NEWCLEAR-MARKET-IN"
+            "id":"NEWCLEAR-MARKET-IN",
+            "left":428,
+            "top":283
         },
         {
             "type":"adapter",
             "name":"Newclear Lite IN",
             "updatesInterval":10000,
-            "id":"NEWCLEAR-LITE-MARKET-IN"
+            "id":"NEWCLEAR-LITE-MARKET-IN",
+            "left":713,
+            "top":339
         },
         {
             "type":"adapter",
             "name":"Exchange Adapter",
             "updatesInterval":10000,
-            "id":"EUREX"
+            "id":"EUREX",
+            "left":135,
+            "top":426
         },
         {
             "type":"adapter",
             "name":"GMI IN",
             "updatesInterval":10000,
-            "id":"GMI"
+            "id":"GMI",
+            "left":715,
+            "top":455
         },
         {
             "type":"adapter",
             "name":"UBIX IN",
             "updatesInterval":10000,
-            "id":"UBIXIN"
+            "id":"UBIXIN",
+            "left":728,
+            "top":547
         },
         
         
@@ -143,24 +179,32 @@
         
         
         {
-            "type":"root",
+            "type":"route",
             "name":"High Touch",
-            "id":"HighTouch"
+            "id":"HighTouch",
+            "left":470,
+            "top":384
         },
         {
-            "type":"root",
+            "type":"route",
             "name":"Low Touch",
-            "id":"LowTouch"
+            "id":"LowTouch",
+            "left":468,
+            "top":463
         },
         {
-            "type":"root",
+            "type":"route",
             "name":"Exec Only",
-            "id":"ExecOnly"
+            "id":"ExecOnly",
+            "left":479,
+            "top":545
         },
         {
-            "type":"root",
+            "type":"route",
             "name":"Not NVision",
-            "id":"NotNVision"
+            "id":"NotNVision",
+            "left":1035,
+            "top":404
         },
         
         
@@ -312,17 +356,6 @@
             "id":"L24",
             "from":"TEOOut",
             "to":"NewclearTicketTEO"
-        },
-    
-    
-    
-     
-        
-        
-        {
-            "type":"layout",
-            "name":"NVision subSystem positioning",
-            "objectsPos":{"ClearVisionCORE":{"left":147,"top":266},"TEOCORE":{"left":1030,"top":131},"NewclearLiteCORE":{"left":1065,"top":323},"GMICORE":{"left":1038,"top":486},"UBIXCORE":{"left":1034,"top":588},"NewclearCORE":{"left":454,"top":152},"CAACORE":{"left":1021,"top":191},"ClearVisionIN":{"left":131,"top":10},"NewclearOut":{"left":403,"top":37},"NewclearTicketTEO":{"left":672,"top":23},"TEOOut":{"left":954,"top":46},"NEWCLEAR-TICKET-IN":{"left":687,"top":180},"NEWCLEAR-MARKET-IN":{"left":426,"top":258},"NEWCLEAR-LITE-MARKET-IN":{"left":730,"top":311},"EUREX":{"left":146,"top":422},"GMI":{"left":720,"top":467},"UBIXIN":{"left":726,"top":570},"exchange":{"left":29,"top":108},"HighTouch":{"left":469,"top":368},"LowTouch":{"left":469,"top":461},"ExecOnly":{"left":469,"top":548},"NotNVision":{"left":1055,"top":375}}
         }
         
     ]

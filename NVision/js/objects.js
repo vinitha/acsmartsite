@@ -503,10 +503,6 @@ function myAjax(options){
             }
             
             perc.text(sysObj.data.alertLevel + "%");
-            
-            
-            //todo:remove this line for real data
-            therm=therm.not(":animated");
       
             if(therm.length>0){
                 var left=sysObj.displayLevel*1.2,
@@ -515,38 +511,26 @@ function myAjax(options){
                     
                 therm.css({backgroundPosition:css})                        
             }
-        }
         
-        //clearing the object    
-        objDiv.find("div.attr").remove()
-        
-        //todo: improve performance here!!!
-        var attributes=sysObj.data?sysObj.data.attributes:null;
-        
-        for (var attr in attributes){
-            attr=attributes[attr];
             
-           var attrDiv=$("<div class='attr' />")
-                .insertAfter(title)
+            //clearing the object    
+            objDiv.find("div.attr").remove()
+            
+            //recreating it
+            var attrDiv=$("<div class='attr' />").insertAfter(title)
+                    
+            //todo: improve performance here!!!
+            var attributes=sysObj.data?sysObj.data.attributes:null;
+            
+            for (var attr in attributes){
                 $("<p />")
                     .addClass("more")
                     .appendTo(attrDiv)
-                    .append($("<span/>").text(attr.name + ": "))
-                    .append($("<strong/>").text(attr.value))
-    
-            if(attr.other){
-                for (var other in attr.other){
-                    var div=$("<div class='other' />")
-                        .appendTo(attrDiv)                            
-                    
-                    var value=attr.other[other];
-                    
-                    div .append($("<span/>").text(other + ": "))
-                        .append($("<strong/>").text(value))
-                    
-                }                       
+                    .append($("<span/>").text(attr + ": "))
+                    .append($("<strong/>").text(attributes[attr]))
+        
             }
-        }    
+        }     
     }
     
     adapter.prototype.draw=function(objPos,container){
@@ -556,6 +540,21 @@ function myAjax(options){
        
         var objDiv=$(this.canvasBox),
             sysObj=this;
+            
+        //adding the showHide button
+        
+            $("<a href='#attr' class='showHide' title='Expand / collapse' />")
+                .click(function(e){
+                    e.preventDefault();
+                    objDiv.toggleClass("expanded");
+                    
+                    //redrawing the links
+                    NVision.redrawLinks(sysObj)
+                    
+                    return false;
+                })
+                .insertAfter(objDiv.find("h3"));
+                
             
         //adding the "View breaks" button
         objDiv.append(
