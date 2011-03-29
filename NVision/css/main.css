@@ -130,6 +130,7 @@
 		float:none;
 	}
 	
+	
 	#systemName{
 		float:left;
 	}
@@ -268,7 +269,7 @@
 		
 		-moz-box-shadow:1px 1px 3px #000;		
 		box-shadow: 1px 1px 3px #000; /* CSS3    */
-		-webkit-box-shadow: 1px 1px 3px #000; /* Webkit  */		
+		-webkit-box-shadow: 1px 1px 3px #000; /* Webkit  */
 }
 
 /* tabMenu */
@@ -1027,18 +1028,25 @@
 	
 	.tip{
 		background-color: #666;
-		background-image: url("../images/tip.png");
 		background-position: 5px 50%;
 		background-repeat: no-repeat;
 		color: #222;
-		display: none;
 		font-size: 1.1em;
 		font-style: italic;
 		margin: 5px;
-		padding: 3px 0 3px 25px;
+		padding: 3px 0 3px 3px;
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
 		border-radius: 5px; /* For when the standard gets fully supported */			
+	}
+	
+	.tip.on{
+		background-image: url("../images/tip.png");
+		padding: 3px 0 3px 25px;
+	}
+	
+	.tip strong{
+		font-weight:bold;
 	}
 	
 	#availableBMs{
@@ -1791,6 +1799,7 @@
 	}
 	 
 /* ie hasLayout fix */
+	.tip,
 	#marketPicker label,
 	#tableData,
 	.tabContent{
