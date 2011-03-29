@@ -16,7 +16,21 @@ $().ready(function(){
         error:function(XMLHttpRequest, textStatus, errorThrown){
             alert(textStatus||errorThrown);            
         }
-    })  
+    })
+    
+    setTimeout(
+        function(){
+            $(".tip")
+                .fadeOut(300,
+                    function(){
+                        $(this)
+                            .fadeIn(300)
+                            .addClass("on")
+                            .html("<strong>Ctrl + click</strong> to open the Business Martket in a new Tab.");
+                })        
+        }   
+        ,3000
+    )
 });
 
 
@@ -26,36 +40,34 @@ var bmMatrix=(function(){
     var filterObj={};
     
     _buildWidget=function(data){
-        _matrix=data.MarketsMatrix;
+        _matrix=data;//.MarketsMatrix;
         
         var cmbAsset=$("#asset"),
-            cmbRegion=$("#region"),
-            cmbExchange=$("#exchange")
+            cmbRegion=$("#region");
+            //cmbExchange=$("#exchange");
 
         
         //creating the first level buttons
-        _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(_matrix,0))
-        _populateCombo(cmbRegion,"Regions",_getHashAtLevel(_matrix,1))
-        _populateCombo(cmbExchange,"Exchange",_getHashAtLevel(_matrix,2))
+        _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(_matrix,1))
+        _populateCombo(cmbRegion,"Regions",_getHashAtLevel(_matrix,3))
+        //_populateCombo(cmbExchange,"Exchange",_getHashAtLevel(_matrix,5))
               
             
         $("#marketPicker select").change(function(ev){
-                var comboVal=$(this).attr("value");
-                
-                $(".tip").show(0);
-                
-                filterObj[this.id]=(comboVal=="")?null:comboVal;
-                        
-                var bmTable=_getBMs(filterObj);            
+            var comboVal=$(this).blur().attr("value");            
+            
+            filterObj[this.id]=(comboVal=="")?null:comboVal;
+                    
+            var bmTable=_getBMs(filterObj);            
             
             $("#availableBMs").empty();
             
-            var bms=_getListAtLevel(bmTable,2);
+            var bms=_getListAtLevel(bmTable,5);
             
             //filtering out the combos content
-            _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(bmTable,0),filterObj.asset)
-            _populateCombo(cmbRegion,"Regions",_getHashAtLevel(bmTable,1),filterObj.region)
-            _populateCombo(cmbExchange,"Exchange",_getHashAtLevel(bmTable,2),filterObj.exchange)            
+            _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(bmTable,1),filterObj.asset)
+            _populateCombo(cmbRegion,"Regions",_getHashAtLevel(bmTable,3),filterObj.region)
+            //_populateCombo(cmbExchange,"Exchange",_getHashAtLevel(bmTable,5),filterObj.exchange)            
             
             //creating the BMS buttons
             for(var x=0;x<bms.length;x++){
@@ -65,7 +77,8 @@ var bmMatrix=(function(){
                     .appendTo("#availableBMs")
             }
         })
-            
+        
+        cmbAsset.change();
         
     };
     
@@ -87,9 +100,9 @@ var bmMatrix=(function(){
     };
 
     _getBMs=function (filters){        
-        var obj=_getObjsByName(_matrix,0,filters.asset);
-        obj=_getObjsByName(obj,1,filters.region);
-        obj=_getObjsByName(obj,2,filters.exchange);
+        var obj=_getObjsByName(_matrix,1,filters.asset);
+        obj=_getObjsByName(obj,3,filters.region);
+        obj=_getObjsByName(obj,5,filters.exchange);
         
         return obj    
     };
