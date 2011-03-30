@@ -29,7 +29,7 @@ $().ready(function(){
                             .html("<strong>Ctrl + click</strong> to open the Business Martket in a new Tab.");
                 })        
         }   
-        ,3000
+        ,5000
     )
 });
 

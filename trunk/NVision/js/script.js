@@ -27,11 +27,10 @@ $(function(){
         
         //if there's no view defined than exit
         if(!newStatus.view) {
-            //checking if the tab content has been already initialised
-            if($("#" + newStatus.tabId).children(":visible").length==0){
-                //if not then runs its init function
-                NVision.tabMenuDefaults[newStatus.tabId]();
-            }
+            
+            //running the tabMenu callbacks
+            NVision.tabMenuCallback[newStatus.tabId]();
+            
             NVision.appStatus.currentTab=newStatus.tabId;
             NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab, BM:NVision.appStatus.BM}
                         
@@ -241,16 +240,26 @@ var NVision={
     links:null,
     //layout:null,
     sysReady:null,          //this function gets exectuted after the json data has been processed by the client
-    tabMenuDefaults:{       //this Object defines the function to call to create the default tab content
+    tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the usere clicks on it
         tab_1:function(){
-            NVision.showDashboard()
+            
+            NVision.updateEngine.forceStart();
+            
+            //checking if the tab content has already been initialised
+            if($("#tab_1").children(":visible").length==0){
+                //if not then runs its init function
+                NVision.showDashboard()
+            }            
+            
         },
         
-        tab_2:function(){            
+        tab_2:function(){
+            NVision.updateEngine.stop();
             myConsole.alert("Please define tab_2 default content")
         },
         
         tab_3:function(){
+            NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
         }
     },
