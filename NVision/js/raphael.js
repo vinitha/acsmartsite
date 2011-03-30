@@ -56,6 +56,7 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         {x: bb2.x - 0, y: bb2.y + bb2.height / 5*linkIndex_2},
         {x: bb2.x + bb2.width + 0, y: bb2.y + bb2.height / 5*linkIndex_2}],
         d = {}, dis = [];
+        
     for (var i = 0; i < 4; i++) {
         for (var j = 4; j < 8; j++) {
             var dx = Math.abs(p[i].x - p[j].x),
