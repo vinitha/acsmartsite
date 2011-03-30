@@ -77,7 +77,7 @@ h1 span{
 #appsList h2{
     color:#ccc;
     font-size:1.2em;
-   
+   margin-left:10px;
 }
 
 #appsList .hover h2{
