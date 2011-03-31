@@ -1,7 +1,27 @@
+
 $().ready(function(){
     
     //widgets init function
     widgets.init()
+    
+    
+    //defining and adding the dictionaries to HAP
+    HAP.dictionary.add({
+        it:{
+            d_1:"Inserire un valore su cui effettuare la ricerca.",
+            d_2:"non definito"
+        },
+        
+        en:{
+            d_1:"Please provide a value for the required field.",
+            d_2:"undefined"
+        }    
+    })
+
+    //setting the current dictionary
+    HAP.dictionary.set("en");
+
+
     
     var stdForm=$("#stdSearch");
     //on std submit..
@@ -11,7 +31,7 @@ $().ready(function(){
         input.removeClass("error");
         
         if(input.val()==""){
-            myConsole.alert("Inserire un valore su qui effettuare la ricerca.");
+            myConsole.alert(HAP.dictionary.getTranslation("d_1"));
             input.addClass("error").focus();
             return false;            
         }
@@ -20,7 +40,7 @@ $().ready(function(){
         
         HAP.doSearch({
             qForm:stdForm,
-            callback:HAP.showResults
+            callback:null
         })
     })     
     
@@ -28,11 +48,13 @@ $().ready(function(){
     var mainMenu=$("#menuBar ul:first");
     mainMenu.change(function(e,aObj){
         
+        // if the href is a proper URL then follow the link
         if(!aObj.hash){
             location.href=aObj.href;
             return false;
         }
         
+        // hoterwise switch the anchor visibility
         $(aObj.hash).slideDown(300).siblings().slideUp(300);
     })
     
@@ -96,7 +118,7 @@ $().ready(function(){
             return false;
         }else{
             if(advString==""){
-                myConsole.alert("Inserire un valore su qui effettuare la ricerca.")
+                myConsole.alert(HAP.currentDictionary.get("d_1"))
                 return false;
             }
         }
@@ -104,7 +126,7 @@ $().ready(function(){
         HAP.doSearch({
                 qForm:advForm,
                 qData:qString,
-                callback:HAP.showResults
+                callback:null
             })
         
     })
@@ -178,6 +200,11 @@ $().ready(function(){
 
 var HAP=(function(){
     var _searchHistory=[];
+    var _dictionaries={};
+    var _currentDictionary=null;
+    
+    var _currentResults={};      //hashtable usato per il lookup rapido dei document correntemente mostrati all'utente
+    
 
     //la logica della ricerca avanzata e' mappata su quest'oggetto
     var _advQueryObj=(function(){
@@ -261,7 +288,7 @@ var HAP=(function(){
                 
                     
             }else{
-                myConsole.alert("advQueryObj.showOnElement undefined!")
+                myConsole.alert("advQueryObj.showOnElement " + HAP.dictionary.getTranslation("d_2"))
             }        
         }
         
@@ -314,9 +341,16 @@ var HAP=(function(){
             success:function(data){
                 
                 //aggiungo la ricerca all'history
-                _searchHistory.push({query:qData,data:data});
+                _searchHistory.push({query:qData,data:data});                
                 
-                qObj.callback?qObj.callback(data):null;
+                var cbData=qObj.callback?qObj.callback(data):null;
+                
+                //se la callback ritorna False -> esco senza mostrare i risultatu
+                if(cbData===false){
+                    return false;
+                }
+                
+                _showResults(data);
             },
             error:function(a,b,c){
                 alert(b||a||c)
@@ -329,6 +363,11 @@ var HAP=(function(){
 
     
     function _showResults(json){
+        
+        //pulisco l'hashTable dei risultati correnti
+        _currentResults={};
+        
+        
         var mainMenu=$("#menuBar ul:first")
         var risLi=$("li.risultati",mainMenu),
             risDiv=$("#risultatiRicerca");
@@ -352,7 +391,7 @@ var HAP=(function(){
         doSwitch(arUL);
         
         arUL.change(function(e,aObj){
-            $(aObj.hash).show(0).siblings("div").hide(0);
+            $(aObj.hash).show(0).siblings("div").hide(0);            
         })
         
         for (var x=0;x<json.length;x++){
@@ -365,14 +404,20 @@ var HAP=(function(){
             var docDiv=$("<div class='archDiv' id='arch_"+obj.id+"' />").appendTo(risDiv).hide(0)
             
             //creo i documenti
-            var docUL=$("<ul class='documenti' />");
+            var docUL=$("<ul class='documenti switch' />");
             
             for (var d=0;d<obj.risultati.length;d++){
                 var doc=obj.risultati[d];
                 
+                //popolo l'hashtable
+                _currentResults[doc.id]=doc;
+                
                 $("<li class='li_doc' />")
                     .append(
                         $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
+                            .click(function(){
+                                _showDocument(this.hash.replace("#doc_",""),$(this).closest("div"))
+                            })
                             .append($("<a class='add' href='#doc_"+doc.id+"' title='Aggiungi al raccoglitore' ><span class='hidden'>Aggiungi al raccoglitore</span></a>")
                                 .click(function(){
                                     myConsole.log("Todo: inserirlo nel raccoglitore")}
@@ -383,11 +428,29 @@ var HAP=(function(){
                     
             }
             
-            docUL.appendTo(docDiv);                        
+            docUL.appendTo(docDiv);
+            
+            //lo rendo uno switch!
+            doSwitch(docUL);
         }
         
         arUL.find("a:first").click();
-    }
+    };
+    
+    function _showDocument(docId, container){
+        var docView=container.find(".hap_docView").empty();
+        if (docView.length==0){
+            docView=$("<div class='hap_docView' />").appendTo(container);
+        }
+        
+        var doc=_currentResults[docId];
+        container.addClass("showingDoc");
+        docView.html(doc.html);        
+               
+        
+        //$("#main .leftCol").hide(300);
+        
+    };
 
 
 
@@ -395,7 +458,25 @@ var HAP=(function(){
     return {
         advQueryObj:_advQueryObj,
         doSearch:_doSearch,
-        showResults:_showResults
+        searchHistory:_searchHistory,
+        dictionary:{
+            add:function(dicObj){
+                for (var d in dicObj){
+                    _dictionaries[d]=dicObj[d];
+                }
+            },
+            set:function(code){
+                if(!_dictionaries[code]){
+                    myConsole.alert("Dizionario non presente: " + code)
+                }
+                _currentDictionary=_dictionaries[code];
+                return this.dictionary;
+            },
+            
+            getTranslation:function(code){
+                return _currentDictionary[code];
+            }
+        }
     };
     
 })();
