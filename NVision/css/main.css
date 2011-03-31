@@ -284,29 +284,53 @@
 		overflow:hidden;
 		float:left;
 		margin-left:20px;
+		font-family:"myriad-pro-1";
 	}
+	
 	.tabMenu li{
 		float:left;
 	}
 	
 	.tabMenu li a{
-		background-image:url(../images/roundedCorners.png);
-		background-position:0px 0px;
-		background-repeat:no-repeat;		
 		background-color: #d0d0d0;
 		border-bottom: 1px solid #bbb;
 		color: #666666;
 		display: block;
-		font-size: 1.2em;
+		font-size: 1.3em;
 		margin-right: 1px;
 		
-		
 		outline:none;
+		
+		-moz-border-radius: 5px 5px 0px 0px; /* For FireFox */
+		-webkit-border-radius: 5px 5px 0px 0px; /* For Safari/Chrome */
+		border-radius: 5px 5px 0px 0px; /* For when the standard gets fully supported */		
 	}
+	
+	
+	.ie7 .tabMenu li a{
+		font-size: 1.2em;
+		background-image:url(../images/roundedCorners.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;			
+	}
+	
+	.ie8 .tabMenu li a{
+		background-image:url(../images/roundedCorners.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;			
+	}	
+	
+	.ie9 .tabMenu li a{
+		font-size: 1.25em;
+	}		
 	
 	.tabMenu li a span{
 		display:block;
-		padding: 5px 10px;
+		padding: 5px 10px 4px;
+	}
+	
+	.ie7 .tabMenu li a span,
+	.ie8 .tabMenu li a span{
 		background-image:url(../images/roundedCorners.png);
 		background-position:right -48px ;
 		background-repeat:no-repeat;		
@@ -326,7 +350,9 @@
 		border-bottom:1px solid #f9f9f9;
 	}
 	
-	
+	.tabMenu li.current span{
+		padding-bottom:5px;
+	}
 	
 /* searchForm */
 	#searchForm{
@@ -402,6 +428,13 @@
 		height:19px;
 		width:29px;
 	}
+	
+	
+	
+	button.searchButton {
+		-webkit-appearance: none;
+	}
+
 	
 	button.searchBtn{
 		outline:none;

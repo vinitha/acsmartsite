@@ -45,11 +45,13 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
     z-index:2;
 }
 
-.popup .tabMenu li a{
+.ie7 .popup .tabMenu li a,
+.ie8 .popup .tabMenu li a{
         background-position:0px -96px;
 }
 
-.popup .tabMenu li a span{
+.ie7 .popup .tabMenu li a span,
+.ie8 .popup .tabMenu li a span{
         background-position:right -144px;	
 }
 
