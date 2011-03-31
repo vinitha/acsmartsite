@@ -4,7 +4,7 @@ function updateRequest(options){
         
     var attributes={
         callerObj:null,
-        updatesInterval:10000,  //10 secs
+        updateInterval:10000,  //10 secs
         url:"",
         data:null,
         id:null,

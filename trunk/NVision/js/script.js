@@ -229,7 +229,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    ver:242,                //testers will log this number in the bugs report
+    ver:249,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -847,7 +847,7 @@ var NVision={
             id:"searchResults",
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
-            updatesInterval:10000,
+            updateInterval:10000,
             type:"searchResults",
             queryString:qs
         });
@@ -900,7 +900,7 @@ var NVision={
         NVision.updateEngine.setCallback(function(){
 
             var now=(new Date()).getTime(),
-                timer=Math.round((sysObj.updatesInterval-(now-reqObj.timeStamp))/1000),
+                timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
                 span=$("#updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
@@ -1042,7 +1042,7 @@ var NVision={
             for(var reqObj in tasks){
                 reqObj=tasks[reqObj];
                                 
-                if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updatesInterval<now)){                    
+                if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updateInterval<now)){                    
                     
                     var cb=$(reqObj.callerObj.canvasBox);
                     
@@ -1338,7 +1338,7 @@ var NVision={
             //to the updating queue.
             var updateReq= new updateRequest({
                 callerObj:sysObj,
-                updatesInterval:sysObj.updatesInterval,
+                updateInterval:sysObj.updateInterval,
                 id:sysObj.id,
                 url:sysConfig.sysUpdates,
                 data:{"sysId":sysObj.id},
@@ -1369,7 +1369,7 @@ var NVision={
 
         var updateReq= new updateRequest({
             callerObj:searchObj,
-            updatesInterval:searchObj.updatesInterval,
+            updateInterval:searchObj.updateInterval,
             id:searchObj.id,
             url:sysConfig.searchUrl,
             data:searchObj.queryString,
@@ -1400,7 +1400,7 @@ var NVision={
 
         var updateReq= new updateRequest({
             callerObj:sysObj,
-            updatesInterval:sysObj.updatesInterval,
+            updateInterval:sysObj.updateInterval,
             id:sysObj.id,
             url:sysConfig.sysTrades,
             data:{"sysId":sysObj.id},
