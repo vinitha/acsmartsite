@@ -224,9 +224,6 @@ $().ready(function(){
 
 
 
-
-
-
 // this object holds the logic of the entire app.
 var NVision={
     ver:249,                //testers will log this number in the bugs report
