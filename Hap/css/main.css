@@ -502,9 +502,28 @@ h2{
 	.archDiv {
 		border:1px solid #ccc;
 		clear:both;
-		padding:10px 0px 10px 10px;
+		padding:10px 0px 0px 10px;
 		overflow:hidden;
 	}
+	
+	.hap_docView{
+		overflow:hidden;
+		margin-right:10px;
+		background-color:#eee;
+		border:1px solid #ccc;
+		padding:10px;
+		font-size:1.2em;
+		max-height:700px;
+		overflow-y:auto;
+		margin-bottom:10px;
+	}
+	
+	.showingDoc ul.documenti{
+		float:right;	
+		padding:10px 0px 10px 10px;
+		width:140px;
+	}
+	
 	.li_arch a{
 		display:block;
 		font-size:1.2em;
@@ -515,25 +534,29 @@ h2{
 		margin-bottom: 15px;
 		margin-right: 12px;
 		position: relative;
+		background-image: url("../images/doc.png");
 	}
 	
-	.li_doc a.doc{
-		background-image: url("../images/doc.png");
+	.li_doc a.doc{		
+		border: 1px dotted transparent;
+		color: #666666;
 		display: block;
-		height: 77px;
+		height: 75px;
+		margin-right: 7px;
+		opacity: 0.8;
 		overflow: hidden;
 		padding: 7px;
-		width: 115px;
-		color:#666;
-		opacity:0.8;
+		width: 106px;
 		filter: alpha(opacity = 80);
 	}
 
 	.li_doc a.doc:hover,
 	.li_doc a.doc:focus,
-	.li_doc a.doc:active{
+	li.current a.doc{
 		opacity:1;
 		filter:"";
+		border-color:#ff8000;
+		background-color:#F2ECD9;
 	}
 	
 	.li_doc a.add{
@@ -549,8 +572,7 @@ h2{
 	
 	
 	.li_doc a.doc:hover a.add,
-	.li_doc a.doc:focus a.add,
-	.li_doc a.doc:active a.add{
+	.li_doc a.doc:focus a.add{
 		display:block;
 	}
 	
