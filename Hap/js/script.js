@@ -438,16 +438,27 @@ var HAP=(function(){
     };
     
     function _showDocument(docId, container){
-        var docView=container.find(".hap_docView").empty();
+        var docView=container.find(".hap_docView").empty().detach();
         if (docView.length==0){
-            docView=$("<div class='hap_docView' />").appendTo(container);
+            docView=$("<div class='hap_docView' />");
         }
         
-        var doc=_currentResults[docId];
-        container.addClass("showingDoc");
-        docView.html(doc.html);        
-               
+        var doc=_currentResults[docId],
+            docsUl=container.find("ul.documenti");
+            
+        docsUl.css({width:docsUl.innerWidth()-docsUl.css("padding-left").replace("px","")})
         
+        if(container.hasClass("showingDoc")){
+            docView.html(doc.html).appendTo(container);
+        }else{
+            container.addClass("showingDoc");
+            docsUl.animate({width:140},600,function(){
+                docView.html(doc.html).appendTo(container);
+            });    
+        }
+        
+        
+          
         //$("#main .leftCol").hide(300);
         
     };
