@@ -47,7 +47,7 @@ function myAjax(options){
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
             myConsole.error(textStatus||errorThrown);
-            attributes.error(XMLHttpRequest, textStatus, errorThrown)
+            attributes.error(XMLHttpRequest, textStatus, errorThrown);			
         }
     })    
 }
@@ -331,15 +331,29 @@ function myAjax(options){
                 
                 NVision.updateEngine.start();
             }else{
+				//checking whether the previous request is still pending
+				if($tr.hasClass("opening")){
+					myConsole.log("waiting for data...");
+					return false;
+				}
+				
+				
                 NVision.updateEngine.stop();
                 
                 //generating the ajax request
-                $tr.addClass("open");
+                $tr.addClass("opening");
                 myAjax({
                     data:{"tradeId":tradeId},
                     //logMsg:"Getting the breaks details for trade: " + tradeId,
+					error:function(){
+						$tr.removeClass("opening");
+						$tr.removeClass("open");						
+					},
                     success:function(data){
                         var messageData=data;
+						
+						$tr.removeClass("opening");
+						$tr.addClass("open");
                         
                         //generating the table to display the trade details
                         var newTr=$("<tr class='detailsContainer'><td class='detailsContainer' colspan='" + $tr.children().length + "'></td></tr>").insertAfter(tr),
@@ -376,12 +390,25 @@ function myAjax(options){
                                 //setting the window title    
                                 doc.title="Message detail View";
                                 */
+								
+								var $th=$(tr).closest("table").find("thead tr");
+								
+								//checking whether the previous request is still pending
+								if($th.hasClass("opening")){
+									myConsole.log("waiting for data...");
+									return false;
+								};
+								
+								$th.addClass("opening");
+								
+								
                                 var msgId=$(tr).attr("data-id");
 
                                 myAjax({
                                     data:{"msgId":messageData.details[msgId].id},
                                     success:function(msgDetails){
-                                        
+                                        $th.removeClass("opening");
+										
                                         var msg=$("<div />")
                                             .addClass("popup")
                                             .append("<h1>Message details:</h1>")
@@ -432,6 +459,7 @@ function myAjax(options){
                                     },
                                     error:function(){
                                         myConsole.log("Error!")
+										$th.removeClass("opening");
                                     },
                                     url:sysConfig.msgDetails
                                 })
