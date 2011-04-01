@@ -518,10 +518,16 @@ h2{
 		margin-bottom:10px;
 	}
 	
+	
+	ul.documenti{
+		overflow:hidden;
+	}
+	
 	.showingDoc ul.documenti{
 		float:right;	
-		padding:10px 0px 10px 10px;
-		width:140px;
+		padding:0px 0px 10px 10px;
+		
+		/*width:140px;*/
 	}
 	
 	.li_arch a{
@@ -532,7 +538,7 @@ h2{
 	.li_doc{
 		float: left;
 		margin-bottom: 15px;
-		margin-right: 12px;
+		margin-right: 10px;
 		position: relative;
 		background-image: url("../images/doc.png");
 	}
