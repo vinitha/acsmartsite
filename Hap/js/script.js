@@ -9,19 +9,35 @@ $().ready(function(){
     HAP.dictionary.add({
         it:{
             d_1:"Inserire un valore su cui effettuare la ricerca.",
-            d_2:"non definito"
+            d_2:"non definito",
+            d_3:"Mostra / nascondi"
         },
         
         en:{
             d_1:"Please provide a value for the required field.",
-            d_2:"undefined"
+            d_2:"undefined",
+            d_3:"Show / hide"
         }    
     })
 
-    //setting the current dictionary
-    HAP.dictionary.set("en");
+    //setting the current dictionary (getting it from the <HTML> lang attribute)
+    HAP.dictionary.set(document.documentElement.lang);
 
 
+    //adding the show/hide leftCol button
+    $(".leftCol").append(
+        $("<a id='leftColBtn' title='" + HAP.dictionary.getTranslation("d_3") + "' href='#showHide'><span>" + HAP.dictionary.getTranslation("d_3") + "</span></a>")
+            .toggle(
+                function(){
+                    var lCol=$(".leftCol").addClass("contracted")   
+                    $(".colContent",lCol).hide(300)
+                },
+                function(){
+                    var lCol=$(".leftCol").removeClass("contracted")   
+                    $(".colContent",lCol).show(300)
+                }
+            )
+    )
     
     var stdForm=$("#stdSearch");
     //on std submit..
@@ -402,6 +418,9 @@ var HAP=(function(){
             
             //creo il div che conterra' i documenti
             var docDiv=$("<div class='archDiv' id='arch_"+obj.id+"' />").appendTo(risDiv).hide(0)
+            
+            
+            //aggiungo la paginazione
             
             //creo i documenti
             var docUL=$("<ul class='documenti switch' />");

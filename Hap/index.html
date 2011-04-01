@@ -49,93 +49,98 @@
     <div id="main">
         <!-- Left Col -->
         <div class="leftCol">
-            <!-- pannello di ricerca -->
-            <div id="searchPanel">
-                <h3>Ricerca</h3>
-                
-                <!-- semplice -->
-                <form id="stdSearch" action="json/risultatiRicerca.txt" method="post" >
-                    <p><label for="semplice">Ricerca</label> <input type="text" id="semplice" name="semplice" value=""></p>
-                    <button type="submit" class="button searchBtn"><span>Vai</span></button>
-                </form>
-                
-                <ul class="switch btnsSwitch" id="searchSwitch">
-                    <li class="current"><a href="#stdSearch">Semplice</a></li>
-                    <li><a href="#advSearch">Avanzata</a></li>
-                </ul>
-                <!-- *** -->
-                
-                <hr class="hr" />
-                
-                <!-- avanzata -->
-                <form id="advSearch" action="json/risultatiRicerca.txt" method="post" >
-                  
-                    <fieldset class="multiple">
-                        <legend class="jsHidden">Opzioni avanzate</legend>
-                        <label class="hidden" for="campo_1">Tipo campo</label>
-                        <select name="campo_1" id="campo_1">
-                            <option value="tutti" data-type="text">Tutti i campi</option>
-                            <option value="denominazione" data-type="text">Denominazione</option>
-                            <option value="periodo" data-type="date">Periodo (mm/yyyy , mm/yyyy)</option>
-                            <option value="luogo" data-type="text">Luogo</option>
-                            <option value="tipologia" data-type="text">Tipologia sogg. produttore</option>
-                        </select>
-                        <span>=</span>
-                        <label class="hidden" for="valore_1">Testo</label><input class="testo" type="text" id="valore_1" name="avanzata" value="" /><a class="addRule" href="#add">+</a>
-                        
-                        <div class="operatori">
-                            <span><input type="radio" id="op_And" checked="checked" name="operatore" value="and" /><label for="op_And"> AND</label></span>
-                            <span><input type="radio" id="op_Or" name="operatore" value="or"><label for="op_Or" /> OR</label></span>
-                        </div>
-                      
-                    </fieldset>
+            <div class="colContent">
+
+                <!-- pannello di ricerca -->
+                <div id="searchPanel">
+                    <h3>Ricerca</h3>
                     
-                    <fieldset class="multiple">
-                        <legend class="hidden">Opzioni avanzate</legend>
-                        <label class="hidden" for="campo_2">Tipo campo</label>
-                        <select name="campo_2" id="campo_2">
-                            <option value="">- - -</option>
-                            <option value="tutti">Tutti i campi</option>
-                            <option value="denominazione">Denominazione</option>
-                            <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
-                            <option value="luogo">Luogo</option>
-                            <option value="tipologia">Tipologia sogg. produttore</option>
-                        </select>
-                        <span>=</span>
-                        <label class="hidden"  for="valore_2">Testo</label><input class="testo" type="text" id="valore_2" name="semplice" value="">                    
-                    </fieldset>                  
-                    
-                    <fieldset id="archivi">
-                        <legend>Ricerca in:</legend>
-                        <label for="arch_produttori"><input checked="checked" type="checkbox" id="arch_produttori" name="arch_produttori" value="true"> Soggetti produttori</label>
-                        <label for="arch_patrimonio"><input checked="checked" type="checkbox" id="arch_patrimonio" name="arch_patrimonio" value="true"> Patrimonio documentario</label>
-                        <label for="arch_istituti"><input checked="checked" type="checkbox" id="arch_istituti" name="arch_istituti" value="true"> Istituti conservatori</label>
-                    </fieldset>
-                    <div class="buttonsBar">
+                    <!-- semplice -->
+                    <form id="stdSearch" action="json/risultatiRicerca.txt" method="post" >
+                        <p><label for="semplice">Ricerca</label> <input type="text" id="semplice" name="semplice" value=""></p>
                         <button type="submit" class="button searchBtn"><span>Vai</span></button>
-                    </div>
-                </form>
+                    </form>
+                    
+                    <ul class="switch btnsSwitch" id="searchSwitch">
+                        <li class="current"><a href="#stdSearch">Semplice</a></li>
+                        <li><a href="#advSearch">Avanzata</a></li>
+                    </ul>
+                    <!-- *** -->
+                    
+                    <hr class="hr" />
+                    
+                    <!-- avanzata -->
+                    <form id="advSearch" action="json/risultatiRicerca.txt" method="post" >
+                      
+                        <fieldset class="multiple">
+                            <legend class="jsHidden">Opzioni avanzate</legend>
+                            <label class="hidden" for="campo_1">Tipo campo</label>
+                            <select name="campo_1" id="campo_1">
+                                <option value="tutti" data-type="text">Tutti i campi</option>
+                                <option value="denominazione" data-type="text">Denominazione</option>
+                                <option value="periodo" data-type="date">Periodo (mm/yyyy , mm/yyyy)</option>
+                                <option value="luogo" data-type="text">Luogo</option>
+                                <option value="tipologia" data-type="text">Tipologia sogg. produttore</option>
+                            </select>
+                            <span>=</span>
+                            <label class="hidden" for="valore_1">Testo</label><input class="testo" type="text" id="valore_1" name="avanzata" value="" /><a class="addRule" href="#add">+</a>
+                            
+                            <div class="operatori">
+                                <span><input type="radio" id="op_And" checked="checked" name="operatore" value="and" /><label for="op_And"> AND</label></span>
+                                <span><input type="radio" id="op_Or" name="operatore" value="or"><label for="op_Or" /> OR</label></span>
+                            </div>
+                          
+                        </fieldset>
+                        
+                        <fieldset class="multiple">
+                            <legend class="hidden">Opzioni avanzate</legend>
+                            <label class="hidden" for="campo_2">Tipo campo</label>
+                            <select name="campo_2" id="campo_2">
+                                <option value="">- - -</option>
+                                <option value="tutti">Tutti i campi</option>
+                                <option value="denominazione">Denominazione</option>
+                                <option value="data">Periodo (mm/yyyy , mm/yyyy)</option>
+                                <option value="luogo">Luogo</option>
+                                <option value="tipologia">Tipologia sogg. produttore</option>
+                            </select>
+                            <span>=</span>
+                            <label class="hidden"  for="valore_2">Testo</label><input class="testo" type="text" id="valore_2" name="semplice" value="">                    
+                        </fieldset>                  
+                        
+                        <fieldset id="archivi">
+                            <legend>Ricerca in:</legend>
+                            <label for="arch_produttori"><input checked="checked" type="checkbox" id="arch_produttori" name="arch_produttori" value="true"> Soggetti produttori</label>
+                            <label for="arch_patrimonio"><input checked="checked" type="checkbox" id="arch_patrimonio" name="arch_patrimonio" value="true"> Patrimonio documentario</label>
+                            <label for="arch_istituti"><input checked="checked" type="checkbox" id="arch_istituti" name="arch_istituti" value="true"> Istituti conservatori</label>
+                        </fieldset>
+                        <div class="buttonsBar">
+                            <button type="submit" class="button searchBtn"><span>Vai</span></button>
+                        </div>
+                    </form>
+                    <!-- *** -->
+                    
+                    
+                </div>
                 <!-- *** -->
                 
+                <!-- sezioni -->
+                <div class="sezioni">
+                    <dl>
+                        <dt class="fondi"><a href="#fondi.html">Fondi per Tipologia</a></dt>
+                        <dd>I Catasti, i Notai e la documentazione prodotta da enti pubblici, istituzioni private e religiose e da famiglie e persone sono raggruppati per tipologie (pulsante fondi per tipologia).</dd>
+                        
+                        <dt class="archivi"><a href="#archivi.html">Archivi di Stato</a></dt>
+                        <dd>Attraverso il pulsante archivi di stato è possibile accedere alla navigazione della descrizione dei fondi archivistici conservati da uno specifico Archivio di Stato selezionato da una lista dinamica. </dd>
+                        
+                        <dt class="atlante"><a href="#atlante.html">Atlante storico</a></dt>
+                        <dd>La documentazione prodotta dalle istituzioni statali è inquadrata nell'ambito di periodizzazioni storiche: Antichi regimi, Periodo napoleonico, Restaurazione, Regno d'Italia poi Repubblica italiana.</dd>
+                    </dl>
+                    
+                </div>            
+                <!-- *** -->            
+
                 
             </div>
-            <!-- *** -->
-            
-            <!-- sezioni -->
-            <div class="sezioni">
-                <dl>
-                    <dt class="fondi"><a href="#fondi.html">Fondi per Tipologia</a></dt>
-                    <dd>I Catasti, i Notai e la documentazione prodotta da enti pubblici, istituzioni private e religiose e da famiglie e persone sono raggruppati per tipologie (pulsante fondi per tipologia).</dd>
-                    
-                    <dt class="archivi"><a href="#archivi.html">Archivi di Stato</a></dt>
-                    <dd>Attraverso il pulsante archivi di stato è possibile accedere alla navigazione della descrizione dei fondi archivistici conservati da uno specifico Archivio di Stato selezionato da una lista dinamica. </dd>
-                    
-                    <dt class="atlante"><a href="#atlante.html">Atlante storico</a></dt>
-                    <dd>La documentazione prodotta dalle istituzioni statali è inquadrata nell'ambito di periodizzazioni storiche: Antichi regimi, Periodo napoleonico, Restaurazione, Regno d'Italia poi Repubblica italiana.</dd>
-                </dl>
-                
-            </div>            
-            <!-- *** -->            
 
         </div>
         <!-- *** -->
@@ -164,7 +169,7 @@
         <p><a href="credits.html">Credits and copyrights</a></p>
     </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
   <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
   
   <script type="text/javascript">
