@@ -56,7 +56,7 @@
 	
 	html{
 		background-color: #000000;
-		background-image: url("../images/nv.jpg");
+		background-image: url("../images/nv2.jpg");
 		background-position: -11px -17px;
 		background-repeat: no-repeat;
 		height: 100%;
@@ -979,6 +979,12 @@
 		background-image:url(../images/tableRowBG.png)
 	}	
 	
+	
+	#tableData tr.opening{
+		background-color:#ecedd1!important;
+		background-image:url(../images/opening.gif)!important;
+	}
+	
 	#tableData tr.open{
 		background-color:#e6e8d7;
 		background-image:url(../images/gradient.png)
@@ -1014,6 +1020,12 @@
 		font-weight: bold;
 		cursor:default;
 	}
+	
+	#tableData .detailsContainer thead tr.opening span{
+		background-color:#ecedd1!important;
+		background-image:url(../images/opening.gif)!important;
+	}	
+	
 	
 	#tableData .detailsContainer thead p{
 		background-color: #DAD3A1;
