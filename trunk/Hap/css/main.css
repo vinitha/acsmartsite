@@ -54,11 +54,47 @@
 		margin: 10px 0px;
 	}	
 	
-	.leftCol{
-		width:320px;
+	.leftCol{		
 		float:left;
-		padding:10px 10px 10px 0px;
-		margin-top:20px;
+		padding:30px 10px 10px 10px;
+		margin-bottom:10px;
+		border-right:1px solid #ccc;
+		border-bottom:1px solid #ccc;
+		position:relative;
+	}
+	
+	.leftCol .colContent{
+		width:320px;
+	}
+	
+	#leftColBtn{
+		background-image: url("../images/expandContract.png");
+		background-position: 2px -9px;
+		background-repeat: no-repeat;
+		display: block;
+		height: 13px;
+		outline: medium none;
+		position: absolute;
+		right: 7px;
+		text-align: center;
+		top: 7px;
+		width: 14px;
+	}
+	
+	.contracted #leftColBtn{
+		right:0px;
+		background-position:0px 2px;
+	}
+	
+	.leftCol.contracted{
+		background-color:#eee;
+		padding:13px 9.5px;
+		
+	}
+	
+	#leftColBtn span{
+		position:absolute;
+		left:-999999px;
 	}
 	
 	form{
@@ -170,7 +206,7 @@ h2{
 	margin:0px;
 	background-color:#F9F9F9;
 	overflow:hidden;
-	padding-left:10px;
+	padding-left:0px;
 }
 
 /* tabMenu */
@@ -447,7 +483,7 @@ h2{
 	#bodyCol {
 		overflow:hidden;
 		margin-top:20px;
-		padding:10px 30px 10px 20px;
+		padding:10px 20px;
 	}
 	
 	
@@ -513,7 +549,7 @@ h2{
 		border:1px solid #ccc;
 		padding:10px;
 		font-size:1.2em;
-		max-height:700px;
+		max-height:826px;
 		overflow-y:auto;
 		margin-bottom:10px;
 	}
