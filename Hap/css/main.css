@@ -16,11 +16,6 @@
 		left:-9999999px;
 	}
 	
-	.js .jsHidden{
-		position:absolute;
-		left:-9999999px;
-	}
-	
 	a{
 		color:#666;
 	}
@@ -618,8 +613,93 @@ h2{
 		display:block;
 	}
 	
+/* pagination */
+	.pagination{		
+		background-color:#d0d0d0;
+		margin:0px 10px 10px 0px;
+	}
+	
+	.pagination ul{
+		text-align:right;
+	}
+	
+	.pagination li{
+		display:inline-block;
+		zoom: 1; *display: inline; /* IE < 8: fake inline-block */
+		font-size:1.1em;
+	}
+	
+	.pagination li a{
+		display:block;
+		padding:2px 4px;
+		color:#fff;
+	}
+	
+	.pagination li.current{
+		margin:-2px 0px;
+	}
+	
+	.pagination li.current a{
+		font-weight:bold;
+		background-color:#aaa;
+		font-size:1.1em;
+		
+		padding:4px;
+	}
+	
+/* toolBar */
+	.toolBar {
+		overflow:hidden;
+		background-color:#eee;
+		padding:5px;
+		margin-bottom:5px;
+	}
+	
+	.toolBar a.btn{
+		float:left;
+		background-image:url(../images/icons.png);
+		background-repeat:no-repeat;
+		margin-right:5px;
+	}
+	
+	.toolBar a.btn:hover,
+	.toolBar a.btn:focus{
+		background-image:url(../images/iconsOn.png);
+	}
+	
+	.toolBar a.prev{
+		background-position: -98px 5px;
+		height: 23px;
+		width: 23px;
+	}
+	
+	.toolBar a.next{
+		background-position: -23px -2px;
+		height: 23px;
+		width: 23px;
+		margin-right:25px;
+	}
 	
 	
+	.toolBar a.add{
+		background-position: -3px -47px;
+		height: 23px;
+		width: 23px;
+	}
+	
+	.toolBar a.print{
+		background-position: -56px -48px;
+		height: 23px;
+		width: 23px;
+	}
+	
+	.toolBar a.close{
+		background-position: -94px -30px;
+		float: right;
+		height: 16px;
+		width: 16px;
+		margin-top:5px;
+	}	
 /* switch widget */
 	
 	.btnsSwitch{
