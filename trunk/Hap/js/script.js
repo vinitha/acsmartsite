@@ -408,7 +408,7 @@ var HAP=(function(){
             .empty()
             .append($("<h3 class='titoloPannello'>Risultati della ricerca:<h3/>"));
         
-        risLi.find("a").click();
+        mainMenu.trigger("itemClick",risLi.find("a"));
         
         var arUL=$("<ul class='archivi tabMenu switch' />");
         arUL.appendTo(risDiv);
@@ -447,7 +447,7 @@ var HAP=(function(){
             
             pagUl.appendTo(pagDiv.appendTo(docDiv))
             doSwitch(pagUl);
-            pagUl.trigger("change",curPage)
+            pagUl.trigger("itemClick",curPage)
             pagUl.change(function(e,aObj){
                 myConsole.info("vai a pag: "+$(aObj).text())
             })
@@ -466,9 +466,12 @@ var HAP=(function(){
                 $("<li class='li_doc' />")
                     .append(
                         $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
-                            .append($("<a class='add' href='#doc_"+doc.id+"' title='Aggiungi al raccoglitore' ><span class='hidden'>Aggiungi al raccoglitore</span></a>")
-                                .click(function(){
-                                    myConsole.log("Todo: inserirlo nel raccoglitore")}
+                            .append($("<a class='add' href='#doc_"+doc.id+"' title='"+HAP.dictionary.getTranslation("d_8")+"' ><span class='hidden'>" + HAP.dictionary.getTranslation("d_8") +"</span></a>")
+                                .click(function(e){
+                                        e.preventDefault();
+                                        myConsole.log("Todo: " + HAP.dictionary.getTranslation("d_8"));
+                                        return false;
+                                    }
                                 )
                         )                                
                     )                                
@@ -480,12 +483,13 @@ var HAP=(function(){
             
             //lo rendo uno switch!
             doSwitch(docUL);
-            docUL.change(function(e, anchor){
+            
+            docUL.bind("itemClick",function(e, anchor){
                 _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"))
             })
         }
-        
-        arUL.find("a:first").click();
+
+        arUL.trigger("itemClick",arUL.find("a:first"));
     };
     
     function _closeDocument(container){
@@ -616,8 +620,9 @@ var HAP=(function(){
             $($("ul.switch a").live("click",function(e){
                 e.preventDefault();
                 
-                var $this=$(this);
-                $this.closest("ul").trigger("change",$this)
+                var $this=$(this);                
+                $this.closest("ul").trigger("itemClick",$this);
+                return false;
             }));           
         }
     };
@@ -634,20 +639,28 @@ var HAP=(function(){
                 if(!currentA){return false};
                 
                 var $A=$(currentA);
+                                
                 $A.closest("ul")
                     .data("value",$A.attr("hash").replace("#",""))
                     .find("li").removeClass("current");
                 $A.closest("li").addClass("current")
             });
+        
+        ulElem.bind("itemClick",function(e,currentA){
+            
+                if($(currentA).closest("li").hasClass("current")){return false;}
+                ulElem.trigger("change",currentA)
+            });
+        
         //widget init.
-        ulElem.trigger("change",ulElem.find(".current a"))
+        ulElem.trigger("itemClick",ulElem.find(".current a"))
         
         $.fn.nextItem=function(){
 		var thisObj=$(this);
                 var nextItem=thisObj.find(".current").next().find("a");
                 
                 if (nextItem.length==0){return false;}
-                thisObj.trigger("change", nextItem);                
+                thisObj.trigger("itemClick", nextItem);                
         };
         
         $.fn.prevItem=function(){
@@ -655,6 +668,6 @@ var HAP=(function(){
                 var prevItem=thisObj.find(".current").prev().find("a");
                 
                 if (prevItem.length==0){return false;}
-                thisObj.trigger("change", prevItem);                
+                thisObj.trigger("itemClick", prevItem);                
         }        
     }
