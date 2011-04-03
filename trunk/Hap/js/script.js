@@ -10,13 +10,23 @@ $().ready(function(){
         it:{
             d_1:"Inserire un valore su cui effettuare la ricerca.",
             d_2:"non definito",
-            d_3:"Mostra / nascondi"
+            d_3:"Mostra / nascondi",
+            d_4:"Precedente",
+            d_5:"Successivo",
+            d_6:"Chiudi",
+            d_7:"Stampa",
+            d_8:"Aggiungi a I Miei Documenti"
         },
         
         en:{
             d_1:"Please provide a value for the required field.",
             d_2:"undefined",
-            d_3:"Show / hide"
+            d_3:"Show / hide",
+            d_4:"Previous",
+            d_5:"Next",
+            d_6:"Close",
+            d_7:"Print",
+            d_8:"Add to My Documents"
         }    
     })
 
@@ -421,6 +431,28 @@ var HAP=(function(){
             
             
             //aggiungo la paginazione
+            var pagDiv=$("<div class='pagination' />")
+            var pagUl=$("<ul class='switch' />").appendTo(pagDiv);
+            
+            var pStart=Math.max(0,obj.pagina-3),
+                pEnd=Math.min(pStart+6,obj.totPagine),
+                curPage=null;
+                
+            for(var p=pStart;p<pEnd;p++){
+                var li=$("<li><a title='"+p+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
+                if((p+1)==obj.pagina){
+                    curPage=li.find("a");
+                }
+            }
+            
+            pagUl.appendTo(pagDiv.appendTo(docDiv))
+            doSwitch(pagUl);
+            pagUl.trigger("change",curPage)
+            pagUl.change(function(e,aObj){
+                myConsole.info("vai a pag: "+$(aObj).text())
+            })
+            
+            
             
             //creo i documenti
             var docUL=$("<ul class='documenti switch' />");
@@ -434,9 +466,6 @@ var HAP=(function(){
                 $("<li class='li_doc' />")
                     .append(
                         $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
-                            .click(function(){
-                                _showDocument(this.hash.replace("#doc_",""),$(this).closest("div"))
-                            })
                             .append($("<a class='add' href='#doc_"+doc.id+"' title='Aggiungi al raccoglitore' ><span class='hidden'>Aggiungi al raccoglitore</span></a>")
                                 .click(function(){
                                     myConsole.log("Todo: inserirlo nel raccoglitore")}
@@ -451,12 +480,67 @@ var HAP=(function(){
             
             //lo rendo uno switch!
             doSwitch(docUL);
+            docUL.change(function(e, anchor){
+                _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"))
+            })
         }
         
         arUL.find("a:first").click();
     };
     
+    function _closeDocument(container){
+        container
+            .find(".toolBar").hide(0).end()
+            .find(".hap_docView").hide(0);
+            
+        var docsUl=container.find("ul.documenti");
+            
+        
+        
+        var newWidth=docsUl.closest("div").innerWidth()-docsUl.closest("div").css("padding-left").replace("px","");
+        docsUl.animate({width:newWidth},600,function(){
+                container.removeClass("showingDoc");
+                docsUl.css("width","auto")
+            });    
+            
+    };
+    
     function _showDocument(docId, container){
+        var toolBar=container.find(".toolBar").detach();
+        if (toolBar.length==0){
+            toolBar=$("<div class='toolBar' />");
+            
+            //todo: wrappare i link in un <ul>
+            toolBar
+                .append(
+                    $("<a href='#prev' class='btn prev' title='" + HAP.dictionary.getTranslation("d_4")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_4")+ "</span></a>")
+                        .click(function(){
+                            container.find("ul.documenti").prevItem();
+                        })
+                )
+                .append(
+                    $("<a href='#next' class='btn next' title='" + HAP.dictionary.getTranslation("d_5")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_5")+ "</span></a>")
+                        .click(function(){
+                            container.find("ul.documenti").nextItem();
+                        })
+                )
+                
+                .append(
+                    $("<a href='#print' class='btn print' title='" + HAP.dictionary.getTranslation("d_7")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_7")+ "</span></a>")
+                        .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_7"))})
+                )
+                .append(
+                    $("<a href='#next' class='btn add' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
+                        .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_8"))})
+                )
+                
+                .append(
+                    $("<a href='#close' class='btn close' title='" + HAP.dictionary.getTranslation("d_6")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_6")+ "</span></a>")
+                        .click(function(){_closeDocument(container)})
+                )
+        }
+                
+        
         var docView=container.find(".hap_docView").empty().detach();
         if (docView.length==0){
             docView=$("<div class='hap_docView' />");
@@ -468,11 +552,13 @@ var HAP=(function(){
         docsUl.css({width:docsUl.innerWidth()-docsUl.css("padding-left").replace("px","")})
         
         if(container.hasClass("showingDoc")){
-            docView.html(doc.html).appendTo(container);
+            toolBar.appendTo(container).show(0);
+            docView.html(doc.html).appendTo(container).show(0);
         }else{
             container.addClass("showingDoc");
             docsUl.animate({width:140},600,function(){
-                docView.html(doc.html).appendTo(container);
+                toolBar.appendTo(container).show(0);
+                docView.html(doc.html).appendTo(container).show(0);                
             });    
         }
         
@@ -555,5 +641,20 @@ var HAP=(function(){
             });
         //widget init.
         ulElem.trigger("change",ulElem.find(".current a"))
+        
+        $.fn.nextItem=function(){
+		var thisObj=$(this);
+                var nextItem=thisObj.find(".current").next().find("a");
                 
+                if (nextItem.length==0){return false;}
+                thisObj.trigger("change", nextItem);                
+        };
+        
+        $.fn.prevItem=function(){
+		var thisObj=$(this);
+                var prevItem=thisObj.find(".current").prev().find("a");
+                
+                if (prevItem.length==0){return false;}
+                thisObj.trigger("change", prevItem);                
+        }        
     }

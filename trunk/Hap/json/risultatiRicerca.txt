@@ -3,6 +3,8 @@
         "id":"xx1",
         "nome":"Soggetti produttori",
         "totaleDocs":6,
+        "pagina":1,
+        "totPagine":4,
         "risultati":[
             {
                 "id":123,
@@ -59,6 +61,8 @@
         "id":"xx2",
         "nome":"Patrimonio documentario",
         "totaleDocs":3,
+        "pagina":1,
+        "totPagine":1,
         "risultati":[            
             {
                 "id":125,
@@ -85,6 +89,8 @@
         "id":"xx3",
         "nome":"Istituti conservatori",
         "totaleDocs":3,
+        "pagina":1,
+        "totPagine":1,
         "risultati":[            
             {
                 "id":128,
