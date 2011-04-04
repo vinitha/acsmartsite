@@ -3,6 +3,9 @@
 
 $().ready(function(){
     
+	
+	$(".tip").addClass("loading").text("Loading the Business Markets definition...")
+	
     //getting the bmMAtrix
     $.ajax({
         url:sysConfig.bmMatrix,
@@ -12,25 +15,33 @@ $().ready(function(){
             bmMatrix.buildWidget(data);
             
             $("#marketPicker label").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
+			
+			$(".tip")
+				.removeClass("loading")
+				.addClass("on")
+				.fadeOut(0)
+				.html("Please use the above DropDowns to filter the B.M. list")
+				.fadeIn(1000);
+			
+			setTimeout(
+				function(){
+					$(".tip")
+						.fadeOut(600,
+							function(){
+								$(this)
+									.fadeIn(1000)									
+									.html("<strong>Ctrl + click</strong> to open the Business Martket in a new Tab.");
+						})        
+				}   
+				,5000
+			)
+	
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
             alert(textStatus||errorThrown);            
         }
     })
     
-    setTimeout(
-        function(){
-            $(".tip")
-                .fadeOut(300,
-                    function(){
-                        $(this)
-                            .fadeIn(300)
-                            .addClass("on")
-                            .html("<strong>Ctrl + click</strong> to open the Business Martket in a new Tab.");
-                })        
-        }   
-        ,5000
-    )
 });
 
 
