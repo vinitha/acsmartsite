@@ -1079,14 +1079,14 @@
 	}
 	
 	.tip{
-		background-color: #666;
+		background-color: #333;
 		background-position: 5px 50%;
 		background-repeat: no-repeat;
-		color: #222;
+		color: #ccc;
 		font-size: 1.1em;
 		font-style: italic;
 		margin: 5px;
-		padding: 3px 0 3px 3px;
+		padding: 3px 0 3px 5px;
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
 		border-radius: 5px; /* For when the standard gets fully supported */			
@@ -1095,6 +1095,11 @@
 	.tip.on{
 		background-image: url("../images/tip.png");
 		padding: 3px 0 3px 25px;
+	}
+	
+	.tip.loading{
+		background-image: url("../images/BWloader.gif");
+		padding: 3px 0 3px 25px;		
 	}
 	
 	.tip strong{
