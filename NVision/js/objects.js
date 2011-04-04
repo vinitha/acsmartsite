@@ -33,8 +33,11 @@ function myAjax(options){
     if(attributes.logMsg){
         var msgId=myConsole.status(attributes.logMsg);    
     }
+	
+	//adding dummy data to avoid cache issues
+    attributes.data.dummyId=(new Date()).getTime();
     
-    $.ajax({
+	$.ajax({
         url:attributes.url,
         type:"GET",
         dataType:"json",
@@ -168,16 +171,152 @@ function myAjax(options){
     tradeHolder.prototype=new baseObj();
     tradeHolder.prototype.constructor=tradeHolder;    
 
+
+	tradeHolder.prototype.showResubmitted=function(tableContainer,paginationContainer){    
+		// defining the table headings
+		var sysObj=this;
+		  
+		var tableHeadings=[]
+		for(var h in sysObj.resubmitted[0]){
+			tableHeadings.push(h);
+		}                                        
+							
+		if(sysObj.sortBy){
+			//defining the column order
+			for (var x=sysObj.sortBy.length-1;x>-1;x--){
+				var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
+				tableHeadings.unshift(tableHeadings.splice(h,1)[0])
+				
+				//sorting the trades list
+				sysObj.resubmitted.sort(function(a,b){
+					if (sysObj.sortBy[x].ascending){
+						return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
+					}else{
+						return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
+					}
+					
+				})
+			}
+		}
+		
+		
+		//filtering out the data according to the "filters" settings
+		var filteredData=[]
+		_t:for (var trade in sysObj.resubmitted){
+			_f:for(var f in sysObj.filters){                        
+				if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
+					continue _t;
+				}
+			}
+			filteredData.push(sysObj.resubmitted[trade]);
+		}
+		
+		sysObj.filteredData=filteredData;
+		
+		//removing the old table and clearing the NVision.fnObj
+		NVision.utils.deleteTable($("#tableData").find("table"))
+		
+		// creating the table
+		var table=NVision.utils.createTable({
+			selectRow:false,
+			container:tableContainer,
+			data:filteredData,
+			tableHeadings:tableHeadings,
+			itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
+			currentPage:sysObj.currentPage,
+			headClick:function(anchor){
+				
+				var $anchor=$(anchor);
+				//var up=myConsole.chkSpeed("updateTable: ");
+				
+				sysObj.sortBy=sysObj.sortBy?sysObj.sortBy:[];
+				
+				// checking whether the column is already in the sort list or not
+				var sortOption=null;                                
+				$(sysObj.sortBy).each(function(index,item){
+					if(this.name==$anchor.text()){
+						sortOption=index;
+					}
+				})
+					
+	
+				sortOption=sysObj.sortBy[sortOption];
+												
+				//updating the sortBy obj                                
+				if(sortOption){
+					sortOption.ascending=!sortOption.ascending;
+				}else{
+					sysObj.sortBy.push({name:$anchor.text(),ascending:true})
+				}                            
+				
+				
+				sysObj.showResubmitted(tableContainer,paginationContainer);
+				
+				//myConsole.chkSpeed("",up)
+				
+			},
+			rowClick:null 
+		})
+		
+		table.addClass("resubmitted")
+		
+		
+		//highlighting the columns I am sorting the table by
+		if(sysObj.sortBy){
+			var headers=table.find("thead").find("a");
+			for (var x=0;x<sysObj.sortBy.length;x++){                            
+				headers.eq(x)
+					.addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
+					.prepend("<span class='order'/>")
+					.append(
+						$("<span title='disable' class='remove'/>")
+							.click(function(e){
+								e.preventDefault();
+								
+								var x=$(this).attr("data-idx")
+								sysObj.sortBy.splice(x,1);
+								
+								sysObj.showResubmitted(tableContainer,paginationContainer); 
+							})
+							.attr("data-idx",x)                                   
+					)
+			}
+			
+			//highlighting the sorted column cells
+			setTimeout(function(){
+				table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
+			},10)
+			
+		}
+	   
+		
+		
+		//adding the pagination
+		NVision.utils.createPagination({                    
+			container:paginationContainer,
+			system:sysObj,                    
+			// when the user clicks on a page numb.
+			pageClick:function(pageNum){
+				sysObj.currentPage=pageNum;
+				
+				sysObj.showResubmitted(tableContainer,paginationContainer);                    
+			}
+		})
+	}
+
+
+
+
     tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer){    
         // defining the table headings
-        var sysObj=this;
-        
-        
+        var sysObj=this; 
         var tableHeadings=[]
         for(var h in sysObj.trades[0]){
             tableHeadings.push(h);
         }                                        
-                            
+        
+		
+		
         if(sysObj.sortBy){
             //defining the column order
             for (var x=sysObj.sortBy.length-1;x>-1;x--){
