@@ -153,6 +153,10 @@
 		padding-left:25px;
 	}
 	
+	#systemName .resub{
+		background-color:#619652;
+	}
+	
 	#systemName strong{
 		color:#666;
 		font-size:0.7em;
@@ -938,8 +942,29 @@
 		color:#222;
 	}
 	
-	#tableData thead a.ascending,
-	#tableData thead a.descending	{
+	
+	#tableData .resubmitted thead a {
+		color: #5e8350;
+		background-color: #bdd8b6;
+	}
+	
+	#tableData .resubmitted thead a:hover,
+	#tableData .resubmitted thead a:focus{
+		background-color:#a2c998;
+		color:#222;
+	}
+	
+	#tableData .resubmitted tbody tr{
+		cursor:default;
+	}	
+	
+	#tableData .resubmitted tbody tr:hover{
+		background-image:none;
+		cursor:default;
+	}
+	
+	#tableData table thead a.ascending,
+	#tableData table thead a.descending	{
 		background-color:#ffbc40;
 		color:#444;
 		position:relative;
@@ -1057,6 +1082,9 @@
 		background-color:inherit;
 	}
 	*/
+	
+	
+
 	
 	
 	
@@ -1786,6 +1814,13 @@
 		font-size:1.1em;
 		color:#666;
 	}
+	
+	
+	
+	#resubmittedView{
+		width:600px;
+	}
+	
 	
 	#confirmBox{
 		width:250px;

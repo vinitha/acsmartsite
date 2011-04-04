@@ -567,7 +567,8 @@ function confirm(options){
 	onYes:function(){},
 	onNo:function(){},
 	msg:"Confirm message!",
-	msgClass:""
+	msgClass:"",
+	onClose:null
     }
     
     $.extend(defaults,options)
@@ -603,7 +604,8 @@ function confirm(options){
     var lb=$msg.lightBox({
 					modal:true,
 					title:defaults.title,
-					width:270
+					width:270,
+					onClose:defaults.onClose
 				}).show();
 }
 

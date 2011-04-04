@@ -47,11 +47,22 @@ $(function(){
                 
                 case "adapter":
                     if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
-                        var sysName=newStatus.view.sysName;
-                            sysObj=NVision.adapters[sysName];
-                        
+                        var sysName=newStatus.view.sysName,
+                            sysObj=NVision.adapters[sysName],
+							btn=$("#resubmitted");
+							
+							NVision.currentSys=sysObj;
+							
                         if(sysObj){
-                            NVision.showTable(sysObj);
+							if(newStatus.view.resubmitted=="true"){
+								NVision.showResubmitted();
+								btn.text("< Back to the brakes view");
+								btn.data("resubmitted",true)								
+							}else{
+								NVision.showTable(sysObj)
+								btn.text("View resubmitted Trades");
+								btn.data("resubmitted",false)							
+							}							
                         }else{
                             myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
                         }
@@ -417,7 +428,7 @@ var NVision={
             
             if(!$(this).hasClass("detailsContainer")&& e.target.tagName.toLowerCase()=="td"){
                 var fnId=$(this).closest("table").data("fnId");
-                if(NVision.fnObj[fnId]){
+                if(fnId && NVision.fnObj[fnId]){
                     NVision.fnObj[fnId](this);
                 }                
             }
@@ -455,8 +466,8 @@ var NVision={
                             "id":"overwriteForm"
                         })
                         .append("<input type='hidden' id='_id' name='id' />")
-                        .append("<label><span class='caption'>Trading ref.</span><input type='text' id='_tradingRef' name='Trading Ref.' value='nothing' /></label>")
-                        .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='Trader' value='nothing' /></label>")
+                        .append("<label><span class='caption'>Trading ref</span><input type='text' id='_tradingRef' name='tradingRef' value='nothing' /></label>")
+                        .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='trader' value='nothing' /></label>")
                         .append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
                 
@@ -534,26 +545,28 @@ var NVision={
                 //generating the ajax request
                 myAjax({
                     logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
-                    success:function(data){
-                        
-                        //toDo: remove this timeout
-                        setTimeout(function(){
-                            myConsole.log("Refreshing the view...")
-                            
-                            //refreshing the tableView
-                            NVision.updateEngine.updateNow();
-                            NVision.updateEngine.start();
-                        },1000)
-                        
+                    success:function(data){                        
                         
                         var confBox={
                             title:"Resubmit confirmation",
                             yesCaption:"View submitted trades",
                             noCaption:"Close",                    
-                            onYes:function(){myConsole.log("yes")},
-                            onNo:function(){myConsole.log("no")},
+                            onYes:function(){
+																
+								NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
+								$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+									
+							},
+                            onNo:function(){
+								myConsole.log("Refreshing the view...")
+								
+								//refreshing the tableView
+								NVision.updateEngine.updateNow();
+								NVision.updateEngine.start();								
+							},
                             msg:data.msg,
-                            msgClass:data.code=="nok"?"error":"ok" // [ok||error]
+                            msgClass:data.code=="nok"?"error":"ok", // [ok||error]
+							onClose:null
                         }
                         
                         confirm(confBox);
@@ -730,7 +743,7 @@ var NVision={
                 .show()
                 .find("#_id").attr("value",tradeObj["id"]).end()
                 .find("#_trader").attr("value",tradeObj["Trader"]).end()
-                .find("#_tradingRef").attr("value",tradeObj["Trading Ref."]);
+                .find("#_tradingRef").attr("value",tradeObj["Trading Ref"]);
                 
             });
             
@@ -761,6 +774,16 @@ var NVision={
                     .find("#_comment").attr("value","").end()
                     .find("#_reason").find("option").eq(0).attr("selected",true);
             });
+			
+			//View Resubmitted trades
+			$("#resubmitted").live("click",function(e){
+				e.preventDefault();
+				
+				var $this=$(this);
+								
+				NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=$this.data("resubmitted")?false:true;
+				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2); 				
+			})
             
             $("#tableData input[type='checkbox']").live("change",function(){
                 var chkBox=$("#tableData").find("tbody input[type='checkbox']"),
@@ -877,6 +900,7 @@ var NVision={
         //setting the table title....
         $("#systemName span")
             .addClass("loading")
+			.removeClass("resub")
             .text("loading data...")        
         
         NVision.utils.deleteTable($("#tableData").find("table"));
@@ -974,9 +998,50 @@ var NVision={
                     }
                 }
             }
-        })
-        
+        })        
     },
+	
+	showResubmitted:function(){
+        $("#tableView").show(0);        
+        $("#toolBar").show(0);
+        $("#dashBoardView").hide(0);
+        $("#updatesBtn").show(0);
+        $("#dbTools").hide(0);
+		
+		NVision.updateEngine.empty();
+		
+		//styling the #systemName
+		$("#systemName span")
+            .addClass("loading")
+            .text("loading data...")  
+		
+		var reqObj=NVision.createResubmittedRequest(NVision.currentSys);
+		
+		//setting the callback to update the updatesBtn!
+		NVision.updateEngine.setCallback(function(){
+			var sysObj=NVision.currentSys,
+				now=(new Date()).getTime(),
+				timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
+				span=$("#updatesBtn").find("span"),
+				value=parseInt(span.text());
+				
+			if(value<timer){
+				span.parent().addClass("on")
+			}else{
+				span.parent().removeClass("on")
+			}
+
+			span.text(timer);            
+		});
+		
+        NVision.updateEngine.onNewData(function(){
+            $("#systemName span")
+				.addClass("resub")
+				.removeClass("loading")
+        })		
+		
+		NVision.updateEngine.forceStart();		
+	},
     
     
     //handles all the updates requests
@@ -1008,7 +1073,7 @@ var NVision={
             //console.log("start" , stopLevel);
             
             if(!intervalHnd){
-                //intervalHnd=setTimeout(update,engineTimer);            
+                intervalHnd=setInterval(update,engineTimer);            
                 
                 myConsole.log("Update engine running...",3000);
                 $("#updatesBtn").find("a").removeClass("pause");
@@ -1087,10 +1152,7 @@ var NVision={
             //executing the callbacks
             for(var f in loopCallback){
                 loopCallback[f]();
-            }
-            
-            //setting the timeout again
-            intervalHnd=setTimeout(update,engineTimer);  
+            }            
                         
         },
         updateNow=function(){
@@ -1410,6 +1472,24 @@ var NVision={
         return updateReq;
     
     },
+	
+	createResubmittedRequest:function(sysObj){
+        // generating breaks updatesRequest for the passed system
+
+        var updateReq= new updateRequest({
+            callerObj:sysObj,
+            updateInterval:sysObj.updateInterval,
+            id:sysObj.id,
+            url:sysConfig.resubmittedTrades,
+            data:{"sysId":sysObj.id},
+            callBack:function(data){
+                NVision.utils.showObjResubmitted(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
+            }
+        })
+        NVision.updateEngine.add(updateReq);
+        
+        return updateReq;		
+	},
     
     utils:{
         checkDbSize:function(){
@@ -1513,6 +1593,57 @@ var NVision={
             }
             
         },
+		
+		showObjResubmitted:function(data,tableContainer,paginationContainer,filtersContainer){
+
+            //showing the adapter name
+            var nameSpan=$("#systemName").find("span").text(data.name),
+                sysObj=NVision.currentSys;
+
+            //updating the system resubmitted object
+            sysObj.resubmitted=data.trades;
+            
+            //clearing the filters
+            delete(sysObj.filters)
+            delete(sysObj.filteredData)
+            
+            
+            //disabling the buttons
+            $("#overwriteBtn").addClass("off")
+            $("#resubmitBtn").addClass("off")
+            
+            
+            //clearing and recreating the table
+            NVision.utils.deleteTable(tableContainer.find("table"))
+            sysObj.showResubmitted(tableContainer,paginationContainer)
+            
+            
+            //creating the filters html
+            var html=NVision.utils.createFilters(data.trades,data.filters),                
+                filtersDiv=filtersContainer.empty();
+            
+            for(var filter in html){
+                filtersDiv.append(html[filter])
+                html[filter].find("select").change(function(){
+                    var selectObj=$(this);                        
+                                            
+                    sysObj.filters=sysObj.filters?sysObj.filters:{};
+                    if(selectObj.val()==""){
+                        delete(sysObj.filters[selectObj.attr("name")]);
+                        NVision.updateEngine.start();
+                    }else{
+                        sysObj.filters[selectObj.attr("name")]=selectObj.val();
+                        NVision.updateEngine.stop();
+                    }
+                    
+                    //moving to page 1
+                    sysObj.currentPage=1;
+                                            
+                    sysObj.showResubmitted(tableContainer,paginationContainer)
+                })
+            }
+            
+        },
         
         getLevel:function(lev){
             var thr=100;
@@ -1607,7 +1738,7 @@ var NVision={
                     })
                     .appendTo(options.container)
                     
-            if(options.system.trades.length==0){
+            if(options.system.filteredData.length==0){
                 return false;
             }
             
@@ -1722,9 +1853,12 @@ var NVision={
             
             table.each(function(){
                 var tmpTable=$(this);
-                var tabId=tmpTable.data("fnId")            
+                var tabId=tmpTable.data("fnId");          
                 
-                delete(NVision.fnObj[tabId]);
+				if (tabId){
+					delete(NVision.fnObj[tabId]);	
+				}
+                
                 tmpTable.remove();                        
             })
 
@@ -1744,6 +1878,7 @@ var NVision={
             selectRow
             */            
             var stTime=(new Date()).getTime();
+			
         
             var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>"),
                 thead=table.find("thead"),
