@@ -260,11 +260,11 @@ $().ready(function(){
 
 
 var HAP=(function(){
-    var _searchHistory=[];
-    var _dictionaries={};
-    var _currentDictionary=null;
-    
-    var _currentResults={};      //hashtable usato per il lookup rapido dei document correntemente mostrati all'utente
+    var _searchHistory=[],
+        _dictionaries={},
+        _currentDictionary=null,
+        _myDocuments={},
+        _currentResults={};      //hashtable usato per il lookup rapido dei documenti correntemente mostrati all'utente
     
 
     //la logica della ricerca avanzata e' mappata su quest'oggetto
@@ -471,8 +471,8 @@ var HAP=(function(){
             var pagDiv=$("<div class='pagination' />")
             var pagUl=$("<ul class='switch' />").appendTo(pagDiv);
             
-            var pStart=Math.max(0,obj.pagina-3),
-                pEnd=Math.min(pStart+6,obj.totPagine),
+            var pStart=Math.max(0,Math.min(obj.pagina-6,obj.totPagine-10)),
+                pEnd=Math.min(pStart+10,obj.totPagine),
                 curPage=null;
                 
             for(var p=pStart;p<pEnd;p++){
@@ -503,11 +503,14 @@ var HAP=(function(){
                 $("<li class='li_doc' />")
                     .append(
                         $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
-                            .append($("<a class='add' href='#doc_"+doc.id+"' title='"+HAP.dictionary.getTranslation("d_8")+"' ><span class='hidden'>" + HAP.dictionary.getTranslation("d_8") +"</span></a>")
+                            .append(
+                                $("<a class='add' href='#doc_"+doc.id+"' title='"+HAP.dictionary.getTranslation("d_8")+"' ><span class='hidden'>" + HAP.dictionary.getTranslation("d_8") +"</span></a>")
+                                .data("data-docId",doc.id)
                                 .click(function(e){
                                         e.preventDefault();
-                                        myConsole.log("Todo: " + HAP.dictionary.getTranslation("d_8"));
-                                        return false;
+                                        var docId=$(this).data("data-docId");
+                                        HAP.myDocuments.add(HAP.documents.getDoc(docId));
+                                        return false;                                    
                                     }
                                 )
                         )                                
@@ -634,6 +637,29 @@ var HAP=(function(){
         doSearch:_doSearch,
         searchHistory:_searchHistory,
         tmpSettings:{},
+        documents:{
+            getDoc:function(docId){
+                return _currentResults[docId];
+            }
+        },
+        myDocuments:{
+            add:function(docObj){
+                myConsole.info("Aggiunto doc: " + docObj.id);
+                _myDocuments[docObj.id]=docObj;
+            },
+            remove:function(docId){
+                delete(_myDocuments[docId]);
+            },
+            empty:function(){
+                _myDocuments={};
+            },
+            getAll:function(){
+                return _myDocuments;
+            },
+            getDoc:function(docId){
+                return _myDocuments[docId];
+            }
+        },
         dictionary:{
             add:function(dicObj){
                 for (var d in dicObj){
