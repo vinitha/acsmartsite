@@ -71,16 +71,16 @@ $().ready(function(){
     })     
     
     
-    var mainMenu=$("#menuBar ul:first");
-    mainMenu.change(function(e,aObj){
-        
+    var mainMenu=$("#menuBar").find("ul");
+    
+    mainMenu.bind("change",function(e,aObj){
         // if the href is a proper URL then follow the link
         if(!aObj.hash){
             location.href=aObj.href;
             return false;
         }
-        
-        // hoterwise switch the anchor visibility
+                
+        // otherwise switch the anchor visibility
         $(aObj.hash).slideDown(300).siblings().slideUp(300);
     })
     
@@ -92,11 +92,11 @@ $().ready(function(){
         addRuleBtn=fieldset.find("a.addRule");
         
     //handling the searchSwitch change event
-    $("#searchSwitch").change(function(e,aObj){
+    $("#searchSwitch").bind("change",function(e,aObj){
         var toShow=aObj.hash,
             toHide=(toShow=="#advSearch")?"#stdSearch":"#advSearch",
             title=$("#searchPanel").find("h3");
-    
+           
         $(toShow).slideDown(300,function(){$(this).find("input").eq(0).focus()});
         $(toHide).slideUp(300);
         
@@ -649,7 +649,7 @@ var HAP=(function(){
         ulElem.bind("itemClick",function(e,currentA){
             
                 if($(currentA).closest("li").hasClass("current")){return false;}
-                ulElem.trigger("change",currentA)
+                $(currentA).closest("ul").trigger("change",currentA)
             });
         
         //widget init.
