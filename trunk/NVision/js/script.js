@@ -237,7 +237,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    ver:253,                //testers will log this number in the bugs report
+    ver:263,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -468,34 +468,45 @@ var NVision={
                         .append("<input type='hidden' id='_id' name='id' />")
                         .append("<label><span class='caption'>Trading ref</span><input type='text' id='_tradingRef' name='tradingRef' value='nothing' /></label>")
                         .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='trader' value='nothing' /></label>")
-                        .append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
+                        .append("<div class='loadingData'><p>sending the request...</p></div>")
+						.append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
                 
             form.find("input.cancel").click(function(){NVision.lightBoxes["overwrite"].closeIt()})
             form.submit(function(e){
                 e.preventDefault();
                 
-                NVision.lightBoxes["overwrite"].closeIt();                
+                NVision.lightBoxes["overwrite"].addClass("wait")        
                 
                 //generating the ajax request
                 myAjax({
                     logMsg:null, 
                     success:function(data){
-                        
-                        myConsole.log("Refreshing the view...")
-                        
-                        //refreshing the tableView
-                        NVision.updateEngine.updateNow();
-                        NVision.updateEngine.start();
+                       NVision.lightBoxes["overwrite"].removeClass("wait").closeIt();  
                         
                         var confBox={
                             title:"Overwrite confirmation",
                             yesCaption:data.code=="nok"?"Retry":"Resubmit",
                             noCaption:"Close",                    
-                            onYes:function(){myConsole.log("yes")},
-                            onNo:function(){myConsole.log("no")},
+                            onYes:function(){
+								if(data.code=="nok"){
+									$("#overwriteBtn").click();
+								}else{
+									$("#resubmitBtn").click();
+								}
+							},
+                            onNo:function(){
+								if(data.code!="nok"){
+									myConsole.log("Refreshing the view...")
+									
+									//refreshing the tableView
+									NVision.updateEngine.updateNow();
+									NVision.updateEngine.start();
+								}							
+							},
                             msg:data.msg,
-                            msgClass:data.code=="nok"?"error":"ok" // [ok||error]
+                            msgClass:data.code=="nok"?"error":"ok", // [ok||error]
+							onClose:null
                         }
                         
                         confirm(confBox);
@@ -512,7 +523,7 @@ var NVision={
             })
             
             NVision.lightBoxes["overwrite"]=$msg.lightBox({
-                                        modal:false,
+                                        modal:true,
                                         title:"Overwrite",
                                         parent:hiddenBox,
                                         onClose:null
@@ -533,20 +544,22 @@ var NVision={
                         .append("<input type='hidden' id='_id' name='id' />")
                         .append("<label><span class='caption'>Select a reason</span><select id='_reason' name='reason' ><option value='staticData'>Static data</option><option value='jobFailing'>Job failing</option><option value='other'>Other</option></selet></label>")
                         .append("<label><span class='caption'>Add comment</span><textarea id='_comment' name='comment' ></textarea></label>")
-                        .append("<div class='buttonsBar'><input class='button submit' type='submit' href='#resubmit' value='Resubmit' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
+                        .append("<div class='loadingData'><p>sending the request...</p></div>")
+						.append("<div class='buttonsBar'><input class='button submit' type='submit' href='#resubmit' value='Resubmit' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
                 
             form.find("input.cancel").click(function(){NVision.lightBoxes["resubmit"].closeIt()})
             form.submit(function(e){
                 e.preventDefault();
 
-                NVision.lightBoxes["resubmit"].closeIt();
+                NVision.lightBoxes["resubmit"].addClass("wait");
                 
                 //generating the ajax request
                 myAjax({
                     logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
                     success:function(data){                        
                         
+						NVision.lightBoxes["resubmit"].removeClass("wait").closeIt();
                         var confBox={
                             title:"Resubmit confirmation",
                             yesCaption:"View submitted trades",
@@ -583,7 +596,7 @@ var NVision={
             })
             
             NVision.lightBoxes["resubmit"]=$msg.lightBox({
-                                        modal:false,
+                                        modal:true,
                                         title:"Resubmit",
                                         parent:hiddenBox,
                                         onClose:null
@@ -651,6 +664,8 @@ var NVision={
                                     })            
         })();
                 
+				
+		$("#businessMarket strong").addClass("loading").text("loading...")
         
         //getting the system definition
         myAjax({
@@ -661,7 +676,7 @@ var NVision={
             },
             success:function(dataObj){
                 
-                $("#businessMarket strong").text(dataObj.bm);
+                $("#businessMarket strong").text(dataObj.bm).removeClass("loading");
                 //showin the version number
                 $("#sysVer .backEnd").text(dataObj.ver);
         
