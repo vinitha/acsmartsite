@@ -146,6 +146,14 @@
 		color:#444;		
 	}
 	
+	#businessMarket strong.loading{
+		background-image:url(../images/ajaxLoader6.gif);
+		background-repeat:no-repeat;
+		background-position:0px 50%;
+		padding-left:25px;
+	}
+	
+	
 	#systemName .loading{
 		background-image:url(../images/loading.gif);
 		background-position:4px 50%;
@@ -1863,6 +1871,25 @@
 		float:right;
 		margin-top:10px;
 	}
+	
+	#lightBoxPanel .wait .buttonsBar{
+		display:none;
+	}
+	
+	#lightBoxPanel .loadingData{
+		display:none;
+		font-size:1.2em;
+		color:#666;
+		font-style:italic;
+		margin:10px 0px;
+		padding-left:25px;
+		background-image:url(../images/ajaxLoader6.gif);
+		background-repeat:no-repeat;
+		background-position:0px 50%;		
+	}
+	#lightBoxPanel .wait .loadingData{
+		display:block;
+	}	
 	
 	#lightBoxPanel .button{
 		float: left;
