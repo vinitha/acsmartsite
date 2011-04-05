@@ -15,7 +15,8 @@ $().ready(function(){
             d_5:"Successivo",
             d_6:"Chiudi",
             d_7:"Stampa",
-            d_8:"Aggiungi a I Miei Documenti"
+            d_8:"Aggiungi al Raccoglitore",
+            d_9:"Risultati"
         },
         
         en:{
@@ -26,7 +27,8 @@ $().ready(function(){
             d_5:"Next",
             d_6:"Close",
             d_7:"Print",
-            d_8:"Add to My Documents"
+            d_8:"Add to the Documents Binder",
+            d_9:"Results"
         }    
     })
 
@@ -35,20 +37,29 @@ $().ready(function(){
 
 
     //adding the show/hide leftCol button
-    $(".leftCol").append(
-        $("<a id='leftColBtn' title='" + HAP.dictionary.getTranslation("d_3") + "' href='#showHide'><span>" + HAP.dictionary.getTranslation("d_3") + "</span></a>")
-            .toggle(
-                function(){
-                    var lCol=$(".leftCol").addClass("contracted")   
-                    $(".colContent",lCol).hide(300)
-                },
-                function(){
-                    var lCol=$(".leftCol").removeClass("contracted")   
-                    $(".colContent",lCol).show(300)
-                }
-            )
-    )
-    
+    $(".leftCol")
+        .append(
+            $("<a id='leftColBtn' title='" + HAP.dictionary.getTranslation("d_3") + "' href='#showHide'><span>" + HAP.dictionary.getTranslation("d_3") + "</span></a>")
+                .click(function(){
+                    var col=$(this).closest("div");
+                    if(col.hasClass("contracted")){
+                        col.trigger("expand")
+                        HAP.tmpSettings.leftColContracted=false;
+                    }else{
+                        col.trigger("contract")
+                        HAP.tmpSettings.leftColContracted=true;
+                    }
+                })
+        )
+        .bind("expand",function(){
+            var lCol=$(this).removeClass("contracted")   
+            $(".colContent",lCol).show(300)        
+        })
+        .bind("contract",function(){
+            var lCol=$(this).addClass("contracted")   
+            $(".colContent",lCol).hide(300)        
+        })
+        
     var stdForm=$("#stdSearch");
     //on std submit..
     stdForm.submit(function(e){
@@ -82,6 +93,23 @@ $().ready(function(){
                 
         // otherwise switch the anchor visibility
         $(aObj.hash).slideDown(300).siblings().slideUp(300);
+        
+        //additional item specific actions
+        switch(aObj.hash){
+            case "#homeContent":
+                $("div.leftCol").trigger("expand")
+            break;
+        
+            case "#risultatiRicerca":
+                if((typeof HAP.tmpSettings.leftColContracted==undefined)){
+                    $("div.leftCol").trigger("contract")
+                }else{
+                    if(!(HAP.tmpSettings.leftColContracted===false)){
+                        $("div.leftCol").trigger("contract")
+                    }
+                }                
+            break;
+        }
     })
     
     //setting the advanced search module up.
@@ -399,7 +427,7 @@ var HAP=(function(){
             risDiv=$("#risultatiRicerca");
             
         if(risLi.length==0){
-            risLi=$("<li class='risultati newItem' ><a href='#risultatiRicerca' title='Risultati' ><span>Risultati</span></a></li>")
+            risLi=$("<li class='risultati newItem' ><a href='#risultatiRicerca' title='"+HAP.dictionary.getTranslation("d_9")+"' ><span>"+HAP.dictionary.getTranslation("d_9")+"</span></a></li>")
                 .appendTo(mainMenu);
          
             risDiv=$("<div id='risultatiRicerca' />").appendTo("#bodyCol").hide(0);
@@ -439,7 +467,7 @@ var HAP=(function(){
                 curPage=null;
                 
             for(var p=pStart;p<pEnd;p++){
-                var li=$("<li><a title='"+p+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
+                var li=$("<li><a title='"+(p+1)+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
                 if((p+1)==obj.pagina){
                     curPage=li.find("a");
                 }
@@ -485,7 +513,14 @@ var HAP=(function(){
             doSwitch(docUL);
             
             docUL.bind("itemClick",function(e, anchor){
-                _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"))
+                _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"));
+                if((typeof HAP.tmpSettings.leftColContracted==undefined)){
+                    $("div.leftCol").trigger("contract")
+                }else{
+                    if(!(HAP.tmpSettings.leftColContracted===false)){
+                        $("div.leftCol").trigger("contract")
+                    }
+                }
             })
         }
 
@@ -579,6 +614,7 @@ var HAP=(function(){
         advQueryObj:_advQueryObj,
         doSearch:_doSearch,
         searchHistory:_searchHistory,
+        tmpSettings:{},
         dictionary:{
             add:function(dicObj){
                 for (var d in dicObj){

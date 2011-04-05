@@ -627,16 +627,24 @@ h2{
 		display:inline-block;
 		zoom: 1; *display: inline; /* IE < 8: fake inline-block */
 		font-size:1.1em;
+		margin-right:1px;
 	}
 	
 	.pagination li a{
 		display:block;
-		padding:2px 4px;
+		padding:2px 6px;
 		color:#fff;
+		border:1px solid transparent;
+	}
+	
+	.pagination li a:hover,
+	.pagination li a:focus{
+		background-color:#bbb;
+		border-color:#b2b2b2;
 	}
 	
 	.pagination li.current{
-		margin:-2px 0px;
+		margin:-2px 1px -2px 0px;
 	}
 	
 	.pagination li.current a{
@@ -644,7 +652,7 @@ h2{
 		background-color:#aaa;
 		font-size:1.1em;
 		
-		padding:4px;
+		padding:4px 6px;
 	}
 	
 /* toolBar */
