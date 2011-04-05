@@ -37,7 +37,7 @@ $().ready(function(){
 
 
     //adding the show/hide leftCol button
-    $(".leftCol")
+    $("#leftCol")
         .append(
             $("<a id='leftColBtn' title='" + HAP.dictionary.getTranslation("d_3") + "' href='#showHide'><span>" + HAP.dictionary.getTranslation("d_3") + "</span></a>")
                 .click(function(){
@@ -59,6 +59,7 @@ $().ready(function(){
             var lCol=$(this).addClass("contracted")   
             $(".colContent",lCol).hide(300)        
         })
+        
         
     var stdForm=$("#stdSearch");
     //on std submit..
@@ -97,15 +98,21 @@ $().ready(function(){
         //additional item specific actions
         switch(aObj.hash){
             case "#homeContent":
-                $("div.leftCol").trigger("expand")
+                $("#leftCol").trigger("expand")
             break;
         
+            
+            
             case "#risultatiRicerca":
-                if((typeof HAP.tmpSettings.leftColContracted==undefined)){
-                    $("div.leftCol").trigger("contract")
+                if(typeof HAP.tmpSettings.leftColContracted=="undefined"){
+                    if(HAP.tmpSettings.docOpen){
+                        $("#leftCol").trigger("contract")
+                    }
                 }else{
                     if(!(HAP.tmpSettings.leftColContracted===false)){
-                        $("div.leftCol").trigger("contract")
+                        if(HAP.tmpSettings.docOpen){
+                            $("#leftCol").trigger("contract")
+                        }
                     }
                 }                
             break;
@@ -381,7 +388,7 @@ var HAP=(function(){
     function _doSearch(qObj){
         /*qObj structure:            
             qForm,qData,callback
-        */
+        */        
         var qData=((typeof qObj.qData)=="string")?escape(qObj.qData):qObj.qForm.serialize();
         
         //aggiungo un booleano da usare lato server per distinguere una ricerca ajax da una classica (=> no JS)
@@ -393,9 +400,11 @@ var HAP=(function(){
             method:qObj.qForm.attr("method"),
             dataType:"json",
             success:function(data){
+                //nessun documento e' aperto al momento
+                HAP.tmpSettings.docOpen=false;
                 
                 //aggiungo la ricerca all'history
-                _searchHistory.push({query:qData,data:data});                
+                _searchHistory.push(qData);                
                 
                 var cbData=qObj.callback?qObj.callback(data):null;
                 
@@ -514,11 +523,14 @@ var HAP=(function(){
             
             docUL.bind("itemClick",function(e, anchor){
                 _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"));
+                
+                
+                
                 if((typeof HAP.tmpSettings.leftColContracted==undefined)){
-                    $("div.leftCol").trigger("contract")
+                    $("#leftCol").trigger("contract")
                 }else{
                     if(!(HAP.tmpSettings.leftColContracted===false)){
-                        $("div.leftCol").trigger("contract")
+                        $("#leftCol").trigger("contract")
                     }
                 }
             })
@@ -528,6 +540,8 @@ var HAP=(function(){
     };
     
     function _closeDocument(container){
+        HAP.tmpSettings.docOpen=false;
+        
         container
             .find(".toolBar").hide(0).end()
             .find(".hap_docView").hide(0);
@@ -545,6 +559,9 @@ var HAP=(function(){
     };
     
     function _showDocument(docId, container){
+        //we have a doc. displayed
+        HAP.tmpSettings.docOpen=true;
+        
         var toolBar=container.find(".toolBar").detach();
         if (toolBar.length==0){
             toolBar=$("<div class='toolBar' />");
@@ -595,7 +612,9 @@ var HAP=(function(){
             docView.html(doc.html).appendTo(container).show(0);
         }else{
             container.addClass("showingDoc");
-            docsUl.animate({width:140},600,function(){
+            //var width=$("#leftCol").hasClass("contracted")?280:140;
+            var width=140;
+            docsUl.animate({width:width},600,function(){
                 toolBar.appendTo(container).show(0);
                 docView.html(doc.html).appendTo(container).show(0);                
             });    
@@ -603,7 +622,7 @@ var HAP=(function(){
         
         
           
-        //$("#main .leftCol").hide(300);
+        //$("#main #leftCol").hide(300);
         
     };
 
