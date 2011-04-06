@@ -16,7 +16,10 @@ $().ready(function(){
             d_6:"Chiudi",
             d_7:"Stampa",
             d_8:"Aggiungi al Raccoglitore",
-            d_9:"Risultati"
+            d_8a:"Rimuovi dal Raccoglitore",
+            d_9:"Risultati",
+            d_10:"Raccoglitore",
+            d_11:"Documento aggiunto al Raccoglitore!"
         },
         
         en:{
@@ -27,8 +30,11 @@ $().ready(function(){
             d_5:"Next",
             d_6:"Close",
             d_7:"Print",
-            d_8:"Add to the Documents Binder",
-            d_9:"Results"
+            d_8:"Add to the Binder",
+            d_8a:"Remove from the Binder",
+            d_9:"Results",
+            d_10:"Binder",
+            d_11:"Document added to the Binder!"
         }    
     })
 
@@ -100,9 +106,7 @@ $().ready(function(){
             case "#homeContent":
                 $("#leftCol").trigger("expand")
             break;
-        
-            
-            
+                
             case "#risultatiRicerca":
                 if(typeof HAP.tmpSettings.leftColContracted=="undefined"){
                     if(HAP.tmpSettings.docOpen){
@@ -116,6 +120,11 @@ $().ready(function(){
                     }
                 }                
             break;
+        
+            case "#docsBinder":
+                HAP.docsBinder.refresh();
+            break;
+        
         }
     })
     
@@ -263,7 +272,7 @@ var HAP=(function(){
     var _searchHistory=[],
         _dictionaries={},
         _currentDictionary=null,
-        _myDocuments={},
+        _Binder={},
         _currentResults={};      //hashtable usato per il lookup rapido dei documenti correntemente mostrati all'utente
     
 
@@ -444,8 +453,7 @@ var HAP=(function(){
         risDiv
             .empty()
             .append($("<h3 class='titoloPannello'>Risultati della ricerca:<h3/>"));
-        
-        mainMenu.trigger("itemClick",risLi.find("a"));
+                
         
         var arUL=$("<ul class='archivi tabMenu switch' />");
         arUL.appendTo(risDiv);
@@ -488,58 +496,104 @@ var HAP=(function(){
             pagUl.change(function(e,aObj){
                 myConsole.info("vai a pag: "+$(aObj).text())
             })
+                        
+            _createDocumentsUl({
+                    data:obj.risultati,
+                    container:docDiv,
+                    hashTable:_currentResults,
+                    showAddBtn:true
+                    });
+            
+        }
+        mainMenu.trigger("itemClick",risLi.find("a"));
+        arUL.trigger("itemClick",arUL.find("a:first"));
+        
+        
+    };
+    
+    function _createDocumentsUl(options){
+        /* options={
+                    data:
+                    container:
+                    hashTable:
+                    showAddBtn:
+                    }
+        */
+        //creo i documenti
+        var docUL=$("<ul class='documenti switch' />");
+        
+        var tmpData=[];
+        if($.isPlainObject(options.data)){
+            for(var p in options.data){
+                tmpData.push(options.data[p]);
+            }
+            
+            options.data=tmpData;
+        }
+        
+        for (var d=0;d<options.data.length;d++){
+            var doc=options.data[d];
+            
+            //popolo l'hashtable
+            if(options.hashTable){
+                options.hashTable[doc.id]=doc;
+            }
             
             
-            
-            //creo i documenti
-            var docUL=$("<ul class='documenti switch' />");
-            
-            for (var d=0;d<obj.risultati.length;d++){
-                var doc=obj.risultati[d];
-                
-                //popolo l'hashtable
-                _currentResults[doc.id]=doc;
-                
-                $("<li class='li_doc' />")
-                    .append(
-                        $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
-                            .append(
+            $("<li class='li_doc' />")
+                .append(
+                    $("<a class='doc' href='#doc_"+doc.id+"' title='"+doc.titolo+"' ><span>"+doc.titolo+"</span></a>")
+                        .append(
+                            options.showAddBtn
+                            ?
                                 $("<a class='add' href='#doc_"+doc.id+"' title='"+HAP.dictionary.getTranslation("d_8")+"' ><span class='hidden'>" + HAP.dictionary.getTranslation("d_8") +"</span></a>")
                                 .data("data-docId",doc.id)
                                 .click(function(e){
                                         e.preventDefault();
                                         var docId=$(this).data("data-docId");
-                                        HAP.myDocuments.add(HAP.documents.getDoc(docId));
+                                        HAP.docsBinder.add(HAP.documents.getDoc(docId));                                        
                                         return false;                                    
                                     }
                                 )
-                        )                                
+                            :
+                                $("<a class='remove' href='#doc_"+doc.id+"' title='"+HAP.dictionary.getTranslation("d_8a")+"' ><span class='hidden'>" + HAP.dictionary.getTranslation("d_8a") +"</span></a>")
+                                .data("data-docId",doc.id)
+                                .click(function(e){
+                                        e.preventDefault();
+                                        var docId=$(this).data("data-docId");
+                                        HAP.docsBinder.remove(docId);
+                                        
+                                        HAP.docsBinder.refresh();
+                                        return false;                                    
+                                    }
+                                )
                     )                                
-                    .appendTo(docUL);
-                    
-            }
-            
-            docUL.appendTo(docDiv);
-            
-            //lo rendo uno switch!
-            doSwitch(docUL);
-            
-            docUL.bind("itemClick",function(e, anchor){
-                _showDocument(anchor.hash.replace("#doc_",""),$(anchor).closest("div"));
+                )                                
+                .appendTo(docUL);
                 
-                
-                
-                if((typeof HAP.tmpSettings.leftColContracted==undefined)){
-                    $("#leftCol").trigger("contract")
-                }else{
-                    if(!(HAP.tmpSettings.leftColContracted===false)){
-                        $("#leftCol").trigger("contract")
-                    }
-                }
-            })
         }
-
-        arUL.trigger("itemClick",arUL.find("a:first"));
+        
+        docUL.appendTo(options.container);
+        
+        //lo rendo uno switch!
+        doSwitch(docUL);
+        
+        docUL.bind("itemClick",function(e, anchor){
+            _showDocument({
+                docId:anchor.hash.replace("#doc_",""),
+                container:$(anchor).closest("div"),
+                showAddBtn:options.showAddBtn
+            });
+             
+            if((typeof HAP.tmpSettings.leftColContracted==undefined)){
+                $("#leftCol").trigger("contract")
+            }else{
+                if(!(HAP.tmpSettings.leftColContracted===false)){
+                    $("#leftCol").trigger("contract")
+                }
+            }
+        })
+          
     };
     
     function _closeDocument(container){
@@ -561,11 +615,16 @@ var HAP=(function(){
             
     };
     
-    function _showDocument(docId, container){
+    function _showDocument(options){
+        /* options={
+                docId,
+                container
+            }
+        */
         //we have a doc. displayed
         HAP.tmpSettings.docOpen=true;
         
-        var toolBar=container.find(".toolBar").detach();
+        var toolBar=options.container.find(".toolBar").detach();
         if (toolBar.length==0){
             toolBar=$("<div class='toolBar' />");
             
@@ -574,13 +633,13 @@ var HAP=(function(){
                 .append(
                     $("<a href='#prev' class='btn prev' title='" + HAP.dictionary.getTranslation("d_4")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_4")+ "</span></a>")
                         .click(function(){
-                            container.find("ul.documenti").prevItem();
+                            options.container.find("ul.documenti").prevItem();
                         })
                 )
                 .append(
                     $("<a href='#next' class='btn next' title='" + HAP.dictionary.getTranslation("d_5")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_5")+ "</span></a>")
                         .click(function(){
-                            container.find("ul.documenti").nextItem();
+                            options.container.find("ul.documenti").nextItem();
                         })
                 )
                 
@@ -589,43 +648,58 @@ var HAP=(function(){
                         .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_7"))})
                 )
                 .append(
-                    $("<a href='#next' class='btn add' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
-                        .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_8"))})
+                    options.showAddBtn
+                    ?
+                        $("<a href='#next' class='btn add' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
+                            .data("data-docId",options.docId)
+                            .click(function(e){
+                                e.preventDefault();
+                                var docId=$(this).data("data-docId");
+                                HAP.docsBinder.add(HAP.documents.getDoc(docId));
+                                return false;
+                            })
+                    :
+                        $("<a href='#next' class='btn remove' title='" + HAP.dictionary.getTranslation("d_8a")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8a")+ "</span></a>")
+                            .data("data-docId",options.docId)
+                            .click(function(e){
+                                        e.preventDefault();
+                                        var docId=$(this).data("data-docId");
+                                        HAP.docsBinder.remove(docId);
+                                        
+                                        HAP.docsBinder.refresh()
+                                        return false; 
+                            })
                 )
                 
                 .append(
                     $("<a href='#close' class='btn close' title='" + HAP.dictionary.getTranslation("d_6")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_6")+ "</span></a>")
-                        .click(function(){_closeDocument(container)})
+                        .click(function(){_closeDocument(options.container)})
                 )
         }
                 
         
-        var docView=container.find(".hap_docView").empty().detach();
+        var docView=options.container.find(".hap_docView").empty().detach();
         if (docView.length==0){
             docView=$("<div class='hap_docView' />");
         }
         
-        var doc=_currentResults[docId],
-            docsUl=container.find("ul.documenti");
+        var doc=_currentResults[options.docId],
+            docsUl=options.container.find("ul.documenti");
             
         docsUl.css({width:docsUl.innerWidth()-docsUl.css("padding-left").replace("px","")})
         
-        if(container.hasClass("showingDoc")){
-            toolBar.appendTo(container).show(0);
-            docView.html(doc.html).appendTo(container).show(0);
+        if(options.container.hasClass("showingDoc")){
+            toolBar.appendTo(options.container).show(0);
+            docView.html(doc.html).appendTo(options.container).show(0);
         }else{
-            container.addClass("showingDoc");
+            options.container.addClass("showingDoc");
             //var width=$("#leftCol").hasClass("contracted")?280:140;
             var width=140;
             docsUl.animate({width:width},600,function(){
-                toolBar.appendTo(container).show(0);
-                docView.html(doc.html).appendTo(container).show(0);                
+                toolBar.appendTo(options.container).show(0);
+                docView.html(doc.html).appendTo(options.container).show(0);                
             });    
         }
-        
-        
-          
-        //$("#main #leftCol").hide(300);
         
     };
 
@@ -642,22 +716,47 @@ var HAP=(function(){
                 return _currentResults[docId];
             }
         },
-        myDocuments:{
-            add:function(docObj){
-                myConsole.info("Aggiunto doc: " + docObj.id);
-                _myDocuments[docObj.id]=docObj;
+        docsBinder:{
+            add:function(docObj){                
+                _Binder[docObj.id]=docObj;
+                
+                var menu=$("#menuBar ul"),
+                    li=menu.find(".docBinder");
+                    
+                if(li.length==0){
+                    li=$("<li class='docBinder newItem'><a href='#docsBinder' title='"+HAP.dictionary.getTranslation("d_10")+"'><span>"+HAP.dictionary.getTranslation("d_10")+"</span></a></li>")
+                        .appendTo(menu)
+                        .slideUp(0)
+                        .slideDown(500);
+                }
+                
+                myConsole.info(HAP.dictionary.getTranslation("d_11"));
             },
             remove:function(docId){
-                delete(_myDocuments[docId]);
+                delete(_Binder[docId]);
             },
             empty:function(){
-                _myDocuments={};
+                _Binder={};
             },
             getAll:function(){
-                return _myDocuments;
+                return _Binder;
             },
             getDoc:function(docId){
-                return _myDocuments[docId];
+                return _Binder[docId];
+            },
+            refresh:function(){
+                var div=$("#docsBinder").empty();
+                    
+                if(div.length==0){
+                    div=$("<div id='docsBinder' />").appendTo("#bodyCol").hide(0);
+                }
+                
+                _createDocumentsUl({
+                    data:_Binder,
+                    container:div,
+                    hashTable:null,
+                    showAddBtn:false
+                    })                
             }
         },
         dictionary:{
