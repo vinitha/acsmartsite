@@ -846,6 +846,12 @@ var NVision={
             NVision.utils.exportToCSV(NVision.currentSys.trades)
         })
         
+        //setting the print button
+        $("#bcBar .print").click(function(e){
+            e.preventDefault();
+            window.print();
+        })
+		
         // setting the updateBtn function
         $("#updatesBtn").find("a").click(            
             function(e){
