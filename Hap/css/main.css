@@ -603,13 +603,28 @@ h2{
 		overflow:hidden;
 		width:25px;
 		height:22px;
-		background-image:url(../images/add.png);
+		background-image:url(../images/addRemove.png);
+		background-position:0px 0px;
 		display:none;
 	}
 	
+	.li_doc a.remove{
+		position:absolute;
+		right:3px;
+		bottom:1px;
+		overflow:hidden;
+		width:25px;
+		height:22px;
+		background-image:url(../images/addRemove.png);
+		background-position:right 0px;
+		display:none;
+	}	
+	
 	
 	.li_doc a.doc:hover a.add,
-	.li_doc a.doc:focus a.add{
+	.li_doc a.doc:focus a.add,
+	.li_doc a.doc:hover a.remove,
+	.li_doc a.doc:focus a.remove{
 		display:block;
 	}
 	
@@ -694,6 +709,12 @@ h2{
 		height: 23px;
 		width: 23px;
 	}
+	
+	.toolBar a.remove{
+		background-position: -25px -48px;
+		height: 23px;
+		width: 23px;
+	}	
 	
 	.toolBar a.print{
 		background-position: -56px -48px;
