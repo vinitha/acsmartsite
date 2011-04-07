@@ -1,9 +1,5 @@
 
-$().ready(function(){
-    
-    //widgets init function
-    widgets.init()
-    
+$().ready(function(){    
     
     //defining and adding the dictionaries to HAP
     HAP.dictionary.add({
@@ -92,6 +88,7 @@ $().ready(function(){
     var mainMenu=$("#menuBar").find("ul");
     
     mainMenu.bind("change",function(e,aObj){
+        console.log(aObj.hash)
         // if the href is a proper URL then follow the link
         if(!aObj.hash){
             location.href=aObj.href;
@@ -260,10 +257,9 @@ $().ready(function(){
         
     })
   
+    //widgets init function
+    widgets.init()
     
-    
-    
-
 });
 
 
@@ -446,7 +442,7 @@ var HAP=(function(){
             risDiv=$("#risultatiRicerca");
             
         if(risLi.length==0){
-            risLi=$("<li class='risultati newItem' ><a href='#risultatiRicerca' title='"+HAP.dictionary.getTranslation("d_9")+"' ><span>"+HAP.dictionary.getTranslation("d_9")+"</span></a></li>")
+            risLi=$("<li class='risultati newItem icon' ><a href='#risultatiRicerca' title='"+HAP.dictionary.getTranslation("d_9")+"' ><span>"+HAP.dictionary.getTranslation("d_9")+"</span></a></li>")
                 .appendTo(mainMenu);
          
             risDiv=$("<div id='risultatiRicerca' />").appendTo("#bodyCol").hide(0);
@@ -530,8 +526,7 @@ var HAP=(function(){
             docUL.bind("itemClick",function(e, anchor){
                 _showDocument({
                     doc:$(anchor).data("data-doc"),
-                    container:$(anchor).closest("div"),
-                    showAddBtn:options.showAddBtn
+                    container:$(anchor).closest("div")
                 });
                  
                 if((typeof HAP.tmpSettings.leftColContracted==undefined)){
@@ -642,7 +637,8 @@ var HAP=(function(){
         
         options.container.find(".toolBar").remove();
         
-        var toolBar=$("<div class='toolBar' />");
+        var toolBar=$("<div class='toolBar' />"),
+            add=HAP.docsBinder.getDoc(options.doc.id)==undefined;
         
         //todo: wrappare i link in un <ul>
         toolBar
@@ -664,7 +660,7 @@ var HAP=(function(){
                     .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_7"))})
             )
             .append(
-                options.showAddBtn
+                add
                 ?
                     $("<a href='#add' class='btn add' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
                         .data("data-doc",options.doc)
@@ -751,7 +747,7 @@ var HAP=(function(){
                     li=menu.find(".docBinder");
                     
                 if(li.length==0){
-                    li=$("<li class='docBinder newItem'><a href='#docsBinder' title='"+HAP.dictionary.getTranslation("d_10")+"'><span>"+HAP.dictionary.getTranslation("d_10")+"</span></a></li>")
+                    li=$("<li class='docBinder newItem icon'><a href='#docsBinder' title='"+HAP.dictionary.getTranslation("d_10")+"'><span>"+HAP.dictionary.getTranslation("d_10")+"</span></a></li>")
                         .appendTo(menu)
                         .slideUp(0)
                         .slideDown(500);
@@ -866,7 +862,7 @@ var HAP=(function(){
             });
         
         //widget init.
-        ulElem.trigger("itemClick",ulElem.find(".current a"))
+        ulElem.trigger("change",ulElem.find(".current a"))
         
         $.fn.nextItem=function(){
 		var thisObj=$(this);

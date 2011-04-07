@@ -30,16 +30,19 @@
 <body>
 
     <div id="header">
-      <h1><a title="Home page" href="index.html"><span>Logo</span></a></h1>
+      <h1><a title="Home page" accesskey="1" href="index.html"><span>Logo</span></a></h1>
       <h2>Nome del sito</h2>
+      
+      <a class="skipNavigation" accesskey="s" href="#bodyCol">Skip navigation</a>
       
       <div id="menuBar">        
         <!-- main menu -->
           <ul class="tabMenu switch">
-            <li class="current"><a href="#homeContent"><span>Home</span></a></li>
+            <li class="current"><a title="Home (accesskey:1)" href="#homeContent"><span>Home</span></a></li>
             <li><a href="fondi.html"><span>Fondi per tipologia</span></a></li>
             <li><a href="archivi.html"><span>Archivi di stato</span></a></li>
             <li><a href="atlante.html"><span>Atlante storico</span></a></li>
+            <li class="help icon"><a accesskey="6" title="Help (accesskey:6)" href="#help"><span>Help</span></a></li>
           </ul> 
         <!-- *** -->              
       </div>       
@@ -62,7 +65,7 @@
                     </form>
                     
                     <ul class="switch btnsSwitch" id="searchSwitch">
-                        <li class="current"><a href="#stdSearch">Semplice</a></li>
+                        <li class="current"><a title="(accesskey:4)" accesskey="4" href="#stdSearch">Semplice</a></li>
                         <li><a href="#advSearch">Avanzata</a></li>
                     </ul>
                     <!-- *** -->
@@ -159,6 +162,108 @@
                     <li><a href="sistemaInformativo.html">Il sistema informativo</a></li>
                 </ul>       
             </div>
+            
+            <div id="help">
+                <h3>Help</h3>
+                
+                <h4>UK Government recommendation for access keys</h4>
+                <ul class="accessKeys">
+                    <li class="implemented">S - Skip navigation</li>
+                    <li class="implemented">1 - Home page</li>
+                    <li>2 - What’s new</li>
+                    <li>3 - Site map</li>
+                    <li class="implemented">4 - Search</li>
+                    <li>5 - Frequently Asked Questions (FAQ)</li>
+                    <li class="implemented">6 - Help</li>
+                    <li>7 - Complaints procedure</li>
+                    <li class="implemented">8 - Terms and conditions</li>
+                    <li>9 - Feedback form</li>
+                    <li>0 - Access key details</li>
+                </ul>
+                <hr />
+                <h4>Access in different Browsers:</h4>
+                <table class="wikitable" >
+                    <tbody><tr>
+                    <th>Web Browser</th>
+                    <th width="290">Modifier</th>
+                    <th>Effect</th>
+                    <th>Notes</th>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Amaya_(web_browser)" title="Amaya (web browser)">Amaya</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Ctrl</span> <i>or</i> <span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Alt</span></td>
+                    <td></td>
+                    <td>Adjustable in preferences</td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Blazer_(web_browser)" title="Blazer (web browser)">Blazer</a></td>
+                    <td></td>
+                    <td>Element is activated immediately upon key press.</td>
+                    <td>No modifier is needed for this web browser used on mobile devices.</td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Camino">Camino</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Ctrl</span></td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Google_Chrome" title="Google Chrome">Google Chrome 3 and higher</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Alt</span> on Windows and Linux (Note: <span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">⇧</span> Shift</span> is required in some circumstances)
+                    <p><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Ctrl</span> + <span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">⌥</span> Opt</span> on Mac</p>
+                    </td>
+                    <td></td>
+                    <td>Supported in versions of Chrome &gt;2.x</td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Mozilla_Firefox" title="Mozilla Firefox" class="mw-redirect">Firefox</a> <a href="http://en.wikipedia.org/wiki/Mozilla_Firefox_2" title="Mozilla Firefox 2" class="mw-redirect">2</a> &amp; <a href="http://en.wikipedia.org/wiki/Mozilla_Firefox_3" title="Mozilla Firefox 3" class="mw-redirect">3</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Alt</span>+<span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">⇧</span> Shift</span> on Windows and Linux<sup id="cite_ref-ui-key-contentAccess_1-0" class="reference"><a href="#cite_note-ui-key-contentAccess-1"><span>[</span>2<span>]</span></a></sup>
+                    <p><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Ctrl</span> on Mac<sup id="cite_ref-ui-key-contentAccess_1-1" class="reference"><a href="#cite_note-ui-key-contentAccess-1"><span>[</span>2<span>]</span></a></sup></p>
+                    </td>
+                    <td></td>
+                    <td>Prior to version 2.0 Firefox used just Alt;<br>
+                    configurable via <a href="http://en.wikipedia.org/wiki/About:_URI_scheme" title="About: URI scheme" class="mw-redirect">about:config</a><sup id="cite_ref-ui-key-contentAccess_1-2" class="reference"><a href="#cite_note-ui-key-contentAccess-1"><span>[</span>2<span>]</span></a></sup></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Internet_Explorer">Internet Explorer</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><a href="http://en.wikipedia.org/wiki/Alt_key" title="Alt key">Alt</a></span></td>
+                    <td>Prior to IE8, <span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Alt</span> + Access Key focused on the element, but required <span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">↵</span> Enter</span> to be pressed in order to activate the element</td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Konqueror">Konqueror</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Ctrl</span></td>
+                    <td>The modifier key must be released before the regular key is pressed.</td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Opera_(web_browser)" title="Opera (web browser)">Opera</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">⇧</span> Shift</span>+<span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;">Esc</span></td>
+                    <td>The modifier key must be released before the regular key is pressed. Once the modifier key is released, browser lists the set of access keys on that page with action and user can hit the desired key.</td>
+                    <td>Configurable via <a href="http://en.wikipedia.org/wiki/Graphical_user_interface">Graphical user interface</a></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Safari_(web_browser)" title="Safari (web browser)">Safari 3</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><a href="http://en.wikipedia.org/wiki/Control_key" title="Control key">Ctrl</a></span> for Mac
+                    <p><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><a href="http://en.wikipedia.org/wiki/Alt_key" title="Alt key">Alt</a></span> for Windows</p>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td><a href="http://en.wikipedia.org/wiki/Safari_(web_browser)" title="Safari (web browser)">Safari 4 and higher</a></td>
+                    <td><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><a href="http://en.wikipedia.org/wiki/Control_key" title="Control key">Ctrl</a></span>+<span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><span class="Unicode">⌥</span> <a href="http://en.wikipedia.org/wiki/Option_key" title="Option key">Opt</a></span> on Mac
+                    <p><span class="keyboard-key" style="border: 0.2em outset #cecbc7; background: #f0ece8; padding: 0 0.4em 0.1em 0.3em; font-size: 0.85em; white-space: nowrap;"><a href="http://en.wikipedia.org/wiki/Alt_key" title="Alt key">Alt</a></span> on Windows</p>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+    
+            </div>
                         
         </div>
         <!-- *** -->
@@ -166,7 +271,7 @@
     </div>
     
     <div id="footer">
-        <p><a href="credits.html">Credits and copyrights</a></p>
+        <p><a accesskey="8" href="credits.html">Credits and copyrights</a></p>
     </div>
 
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
