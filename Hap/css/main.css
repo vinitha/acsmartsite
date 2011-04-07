@@ -822,21 +822,23 @@ h2{
 		color:#006f00;
 	}
 	
-/* wikitable */
-	.wikitable th{
-		background-color:#eee;
+	.keycap{
 		padding:3px 5px;
-		font-size:1.2em;
-		font-weight:bold;
-		border: 1px solid #666;
+		background-color:#ddd;
+		border:1px outset #999;
 	}
 	
-	.wikitable td{
-		border: 1px solid #999999;
-		font-size: 1.1em;
+	li.browsersKeys{
+		border-bottom: 1px dotted #999999;
 		line-height: 2em;
-		padding: 5px;
-	}	
+		margin-bottom: 5px;
+		padding-left: 20px;
+		font-size:1.2em;
+	}
+	
+	.browsersKeys li{
+		padding-left:10px;
+	}
 	
 	
 /* footer */
