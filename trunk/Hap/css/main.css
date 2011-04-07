@@ -33,6 +33,23 @@
 		display:none;
 	}
 	
+	.skipNavigation {
+		position:absolute;
+		left:-9999px;
+		top:55px;
+		background-color:#affe81;
+		color:#4e8530;
+		font-size:1.2em;
+		font-style:italic;
+		padding:3px 5px;
+		border:1px solid #99d077;
+	}
+	
+	.skipNavigation:focus {
+		left:20px;
+	}
+	
+	
 	.verticalText{
 		-moz-transform: rotate(-90deg);  
 		-o-transform: rotate(-90deg);  
@@ -218,10 +235,33 @@ h2{
 		float:right;
 	}
 	
-	.tabMenu li a{
-		background-image:url(../images/roundedCorners.png);
-		background-position:0px 0px;
-		background-repeat:no-repeat;		
+	.tabMenu .help a{
+		padding-left:20px;
+		background-image:url(../images/icons.png);
+		background-repeat:no-repeat;
+		background-position:0px -124px;
+	}
+	
+	.tabMenu .risultati a{
+		background-image: url("../images/icons.png");
+		background-position: 2px -72px;
+		background-repeat: no-repeat;
+		padding-left: 20px;
+	}
+	
+	.tabMenu .docBinder a{
+		background-image: url("../images/icons.png");
+		background-position: 2px -99px;
+		background-repeat: no-repeat;
+		padding-left: 20px;
+	}		
+	
+	.tabMenu .icon a:hover,
+	.tabMenu .icon a:focus{
+		background-image:url("../images/iconsOn.png");
+	}
+	
+	.tabMenu li a{		
 		background-color: #d0d0d0;
 		border-bottom: 1px solid #bbb;
 		color: #666666;
@@ -233,10 +273,7 @@ h2{
 	
 	.tabMenu li a span{
 		display:block;
-		padding: 5px 10px;
-		background-image:url(../images/roundedCorners.png);
-		background-position:right -48px ;
-		background-repeat:no-repeat;		
+		padding: 5px 10px;	
 	}
 	
 	.tabMenu li a:hover,
@@ -760,6 +797,46 @@ h2{
 	}
 	
 	
+/* help */
+	#help{
+		display:none;
+	}
+	
+	#help h3{
+		font-size:2em;
+		margin-bottom:10px;
+	}
+	
+	#help h4{
+		font-size:1.6em;
+		margin:10px 0px;
+	}
+	
+	#help .accessKeys{
+		font-size:1.2em;
+		margin-bottom:20px;
+	}
+	
+	#help .implemented{
+		font-weight:bold;
+		color:#006f00;
+	}
+	
+/* wikitable */
+	.wikitable th{
+		background-color:#eee;
+		padding:3px 5px;
+		font-size:1.2em;
+		font-weight:bold;
+		border: 1px solid #666;
+	}
+	
+	.wikitable td{
+		border: 1px solid #999999;
+		font-size: 1.1em;
+		line-height: 2em;
+		padding: 5px;
+	}	
 	
 	
 /* footer */
