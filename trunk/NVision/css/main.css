@@ -1967,9 +1967,12 @@
 		height:auto!important;
 	}
 	
-	#filtersView{
+	#filtersView,
+	#tableData thead tr{
 		border-bottom:3px solid #666;
 	}
+	
+	
 }
 
 
