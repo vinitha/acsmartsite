@@ -1,4 +1,4 @@
 {
-    "code":"nok",
-    "msg":"An error occurred...."
+    "code":"ok",
+    "msg":"It's everything ok"
 }
