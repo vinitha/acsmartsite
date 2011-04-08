@@ -7,31 +7,21 @@
 $(function(){
     // Bind the event.
     $(window).bind("hashchange",function(){
-        
+		
         var newStatus=$.deparam($.param.fragment())
-		
-		
-        
-		if(!newStatus.BM){
-			location.href=location.pathname + location.search.replace("?","#");
-			return false;
-		}
-		
+
         //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
-        if(!newStatus.BM && !NVision.appStatus.BM){
+        if(!newStatus.BM && NVision.appStatus.BM==undefined){
             myConsole.alert("Business Market undefined!")
             return false;
         }
         NVision.appStatus.BM=newStatus.BM||NVision.appStatus.BM;
-        
-		
+        	
 		
 		//normalising the appStatus
 		if(!newStatus.tabId){
 			newStatus.tabId="tab_1";
 			newStatus.view={type:"dashBoard"};
-			$.bbq.pushState(newStatus,2);
-			return false;
 		}
 		
         
@@ -113,15 +103,30 @@ $(function(){
         NVision.appStatus[NVision.appStatus.currentTab]=newStatus;        
         $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
     })
-
+	
+	
 });
 
+
+        
+		
+		
 $().ready(function(){
-   
     
+	if(NVision.appStatus.BM==undefined){
+		NVision.appStatus={
+			BM:location.search.split("=")[1]
+		}
+	}
+	
+	if(NVision.appStatus.BM==undefined){
+		myConsole.alert("Business Market undefined!")
+		return false;
+	}
+	
     //init. the NVision object (passing a function to be executed when the system is ready)
-    NVision.init(function(){        
-        $(window).trigger("hashchange")
+    NVision.init(function(){
+		$(window).trigger("hashchange")       
         $(window).resize()        
     });
     
@@ -290,7 +295,7 @@ var NVision={
         
         NVision.sysReady=sysReady;
         
-        //showin the version number
+        //showing the version number
         $("#sysVer .frontEnd").text(NVision.ver);
         
         // adding the panning function to the dashBoard        
