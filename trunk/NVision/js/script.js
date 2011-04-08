@@ -753,12 +753,13 @@ var NVision={
                 //getting the trade object from the selected row
                 var tradeObj=NVision.currentSys.trades[($("#tableData").find("input:checked").closest("tr").attr("data-id"))]
                 
+				console.log(tradeObj)
                 //showing the Overwrite Overlay
                 NVision.lightBoxes["overwrite"]                    
                 .show()
                 .find("#_id").attr("value",tradeObj["id"]).end()
                 .find("#_trader").attr("value",tradeObj["Trader"]).end()
-                .find("#_tradingRef").attr("value",tradeObj["Trading Ref"]);
+                .find("#_tradingRef").attr("value",tradeObj["Trading Ref."]);
                 
             });
             
