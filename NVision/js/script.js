@@ -9,9 +9,14 @@ $(function(){
     $(window).bind("hashchange",function(){
         
         var newStatus=$.deparam($.param.fragment())
+		
+		
         
-        newStatus.tabId=newStatus.tabId?newStatus.tabId:"tab_1";
-        
+		if(!newStatus.BM){
+			location.href=location.pathname + location.search.replace("?","#");
+			return false;
+		}
+		
         //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
         if(!newStatus.BM && !NVision.appStatus.BM){
             myConsole.alert("Business Market undefined!")
@@ -19,6 +24,16 @@ $(function(){
         }
         NVision.appStatus.BM=newStatus.BM||NVision.appStatus.BM;
         
+		
+		
+		//normalising the appStatus
+		if(!newStatus.tabId){
+			newStatus.tabId="tab_1";
+			newStatus.view={type:"dashBoard"};
+			$.bbq.pushState(newStatus,2);
+			return false;
+		}
+		
         
         //updating the tabMenu
         if(NVision.appStatus.tabId!=newStatus.tabId){            

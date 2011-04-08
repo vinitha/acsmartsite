@@ -83,7 +83,7 @@ var bmMatrix=(function(){
             //creating the BMS buttons
             for(var x=0;x<bms.length;x++){
                 $("<a />")
-                    .attr("href",sysConfig.bmUrl+ "#BM=" + bms[x].id)
+                    .attr("href",sysConfig.bmUrl+ "?BM=" + bms[x].id)
                     .text(bms[x].name)
                     .appendTo("#availableBMs")
             }
