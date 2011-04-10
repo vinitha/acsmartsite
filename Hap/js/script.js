@@ -88,7 +88,7 @@ $().ready(function(){
     var mainMenu=$("#menuBar").find("ul");
     
     mainMenu.bind("change",function(e,aObj){
-        console.log(aObj.hash)
+        
         // if the href is a proper URL then follow the link
         if(!aObj.hash){
             location.href=aObj.href;
@@ -409,8 +409,8 @@ var HAP=(function(){
                 //nessun documento e' aperto al momento
                 HAP.tmpSettings.docOpen=false;
                 
-                //aggiungo la ricerca all'history
-                _searchHistory.push(qData);                
+                qData.timeStamp=(new Date()).getTime();
+
                 
                 var cbData=qObj.callback?qObj.callback(data):null;
                 
@@ -420,6 +420,12 @@ var HAP=(function(){
                 }
                 
                 _showResults(data);
+                
+                
+                //aggiungo la ricerca all'history
+                _searchHistory.push(qData);
+                //rendering grafico
+                _showSearchHistory();
             },
             error:function(a,b,c){
                 alert(b||a||c)
@@ -428,7 +434,32 @@ var HAP=(function(){
     };
     
     
-
+    function _showSearchHistory(){
+        var $div=$("#searchHistory").empty();
+        
+        if($div.length==0){
+            $div=$("<div id='searchHistory' />").appendTo($("#risultatiRicerca"));
+        }
+        var $ul=$("<ul />")
+        
+        for (var s =0;s< _searchHistory.length;s++){
+            
+            var search=_searchHistory[s],
+                $li=$("<li/>").appendTo($ul);
+                
+            $("<a />")
+                .text(search.timeStamp)
+                .click(function(e){
+                    e.preventDefault();
+                    
+                    myConsole.info(this.innerHTML)
+                })
+                .appendTo($li)
+        }
+        
+        $ul.appendTo($div);
+        
+    };
 
     
     function _showResults(json){
@@ -449,7 +480,7 @@ var HAP=(function(){
         }
         risDiv
             .empty()
-            .append($("<h3 class='titoloPannello'>Risultati della ricerca:<h3/>"));
+            .append($("<h3 class='titoloPannello'>Risultati della ricerca:</h3>"));
                 
         
         var arUL=$("<ul class='archivi tabMenu switch' />");
@@ -459,7 +490,7 @@ var HAP=(function(){
         doSwitch(arUL);
         
         arUL.change(function(e,aObj){
-            $(aObj.hash).show(0).siblings("div").hide(0);            
+            $(aObj.hash).show(0).siblings("div.archDiv").hide(0);            
         })
         
         for (var x=0;x<json.length;x++){
@@ -595,10 +626,12 @@ var HAP=(function(){
                 var add=HAP.docsBinder.getDoc(this.hash.replace("#doc_",""))==undefined,
                     $this=$(this);
                 
+                //console.log(add,HAP.docsBinder.getDoc(this.hash.replace("#doc_","")))
+                
                 this.title=HAP.dictionary.getTranslation(add?"d_8":"d_8a");
 
                 $this.find("a")
-                    .removeClass("add","remove")
+                    .removeClass("add remove")
                     .addClass(add?"add":"remove")
                     .find("span").text(HAP.dictionary.getTranslation(add?"d_8":"d_8a"));
             })
@@ -754,16 +787,16 @@ var HAP=(function(){
                 }
 
                 myConsole.info(HAP.dictionary.getTranslation("d_11"));
+                
             },
             remove:function(doc){
                 
                 delete(_Binder["Doc_" + doc.id]);
                 _Binder_Doc_count--;
-                
-                
-                
+
                 if (_Binder_Doc_count==0){
                     $("#menuBar li.docBinder").remove();
+                    $(" .tabMenu").trigger("itemClick",$("#menuBar").find("li.risultati a"))
                 }
             },
             empty:function(){
