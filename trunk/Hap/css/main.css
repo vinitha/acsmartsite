@@ -29,6 +29,28 @@
 		color:#444;
 	}	
 	
+	.content{
+		margin-bottom:20px;
+	}
+	
+	.content p{
+		font-size:1.2em;
+	}
+	.nota{
+		font-style:italic;
+		margin:5px 0px
+	}
+	.col50{
+		width:49.5%;
+		float:left;
+		margin
+	}
+	
+	.col50 .content{
+		padding:10px;
+		background-color:#eee;
+		margin:0px 5px;
+	}
 	#hiddenBox{
 		display:none;
 	}
@@ -633,6 +655,13 @@ h2{
 		background-color:#F2ECD9;
 	}
 	
+	#docsBinder .li_doc a.doc:hover,
+	#docsBinder .li_doc a.doc:focus,
+	#docsBinder li.current a.doc{
+		border-color:#53ca46;
+		background-color:#d5ffd5;
+	}	
+	
 	.li_doc a.add{
 		position:absolute;
 		right:3px;
@@ -787,15 +816,20 @@ h2{
 		outline:none;
 	}
 	
-	.js .btnsSwitch .current a,
-	.no-js .btnsSwitch a:active,
-	.btnsSwitch a:hover,
-	.btnsSwitch a:focus{
+	.js .btnsSwitch .current a{
 		background-color:#c9c9c9;
 		color:#5f5f5f;		
 		border-color:#aaa;	
 	}
 	
+	
+	.js .btnsSwitch a:active,
+	.js .btnsSwitch a:hover,
+	.js .btnsSwitch a:focus{
+		background-color:#b5b5b5;
+		color:#444;		
+		border-color:#838383;	
+	}	
 	
 /* help */
 	#help{
