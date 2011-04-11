@@ -695,7 +695,7 @@ var HAP=(function(){
                             e.preventDefault();
                             var $this=$(this)
                                 doc=$this.data("data-doc");                                        
-                            
+                            alert("check this")
                             if($this.hasClass("add")){
                                 HAP.docsBinder.add(doc);                                
                             }else{
