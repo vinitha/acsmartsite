@@ -615,8 +615,7 @@ var HAP=(function(){
                                     }
                                     
                                     HAP.docsBinder.refresh();
-                                    
-                                    
+                                                
                                     return false;                                    
                                 }
                             )
@@ -627,11 +626,8 @@ var HAP=(function(){
                 var add=HAP.docsBinder.getDoc(this.hash.replace("#doc_",""))==undefined,
                     $this=$(this);
                 
-                //console.log(add,HAP.docsBinder.getDoc(this.hash.replace("#doc_","")))
-                
-                this.title=HAP.dictionary.getTranslation(add?"d_8":"d_8a");
-
                 $this.find("a")
+                    .title=HAP.dictionary.getTranslation(add?"d_8":"d_8a")
                     .removeClass("add remove")
                     .addClass(add?"add":"remove")
                     .find("span").text(HAP.dictionary.getTranslation(add?"d_8":"d_8a"));
