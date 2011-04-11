@@ -660,8 +660,8 @@ h2{
 	#docsBinder .li_doc a.doc:hover,
 	#docsBinder .li_doc a.doc:focus,
 	#docsBinder li.current a.doc{
-		border-color:#53ca46;
-		background-color:#d5ffd5;
+		border-color:#65c950;
+		background-color:#ddf3d8;
 	}	
 	
 	.li_doc a.add{
