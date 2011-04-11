@@ -1912,7 +1912,9 @@
 		margin-left: 5px;
 		padding: 2px 5px;
 	}
-	
+	#lightBoxPanel .download{
+		margin-left:5px;
+	}
 	
 	#lightBoxPanel form label{
 		display:block;

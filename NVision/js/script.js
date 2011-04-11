@@ -625,9 +625,10 @@ var NVision={
             var $msg=$("<div />").attr("id","CSVbox").appendTo(hiddenBox);
             
                 $("<textarea />").appendTo($msg)
+				var btnBar=$("<div class='buttonsBar' />").appendTo($msg);
                 
-                if($.browser.msie){
-                    $("<div class='buttonsBar'><a class='copy button' ><span>Copy to clipboard</span></a></div>").appendTo($msg);
+                if($.browser.msie && $.browser.version<9){
+                    $("<a class='copy button' ><span>Copy to clipboard</span></a>").appendTo(btnBar);
                     
                     $msg.find("a.copy").click(function(){
                         var txt=$(this).closest("#CSVbox").find("textarea").get(0);
@@ -642,37 +643,40 @@ var NVision={
                         
                     })
                 }else{
-                    $("<div class='buttonsBar'><a class='select button' ><span>Select all</span></a></div>").appendTo($msg);
+                    $("<a class='select button' ><span>Select all</span></a>").appendTo(btnBar);
                     
                     $msg.find("a.select").click(function(){
                         $(this).closest("#CSVbox").find("textarea").get(0).setSelectionRange(0,999999999)                        
                     })                    
-                }
-
-                /* generating a file download request
-                  
-                    var lightBoxAction=
-                        ($.browser.msie)? function(){
-                            var ifr=$("#saveAs").get(0);                    
-                            
-                            var oDoc = ifr.contentWindow || ifr.contentDocument;
-                            if (oDoc.document) {
-                                oDoc = oDoc.document;
-                            }
-                            
-                            oDoc.designMode = 'on';
                 
-                            var oDoc=oDoc.open("text/html","replace");
-                            oDoc.write(strArr.join(","));
-                            oDoc.close();
-                            oDoc.execCommand("saveas", false, "NVision.txt");             
-                        }:function(){
-                            var uriContent = "data:application/octet-stream," + encodeURIComponent(header.join(",") + "\n" + strArr.join("\n"));    
-                            var newWindow=window.open(uriContent, 'newDoc.csv');                
-                        }
-        
-                */
-        
+
+					var btnDownload=$("<span class='download' />").appendTo(btnBar);
+					
+					/* generating a file download request */
+					Downloadify.create(btnDownload.get(0),{
+						filename: function(){
+						  return NVision.currentSys.name + ".csv"
+						},
+						data: function(){ 
+						  return $msg.find("textarea").text();
+						},
+						onComplete: function(){ 
+						  myConsole.info('Your file has been Saved!'); 
+						},
+						onCancel: function(){ 
+						  myConsole.alert('You have cancelled the saving of this file.');
+						},
+						onError: function(e){
+						  alert('You must put something in the File Contents or there will be nothing to save!'); 
+						},
+						swf: 'js/downloadify.swf',
+						downloadImage: 'images/download.png',
+						width: 84,
+						height: 20,
+						transparent: true,
+						append: false
+					});
+				}
             NVision.lightBoxes["csv"]=$msg.lightBox({
                                         modal:false,
                                         title:"Table CSV:",
