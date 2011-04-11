@@ -216,13 +216,7 @@
 		font-size:1em;
 	}
 	
-	.button.off{
-		cursor:default;
-		background-color:#ddd;
-		color:#999;
-		border-color:#ccc;
-	}
-	
+	.button.off,
 	.button.off:hover,
 	.button.off:focus{
 		background-color:#ddd;
@@ -655,8 +649,8 @@
 		color:#666;
 	}
 	
-	#tradesFilters select{
-
+	.off #tradesFilters{
+		display:none;
 	}
 
 
@@ -671,18 +665,23 @@
 	}
 	
 	.breadcrumb a{
-    background-image: url("../images/back.png");
-    background-position: 0 50%;
-    background-repeat: no-repeat;
-    color: #666666;
-    display: block;
-    font-size: 1.1em;
-    font-weight: bold;
-    padding: 2px 2px 2px 20px;
+		background-image: url("../images/back.png");
+		background-position: 0 50%;
+		background-repeat: no-repeat;
+		color: #666666;
+		display: block;
+		font-size: 1.1em;
+		font-weight: bold;
+		padding: 2px 2px 2px 20px;
 	}
 	
 	.breadcrumb a span{
 		text-decoration:underline;
+	}
+	
+	.off .breadcrumb a{
+		color:#aaa;
+		cursor:default;
 	}
 	
 	#bcBar .tools{
@@ -706,7 +705,6 @@
 		height: 16px;
 		line-height: 16px;
 		padding: 3px 10px 3px 27px;
-		cursor:pointer;
 	}
 	.tools .print span{
 		background-image:url("../images/print.png");
@@ -716,6 +714,12 @@
 		background-image:url("../images/exportEx.png");
 	}
 
+	.off .tools .button{
+		background-color: #DDDDDD;
+		border-color: #CCCCCC;
+		color: #999999;
+		cursor:default;
+	}
 	
 	
 /* toolBar */
@@ -744,18 +748,23 @@
 	}
 	
 	#toolBar .link{
-	  color: #369;
-    display: block;
-    font-size: 1.1em;
-    margin-left: 30px;
-    margin-top: 8px;
-    text-decoration: underline;		
+		color: #369;
+		display: block;
+		font-size: 1.1em;
+		margin-left: 30px;
+		margin-top: 8px;
+		text-decoration: underline;		
 	}
 	
 	#toolBar .link:hover,
 	#toolBar .link:focus{
-	  color: #274f76;
-	}	
+		color: #274f76;
+	}
+	
+	.off #toolBar .link{
+		color:#aaa!important;
+		cursor:default;
+	}
 	
 /* updatesBtn */
 	
@@ -839,12 +848,19 @@
 	}
 	
 	#pagination .current a{
-    background-color: #AAAAAA;
-    border-color: #888888;
-    color: #FFFFFF;
-    font-weight: bold;
-    margin-top: 0;
-    padding: 3px 5px 4px;
+		background-color: #AAAAAA;
+		border-color: #888888;
+		color: #FFFFFF;
+		font-weight: bold;
+		margin-top: 0;
+		padding: 3px 5px 4px;
+	}
+	
+	.off #pagination a{
+		background-color: #eee!important;
+		border-color: #ccc!important;
+		color: #aaa!important;
+		cursor:default;
 	}
 	
 /* tableData */

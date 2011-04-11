@@ -768,15 +768,13 @@ var NVision={
                 
                 //getting the trade object from the selected row
                 var tradeObj=NVision.currentSys.trades[($("#tableData").find("input:checked").closest("tr").attr("data-id"))]
-                
-				console.log(tradeObj)
+				
                 //showing the Overwrite Overlay
                 NVision.lightBoxes["overwrite"]                    
                 .show()
                 .find("#_id").attr("value",tradeObj["id"]).end()
                 .find("#_trader").attr("value",tradeObj["Trader"]).end()
-                .find("#_tradingRef").attr("value",tradeObj["Trading Ref."]);
-                
+                .find("#_tradingRef").attr("value",tradeObj["Trading Ref"]);                
             });
             
             $("#resubmitBtn").click(function(e){
@@ -812,7 +810,13 @@ var NVision={
 				e.preventDefault();
 				
 				var $this=$(this);
-								
+				
+				if($("#tableView").hasClass("off")){
+					return false;								
+				}
+				
+				NVision.currentSys.currentPage=1;
+				
 				NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=$this.data("resubmitted")?false:true;
 				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2); 				
 			})
@@ -851,8 +855,11 @@ var NVision={
         $("#backToDB").click(function(e){
             e.preventDefault();
             
-            NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};
-            
+			if($("#tableView").hasClass("off")){
+				return false;
+			}
+			
+            NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};            
             $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
             
         })
@@ -860,12 +867,18 @@ var NVision={
         //setting the export button
         $("#export").click(function(e){
             e.preventDefault();
+			if ($("#tableView").hasClass("off")){
+				return false;
+			}
             NVision.utils.exportToCSV(NVision.currentSys.trades)
         })
         
         //setting the print button
         $("#bcBar .print").click(function(e){
             e.preventDefault();
+			if ($("#tableView").hasClass("off")){
+				return false;
+			}
             window.print();
         })
 		
@@ -887,8 +900,7 @@ var NVision={
         $("#tableView").show(0);        
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
-        $("#dbTools").hide(0);
-        //$("#tradesFilters").show(0);          
+        $("#dbTools").hide(0);       
         
         // clearing the update engine
         NVision.updateEngine.empty();
@@ -933,17 +945,19 @@ var NVision={
         $("#dashBoardView").hide(0);
         $("#updatesBtn").show(0);
         $("#dbTools").hide(0);
-        //$("#tradesFilters").show(0);
         
         //setting the table title....
         $("#systemName span")
             .addClass("loading")
 			.removeClass("resub")
-            .text("loading data...")        
+            .text("loading data...");
+			
+		$("#tableView").addClass("off");
         
         NVision.utils.deleteTable($("#tableData").find("table"));
         
         NVision.currentSys=sysObj;
+		sysObj.currentPage=1;
         
         //clearing the filters
         delete(sysObj.filters);
@@ -973,9 +987,10 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span")
-                
-                .removeClass("loading")
+            $("#systemName span")                
+                .removeClass("loading");
+			
+			$("#tableView").removeClass("off");
         })
         
         NVision.updateEngine.forceStart();
@@ -987,9 +1002,7 @@ var NVision={
         $("#toolBar").hide(0);
         $("#dashBoardView").show(0);
         $("#updatesBtn").show(0);
-        $("#dbTools").show(0);
-        //$("#tradesFilters").hide(0);
-        
+        $("#dbTools").show(0);        
         
         //making sure the window and the SVG have the same size
         $("svg").css({
@@ -1051,7 +1064,10 @@ var NVision={
 		//styling the #systemName
 		$("#systemName span")
             .addClass("loading")
-            .text("loading data...")  
+            .text("loading data...");
+		
+		//disabling the button during the asyncronous phase
+		$("#tableView").addClass("off");
 		
 		var reqObj=NVision.createResubmittedRequest(NVision.currentSys);
 		
@@ -1075,7 +1091,9 @@ var NVision={
         NVision.updateEngine.onNewData(function(){
             $("#systemName span")
 				.addClass("resub")
-				.removeClass("loading")
+				.removeClass("loading");
+				
+			$("#tableView").removeClass("off");
         })		
 		
 		NVision.updateEngine.forceStart();		
@@ -1446,7 +1464,8 @@ var NVision={
                         myConsole.alert("Adapter not found: " + data.id,10000);
                         return false;
                     }
-                    sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel);
+										
+					sysObj.displayLevel=NVision.utils.getLevel(data.alertLevel);
                     
                     //updating the rest of the object                    
                     sysObj.data=data;                    
@@ -1472,18 +1491,7 @@ var NVision={
             data:searchObj.queryString,
             callBack:function(data){
                 
-                /*
-                //looking for the searchResults Tab
-                var tab=$("#tab_results");
-                if(tab.length==0){
-                    //if it doesn't exist I create it
-                    tab=$("<div id='tab_results' class='tabContent' />").appendTo("#main");
-                    $("<li><a href='#tab_results'><span>Search results</span></a></li>").appendTo("#mainMenu")                    
-                }
-                
-                //showing the tab
-                $("#mainMenu").trigger("showTab","tab_results");
-                */
+                searchObj.currentPage=1;
                 NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
             }
         })
@@ -1613,7 +1621,10 @@ var NVision={
                 filtersDiv.append(html[filter])
                 html[filter].find("select").change(function(){
                     var selectObj=$(this);                        
-                                            
+					
+					if($("#tableView").hasClass("off")){
+						return false;
+					}              
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
                     if(selectObj.val()==""){
                         delete(sysObj.filters[selectObj.attr("name")]);
@@ -1664,7 +1675,11 @@ var NVision={
                 filtersDiv.append(html[filter])
                 html[filter].find("select").change(function(){
                     var selectObj=$(this);                        
-                                            
+                    
+					if($("#tableView").hasClass("off")){
+						return false;
+					}
+					                        
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
                     if(selectObj.val()==""){
                         delete(sysObj.filters[selectObj.attr("name")]);
@@ -1768,8 +1783,12 @@ var NVision={
                     .click(function(e){
                         e.preventDefault();
                         var $this=$(this);
+						
+						if($("#tableView").hasClass("off")){
+							return false;
+						}
                         
-                        options.system.displayAll=options.system.displayAll?false:true;
+						options.system.displayAll=options.system.displayAll?false:true;
                         
                         $this.text(options.system.displayAll?"Paginate":"Display all")
                         options.pageClick(1);                    
@@ -1804,6 +1823,11 @@ var NVision={
                             .text(page)
                             .click(function(e){
                                 e.preventDefault();
+								
+								if($("#tableView").hasClass("off")){
+									return false;
+								}
+								
                                 var li=$(this).closest("li");
                                 
                                 if (!li.hasClass("current")){
