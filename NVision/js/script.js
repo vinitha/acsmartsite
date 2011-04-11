@@ -104,7 +104,6 @@ $(function(){
         $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
     })
 	
-	
 });
 
 
@@ -129,9 +128,6 @@ $().ready(function(){
 		$(window).trigger("hashchange")       
         $(window).resize()        
     });
-    
-    //theaming the dropdowns
-    //$("select").ixDropDown();
     
     
     //setting the main tabMenus custom events
