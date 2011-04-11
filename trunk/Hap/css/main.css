@@ -176,7 +176,7 @@
 		outline:none;
 		font-size:1.1em;
 		cursor:pointer;
-		height:20px;
+		height:2.35em;
 		overflow:hidden;
 		text-align:center;
 	}
@@ -346,9 +346,11 @@ h2{
 	
 	#stdSearch input {
 		border: 1px solid #AAAAAA;
+		height: 1.4em;
+		line-height: 1.4em;
+		margin-right: -1px;
 		padding: 1px;
 		width: 253px;
-		margin-right:-1px;
 	}
 	
 	#stdSearch .button{
@@ -777,7 +779,7 @@ h2{
 	}
 	
 	.toolBar a.remove{
-		background-position: -25px -48px;
+		background-position: -30px -47px;
 		height: 23px;
 		width: 23px;
 	}	
