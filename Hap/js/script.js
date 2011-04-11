@@ -148,6 +148,7 @@ $().ready(function(){
     //in-field labels
     $("#stdSearch").find("label").inFieldLabels();    
 
+    $("#bodyCol").attr("tabindex",-1);
     
     //changing the input field according to the selected data-type
     select.change(function(e){
