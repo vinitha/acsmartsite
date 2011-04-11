@@ -253,7 +253,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    ver:263,                //testers will log this number in the bugs report
+    ver:287,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
