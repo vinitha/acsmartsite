@@ -627,7 +627,7 @@ var HAP=(function(){
                     $this=$(this);
                 
                 $this.find("a")
-                    .title=HAP.dictionary.getTranslation(add?"d_8":"d_8a")
+                    .attr("title",HAP.dictionary.getTranslation(add?"d_8":"d_8a"))
                     .removeClass("add remove")
                     .addClass(add?"add":"remove")
                     .find("span").text(HAP.dictionary.getTranslation(add?"d_8":"d_8a"));
@@ -689,31 +689,34 @@ var HAP=(function(){
                 $("<a href='#print' class='btn print' title='" + HAP.dictionary.getTranslation("d_7")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_7")+ "</span></a>")
                     .click(function(){myConsole.info(HAP.dictionary.getTranslation("d_7"))})
             )
-            .append(
-                add
-                ?
-                    $("<a href='#add' class='btn add' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
+            .append($("<a href='#add' class='" + (add?"btn add":"btn remove") +"' title='" + HAP.dictionary.getTranslation("d_8")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8")+ "</span></a>")
                         .data("data-doc",options.doc)
                         .click(function(e){
                             e.preventDefault();
-                            var doc=$(this).data("data-doc");
-                            HAP.docsBinder.add(doc);
+                            var $this=$(this)
+                                doc=$this.data("data-doc");                                        
+                            
+                            if($this.hasClass("add")){
+                                HAP.docsBinder.add(doc);                                
+                            }else{
+                                HAP.docsBinder.remove(doc);
+                                if($this.closest("div").attr("id")=="docsBinder"){
+                                    _closeDocument(options.container)
+                                }
+                            }
+                            this.className="btn";
+                            
+                            $this.addClass(add?"remove":"add");
                             
                             HAP.docsBinder.refresh();
                             return false;
                         })
-                :
-                    $("<a href='#remove' class='btn remove' title='" + HAP.dictionary.getTranslation("d_8a")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_8a")+ "</span></a>")
-                        .data("data-doc",options.doc)
-                        .click(function(e){
-                            e.preventDefault();
+                        .mouseenter(function(){
                             var doc=$(this).data("data-doc");
-                            HAP.docsBinder.remove(doc);                            
-                                    
-                            _closeDocument(options.container)
+                            var add=HAP.docsBinder.getDoc(doc.id)==undefined,
+                                $this=$(this);
                             
-                            HAP.docsBinder.refresh()
-                            return false; 
+                            $this.addClass(add?"add":"remove");
                         })
             )
             
