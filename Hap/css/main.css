@@ -823,6 +823,7 @@ h2{
 	
 	#searchHistory .search{
 		padding-right:20px;
+		line-height:1.4em;
 	}
 	
 	#searchHistory h3{
@@ -953,6 +954,7 @@ h2{
 /* ie hasLayout fix */
 	#tableData,
 	.tabContent,
+	#searchPanel,
 	dt{
 		zoom:1;
 	}
