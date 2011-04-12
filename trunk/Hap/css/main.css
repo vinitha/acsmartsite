@@ -257,6 +257,9 @@ h2{
 		float:right;
 	}
 	
+	.tabMenu .help{
+		float:right;
+	}
 	.tabMenu .help a{
 		padding-left:20px;
 		background-image:url(../images/icons.png);
@@ -604,10 +607,17 @@ h2{
 		background-color:#eee;
 		border:1px solid #ccc;
 		padding:10px;
-		font-size:1.2em;
+		font-size:1.4em;
 		max-height:826px;
 		overflow-y:auto;
 		margin-bottom:10px;
+		line-height:1.4em;
+	}
+	
+	.hap_docView h3{
+		margin-bottom:15px;
+		color:444;
+		font-weight:bold;
 	}
 	
 	
@@ -796,7 +806,60 @@ h2{
 		height: 16px;
 		width: 16px;
 		margin-top:5px;
+	}
+	
+	
+	
+/* searchHistory */
+	#searchHistory{
+		margin-bottom:15px;
+		overflow:hidden;
+	}
+	
+	#searchHistory li{
+		position:relative;
+		margin-bottom:5px;
+	}
+	
+	#searchHistory .search{
+		padding-right:20px;
+	}
+	
+	#searchHistory h3{
+		margin-bottom:5px;
+	}
+	
+	#searchHistory .remove{		
+		background-color: transparent;
+		background-image: url("../images/icons.png");
+		background-position: -93px -50px;
+		border: medium none;
+		height: 17px;
+		padding: 0;
+		position: absolute;
+		right: 1px;
+		top: 1px;
+		width: 17px;
+		cursor:pointer;
+		
+		-moz-border-radius: 2px; /* For FireFox */
+		-webkit-border-radius: 2px; /* For Safari/Chrome */
+		border-radius: 2px; /* For when the standard gets fully supported */
+	}
+	
+	#searchHistory .remove:hover,
+	#searchHistory .remove:focus{
+		background-image: url("../images/iconsOn.png");
+		background-color:#ccc;
+	}
+	
+	#searchHistory .current .remove:hover,
+	#searchHistory .current .remove:focus{
+		background-color:#e0e0e0;
 	}	
+
+	
+	
 /* switch widget */
 	
 	.btnsSwitch{

@@ -1,6 +1,6 @@
 
 $().ready(function(){    
-    
+
     //defining and adding the dictionaries to HAP
     HAP.dictionary.add({
         it:{
@@ -15,7 +15,10 @@ $().ready(function(){
             d_8a:"Rimuovi dal Raccoglitore",
             d_9:"Risultati",
             d_10:"Raccoglitore",
-            d_11:"Documento aggiunto al Raccoglitore!"
+            d_11:"Documento aggiunto al Raccoglitore!",
+            d_12:"Documento rimosso dal Raccoglitore!",
+            d_13:"Storico ricerche:",
+            d_14:"Elimina"
         },
         
         en:{
@@ -30,14 +33,20 @@ $().ready(function(){
             d_8a:"Remove from the Binder",
             d_9:"Results",
             d_10:"Binder",
-            d_11:"Document added to the Binder!"
+            d_11:"Document added to the Binder!",
+            d_12:"Document removed from the Binder!",
+            d_13:"Search history:",
+            d_14:"Delete"
         }    
     })
 
     //setting the current dictionary (getting it from the <HTML> lang attribute)
     HAP.dictionary.set(document.documentElement.lang);
 
-
+    
+    HAP.init();
+    
+    
     //adding the show/hide leftCol button
     $("#leftCol")
         .append(
@@ -391,6 +400,7 @@ var HAP=(function(){
     
     
     
+    
     //effettua la ricerca
     function _doSearch(qObj){
         /*qObj structure:            
@@ -410,12 +420,9 @@ var HAP=(function(){
                 //nessun documento e' aperto al momento
                 HAP.tmpSettings.docOpen=false;
                 
-                qData.timeStamp=(new Date()).getTime();
-
-                
                 var cbData=qObj.callback?qObj.callback(data):null;
                 
-                //se la callback ritorna False -> esco senza mostrare i risultatu
+                //se la callback ritorna False -> esco senza mostrare i risultati
                 if(cbData===false){
                     return false;
                 }
@@ -424,9 +431,18 @@ var HAP=(function(){
                 
                 
                 //aggiungo la ricerca all'history
+                var now=new Date();
+                qData.timeStamp=utils.twoDigits(now.getHours())+":"+utils.twoDigits(now.getMinutes())+":"+utils.twoDigits(now.getSeconds());
                 _searchHistory.push(qData);
+                
+                if(_searchHistory.length>8){
+                    _searchHistory.shift();
+                }
+                
                 //rendering grafico
                 _showSearchHistory();
+                
+                utils.createCookie("searchHistory",$.toJSON(_searchHistory),1);
             },
             error:function(a,b,c){
                 alert(b||a||c)
@@ -436,26 +452,60 @@ var HAP=(function(){
     
     
     function _showSearchHistory(){
-        var $div=$("#searchHistory").empty();
+        var $div=$("#searchHistory"),
+            $title=$div.find("h3"),
+            $ul=$div.find("ul")
+        
+        if(_searchHistory.length==0){
+            $div.hide(0);
+            return false;
+        }
+        
+        $div.show(0);
         
         if($div.length==0){
-            $div=$("<div id='searchHistory' />").appendTo($("#risultatiRicerca"));
+            $div=$("<div id='searchHistory' />").insertBefore($("#searchPanel"));
+            $title=$("<h3 />").text(HAP.dictionary.getTranslation("d_13")).appendTo($div);
+            $ul=$("<ul />").addClass("switch btnsSwitch").appendTo($div);
+            doSwitch($ul);
+            
+            $ul.bind("itemClick",function(e, anchor){
+                myConsole.log("ToDo: Recuperare i parametri della ricerca")
+            })
         }
-        var $ul=$("<ul />")
         
-        for (var s =0;s< _searchHistory.length;s++){
+        $ul.empty();        
+        
+        for (var s=0;s< _searchHistory.length;s++){
             
             var search=_searchHistory[s],
                 $li=$("<li/>").appendTo($ul);
                 
             $("<a />")
+                .addClass("search")
                 .text(search.timeStamp)
+                .attr("href","#" + search.timeStamp)
+                .appendTo($li)
+                
+            $("<button />")
+                .addClass("remove")
+                .attr("title",HAP.dictionary.getTranslation("d_14"))
+                .data("data_index",s)
                 .click(function(e){
                     e.preventDefault();
                     
-                    myConsole.info(this.innerHTML)
+                    var s=$(this).data("data_index");
+                    
+                    //removing the entry from the array
+                    _searchHistory.splice(s,1);
+                    
+                    //updating the cookie
+                    utils.createCookie("searchHistory",$.toJSON(_searchHistory),999);
+                    
+                    //refresh
+                    _showSearchHistory();
                 })
-                .appendTo($li)
+                .appendTo($li)                
         }
         
         $ul.appendTo($div);
@@ -694,13 +744,14 @@ var HAP=(function(){
                         .click(function(e){
                             e.preventDefault();
                             var $this=$(this)
-                                doc=$this.data("data-doc");                                        
-                            alert("check this")
-                            if($this.hasClass("add")){
+                                doc=$this.data("data-doc")
+                                add=$this.hasClass("add");
+
+                            if(add){
                                 HAP.docsBinder.add(doc);                                
                             }else{
                                 HAP.docsBinder.remove(doc);
-                                if($this.closest("div").attr("id")=="docsBinder"){
+                                if($this.closest("div").parent("div").attr("id")=="docsBinder"){
                                     _closeDocument(options.container)
                                 }
                             }
@@ -715,7 +766,8 @@ var HAP=(function(){
                             var doc=$(this).data("data-doc");
                             var add=HAP.docsBinder.getDoc(doc.id)==undefined,
                                 $this=$(this);
-                            
+                                
+                            this.className="btn";
                             $this.addClass(add?"add":"remove");
                         })
             )
@@ -733,20 +785,24 @@ var HAP=(function(){
         }
         
         var doc=options.doc,
-            docsUl=options.container.find("ul.documenti");
+            docsUl=options.container.find("ul.documenti"),
+            title=$("<h3/>").text(doc.titolo).appendTo(docView),
+            content=$("<div class='content' />").appendTo(docView);
             
         docsUl.css({width:docsUl.innerWidth()-docsUl.css("padding-left").replace("px","")})
         
         if(options.container.hasClass("showingDoc")){
             toolBar.appendTo(options.container).show(0);
-            docView.html(doc.html).appendTo(options.container).show(0);
+            content.html(doc.html)
+            docView.appendTo(options.container).show(0);
         }else{
             options.container.addClass("showingDoc");
             //var width=$("#leftCol").hasClass("contracted")?280:140;
             var width=140;
             docsUl.animate({width:width},600,function(){
                 toolBar.appendTo(options.container).show(0);
-                docView.html(doc.html).appendTo(options.container).show(0);                
+                content.html(doc.html)
+                docView.appendTo(options.container).show(0);                
             });    
         }
         
@@ -756,6 +812,11 @@ var HAP=(function(){
 
     
     return {
+        init:function(){
+            //creo il pannello con lo storico delle ricerche
+            _searchHistory=$.parseJSON(utils.readCookie("searchHistory"))||[];
+            _showSearchHistory();
+        },        
         advQueryObj:_advQueryObj,
         doSearch:_doSearch,
         searchHistory:_searchHistory,
@@ -767,9 +828,9 @@ var HAP=(function(){
         },
         docsBinder:{
             add:function(docObj){
-                
+
                 if(_Binder["Doc_" + docObj.id]){
-                    myConsole.alert("documenti gia' nel Raccoglitore")
+                    alert("Documento gia' nel Raccoglitore")
                     return false;
                 }
                 
@@ -786,18 +847,21 @@ var HAP=(function(){
                         .slideDown(500);
                 }
 
-                myConsole.info(HAP.dictionary.getTranslation("d_11"));
-                
+                myConsole.info(HAP.dictionary.getTranslation("d_11"),2000);
             },
             remove:function(doc){
                 
-                delete(_Binder["Doc_" + doc.id]);
-                _Binder_Doc_count--;
-
+                if(_Binder["Doc_" + doc.id]){
+                    delete(_Binder["Doc_" + doc.id]);
+                    _Binder_Doc_count--;
+                }
+                
                 if (_Binder_Doc_count==0){
                     $("#menuBar li.docBinder").remove();
                     $(" .tabMenu").trigger("itemClick",$("#menuBar").find("li.risultati a"))
                 }
+                
+                myConsole.info(HAP.dictionary.getTranslation("d_12"),2000);
             },
             empty:function(){
                 _Binder={};

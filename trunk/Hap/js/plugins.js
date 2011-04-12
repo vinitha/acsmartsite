@@ -1,5 +1,60 @@
 
+//uself function
+var utils={
+    twoDigits:function(int){
+        if (int<10) return "0" + int;
+        if (int>99) {
+            var str=int.toString();
+            return str.substring(str.length-2);
+        }
+        return int.toString();
+    },
+    
+    dateDiff:function(date1,date2){
+        var baseDate=new Date(1970,01,01);
+        date1=date1||baseDate;
+        date2=date2||baseDate;
+        
+        return Math.abs(date1.getTime()-date2.getTime())
+    },  
 
+    RealTypeOf:function(v) {
+        if (typeof(v) == "object") {
+            if (v === null) return "null";
+            if (v.constructor == (new Array).constructor) return "array";
+            if (v.constructor == (new Date).constructor) return "date";
+            if (v.constructor == (new RegExp).constructor) return "regex";
+            return "object";
+        }
+        return typeof(v);
+    },
+	
+	createCookie:function(name,value,days) {
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime()+(days*24*60*60*1000));
+			var expires = "; expires="+date.toGMTString();
+		}
+		else var expires = "";
+		document.cookie = name+"="+value+expires+"; path=/";
+	},
+	
+	readCookie:function(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	},
+	
+	eraseCookie:function(name) {
+		createCookie(name,"",-1);
+	}
+	
+}
 
 
 
@@ -656,3 +711,39 @@ $.fn.extend({
  */
 (function($){$.InFieldLabels=function(label,field,options){var base=this;base.$label=$(label);base.$field=$(field);base.$label.data("InFieldLabels",base);base.showing=true;base.init=function(){base.options=$.extend({},$.InFieldLabels.defaultOptions,options);base.$label.css('position','absolute');var fieldPosition=base.$field.position();base.$label.css({'left':fieldPosition.left,'top':fieldPosition.top}).addClass(base.options.labelClass);if(base.$field.val()!=""){base.$label.hide();base.showing=false;};base.$field.focus(function(){base.fadeOnFocus();}).blur(function(){base.checkForEmpty(true);}).bind('keydown.infieldlabel',function(e){base.hideOnChange(e);}).change(function(e){base.checkForEmpty();}).bind('onPropertyChange',function(){base.checkForEmpty();});};base.fadeOnFocus=function(){if(base.showing){base.setOpacity(base.options.fadeOpacity);};};base.setOpacity=function(opacity){base.$label.stop().animate({opacity:opacity},base.options.fadeDuration);base.showing=(opacity>0.0);};base.checkForEmpty=function(blur){if(base.$field.val()==""){base.prepForShow();base.setOpacity(blur?1.0:base.options.fadeOpacity);}else{base.setOpacity(0.0);};};base.prepForShow=function(e){if(!base.showing){base.$label.css({opacity:0.0}).show();base.$field.bind('keydown.infieldlabel',function(e){base.hideOnChange(e);});};};base.hideOnChange=function(e){if((e.keyCode==16)||(e.keyCode==9))return;if(base.showing){base.$label.hide();base.showing=false;};base.$field.unbind('keydown.infieldlabel');};base.init();};$.InFieldLabels.defaultOptions={fadeOpacity:0.5,fadeDuration:300,labelClass:'infield'};$.fn.inFieldLabels=function(options){return this.each(function(){var for_attr=$(this).attr('for');if(!for_attr)return;var $field=$("input#"+for_attr+"[type='text'],"+"input#"+for_attr+"[type='password'],"+"textarea#"+for_attr);if($field.length==0)return;(new $.InFieldLabels(this,$field[0],options));});};})(jQuery);
 
+
+
+
+/* 		JSON plugin for jQuery, provides simple ways to convert to JSON and back again.
+		http://code.google.com/p/jquery-json/
+*/
+(function($){$.toJSON=function(o)
+{if(typeof(JSON)=='object'&&JSON.stringify)
+return JSON.stringify(o);var type=typeof(o);if(o===null)
+return"null";if(type=="undefined")
+return undefined;if(type=="number"||type=="boolean")
+return o+"";if(type=="string")
+return $.quoteString(o);if(type=='object')
+{if(typeof o.toJSON=="function")
+return $.toJSON(o.toJSON());if(o.constructor===Date)
+{var month=o.getUTCMonth()+1;if(month<10)month='0'+month;var day=o.getUTCDate();if(day<10)day='0'+day;var year=o.getUTCFullYear();var hours=o.getUTCHours();if(hours<10)hours='0'+hours;var minutes=o.getUTCMinutes();if(minutes<10)minutes='0'+minutes;var seconds=o.getUTCSeconds();if(seconds<10)seconds='0'+seconds;var milli=o.getUTCMilliseconds();if(milli<100)milli='0'+milli;if(milli<10)milli='0'+milli;return'"'+year+'-'+month+'-'+day+'T'+
+hours+':'+minutes+':'+seconds+'.'+milli+'Z"';}
+if(o.constructor===Array)
+{var ret=[];for(var i=0;i<o.length;i++)
+ret.push($.toJSON(o[i])||"null");return"["+ret.join(",")+"]";}
+var pairs=[];for(var k in o){var name;var type=typeof k;if(type=="number")
+name='"'+k+'"';else if(type=="string")
+name=$.quoteString(k);else
+continue;if(typeof o[k]=="function")
+continue;var val=$.toJSON(o[k]);pairs.push(name+":"+val);}
+return"{"+pairs.join(", ")+"}";}};$.evalJSON=function(src)
+{if(typeof(JSON)=='object'&&JSON.parse)
+return JSON.parse(src);return eval("("+src+")");};$.secureEvalJSON=function(src)
+{if(typeof(JSON)=='object'&&JSON.parse)
+return JSON.parse(src);var filtered=src;filtered=filtered.replace(/\\["\\\/bfnrtu]/g,'@');filtered=filtered.replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']');filtered=filtered.replace(/(?:^|:|,)(?:\s*\[)+/g,'');if(/^[\],:{}\s]*$/.test(filtered))
+return eval("("+src+")");else
+throw new SyntaxError("Error parsing JSON, source is not valid.");};$.quoteString=function(string)
+{if(string.match(_escapeable))
+{return'"'+string.replace(_escapeable,function(a)
+{var c=_meta[a];if(typeof c==='string')return c;c=a.charCodeAt();return'\\u00'+Math.floor(c/16).toString(16)+(c%16).toString(16);})+'"';}
+return'"'+string+'"';};var _escapeable=/["\\\x00-\x1f\x7f-\x9f]/g;var _meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'};})(jQuery);
