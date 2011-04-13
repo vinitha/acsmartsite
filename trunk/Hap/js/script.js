@@ -89,8 +89,6 @@ $().ready(function(){
             return false;            
         }
         
-        var data=stdForm.serialize();
-        
         HAP.doSearch({
             qForm:stdForm,
             callback:null
@@ -110,6 +108,10 @@ $().ready(function(){
                 
         // otherwise switch the anchor visibility
         $(aObj.hash).slideDown(300).siblings().slideUp(300);
+        
+        //moving the focus to the main Content
+        $("#bodyCol").focus();
+        
         
         //additional item specific actions
         switch(aObj.hash){
@@ -207,6 +209,7 @@ $().ready(function(){
         HAP.doSearch({
                 qForm:advForm,
                 qData:qString,
+                obj:HAP.advQueryObj.getHash(),
                 callback:null
             })
         
@@ -302,8 +305,9 @@ var HAP=(function(){
         
         clear=function(){
             qIndex=0;
+            qCount=0
             queriesHash={};
-            showOn.empty();
+            showOnElement.empty();
         }
         
         showOn=function(elem){
@@ -377,7 +381,10 @@ var HAP=(function(){
             qCount--;
     
             delete(queriesHash[qI]);
-            
+            refresh()
+        }
+        
+        refresh=function(){
             var i=0;
             showOnElement.empty();
             for(var obj in queriesHash){
@@ -386,17 +393,30 @@ var HAP=(function(){
                 }
                 i++;
                 drawObj(queriesHash[obj]);
-            }
-    
+            }            
         }
         
+        getHash=function(){
+            return queriesHash;
+        }
         
+        setHash=function(obj){
+            clear();
+            
+            for(p in obj){
+                addQuery(obj[p]);
+            }
+            
+        }
         //public propeties/methods
         return {
             addQuery:addQuery,
             getQueriesString:getQueriesString,
             clear:clear,
-            showOn:showOn
+            showOn:showOn,
+            getHash:getHash,
+            setHash:setHash,
+            refresh:refresh
         }
     })();
 
@@ -408,9 +428,14 @@ var HAP=(function(){
     //effettua la ricerca
     function _doSearch(qObj){
         /*qObj structure:            
-            qForm,qData,callback
+            qForm,qData,obj,callback
         */        
         var qData=((typeof qObj.qData)=="string")?escape(qObj.qData):qObj.qForm.serialize();
+        
+        var queryObject=qObj.obj;
+        if(!queryObject){
+            queryObject=qObj.qForm.serializeArray()[0];
+        }
         
         //aggiungo un booleano da usare lato server per distinguere una ricerca ajax da una classica (=> no JS)
         qData={"query":qData,isAjax:true};
@@ -435,8 +460,8 @@ var HAP=(function(){
                                 
                 //aggiungo la ricerca all'history
                 var now=new Date();
-                qData.timeStamp=utils.twoDigits(now.getHours())+":"+utils.twoDigits(now.getMinutes())+":"+utils.twoDigits(now.getSeconds());
-                _searchHistory.push(qData);
+                queryObject.timeStamp=utils.twoDigits(now.getHours())+":"+utils.twoDigits(now.getMinutes())+":"+utils.twoDigits(now.getSeconds());
+                _searchHistory.push(queryObject);
                 
                 if(_searchHistory.length>8){
                     _searchHistory.shift();
@@ -473,7 +498,21 @@ var HAP=(function(){
             doSwitch($ul);
             
             $ul.bind("itemClick",function(e, anchor){
-                myConsole.log("ToDo: Recuperare i parametri della ricerca")
+                var q=$(anchor).data("data_query"),
+                    switcher=$("#searchSwitch"),
+                    base=switcher.find(".base a"),
+                    adv=switcher.find(".adv a");
+                
+                console.log(q)
+                if(q.name){ //la ricerca semplice e' l'unica che ha un attr=nome
+                    switcher.trigger("itemClick",base);
+                    $("#stdSearch").find("input[name='"+q.name+"']").val(q.value).focus()
+                }else{
+                    switcher.trigger("itemClick",adv);
+
+                    HAP.advQueryObj.setHash(q);
+                }
+                
             })
         }
         
@@ -486,6 +525,7 @@ var HAP=(function(){
                 
             $("<a />")
                 .addClass("search")
+                .data("data_query",search)
                 .text(search.timeStamp)
                 .attr("href","#" + search.timeStamp)
                 .appendTo($li)
@@ -805,6 +845,7 @@ var HAP=(function(){
             toolBar.appendTo(options.container).show(0);
             content.html(doc.html)
             docView.appendTo(options.container).show(0);
+                
             //muovo il focus sul documento per migliorare l'usabilita'
             toolBar.focus();            
         }else{
