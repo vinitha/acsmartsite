@@ -18,7 +18,9 @@ $().ready(function(){
             d_11:"Documento aggiunto al Raccoglitore!",
             d_12:"Documento rimosso dal Raccoglitore!",
             d_13:"Storico ricerche:",
-            d_14:"Elimina"
+            d_14:"Elimina",
+            d_15:"Rimuovi tutto",
+            d_16:"Vuoi davvero rimuovere tutti i documenti dal Raccoglitore?"
         },
         
         en:{
@@ -36,7 +38,9 @@ $().ready(function(){
             d_11:"Document added to the Binder!",
             d_12:"Document removed from the Binder!",
             d_13:"Search history:",
-            d_14:"Delete"
+            d_14:"Delete",
+            d_15:"Clear all",
+            d_16:"Are you sure you want to remove all the documents from the Binder?"
         }    
     })
 
@@ -428,8 +432,7 @@ var HAP=(function(){
                 }
                 
                 _showResults(data);
-                
-                
+                                
                 //aggiungo la ricerca all'history
                 var now=new Date();
                 qData.timeStamp=utils.twoDigits(now.getHours())+":"+utils.twoDigits(now.getMinutes())+":"+utils.twoDigits(now.getSeconds());
@@ -442,7 +445,7 @@ var HAP=(function(){
                 //rendering grafico
                 _showSearchHistory();
                 
-                utils.createCookie("searchHistory",$.toJSON(_searchHistory),1);
+                utils.createCookie("searchHistory",JSON.stringify(_searchHistory),1);
             },
             error:function(a,b,c){
                 alert(b||a||c)
@@ -500,7 +503,7 @@ var HAP=(function(){
                     _searchHistory.splice(s,1);
                     
                     //updating the cookie
-                    utils.createCookie("searchHistory",$.toJSON(_searchHistory),999);
+                    utils.createCookie("searchHistory",JSON.stringify(_searchHistory),999);
                     
                     //refresh
                     _showSearchHistory();
@@ -630,8 +633,13 @@ var HAP=(function(){
             options.data=tmpData;
         }
         
+        //aggiorno il numero dei doc.
+        _Binder_Doc_count=0;
+        
         for (var d=0;d<options.data.length;d++){
             var doc=options.data[d];
+            
+            _Binder_Doc_count++;
             
             //popolo l'hashtable
             if(options.hashTable){
@@ -672,7 +680,8 @@ var HAP=(function(){
                         )  
                 .appendTo(li)                                                    
             
-            a.mouseenter(function(){
+            a.mouseenter(function(){                
+                
                 var add=HAP.docsBinder.getDoc(this.hash.replace("#doc_",""))==undefined,
                     $this=$(this);
                 
@@ -717,7 +726,7 @@ var HAP=(function(){
         
         options.container.find(".toolBar").remove();
         
-        var toolBar=$("<div class='toolBar' />"),
+        var toolBar=$("<div class='toolBar' />").attr("tabIndex",-1),
             add=HAP.docsBinder.getDoc(options.doc.id)==undefined;
         
         //todo: wrappare i link in un <ul>
@@ -791,10 +800,13 @@ var HAP=(function(){
             
         docsUl.css({width:docsUl.innerWidth()-docsUl.css("padding-left").replace("px","")})
         
+        
         if(options.container.hasClass("showingDoc")){
             toolBar.appendTo(options.container).show(0);
             content.html(doc.html)
             docView.appendTo(options.container).show(0);
+            //muovo il focus sul documento per migliorare l'usabilita'
+            toolBar.focus();            
         }else{
             options.container.addClass("showingDoc");
             //var width=$("#leftCol").hasClass("contracted")?280:140;
@@ -802,9 +814,17 @@ var HAP=(function(){
             docsUl.animate({width:width},600,function(){
                 toolBar.appendTo(options.container).show(0);
                 content.html(doc.html)
-                docView.appendTo(options.container).show(0);                
+                docView.appendTo(options.container).show(0);
+                
+                //muovo il focus sul documento per migliorare l'usabilita'
+                toolBar.focus();                
             });    
         }
+        
+        if (!doc.html){
+            myConsole.alert("Recuperare il corpo del documento via Ajax!")
+        }
+        
         
     };
 
@@ -816,6 +836,14 @@ var HAP=(function(){
             //creo il pannello con lo storico delle ricerche
             _searchHistory=$.parseJSON(utils.readCookie("searchHistory"))||[];
             _showSearchHistory();
+            
+            //recupero i documenti del Raccoglitore salvati nei cookies            
+            _Binder=$.parseJSON(utils.readCookie("docsBinder"))||{};
+            
+            HAP.docsBinder.refresh();
+            HAP.docsBinder.createTab()
+            
+            
         },        
         advQueryObj:_advQueryObj,
         doSearch:_doSearch,
@@ -827,6 +855,21 @@ var HAP=(function(){
             }
         },
         docsBinder:{
+            save:function(){
+                //"salvo" il Raccoglitore nei cookies
+                
+                var obj={};
+                for(var o in _Binder){
+                    var doc=_Binder[o];
+                    obj["Doc_" + doc.id]={
+                        id:doc.id,
+                        titolo:doc.titolo
+                    }
+                }
+                
+                utils.createCookie("docsBinder",JSON.stringify(obj),999);
+            },
+            
             add:function(docObj){
 
                 if(_Binder["Doc_" + docObj.id]){
@@ -837,6 +880,17 @@ var HAP=(function(){
                 _Binder["Doc_" + docObj.id]=docObj;
                 _Binder_Doc_count++;
                 
+                HAP.docsBinder.createTab();
+                HAP.docsBinder.save();
+                
+                
+                myConsole.info(HAP.dictionary.getTranslation("d_11"),2000);
+            },
+            createTab:function(){
+                
+                if(_Binder_Doc_count==0){
+                    return false;
+                }
                 var menu=$("#menuBar ul"),
                     li=menu.find(".docBinder");
                     
@@ -845,9 +899,18 @@ var HAP=(function(){
                         .appendTo(menu)
                         .slideUp(0)
                         .slideDown(500);
+                    $("<button/>")
+                        .attr("title",HAP.dictionary.getTranslation("d_15"))
+                        .click(function(e){
+                            e.preventDefault();
+                            
+                            if(confirm(HAP.dictionary.getTranslation("d_16"))){
+                                //svuoto il raccoglitore
+                                HAP.docsBinder.empty();
+                            }
+                        })
+                        .appendTo(li);
                 }
-
-                myConsole.info(HAP.dictionary.getTranslation("d_11"),2000);
             },
             remove:function(doc){
                 
@@ -857,14 +920,28 @@ var HAP=(function(){
                 }
                 
                 if (_Binder_Doc_count==0){
-                    $("#menuBar li.docBinder").remove();
-                    $(" .tabMenu").trigger("itemClick",$("#menuBar").find("li.risultati a"))
+                    HAP.docsBinder.empty();
                 }
+                
+                //"salvo" il Raccoglitore nei cookies
+                HAP.docsBinder.save();
                 
                 myConsole.info(HAP.dictionary.getTranslation("d_12"),2000);
             },
             empty:function(){
                 _Binder={};
+                _Binder_Doc_count=0;
+                
+                //"salvo" il Raccoglitore nei cookies
+                HAP.docsBinder.save();
+                
+                $("#menuBar li.docBinder").remove();
+                var newTab=$("#menuBar").find("li.risultati a");
+                if (newTab.length==0){
+                    newTab=$("#menuBar li a");
+                }
+                
+                $("#menuBar .tabMenu").trigger("itemClick",newTab.eq(0))                
             },
             getAll:function(){
                 return _Binder;
@@ -873,16 +950,20 @@ var HAP=(function(){
                 return _Binder["Doc_" + docId];
             },
             refresh:function(){
-                var div=$("#docsBinder")
-                    
-                if(div.length==0){
+                var div=$("#docsBinder"),
+                    isNew=(div.length==0);
+                
+                if(isNew){
                     div=$("<div id='docsBinder' />").appendTo("#bodyCol").hide(0);
+                    
                 }
+                                
                 _createDocumentsUl({
                     data:_Binder,
                     container:div,
                     hashTable:null
-                    })                
+                    })
+                
             }
         },
         dictionary:{
