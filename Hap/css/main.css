@@ -274,11 +274,36 @@ h2{
 		padding-left: 20px;
 	}
 	
+	.tabMenu .docBinder{
+		position:relative;
+	}
+	
+	.tabMenu .docBinder button{
+		background-color: transparent;
+		background-image: url("../images/icons.png");
+		background-position: -93px -50px;
+		border: medium none;
+		border-radius: 2px 2px 2px 2px;
+		cursor: pointer;
+		height: 17px;
+		padding: 0;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		width: 17px;		
+	}
+	
+	.tabMenu .docBinder button:hover,
+	.tabMenu .docBinder button:focus{
+		background-image: url("../images/iconsOn.png");
+		background-color:#e0e0e0;
+	}
+	
 	.tabMenu .docBinder a{
 		background-image: url("../images/icons.png");
 		background-position: 2px -99px;
 		background-repeat: no-repeat;
-		padding-left: 20px;
+		padding: 0px 20px;
 	}		
 	
 	.tabMenu .icon a:hover,
