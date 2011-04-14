@@ -48,9 +48,6 @@ $().ready(function(){
     HAP.dictionary.set(document.documentElement.lang);
 
     
-    HAP.init();
-    
-    
     //adding the show/hide leftCol button
     $("#leftCol")
         .append(
@@ -215,6 +212,14 @@ $().ready(function(){
         
     })
     
+    //on reset
+    advForm.find("button.reset").click(function(e){
+        e.preventDefault();
+        HAP.advQueryObj.clear();
+        
+        advForm.find("input:first").focus();
+    })
+    
     //removing all the fieldsets but the first one.
     advForm.find("fieldset.multiple").not(":first").remove();
     //removing the operators
@@ -276,6 +281,9 @@ $().ready(function(){
   
     //widgets init function
     widgets.init()
+    
+    //Hap init
+    HAP.init();
     
 });
 
@@ -354,6 +362,7 @@ var HAP=(function(){
                         obj.operator=aObj.hash.replace("#","")
                     })
                 }
+                
                 $("<p />")
                     .append(
                         $("<a />")
@@ -392,7 +401,10 @@ var HAP=(function(){
                     delete(queriesHash[obj].operator);
                 }
                 i++;
-                drawObj(queriesHash[obj]);
+                
+                if(obj!="timeStamp" && obj!="fields"){
+                    drawObj(queriesHash[obj]);
+                }
             }            
         }
         
@@ -404,8 +416,23 @@ var HAP=(function(){
             clear();
             
             for(p in obj){
-                addQuery(obj[p]);
+                
+                if(p!="timeStamp" && p!="fields"){
+                    addQuery(obj[p]);
+                }
             }
+            
+            var advForm=$("#advSearch");
+            advForm.find("input[type='checkbox']").attr("checked",false);
+            
+            if(obj.fields){
+                for(var chk in obj.fields){
+                    var chkObj=obj.fields[chk]
+                    advForm.find("#"+chkObj.name).attr("checked",true);
+                }
+            }
+            
+            
             
         }
         //public propeties/methods
@@ -432,11 +459,16 @@ var HAP=(function(){
         */        
         var qData=((typeof qObj.qData)=="string")?escape(qObj.qData):qObj.qForm.serialize();
         
-        var queryObject=qObj.obj;
+        var queryObject=$.extend({},qObj.obj);
+        
+        //se non viene passato allora e' una ricerca semplice
         if(!queryObject){
             queryObject=qObj.qForm.serializeArray()[0];
+        }else{
+            //aggiungo gli altri campi del form (advanced search only)
+            queryObject.fields=$("#archivi").serializeArray();
         }
-        
+ 
         //aggiungo un booleano da usare lato server per distinguere una ricerca ajax da una classica (=> no JS)
         qData={"query":qData,isAjax:true};
         
@@ -503,13 +535,11 @@ var HAP=(function(){
                     base=switcher.find(".base a"),
                     adv=switcher.find(".adv a");
                 
-                console.log(q)
                 if(q.name){ //la ricerca semplice e' l'unica che ha un attr=nome
                     switcher.trigger("itemClick",base);
                     $("#stdSearch").find("input[name='"+q.name+"']").val(q.value).focus()
                 }else{
                     switcher.trigger("itemClick",adv);
-
                     HAP.advQueryObj.setHash(q);
                 }
                 
@@ -874,9 +904,11 @@ var HAP=(function(){
     
     return {
         init:function(){
-            //creo il pannello con lo storico delle ricerche
+            //creo il pannello con lo storico delle ricerche            
             _searchHistory=$.parseJSON(utils.readCookie("searchHistory"))||[];
-            _showSearchHistory();
+            
+            _showSearchHistory();            
+            
             
             //recupero i documenti del Raccoglitore salvati nei cookies            
             _Binder=$.parseJSON(utils.readCookie("docsBinder"))||{};
@@ -888,7 +920,7 @@ var HAP=(function(){
         },        
         advQueryObj:_advQueryObj,
         doSearch:_doSearch,
-        searchHistory:_searchHistory,
+        searchHistory:function(){ return _searchHistory},
         tmpSettings:{},
         documents:{
             getDoc:function(docId){
