@@ -198,7 +198,7 @@ $().ready(function(){
             return false;
         }else{
             if(advString==""){
-                myConsole.alert(HAP.currentDictionary.get("d_1"))
+                myConsole.alert(HAP.dictionary.getTranslation("d_1"))
                 return false;
             }
         }
@@ -536,8 +536,10 @@ var HAP=(function(){
                     adv=switcher.find(".adv a");                
                 
                 if(q.name){ //la ricerca semplice e' l'unica che ha un attr=nome
+                    var input=$("#stdSearch").find("input[name='"+q.name+"']").val(q.value);
+                    
                     switcher.trigger("itemClick",base);
-                    $("#stdSearch").find("input[name='"+q.name+"']").val(q.value).focus()
+                    input.focus().keydown()
                 }else{
                     switcher.trigger("itemClick",adv);
                     HAP.advQueryObj.setHash(q);
