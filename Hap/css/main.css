@@ -192,6 +192,24 @@
 		font-size:1em;
 	}
 	
+	button.text{
+		border:none;
+		background-color:transparent;
+		text-decoration:underline;
+		cursor:pointer;
+	}
+	
+	button.text span{
+		color: #444444;
+		line-height:2.2em;
+	}
+	
+	button.reset{
+		float:left;
+		font-size:1em;
+	}
+	
+	
 	.button.off{
 		cursor:default;
 		background-color:#ddd;
