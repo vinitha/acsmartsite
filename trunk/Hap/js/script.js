@@ -462,7 +462,7 @@ var HAP=(function(){
         var queryObject=$.extend({},qObj.obj);
         
         //se non viene passato allora e' una ricerca semplice
-        if(!queryObject){
+        if(!qObj.obj){
             queryObject=qObj.qForm.serializeArray()[0];
         }else{
             //aggiungo gli altri campi del form (advanced search only)
@@ -533,7 +533,7 @@ var HAP=(function(){
                 var q=$(anchor).data("data_query"),
                     switcher=$("#searchSwitch"),
                     base=switcher.find(".base a"),
-                    adv=switcher.find(".adv a");
+                    adv=switcher.find(".adv a");                
                 
                 if(q.name){ //la ricerca semplice e' l'unica che ha un attr=nome
                     switcher.trigger("itemClick",base);
@@ -803,13 +803,15 @@ var HAP=(function(){
         toolBar
             .append(
                 $("<a href='#prev' class='btn prev' title='" + HAP.dictionary.getTranslation("d_4")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_4")+ "</span></a>")
-                    .click(function(){
+                    .click(function(e){
+                        e.preventDefault();
                         options.container.find("ul.documenti").prevItem();
                     })
             )
             .append(
                 $("<a href='#next' class='btn next' title='" + HAP.dictionary.getTranslation("d_5")+ "'><span class='hidden'>" + HAP.dictionary.getTranslation("d_5")+ "</span></a>")
-                    .click(function(){
+                    .click(function(e){
+                        e.preventDefault();
                         options.container.find("ul.documenti").nextItem();
                     })
             )
