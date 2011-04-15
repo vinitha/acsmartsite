@@ -240,16 +240,6 @@ $().ready(function(){
                 advBtn.trigger("hideAdv")
             }
         })
-        
-    /*
-    //pulse BG "animation"
-    setTimeout(function(){
-        var fx=$("<div/>")
-                    .appendTo($("h1"))
-                    .addClass("bgFX")            
-                    .fadeTo(2000,1,function(){fx.fadeTo(2000,0.2,function(){fx.fadeTo(600,1)})})    
-    },1000)
-    */
 
 })
 
