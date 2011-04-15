@@ -402,7 +402,7 @@ var HAP=(function(){
                 }
                 i++;
                 
-                if(obj!="timeStamp" && obj!="fields"){
+                if(obj!="fields"){
                     drawObj(queriesHash[obj]);
                 }
             }            
@@ -417,7 +417,7 @@ var HAP=(function(){
             
             for(p in obj){
                 
-                if(p!="timeStamp" && p!="fields"){
+                if(p!="fields"){
                     addQuery(obj[p]);
                 }
             }
@@ -467,7 +467,9 @@ var HAP=(function(){
         }else{
             //aggiungo gli altri campi del form (advanced search only)
             queryObject.fields=$("#archivi").serializeArray();
+            alert($("#archivi").serializeArray())
         }
+        
  
         //aggiungo un booleano da usare lato server per distinguere una ricerca ajax da una classica (=> no JS)
         qData={"query":qData,isAjax:true};
@@ -490,9 +492,7 @@ var HAP=(function(){
                 
                 _showResults(data);
                                 
-                //aggiungo la ricerca all'history
-                var now=new Date();
-                queryObject.timeStamp=utils.twoDigits(now.getHours())+":"+utils.twoDigits(now.getMinutes())+":"+utils.twoDigits(now.getSeconds());
+                //aggiungo la ricerca all'history                
                 _searchHistory.push(queryObject);
                 
                 if(_searchHistory.length>8){
@@ -554,13 +554,23 @@ var HAP=(function(){
             
             var search=_searchHistory[s],
                 $li=$("<li/>").appendTo($ul);
-                
+            
+            var label=search.value;
+            if(!label){   
+                for (var o in search){
+                    if(o!="fields"){
+                        label=search[o].value;
+                    }
+                }
+            }
+            
             $("<a />")
                 .addClass("search")
-                .data("data_query",search)
-                .text(search.timeStamp)
-                .attr("href","#" + search.timeStamp)
                 .appendTo($li)
+                .attr("href","#" + label)
+                .data("data_query",search)
+                .text(label)                
+                
                 
             $("<button />")
                 .addClass("remove")
