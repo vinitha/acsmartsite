@@ -466,8 +466,7 @@ var HAP=(function(){
             queryObject=qObj.qForm.serializeArray()[0];
         }else{
             //aggiungo gli altri campi del form (advanced search only)
-            queryObject.fields=$("#archivi").serializeArray();
-            alert($("#archivi").serializeArray())
+            queryObject.fields=$("#archivi input").serializeArray();
         }
         
  
