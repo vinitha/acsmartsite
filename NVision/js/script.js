@@ -34,7 +34,11 @@ $(function(){
         if(!newStatus.view) {
             
             //running the tabMenu callbacks
-            NVision.tabMenuCallback[newStatus.tabId]();
+			if(NVision.tabMenuCallback[newStatus.tabId]){
+				NVision.tabMenuCallback[newStatus.tabId]();
+			}else{
+				NVision.tabMenuCallback.defaultFn();
+			}
             
             NVision.appStatus.currentTab=newStatus.tabId;
             NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab, BM:NVision.appStatus.BM}
@@ -61,7 +65,7 @@ $(function(){
                         if(sysObj){
 							if(newStatus.view.resubmitted=="true"){
 								NVision.showResubmitted();
-								btn.text("< Back to the brakes view");
+								btn.text("< Back to the breaks view");
 								btn.data("resubmitted",true)								
 							}else{
 								NVision.showTable(sysObj)
@@ -285,7 +289,11 @@ var NVision={
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
-        }
+        },
+		
+		defaultFn:function(){
+			NVision.updateEngine.stop();
+		}
     },
     init:function(sysReady){
         
@@ -293,6 +301,18 @@ var NVision={
         
         //showing the version number
         $("#sysVer .frontEnd").text(NVision.ver);
+		
+		//checking the mainMenu tabs for iFrames
+		$("#mainMenu").find("a.iframe").each(function(index,item){
+
+			$('<div class="tabContent">')
+				.attr("id",this.hash.replace("#",""))
+				.append(
+					$("<iframe />")
+						.attr("src",$(item).data("url"))
+				)
+				.appendTo("#main")
+		})
         
         // adding the panning function to the dashBoard        
         $("#dashBoardView").draggable({
@@ -1926,22 +1946,20 @@ var NVision={
 				}
                 
                 tmpTable.remove();                        
-            })
-
-            
+            }) 
         },
                 
         
         createTable:function(options){
             /*
-            container
-            data
-            itemsPerPage
-            tableHeadings
-            currentPage
-            headClick
-            rowClick
-            selectRow
+				container
+				data
+				itemsPerPage
+				tableHeadings
+				currentPage
+				headClick
+				rowClick
+				selectRow
             */            
             var stTime=(new Date()).getTime();
 			

@@ -337,7 +337,8 @@ function myAjax(options){
         
         
         //filtering out the data according to the "filters" settings
-        var filteredData=[]
+        var filteredData=[];
+		
         _t:for (var trade in sysObj.trades){
             _f:for(var f in sysObj.filters){                        
                 if(sysObj.trades[trade][f]!=sysObj.filters[f]){
