@@ -3,5 +3,6 @@
 <project id="8d02aad3-4dcf-47d8-b2b7-a788fee03c41" kpf_version="5" name="NVision.komodoproject">
 <preference-set idref="8d02aad3-4dcf-47d8-b2b7-a788fee03c41">
   <boolean id="import_live">1</boolean>
+  <string id="spellcheckLangID">en-US</string>
 </preference-set>
 </project>

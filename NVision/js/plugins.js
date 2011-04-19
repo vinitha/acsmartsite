@@ -87,20 +87,19 @@ var utils={
 		var objName=prompt("Object name:"),
 			level=prompt("Level: "),
 			code=utils.doUml(eval(objName),objName,level||1);
-		/*
+		
 		var f=$("<form />")
 				.attr({
-					action:"http://yuml.me/diagram/class/ ",
-					method:"post",
-					data:{"dsl_text":code},
+					action:"http://yuml.me/diagram/class/"+code,
+					method:"get",
 					target:"_blank"				
 				})
 				.appendTo(document.body);
 
 			f.submit();
 			f.remove();
-		*/
 		
+		/*
 		$.ajax({
 					url:"http://yuml.me/diagram/class/ ",
 					type:"post",
@@ -111,7 +110,7 @@ var utils={
 					error:function(x,h,r){
 						console.log(x,h,r)
 					}
-				})
+				})*/
 	},
 	
 	doUml:function(obj,name,levels){
