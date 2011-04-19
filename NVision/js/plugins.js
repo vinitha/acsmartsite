@@ -81,7 +81,101 @@ var utils={
             return "object";
         }
         return typeof(v);
-    }
+    },
+	
+	getUmlFor:function(){
+		var objName=prompt("Object name:"),
+			level=prompt("Level: "),
+			code=utils.doUml(eval(objName),objName,level||1);
+		/*
+		var f=$("<form />")
+				.attr({
+					action:"http://yuml.me/diagram/class/ ",
+					method:"post",
+					data:{"dsl_text":code},
+					target:"_blank"				
+				})
+				.appendTo(document.body);
+
+			f.submit();
+			f.remove();
+		*/
+		
+		$.ajax({
+					url:"http://yuml.me/diagram/class/ ",
+					type:"post",
+					data:{"dsl_text":code},
+					success:function(data){
+						console.log(data)
+					},
+					error:function(x,h,r){
+						console.log(x,h,r)
+					}
+				})
+	},
+	
+	doUml:function(obj,name,levels){
+		var str="[" + name + "|",
+			fns=[],
+			objs=[],
+			attributes=[];
+		
+		for(var o in obj){
+			switch (utils.RealTypeOf(obj[o])){
+				
+				case "object":
+					objs.push({name:o,obj:obj[o]});
+				break;
+				
+				case "function":
+					fns.push({name:o,obj:obj[o]});
+				break;
+			
+				default:
+					attributes.push({name:o,obj:obj[o]});
+				break;			
+			}
+		}
+		
+		if(attributes.length){
+			for (var x=0;x<attributes.length;x++){
+				str+="+ " + attributes[x].name + ";";
+			}
+			str+="|";
+		}	
+		
+		if(fns.length){
+			for (var x=0;x<fns.length;x++){
+				str+="+ " + fns[x].name + "();";
+			}	
+			str+="|";
+		}
+		
+		if(levels==0){
+			if(objs.length){
+				for (var x=0;x<objs.length;x++){
+					str+="+ " + objs[x].name + ";";
+				}
+			}
+		}
+		
+		str+=" {bg:lightblue}]";
+		
+		
+		objs=objs.reverse();
+		//children
+	
+		if(levels>0){
+			for (var x=0;x<objs.length;x++){
+				str+=", " + utils.doUml(objs[x].obj,objs[x].name,levels-1);
+			}
+			
+			for (var x=0;x<objs.length;x++){
+				str+=", ["+name+"]++-["  + objs[x].name + "]";
+			}
+		}
+		return str;
+	}	
 }
 
 
@@ -1759,6 +1853,16 @@ $.fn.extend({
 });
 
 })(jQuery);
+
+
+
+
+
+
+
+
+
+
 
 
 

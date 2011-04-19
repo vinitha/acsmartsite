@@ -629,8 +629,9 @@
 		background-color:#f9f9f9;
 		padding:10px;
 		background-image:url(../images/topBarBG.png);
-		background-position:0px bottom;
+		background-position:0px top;
 		background-repeat:repeat-x;
+		border-bottom:1px solid #999;
 	}
 	
 	#tradesFilters{
