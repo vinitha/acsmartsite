@@ -247,7 +247,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    ver:287,                //testers will log this number in the bugs report
+    ver:290,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -267,19 +267,30 @@ var NVision={
             if($("#tab_1").children(":visible").length==0){
                 //if not then runs its init function
                 NVision.showDashboard()
-            }            
+            }
+			
+			$("#businessMarket,#sysVer,#dbTools").show(0);
             
         },
         
         tab_2:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_2 default content")
+			
+			$("#businessMarket,#sysVer,#dbTools").show(0);
         },
         
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
+			
+			$("#businessMarket,#sysVer,#dbTools").show(0);
         },
+		
+		tab_4:function(){
+			NVision.updateEngine.stop();
+			$("#businessMarket,#sysVer,#dbTools").hide(0);
+		},
 		
 		defaultFn:function(){
 			NVision.updateEngine.stop();
@@ -1052,8 +1063,7 @@ var NVision={
                     return false;
                 }
                 var className=sysObj.canvasBox.className,
-                    $div=$(sysObj.canvasBox);
-                
+                    $div=$(sysObj.canvasBox);                
                 
                 if(className.indexOf("alert")>-1){
                     $div.removeClass("alert1 alert2")
