@@ -493,6 +493,25 @@ var NVision={
         //creating the hidden div to store the lightBoxes
         var hiddenBox=$("<div />").attr("id","hiddenBox").appendTo(document.body);
         
+		
+		//creating the alert lightBox
+		(function(){
+			var $msg=$("<div id='alertBox' />").appendTo(hiddenBox);
+                
+				
+				$("<h3 />").appendTo($msg)				
+				$("<p />").addClass("shortDesc").appendTo($msg)
+				$("<p />").addClass("longDesc").append($("<pre />")).appendTo($msg)
+		
+		
+			    NVision.lightBoxes["alertBox"]=$msg.lightBox({
+						modal:false,
+						title:"An error occurred:",
+						parent:hiddenBox,
+						onClose:null
+					});
+		})();
+		
         //creating the overwrite lightBox
         (function(){
             var $msg=$("<div id='overwriteBox' />")
@@ -521,32 +540,34 @@ var NVision={
                     success:function(data){
                        NVision.lightBoxes["overwrite"].removeClass("wait").closeIt();  
                         
-                        var confBox={
-                            title:"Overwrite confirmation",
-                            yesCaption:data.code=="nok"?"Retry":"Resubmit",
-                            noCaption:"Close",                    
-                            onYes:function(){
-								if(data.code=="nok"){
-									$("#overwriteBtn").click();
-								}else{
-									$("#resubmitBtn").click();
-								}
-							},
-                            onNo:function(){
-								if(data.code!="nok"){
-									myConsole.log("Refreshing the view...")
-									
-									//refreshing the tableView
-									NVision.updateEngine.updateNow();
-									NVision.updateEngine.start();
-								}							
-							},
-                            msg:data.msg,
-                            msgClass:data.code=="nok"?"error":"ok", // [ok||error]
-							onClose:null
-                        }
-                        
-                        confirm(confBox);
+						if(data._code=="ok"){
+							var confBox={
+								title:"Overwrite confirmation",
+								yesCaption:data._code=="nok"?"Retry":"Resubmit",
+								noCaption:"Close",                    
+								onYes:function(){
+									if(data._code=="nok"){
+										$("#overwriteBtn").click();
+									}else{
+										$("#resubmitBtn").click();
+									}
+								},
+								onNo:function(){
+									if(data._code!="nok"){
+										myConsole.log("Refreshing the view...")
+										
+										//refreshing the tableView
+										NVision.updateEngine.updateNow();
+										NVision.updateEngine.start();
+									}							
+								},
+								msg:data.msg,
+								msgClass:data._code=="nok"?"error":"ok", // [ok||error]
+								onClose:null
+							}
+							
+							confirm(confBox);
+						}
                     
                     },
                     error:function(a,b,c){
@@ -597,29 +618,32 @@ var NVision={
                     success:function(data){                        
                         
 						NVision.lightBoxes["resubmit"].removeClass("wait").closeIt();
-                        var confBox={
-                            title:"Resubmit confirmation",
-                            yesCaption:"View submitted trades",
-                            noCaption:"Close",                    
-                            onYes:function(){
-																
-								NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
-								$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+						
+						if(data._code=="ok"){
+							var confBox={
+								title:"Resubmit confirmation",
+								yesCaption:"View submitted trades",
+								noCaption:"Close",                    
+								onYes:function(){
+																	
+									NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
+									$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+										
+								},
+								onNo:function(){
+									myConsole.log("Refreshing the view...")
 									
-							},
-                            onNo:function(){
-								myConsole.log("Refreshing the view...")
-								
-								//refreshing the tableView
-								NVision.updateEngine.updateNow();
-								NVision.updateEngine.start();								
-							},
-                            msg:data.msg,
-                            msgClass:data.code=="nok"?"error":"ok", // [ok||error]
-							onClose:null
-                        }
-                        
-                        confirm(confBox);
+									//refreshing the tableView
+									NVision.updateEngine.updateNow();
+									NVision.updateEngine.start();								
+								},
+								msg:data.msg,
+								msgClass:data._code=="nok"?"error":"ok", // [ok||error]
+								onClose:null
+							}
+							
+							confirm(confBox);
+						}
                     
                     },
                     error:function(a,b,c){
@@ -718,68 +742,71 @@ var NVision={
             success:function(dataObj){
                 
                 $("#businessMarket strong").text(dataObj.bm).removeClass("loading");
-                //showin the version number
-                $("#sysVer .backEnd").text(dataObj.ver);
-        
-                var data=dataObj.composition;
-                
-                $("#sysVer")
-                //add the objects to NVision
-                $(data).each(function(){
-                    switch(this.type){
-                        case "system":
-                            if(!NVision.systems){NVision.systems={}};
-
-                            //adding the system to the NVision obj
-                            NVision.systems[this.id]=new system(this);
-                        break;
-                                            
-                        case "adapter":
-                            if(!NVision.adapters){NVision.adapters={}};
-                            
-                            //base settings
-                            this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
-                            this.currentPage=1;
-                            
-                            //adding the adapter to the NVision obj
-                            NVision.adapters[this.id]=new adapter(this);
-                        break;
-                        
-                        case "link":
-                            if(!NVision.links){NVision.links={}};
-                            //adding the link to the NVision obj
-                            NVision.links[this.id]=this;
-                        break;
-                        
-                        /*
-                        case "layout":
-                            //adding the layout to the NVision obj
-                            NVision.layout=this;
-                        break;
-                        */
-                        
-                        case "exchange":
-                          if(!NVision.otherObjects){NVision.otherObjects={}};
-                            //adding the exchange to the NVision obj
-                            NVision.otherObjects[this.id]=new exchange(this);
-                        break;                    
-                        
-                        default :
-                          if(!NVision.otherObjects){NVision.otherObjects={}};
-                            //adding the otherObjects to the NVision obj
-                            NVision.otherObjects[this.id]=new baseObj(this);                            
-                        break;
-
-                    }
-                })
-                                
-                                
-                //firing the ready event!
-                NVision.sysReady();
-                
-                
-                //setting the zoom level to 100%
-                NVision.zoom(0);
+				
+				if(dataObj._code=="ok"){
+					//showing the version number
+					$("#sysVer .backEnd").text(dataObj.ver);
+			
+					var data=dataObj.composition;
+					
+					$("#sysVer")
+					//add the objects to NVision
+					$(data).each(function(){
+						switch(this.type){
+							case "system":
+								if(!NVision.systems){NVision.systems={}};
+	
+								//adding the system to the NVision obj
+								NVision.systems[this.id]=new system(this);
+							break;
+												
+							case "adapter":
+								if(!NVision.adapters){NVision.adapters={}};
+								
+								//base settings
+								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
+								this.currentPage=1;
+								
+								//adding the adapter to the NVision obj
+								NVision.adapters[this.id]=new adapter(this);
+							break;
+							
+							case "link":
+								if(!NVision.links){NVision.links={}};
+								//adding the link to the NVision obj
+								NVision.links[this.id]=this;
+							break;
+							
+							/*
+							case "layout":
+								//adding the layout to the NVision obj
+								NVision.layout=this;
+							break;
+							*/
+							
+							case "exchange":
+							  if(!NVision.otherObjects){NVision.otherObjects={}};
+								//adding the exchange to the NVision obj
+								NVision.otherObjects[this.id]=new exchange(this);
+							break;                    
+							
+							default :
+							  if(!NVision.otherObjects){NVision.otherObjects={}};
+								//adding the otherObjects to the NVision obj
+								NVision.otherObjects[this.id]=new baseObj(this);                            
+							break;
+	
+						}
+					})
+									
+									
+					//firing the ready event!
+					NVision.sysReady();
+					
+					
+					//setting the zoom level to 100%
+					NVision.zoom(0);
+				}
             }
         });
         
@@ -1197,27 +1224,29 @@ var NVision={
                         logMsg:null,//"Updating sys.: " + reqObj.callerObj.name,
                         success:function(data){
                             
-                            //executing the newDataCallbacks
-                            for (var f in newDataCallback){
-                                //executing and removing it
-                                newDataCallback[f]();
-                                newDataCallback.splice(f,1);                                
+							if(data._code=="ok"){
+								//executing the newDataCallbacks
+								for (var f in newDataCallback){
+									//executing and removing it
+									newDataCallback[f]();
+									newDataCallback.splice(f,1);                                
+								}
+	
+								var reqObj=tasks[data.id]
+	
+								if(!reqObj){
+									myConsole.alert("Unexpected data received: " + data.id)
+									return false;
+								}
+								reqObj.callBack(data);
+							
+							
+								var cb=$(reqObj.callerObj.canvasBox);
+								
+								setTimeout(function(){
+									cb.removeClass("updating");
+								},1000)
                             }
-
-                            var reqObj=tasks[data.id]
-
-                            if(!reqObj){
-                                myConsole.alert("Unexpected data received: " + data.id)
-                                return false;
-                            }
-                            reqObj.callBack(data);
-                            
-                            var cb=$(reqObj.callerObj.canvasBox);
-                            
-                            setTimeout(function(){
-                                cb.removeClass("updating");
-                            },1000)
-                            
                         }
                         ,
                         error:function(a,b,c){

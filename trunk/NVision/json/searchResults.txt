@@ -1,4 +1,5 @@
 {
+    "_code":"ok",
     "name":"Search results:",
     "id":"searchResults",
     "filters":["Time","Market","Trader","Trading Ref","Contract"],

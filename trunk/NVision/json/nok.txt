@@ -1,4 +1,8 @@
 {
-    "code":"ok",
-    "msg":"It's everything ok"
+    "_code":"nok",
+    "_errObj":{
+        "id":"err_400_sadasd_@%!",
+        "shortDesc":"This is the short description",
+        "longDesc":"And this is the long one: asdas dasdasdsadasdas sd fsd fsdf sdfsd fsdfsd sdf sdf sd"
+    }
 }

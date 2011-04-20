@@ -1846,6 +1846,34 @@
 	}
 	
 	
+	#alertBox{
+		width:600px;
+		overflow:hidden;		
+	}
+	
+	#alertBox h3{
+		color:red;
+		padding-left:50px;
+		line-height:3em;
+		
+		background-image:url(../images/error_mid.png);
+		background-position:10px 10px;
+		background-repeat:no-repeat;
+	}
+	
+	#alertBox .shortDesc{
+		font-size:1.2em;
+		color:#666;
+		border-bottom:1px solid #ccc;
+		margin-bottom:10px;
+	}
+	
+	#alertBox .longDesc{
+		overflow:auto;
+		max-height:400px;
+		font-size:1.4em;
+	}
+	
 	
 	#resubmittedView{
 		width:600px;

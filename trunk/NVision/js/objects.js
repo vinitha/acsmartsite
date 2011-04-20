@@ -46,6 +46,21 @@ function myAjax(options){
             if(attributes.logMsg){
                 myConsole.status("Ok ",msgId);
             }
+
+			if(data._code=="nok"){
+
+				var lb=NVision.lightBoxes["alertBox"];
+								
+					lb.find("h3").text(data._errObj.id)
+					lb.find("p.shortDesc").text(data._errObj.shortDesc)
+					lb.find(".longDesc pre").text(data._errObj.longDesc)
+				
+				if(!lb.is(":visible")){	
+					lb.show();
+				}
+
+			}
+			
             attributes.success(data)
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
