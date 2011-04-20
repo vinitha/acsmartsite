@@ -1,6 +1,7 @@
                                                                      
                                                                      
 {
+	"_code":"ok",
     "ver":"xx.xx",
     "bm":"Eurex 2",
     "composition":[

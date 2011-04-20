@@ -1,4 +1,5 @@
 {
+	"_code":"ok",
     "id":"ClearVisionIN",
     "name":"ClearVision IN",
     "alertLevel":65,

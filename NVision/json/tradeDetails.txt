@@ -1,4 +1,5 @@
 {
+    "_code":"ok",
     "tradeId":1,
     "details":[
         {

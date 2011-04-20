@@ -720,8 +720,8 @@ function confirm(options){
 			};		
 				
 		//extending the default options
-		$.extend(defaults,$.fn.lightBox.defaults,options)		
-		
+		$.extend(defaults,$.fn.lightBox.defaults,options)
+
 		defaults.parent=defaults.parent||this.parent();
 		
 		$(this).data("_lightBox",defaults);
@@ -753,6 +753,7 @@ function confirm(options){
 	};
 	
 	var showing=function(){
+
 		var defaults=$(this).data("_lightBox"),
 		    thisObj=this;
 			
