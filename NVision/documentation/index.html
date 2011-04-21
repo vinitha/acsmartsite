@@ -60,17 +60,59 @@
 				
 				<section class="text">
 					<h2>NVision object</h2>
+					
+					
 					<p>
 						The core of the application logic is hold by the JavaScript object named <strong>NVision</strong> (available in the global scope: window.NVision).<br>
 						This object act as a hub for most of the js functions and it represents the application name-space.<br>						
 						The object structure is displayed by the following chart:
-						<img src="images/NVision.png" title="NVision object UML chart" />
+						<img class="elastic" src="images/NVision.png" title="NVision object UML chart" />
 					</p>
 					
-					<h3>Attributes description:</h3>
-					<dl>
-						<dt>ver</dt>
-						<dd>UI version: testers will log this number in the bugs report</dd>
+					<h3>Main Methods/Attributes description:</h3>
+					<aside class="imgText right">
+						<a href="NVisionObject.html"><img src="images/NVisionDetails.png" alt="Detailed object structure" /></a>
+						<p>NVision object snapshot</p>
+					</aside>
+					
+					<dl>						
+						<dt>currentSys</dt>
+						<dd>
+							<p>
+								Pointer to the current <a href="#tradeHolder">"tradeHolder"</a> object (either the <strong>adapter</strong> or the <strong>searchObj</strong> objects)
+							</p>
+						
+						</dd>
+						
+						<dt>appStatus</dt>
+						<dd>
+							<p>
+								This object holds the app status and is used to optimise the browser history navigation (through the BBQ plugin)
+							</p>
+						</dd>
+						
+						<dt>systems</dt>
+						<dd>
+							<p>
+								Associative array which holds a reference to the systems retrieved from the server for the current Business Market. The object keys are the systems IDs.
+							</p>
+						</dd>
+						
+						<dt>adapters</dt>
+						<dd>
+							<p>
+								Associative array which holds a reference to the adapters retrieved from the server for the current Business Market. The object keys are the adapters IDs.
+							</p>
+						</dd>
+						
+						<dt>tabMenuCallback</dt>
+						<dd>
+							<p>
+								Associative array containing the function 
+							</p>
+						</dd>						
+						
+						
 					</dl>
 				</section>
 				
