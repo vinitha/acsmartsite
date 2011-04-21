@@ -258,7 +258,7 @@ var NVision={
     links:null,
     //layout:null,
     sysReady:null,          //this function gets exectuted after the json data has been processed by the client
-    tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the usere clicks on it
+    tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the user clicks on it
         tab_1:function(){
             
             NVision.updateEngine.forceStart();
@@ -1826,8 +1826,8 @@ var NVision={
                     .text("Showing: 0/0")
                     .appendTo(options.container);
                     
-
-            
+			//consistency check
+            options.system.itemsPerPage==0?(options.system.displayAll=true):(options.system.displayAll=false);
             
             //adding the "displayAll" button
             var all=$("<a />")

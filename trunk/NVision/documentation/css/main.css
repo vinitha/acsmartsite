@@ -61,16 +61,59 @@ section{
 
 a{
 	color:#32a0c0;
-	font-weight:bold;
+	padding:2px 5px;
+	background-color:#eee;
+	
 }
 
 a:hover,
 a:focus{
 
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+	background-color:#fdfddf;
 }
 
 
+
+dt{
+	float:left;
+	width:200px;
+	clear:left;
+	background-color:#bfdbe1;
+	color:#24758c;
+	font-weight:bold;
+	padding:10px;
+	margin-bottom:1px;
+	margin-right:5px;
+	font-size:1.2em;
+}
+
+dd{
+	overflow:hidden;
+	padding:10px;
+	padding-bottom:0px;
+	background-color:#eee;
+	margin-bottom:1px;
+}
+
+.elastic{
+	width:100%;
+}
+
+
+
+.imgText{
+	margin:0px 0px 10px 10px;
+}
+.imgText img,
+.imgText a{
+	display:block;
+	padding:5px;
+}
+
+.right{
+	float:right;
+}
 
 @font-face {
 	font-family:"myriad-pro-1";

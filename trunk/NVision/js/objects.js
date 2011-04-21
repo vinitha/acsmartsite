@@ -518,8 +518,7 @@ function myAjax(options){
                         for (var h in data.details[0]){
                             tableHeadings.push(h);
                         }                        
-                        
-                                                
+                          
                         var table=NVision.utils.createTable({
                             container:newTr.find("td"),
                             tableHeadings:tableHeadings,
@@ -527,24 +526,6 @@ function myAjax(options){
                             itemsPerPage:0,     //-> all
                             currentPage:1,
                             rowClick:function(tr){
-                                /*
-                                var doc=window.open("","_blank",'width=800,height=400,resizable=yes,scrollbars=yes').document,
-                                    $doc=$(doc);
-                                    
-                                    //adding the css rules defined in the popup.css
-                                    var sheet=$("#_popup").attr("sheet")||$("#_popup").attr("styleSheet"),
-                                        r=sheet.cssRules||sheet.rules;
-                                        
-                                    var rules=$.map(r,function(item,index){                                        
-                                        return item.cssText||(item.selectorText + "{" + item.style.cssText + "}");
-                                    });
-                                    
-                                    $doc.find("head").append("<style type='text/css'>" + rules.join("\n") + "</style>");
-                                    
-                                
-                                //setting the window title    
-                                doc.title="Message detail View";
-                                */
 								
 								var $th=$(tr).closest("table").find("thead tr");
 								
