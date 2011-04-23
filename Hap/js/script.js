@@ -1,4 +1,11 @@
 
+//configuration object
+var sysConfig={
+    htmlBodyUrl:"json/docHtml.txt"
+}
+
+
+
 $().ready(function(){    
 
     //defining and adding the dictionaries to HAP
@@ -906,7 +913,26 @@ var HAP=(function(){
         }
         
         if (!doc.html){
-            myConsole.alert("Recuperare il corpo del documento via Ajax!")
+            //Recupero il corpo del documento via Ajax!
+            
+            content.parent().addClass("loading");
+            $.ajax({                
+                url:sysConfig.htmlBodyUrl,
+                data:{docId:doc.id},
+                method:"get",
+                dataType:"text",
+                success:function(data){
+                    content.html(data);
+                    doc.html=data;
+                },
+                error:function(a,b,c){
+                    alert(b||a||c)
+                },
+                complete:function(){
+                    content.parent().removeClass("loading");
+                }
+            })
+            
         }
         
         
