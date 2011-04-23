@@ -31,6 +31,13 @@
 	
 	.content{
 		margin-bottom:20px;
+		min-height:100px;		
+	}
+	
+	.loading .content{
+		background-image:url(../images/ajaxLoader5.gif);
+		background-position:50% 50%;
+		background-repeat:no-repeat;
 	}
 	
 	.content p{
@@ -660,6 +667,7 @@ h2{
 		margin-bottom:15px;
 		color:#444;
 		font-weight:bold;
+		line-height:1.6em;
 	}
 	
 	
