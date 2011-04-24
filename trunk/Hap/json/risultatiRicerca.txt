@@ -2,12 +2,12 @@
     "clusters":[
                 {
                     "nome":"Soggetti produttori",
-                    "docCount":84,
+                    "totaleDocs":84,
                     "id":"cluster URI",
                     "sottoCluster":[
                         {
                             "nome":"Contesto istituzionale-archivistico",
-                            "docCount":6,
+                            "totaleDocs":6,
                             "id":"cluster URI"
                         }
                     ]

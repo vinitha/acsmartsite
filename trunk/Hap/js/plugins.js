@@ -57,37 +57,6 @@ var utils={
 }
 
 
-
-
-function createCookie(name,value,days) {
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
-}
-
-function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
-}
-
-function eraseCookie(name) {
-	createCookie(name,"",-1);
-}
-
-
-
-
-
 //adding the parseTime function to the string object
 String.prototype.parseTime=function() {
 	var timeString=$.trim(this);
@@ -488,6 +457,101 @@ $.fn.reverse = [].reverse;
 	
 
 })(jQuery);
+
+
+
+
+// object usefull to handle content scroll.
+var scroller=function(element){
+	var myDiv=$(element)
+	
+		var scrollRight=function(scrollSize,duration,pageOffset){
+			myDiv.stop();
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var width=myDiv.innerWidth(),				
+				scrollWidth=myDiv.get(0).scrollWidth;			
+			
+			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
+			availableScroll=availableScroll>width*scrollSize+pageOffset?width*scrollSize+pageOffset:availableScroll;						
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
+		}
+		
+		var scrollRightPx=function(scrollSize,duration){
+			myDiv.stop();
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),				
+				scrollWidth=myDiv.get(0).scrollWidth;			
+			
+			var availableScroll=scrollWidth-myDiv.scrollLeft()-width;					
+			availableScroll=availableScroll>scrollSize?scrollSize:availableScroll;						
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)				
+		}		
+		
+		var scrollLeft=function(scrollSize,duration,pageOffset){
+			myDiv.stop();
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var width=myDiv.innerWidth(),
+				scrollWidth=myDiv.get(0).scrollWidth;
+			
+			var availableScroll=myDiv.scrollLeft();
+			availableScroll=availableScroll>width*scrollSize+pageOffset?-width*scrollSize+pageOffset:-availableScroll;
+				
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
+		}
+		
+		var scrollLeftPx=function(scrollSize,duration){
+			myDiv.stop();
+			if (scrollSize<1) return false;
+			    
+			var width=myDiv.innerWidth(),
+				scrollWidth=myDiv.get(0).scrollWidth;
+			
+			var availableScroll=myDiv.scrollLeft();
+			availableScroll=availableScroll>scrollSize?-scrollSize:-availableScroll;
+				
+			myDiv.animate({scrollLeft:myDiv.scrollLeft()+availableScroll},duration||500)
+		}		
+		
+		var scrollUp=function(scrollSize,duration,pageOffset){
+			myDiv.stop();
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var height=myDiv.innerHeight(),
+				scrollHeight=myDiv.get(0).scrollHeight;
+			
+			var availableScroll=scrollHeight-myDiv.scrollTop()-height;					
+			availableScroll=availableScroll>height*scrollSize+pageOffset?height*scrollSize+pageOffset:availableScroll;						
+			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)				
+		}
+		
+		var scrollDown=function(scrollSize,duration,pageOffset){
+			myDiv.stop();
+			var scrollSize=scrollSize||1,
+			    pageOffset=pageOffset||0;
+			    
+			var height=myDiv.innerHeight(),
+				scrollHeight=myDiv.get(0).scrollHeight;
+			
+			var availableScroll=myDiv.scrollTop();
+			availableScroll=availableScroll>height*scrollSize+pageOffset?-height*scrollSize+pageOffset:-availableScroll;						
+			myDiv.animate({scrollTop:myDiv.scrollTop()+availableScroll},duration||500)
+		}	
+	
+	return {
+		scrollLeft:scrollLeft,
+		scrollRight:scrollRight,
+		scrollLeftPx:scrollLeftPx,
+		scrollRightPx:scrollRightPx,		
+		scrollUp:scrollUp,
+		scrollDown:scrollDown
+	}
+};
 
 
 // messages displaying tool
