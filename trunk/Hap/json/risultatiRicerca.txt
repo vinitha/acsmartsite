@@ -1,101 +1,117 @@
-[
-    {
-        "id":"xx1",
-        "nome":"Soggetti produttori",
-        "totaleDocs":6,
-        "pagina":10,
-        "totPagine":14,
-        "risultati":[
-            {
-                "id":123,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":124,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            },
-            {
-                "id":1230,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":1240,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            },
-            {
-                "id":12310,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":12410,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            },
-            {
-                "id":12300,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":12400,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            }              
-        ]
-    },
-    
-    {
-        "id":"xx2",
-        "nome":"Patrimonio documentario",
-        "totaleDocs":3,
-        "pagina":1,
-        "totPagine":1,
-        "risultati":[            
-            {
-                "id":125,
-                "titolo":"Abbazia di Mileto 2",
-                "tipo":"Enti e associazioni della Chiesa Cattolica 2"
-            },
-            {
-                "id":126,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":127,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            }            
-        ]
-    },
-    
-    {
-        "id":"xx3",
-        "nome":"Istituti conservatori",
-        "totaleDocs":3,
-        "pagina":1,
-        "totPagine":1,
-        "risultati":[            
-            {
-                "id":128,
-                "titolo":"Abbazia di Mileto 3",
-                "tipo":"Enti e associazioni della Chiesa Cattolica 3"
-            },
-            {
-                "id":129,
-                "titolo":"Abbazia di Mileto",
-                "tipo":"Enti e associazioni della Chiesa Cattolica"
-            },
-            {
-                "id":12,
-                "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
-                "tipo":"Organi centrali / organi ausiliari"
-            }            
-        ]
-    }    
-]
+{
+    "clusters":[
+                {
+                    "nome":"Soggetti produttori",
+                    "docCount":84,
+                    "id":"cluster URI",
+                    "sottoCluster":[
+                        {
+                            "nome":"Contesto istituzionale-archivistico",
+                            "docCount":6,
+                            "id":"cluster URI"
+                        }
+                    ]
+                }
+    ],
+    "documenti":[
+        {
+            "id":"xx1",
+            "nome":"Soggetti produttori",
+            "totaleDocs":6,
+            "pagina":10,
+            "totPagine":14,        
+            "risultati":[
+                {
+                    "id":123,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":124,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                },
+                {
+                    "id":1230,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":1240,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                },
+                {
+                    "id":12310,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":12410,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                },
+                {
+                    "id":12300,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":12400,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                }              
+            ]
+        },
+        
+        {
+            "id":"xx2",
+            "nome":"Patrimonio documentario",
+            "totaleDocs":3,
+            "pagina":1,
+            "totPagine":3,
+            "risultati":[            
+                {
+                    "id":125,
+                    "titolo":"Abbazia di Mileto 2",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica 2"
+                },
+                {
+                    "id":126,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":127,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                }            
+            ]
+        },
+        
+        {
+            "id":"xx3",
+            "nome":"Istituti conservatori",
+            "totaleDocs":3,
+            "pagina":1,
+            "totPagine":1,
+            "risultati":[            
+                {
+                    "id":128,
+                    "titolo":"Abbazia di Mileto 3",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica 3"
+                },
+                {
+                    "id":129,
+                    "titolo":"Abbazia di Mileto",
+                    "tipo":"Enti e associazioni della Chiesa Cattolica"
+                },
+                {
+                    "id":12,
+                    "titolo":"Agenzia delle tasse dirette (1865-1867) poi Agenzia delle imposte dirette e del catasto (1867-1924) poi Ufficio distrettuale delle imposte dirette (1924-1999)",
+                    "tipo":"Organi centrali / organi ausiliari"
+                }            
+            ]
+        }    
+    ]
+}

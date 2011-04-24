@@ -638,6 +638,7 @@ h2{
 	ul.archivi{
 		margin-bottom:-1px;
 		overflow:hidden;
+		margin-left:10px;
 	}
 	
 	.archivi li.current a {
@@ -657,7 +658,7 @@ h2{
 		border:1px solid #ccc;
 		padding:10px;
 		font-size:1.4em;
-		max-height:826px;
+		/*max-height:826px;*/
 		overflow-y:auto;
 		margin-bottom:10px;
 		line-height:1.4em;
