@@ -255,7 +255,7 @@ h2{
 	overflow: hidden;	
 	z-index: 2;
 	position: relative;
-	padding:0px 20px;
+	padding:0px;
 }
 
 
@@ -270,8 +270,8 @@ h2{
 /* tabMenu */
 	.tabMenu{
 		overflow:hidden;
-		float:left;
-		width:100%;
+		
+		padding:0px 20px;
 	}
 	.tabMenu li{
 		float:left;
@@ -364,7 +364,62 @@ h2{
 		border-bottom:1px solid #f9f9f9;
 	}
 	
+	
+	
+	.tabMenu li.clusters a{		
+		background-color: #edd5b4;
+		border-bottom: 1px solid #e1ba84;
+		color: #7e561f;
+	}	
 
+	.tabMenu li.clusters a:hover,
+	.tabMenu li.clusters a:focus{
+		background-color:#e0b881;
+		border-bottom: 1px solid #d7a35b;
+	}
+	
+	.tabMenu li.current.clusters a{
+		background-color:#f9f9f9;
+		color:#936424;
+		font-weight:bold;
+		border:1px solid #999;
+		border-bottom:1px solid #f9f9f9;
+	}
+	
+	
+	.scrollBtnsBar{
+		position:relative;
+		clear:both;
+		z-index:3;
+	}
+
+	.scrollBtnsBar .btnLeft,
+	.scrollBtnsBar .btnRight,
+	.scrollBtnsBar .btnLeft span,
+	.scrollBtnsBar .btnRight span{
+		display:none;
+	}
+	
+	.scroll .btnLeft,
+	.scroll .btnRight{
+		display:block;
+	}
+	
+	.scrollBtnsBar .btnLeft{
+		position:absolute;
+		left:0px;
+		top:0px;
+		width:10px;
+		height:20px;
+	}
+	
+	.scrollBtnsBar .btnRight{
+		position:absolute;
+		right:0px;
+		top:0px;
+		width:10px;
+		height:20px;
+	}	
 /* searchPanel */
 	#searchPanel{
 		background-color:#e0e0e0;		
@@ -635,10 +690,13 @@ h2{
 	}
 	
 	
-	ul.archivi{
-		margin-bottom:-1px;
+	#docMenu{
 		overflow:hidden;
-		margin-left:10px;
+		position:relative;
+		margin-bottom:-1px;
+	}
+	ul.archivi{
+		overflow:hidden;
 	}
 	
 	.archivi li.current a {

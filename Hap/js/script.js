@@ -510,13 +510,13 @@ var HAP=(function(){
                 }
                 
                 //rendering grafico dei risultati
-                _showResults(data.documenti);
+                _showResults(data);
                 
                 //rendering grafico dello storico ricerche
                 _showSearchHistory();
                 
                 //rendering grafico dei clusters
-                _showClusters(data.clusters);
+                //_showClusters(data.clusters);
                 
                 utils.createCookie("searchHistory",JSON.stringify(_searchHistory),1);
             },
@@ -524,10 +524,6 @@ var HAP=(function(){
                 alert(b||a||c)
             }
         })
-    };
-    
-    function _showClusters(data){
-    
     };
     
     function _showSearchHistory(){
@@ -624,9 +620,10 @@ var HAP=(function(){
         _currentResults={};
         
         
-        var mainMenu=$("#menuBar ul:first")
+        var mainMenu=$("#menuBar ul")
         var risLi=$("li.risultati",mainMenu),
-            risDiv=$("#risultatiRicerca");
+            risDiv=$("#risultatiRicerca"),
+            risClust=$("risultatiCluster");
             
         if(risLi.length==0){
             risLi=$("<li class='risultati newItem icon' ><a href='#risultatiRicerca' title='"+HAP.dictionary.getTranslation("d_9")+"' ><span>"+HAP.dictionary.getTranslation("d_9")+"</span></a></li>")
@@ -639,18 +636,16 @@ var HAP=(function(){
             .append($("<h3 class='titoloPannello'>Risultati della ricerca:</h3>"));
                 
         
-        var arUL=$("<ul class='archivi tabMenu switch' />");
-        arUL.appendTo(risDiv);
+        //controllo la larghezza (nel caso aggiungo i pulsantini di scroll)
+        mainMenu.trigger("checkWidth",mainMenu);
         
-        //lo rendo uno switch
-        doSwitch(arUL);
-        
-        arUL.change(function(e,aObj){
-            $(aObj.hash).show(0).siblings("div.archDiv").hide(0);            
-        })
-        
-        for (var x=0;x<json.length;x++){
-            var obj=json[x];
+        var arUL=$("<ul class='archivi tabMenu' />")
+            .appendTo($("<div id='docMenu' />").appendTo(risDiv));
+            
+        //creo i tab dei documenti
+        var documenti=json.documenti;
+        for (var x=0;x<documenti.length;x++){
+            var obj=documenti[x];
             //creo l'entry nel tabmenu
             $("<li class='li_arch' ><a class='' href='#arch_"+obj.id+"' title='Apri archivio' ><span>"+obj.nome+" ("+obj.totaleDocs+")</span></a></li>")
                 .appendTo(arUL);
@@ -688,10 +683,36 @@ var HAP=(function(){
                     });
             
         }
+        
+        //lo rendo un menu
+        doTabMenu(arUL);
+        
+        arUL.change(function(e,aObj){
+            $(aObj.hash).show(0).siblings("div.archDiv").hide(0);            
+        })
+        
         mainMenu.trigger("itemClick",risLi.find("a"));
         arUL.trigger("itemClick",arUL.find("a:first"));
         
+
+
+        //creo il tab dei clusters
+        var clusters=json.clusters;
         
+        //creo l'entry nel tabmenu
+        $("<li class='li_arch clusters' ><a class='' href='#clust_div' title='Apri clusters' ><span>Clusters</span></a></li>")
+            .appendTo(arUL);
+            
+        //creo il div che conterra' i documenti
+        var docDiv=$("<div class='archDiv clusterDiv' id='clust_div' />").appendTo(risDiv).hide(0)
+            
+        for (var x=0;x<clusters.length;x++){
+           var obj=clusters[x];
+           $("<p />").text(obj.nome).appendTo(docDiv)
+        }
+        
+        //ricalcolo la larghezza minima del tab menu (usato per lo scroller)
+        arUL.trigger("checkWidth",arUL);
     };
     
     function _createDocumentsUl(options){
@@ -1037,6 +1058,8 @@ var HAP=(function(){
                         })
                         .appendTo(li);
                 }
+                
+                menu.trigger("checkWidth",menu);
             },
             remove:function(doc){
                 
@@ -1061,13 +1084,17 @@ var HAP=(function(){
                 //"salvo" il Raccoglitore nei cookies
                 HAP.docsBinder.save();
                 
+                
                 $("#menuBar li.docBinder").remove();
                 var newTab=$("#menuBar").find("li.risultati a");
                 if (newTab.length==0){
                     newTab=$("#menuBar li a");
                 }
                 
-                $("#menuBar .tabMenu").trigger("itemClick",newTab.eq(0))                
+                $("#menuBar .tabMenu").trigger("itemClick",newTab.eq(0))
+                
+                var menu=$("#menuBar ul");
+                menu.trigger("checkWidth",menu);
             },
             getAll:function(){
                 return _Binder;
@@ -1130,20 +1157,79 @@ var HAP=(function(){
             doSwitch($("ul.switch"))
             
             //defining the click event
-            $($("ul.switch a").live("click",function(e){
+            $($("ul.switch a, ul.tabMenu a").live("click",function(e){
                 e.preventDefault();
                 
                 var $this=$(this);                
                 $this.closest("ul").trigger("itemClick",$this);
                 return false;
-            }));           
+            }));
+            
+            doTabMenu($("ul.tabMenu"));
+            
+            $(window).resize(function(){
+                $("ul.tabMenu").each(function(){
+                    $(this).trigger("checkWidth",this)
+                })    
+            });
+            
+           
+            
         }
     };
 
 
 
-
-
+    //tabMenu widget
+    function doTabMenu(ulElem){
+        
+        ulElem.bind("checkWidth",function(e,ul){
+            
+            //assigning the tabMenus' parent min-width value
+            var $this=$(ul);
+                parent=$this.parent(),
+                btnsBar=parent.siblings("div.scrollBtnsBar"),
+                width=0;
+                
+            $this.find("li").each(function(){
+                width+=$(this).outerWidth();
+            })
+            $this.css("min-width",width);
+            
+            //nel caso servissero i pulsantini
+            if(parent.get(0).scrollWidth> parent.innerWidth()){
+                btnsBar.addClass("scroll")
+            }else{
+                btnsBar.removeClass("scroll")
+            }        
+        })
+        
+        doSwitch(ulElem);
+        
+        ulElem.bind("itemClick",function(e,anchor){
+            var menu=$(anchor).closest("ul")
+            menu.trigger("checkWidth",menu);
+        })
+        
+        //tabMenu
+        ulElem.each(function(){
+            var parent=$(this).parent(),
+                div=$("<div class='scrollBtnsBar' />");
+                
+            $("<button class='btnLeft'><span>Scroll left</span></button>")
+                .click(function(){
+                    scroller(parent).scrollLeft();    
+                })
+                .prependTo(div)
+            $("<button class='btnRight'><span>Scroll right</span></button>")
+                .click(function(){
+                    scroller(parent).scrollRight();    
+                })
+                .appendTo(div);
+            
+            div.insertBefore(parent)
+        })        
+    }
 
     //Switch widget   
     function doSwitch(ulElem){
@@ -1171,9 +1257,10 @@ var HAP=(function(){
         $.fn.nextItem=function(){
 		var thisObj=$(this);
                 var nextItem=thisObj.find(".current").next().find("a");
-                
+
                 if (nextItem.length==0){return false;}
-                thisObj.trigger("itemClick", nextItem);                
+                thisObj.trigger("itemClick", nextItem);
+                return thisObj;
         };
         
         $.fn.prevItem=function(){
@@ -1181,6 +1268,7 @@ var HAP=(function(){
                 var prevItem=thisObj.find(".current").prev().find("a");
                 
                 if (prevItem.length==0){return false;}
-                thisObj.trigger("itemClick", prevItem);                
+                thisObj.trigger("itemClick", prevItem);
+                return thisObj;
         }        
     }
