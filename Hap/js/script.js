@@ -1,11 +1,4 @@
 
-//configuration object
-var sysConfig={
-    htmlBodyUrl:"json/docHtml.txt"
-}
-
-
-
 $().ready(function(){    
 
     //defining and adding the dictionaries to HAP
@@ -95,7 +88,17 @@ $().ready(function(){
         
         HAP.doSearch({
             qForm:stdForm,
-            callback:null
+            callback:function(resObj){
+                
+                var sh=HAP.searchHistory();
+                
+                //aggiungo la ricerca all'history                
+                sh.push(resObj.query);
+                
+                if(sh.length>8){
+                    sh.shift();
+                }                
+            }
         })
     })     
     
@@ -214,7 +217,16 @@ $().ready(function(){
                 qForm:advForm,
                 qData:qString,
                 obj:HAP.advQueryObj.getHash(),
-                callback:null
+                callback:function(resObj){
+                    var sh=HAP.searchHistory();
+                    
+                    //aggiungo la ricerca all'history                
+                    sh.push(resObj.query);
+                    
+                    if(sh.length>8){
+                        sh.shift();
+                    }                
+                }
             })
         
     })
@@ -489,24 +501,22 @@ var HAP=(function(){
                 //nessun documento e' aperto al momento
                 HAP.tmpSettings.docOpen=false;
                 
-                var cbData=qObj.callback?qObj.callback(data):null;
+                var cbData=qObj.callback?qObj.callback({query:queryObject,data:data}):null;
+                
                 
                 //se la callback ritorna False -> esco senza mostrare i risultati
                 if(cbData===false){
                     return false;
                 }
                 
-                _showResults(data);
-                                
-                //aggiungo la ricerca all'history                
-                _searchHistory.push(queryObject);
+                //rendering grafico dei risultati
+                _showResults(data.documenti);
                 
-                if(_searchHistory.length>8){
-                    _searchHistory.shift();
-                }
-                
-                //rendering grafico
+                //rendering grafico dello storico ricerche
                 _showSearchHistory();
+                
+                //rendering grafico dei clusters
+                _showClusters(data.clusters);
                 
                 utils.createCookie("searchHistory",JSON.stringify(_searchHistory),1);
             },
@@ -516,6 +526,9 @@ var HAP=(function(){
         })
     };
     
+    function _showClusters(data){
+    
+    };
     
     function _showSearchHistory(){
         var $div=$("#searchHistory"),
@@ -524,6 +537,7 @@ var HAP=(function(){
         
         if(_searchHistory.length==0){
             $div.hide(0);
+            $ul.empty();        
             return false;
         }
         
@@ -592,7 +606,7 @@ var HAP=(function(){
                     
                     //updating the cookie
                     utils.createCookie("searchHistory",JSON.stringify(_searchHistory),999);
-                    
+
                     //refresh
                     _showSearchHistory();
                 })
