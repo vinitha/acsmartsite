@@ -1185,6 +1185,7 @@ var HAP=(function(){
         
         ulElem.bind("checkWidth",function(e,ul){
             
+            
             //assigning the tabMenus' parent min-width value
             var $this=$(ul);
                 parent=$this.parent(),
@@ -1192,12 +1193,12 @@ var HAP=(function(){
                 width=0;
                 
             $this.find("li").each(function(){
-                width+=$(this).outerWidth();
+                width+=$(this).outerWidth(true);
             })
-            $this.css("min-width",width);
+            $this.css("min-width",width+1);            
             
             //nel caso servissero i pulsantini
-            if(parent.get(0).scrollWidth> parent.innerWidth()){
+            if(parent.innerWidth()<parent.get(0).scrollWidth){
                 btnsBar.addClass("scroll")
             }else{
                 btnsBar.removeClass("scroll")
@@ -1206,7 +1207,7 @@ var HAP=(function(){
         
         doSwitch(ulElem);
         
-        ulElem.bind("itemClick",function(e,anchor){
+        ulElem.bind("change",function(e,anchor){
             var menu=$(anchor).closest("ul")
             menu.trigger("checkWidth",menu);
         })
@@ -1246,7 +1247,6 @@ var HAP=(function(){
             });
         
         ulElem.bind("itemClick",function(e,currentA){
-            
                 if($(currentA).closest("li").hasClass("current")){return false;}
                 $(currentA).closest("ul").trigger("change",currentA)
             });
