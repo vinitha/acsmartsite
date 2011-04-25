@@ -3,7 +3,7 @@
                 {
                     "nome":"Soggetti produttori",
                     "totaleDocs":84,
-                    "id":"cluster URI",
+                    "id":"cluster URI 01",
                     "sottoCluster":[
                         {
                             "nome":"Contesto istituzionale-archivistico",
@@ -11,7 +11,31 @@
                             "id":"cluster URI"
                         }
                     ]
-                }
+                },
+                {
+                    "nome":"Soggetti",
+                    "totaleDocs":824,
+                    "id":"cluster URI 03",
+                    "sottoCluster":[
+                        {
+                            "nome":"Contesto istituzionale-archivistico",
+                            "totaleDocs":6,
+                            "id":"cluster URI"
+                        }
+                    ]
+                },
+                {
+                    "nome":"Istituto",
+                    "totaleDocs":23,
+                    "id":"cluster URI 02",
+                    "sottoCluster":[
+                        {
+                            "nome":"Contesto istituzionale-archivistico",
+                            "totaleDocs":6,
+                            "id":"cluster URI"
+                        }
+                    ]
+                }                
     ],
     "documenti":[
         {
