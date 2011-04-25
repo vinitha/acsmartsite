@@ -20,7 +20,8 @@ $().ready(function(){
             d_13:"Storico ricerche:",
             d_14:"Elimina",
             d_15:"Rimuovi tutto",
-            d_16:"Vuoi davvero rimuovere tutti i documenti dal Raccoglitore?"
+            d_16:"Vuoi davvero rimuovere tutti i documenti dal Raccoglitore?",
+            d_17:"Clusters"
         },
         
         en:{
@@ -40,7 +41,8 @@ $().ready(function(){
             d_13:"Search history:",
             d_14:"Delete",
             d_15:"Clear all",
-            d_16:"Are you sure you want to remove all the documents from the Binder?"
+            d_16:"Are you sure you want to remove all the documents from the Binder?",
+            d_17:"Clusters"
         }    
     })
 
@@ -515,8 +517,6 @@ var HAP=(function(){
                 //rendering grafico dello storico ricerche
                 _showSearchHistory();
                 
-                //rendering grafico dei clusters
-                //_showClusters(data.clusters);
                 
                 utils.createCookie("searchHistory",JSON.stringify(_searchHistory),1);
             },
@@ -691,14 +691,59 @@ var HAP=(function(){
             $(aObj.hash).show(0).siblings("div.archDiv").hide(0);            
         })
         
-        mainMenu.trigger("itemClick",risLi.find("a"));
-        arUL.trigger("itemClick",arUL.find("a:first"));
-        
 
-
-        //creo il tab dei clusters
-        var clusters=json.clusters;
+        //creo il pannello dei clusters
+        var clusters=json.clusters,
+            clusDiv=$("#clustersDiv"),
+            ul=clusDiv.find("ul"),
+            isNew=false;
+            
+            
+        if(clusDiv.length==0){
+            clusDiv=$("<div id='clustersDiv' />"),
+            ul=$("<ul class='switch' />").appendTo(clusDiv);
+            
+            $("<h3 />").text(HAP.dictionary.getTranslation("d_17") + ":").prependTo(clusDiv)
+            
+            //delego l'evento click
+            $("#clustersDiv a.cluster").live("click",function(){
+                myConsole.log(this.hash)
+            })
+            
+            isNew=true;
+        }else{
+            ul.empty();
+        }
         
+        
+        
+        for (var x=0;x<clusters.length;x++){
+            var obj=clusters[x];
+            $("<a />")
+                .text(obj.nome)
+                .addClass("cluster")
+                .attr("href","#" + obj.id)
+                .appendTo($("<li />").appendTo(ul))
+        }
+
+        
+        if(isNew){
+            clusDiv
+                .insertBefore($("#searchPanel"))
+                .hide(0)
+                .slideDown(500);
+            
+            //rendo l'UL uno switch
+            doSwitch(ul);
+            
+            ul.bind("itemClick",function(e,anchor){
+                var $a=$(anchor);
+                
+                $a.parent().toggleClass("open")
+            
+            })
+        }
+        /*
         //creo l'entry nel tabmenu
         $("<li class='li_arch clusters' ><a class='' href='#clust_div' title='Apri clusters' ><span>Clusters</span></a></li>")
             .appendTo(arUL);
@@ -710,9 +755,10 @@ var HAP=(function(){
            var obj=clusters[x];
            $("<p />").text(obj.nome).appendTo(docDiv)
         }
+        */
         
-        //ricalcolo la larghezza minima del tab menu (usato per lo scroller)
-        arUL.trigger("checkWidth",arUL);
+        mainMenu.trigger("itemClick",risLi.find("a"));
+        arUL.trigger("itemClick",arUL.find("a:first"));        
     };
     
     function _createDocumentsUl(options){
@@ -1165,15 +1211,8 @@ var HAP=(function(){
                 return false;
             }));
             
+            
             doTabMenu($("ul.tabMenu"));
-            
-            $(window).resize(function(){
-                $("ul.tabMenu").each(function(){
-                    $(this).trigger("checkWidth",this)
-                })    
-            });
-            
-           
             
         }
     };
@@ -1184,10 +1223,9 @@ var HAP=(function(){
     function doTabMenu(ulElem){
         
         ulElem.bind("checkWidth",function(e,ul){
-            
-            
+                        
             //assigning the tabMenus' parent min-width value
-            var $this=$(ul);
+            var $this=$(ul),
                 parent=$this.parent(),
                 btnsBar=parent.siblings("div.scrollBtnsBar"),
                 width=0;
@@ -1202,10 +1240,17 @@ var HAP=(function(){
                 btnsBar.addClass("scroll")
             }else{
                 btnsBar.removeClass("scroll")
-            }        
+            }            
         })
         
         doSwitch(ulElem);
+        
+        
+        //handling the parent resize event
+        ulElem.parent().resize(function(){
+            var menu=$(this).children(".tabMenu");
+            menu.trigger("checkWidth",menu)            
+        })        
         
         ulElem.bind("change",function(e,anchor){
             var menu=$(anchor).closest("ul")
