@@ -21,7 +21,8 @@ $().ready(function(){
             d_14:"Elimina",
             d_15:"Rimuovi tutto",
             d_16:"Vuoi davvero rimuovere tutti i documenti dal Raccoglitore?",
-            d_17:"Clusters"
+            d_17:"Clusters",
+            d_18:"Apri"
         },
         
         en:{
@@ -42,7 +43,8 @@ $().ready(function(){
             d_14:"Delete",
             d_15:"Clear all",
             d_16:"Are you sure you want to remove all the documents from the Binder?",
-            d_17:"Clusters"
+            d_17:"Clusters",
+            d_18:"Open"
         }    
     })
 
@@ -540,7 +542,7 @@ var HAP=(function(){
         $div.show(0);
         
         if($div.length==0){
-            $div=$("<div id='searchHistory' />").insertBefore($("#searchPanel"));
+            $div=$("<div id='searchHistory' />").insertAfter($("#searchPanel"));
             $title=$("<h3 />").text(HAP.dictionary.getTranslation("d_13")).appendTo($div);
             $ul=$("<ul />").addClass("switch btnsSwitch").appendTo($div);
             doSwitch($ul);
@@ -676,11 +678,10 @@ var HAP=(function(){
                 myConsole.info("vai a pag: "+$(aObj).text())
             })
                         
-            _createDocumentsUl({
+            _currentResults=$.extend(_currentResults,_createDocumentsUl({
                     data:obj.risultati,
-                    container:docDiv,
-                    hashTable:_currentResults
-                    });
+                    container:docDiv
+                    }));
             
         }
         
@@ -706,8 +707,45 @@ var HAP=(function(){
             $("<h3 />").text(HAP.dictionary.getTranslation("d_17") + ":").prependTo(clusDiv)
             
             //delego l'evento click
-            $("#clustersDiv a.cluster").live("click",function(){
-                myConsole.log(this.hash)
+            $("#clustersDiv a.subCluster").live("click",function(){
+                var $a=$(this),
+                    id=this.hash.replace("#","");
+                
+                if ($("#clust_" + id ).length>0){
+                    return false;
+                }
+                //creo l'entry nel tabmenu
+                var li=$("<li class='li_arch clusters' ></li>")
+                
+                $("<a href='#clust_" + id + "' title='" + HAP.dictionary.getTranslation("d_18") + "' ><span>" + $a.text() + "</span></a>")
+                    .appendTo(li)
+                $("<button/>")
+                    .attr("title",HAP.dictionary.getTranslation("d_14"))
+                    .data("data-divId","clust_" + id)
+                    .click(function(e){
+                        e.preventDefault();
+                        var $this=$(this);
+                        
+                        //rimuovo il div con i docs
+                        $("#" + $this.data("data-divId")).remove();                    
+                        
+                        //rimuovo il tab dal menu
+                        $this.closest("li").remove();
+                        
+                        //aggiorno il tabMenu
+                        arUL.trigger("itemClick",arUL.find("a:first")); 
+                    })
+                    .appendTo(li);                    
+                    
+                li.appendTo(arUL);
+                
+                arUL.trigger("checkWidth",arUL);
+                
+                //creo il div che conterra' i documenti
+                var docDiv=$("<div class='archDiv clusterDiv' id='clust_" + id + "' />").appendTo(risDiv).hide(0)
+                
+                //recupero i documenti dal server
+                
             })
             
             isNew=true;
@@ -719,11 +757,29 @@ var HAP=(function(){
         
         for (var x=0;x<clusters.length;x++){
             var obj=clusters[x];
+            var li=$("<li />")
             $("<a />")
-                .text(obj.nome)
+                .text(obj.nome + " (" + obj.totaleDocs + ")")
                 .addClass("cluster")
                 .attr("href","#" + obj.id)
-                .appendTo($("<li />").appendTo(ul))
+                .appendTo(li);
+            
+            //sottoCluster
+            if(obj.sottoCluster && obj.sottoCluster.length>0){
+                var subUl=$("<ul class='subUl' />")
+                for (var xx=0;xx<obj.sottoCluster.length;xx++){
+                    var subObj=obj.sottoCluster[xx];
+                    var subLi=$("<li />").appendTo(subUl);
+                    $("<a />")
+                        .text(subObj.nome + " (" + subObj.totaleDocs + ")")
+                        .addClass("subCluster")
+                        .attr("href","#" + subObj.id)
+                        .appendTo(subLi);                    
+                }
+                subUl.appendTo(li);
+            }
+            
+            li.appendTo(ul);
         }
 
         
@@ -736,26 +792,25 @@ var HAP=(function(){
             //rendo l'UL uno switch
             doSwitch(ul);
             
-            ul.bind("itemClick",function(e,anchor){
-                var $a=$(anchor);
-                
-                $a.parent().toggleClass("open")
-            
-            })
+            ul
+                .bind("itemClick",function(e,anchor){
+                    var $a=$(anchor);
+                    
+                    $a.parent().toggleClass("open")            
+                })
+                .bind("change",function(e,anchor){
+                    var $a=$(anchor),
+                        ul=$a.closest("ul"),
+                        oldLi=ul.data("data-oldLi");
+
+                    if(oldLi){
+                        oldLi.removeClass("open");
+                    };
+                    
+                    ul.data("data-oldLi",$a.closest("li"));
+                })
         }
-        /*
-        //creo l'entry nel tabmenu
-        $("<li class='li_arch clusters' ><a class='' href='#clust_div' title='Apri clusters' ><span>Clusters</span></a></li>")
-            .appendTo(arUL);
-            
-        //creo il div che conterra' i documenti
-        var docDiv=$("<div class='archDiv clusterDiv' id='clust_div' />").appendTo(risDiv).hide(0)
-            
-        for (var x=0;x<clusters.length;x++){
-           var obj=clusters[x];
-           $("<p />").text(obj.nome).appendTo(docDiv)
-        }
-        */
+
         
         mainMenu.trigger("itemClick",risLi.find("a"));
         arUL.trigger("itemClick",arUL.find("a:first"));        
@@ -765,7 +820,6 @@ var HAP=(function(){
         /* options={
                     data:
                     container:
-                    hashTable
                     }
         */
         //creo i documenti
@@ -805,16 +859,15 @@ var HAP=(function(){
         //aggiorno il numero dei doc.
         _Binder_Doc_count=0;
         
+        var hashTable={};
+        
         for (var d=0;d<options.data.length;d++){
             var doc=options.data[d];
             
             _Binder_Doc_count++;
             
-            //popolo l'hashtable
-            if(options.hashTable){
-                options.hashTable[doc.id]=doc;
-            }
-            
+            //popolo l'hashtable            
+            hashTable[doc.id]=doc;            
             
             
             var li=$("<li class='li_doc' />").appendTo(docUL);
@@ -862,7 +915,7 @@ var HAP=(function(){
             })
         }
         
-          
+        return hashTable; 
     };
     
     function _closeDocument(container){
@@ -1159,8 +1212,7 @@ var HAP=(function(){
                                 
                 _createDocumentsUl({
                     data:_Binder,
-                    container:div,
-                    hashTable:null
+                    container:div
                     })
                 
             }

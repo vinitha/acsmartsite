@@ -6,9 +6,29 @@
                     "id":"cluster URI 01",
                     "sottoCluster":[
                         {
-                            "nome":"Contesto istituzionale-archivistico",
+                            "nome":"Istituzionale-archivistico",
                             "totaleDocs":6,
-                            "id":"cluster URI"
+                            "id":"cl1"
+                        },
+                        {
+                            "nome":"Contesto archivistico",
+                            "totaleDocs":16,
+                            "id":"cl2"
+                        },
+                        {
+                            "nome":"Istituzionale-archivistico",
+                            "totaleDocs":31,
+                            "id":"cl3"
+                        },
+                        {
+                            "nome":"Test test test",
+                            "totaleDocs":3,
+                            "id":"cl4"
+                        },
+                        {
+                            "nome":"Prova prova",
+                            "totaleDocs":2,
+                            "id":"cl5"
                         }
                     ]
                 },
@@ -20,7 +40,7 @@
                         {
                             "nome":"Contesto istituzionale-archivistico",
                             "totaleDocs":6,
-                            "id":"cluster URI"
+                            "id":"cl6"
                         }
                     ]
                 },
@@ -32,7 +52,7 @@
                         {
                             "nome":"Contesto istituzionale-archivistico",
                             "totaleDocs":6,
-                            "id":"cluster URI"
+                            "id":"cl7"
                         }
                     ]
                 }                
