@@ -1829,7 +1829,7 @@ var NVision={
                     .appendTo(options.container);
                     
 			//consistency check
-            options.system.itemsPerPage==0?(options.system.displayAll=true):(options.system.displayAll=false);
+            //options.system.itemsPerPage==0?(options.system.displayAll=true):(options.system.displayAll=false);
             
             //adding the "displayAll" button
             var all=$("<a />")
