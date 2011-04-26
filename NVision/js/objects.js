@@ -472,6 +472,7 @@ function myAjax(options){
         
         //this function fetches and displays the passed trade details
         function showTradeDetails(tr){
+			
             var $tr=$(tr),
                 tradeId=NVision.currentSys.trades[tr.getAttribute("data-Id")].id;
                         
@@ -490,8 +491,7 @@ function myAjax(options){
 				if($tr.hasClass("opening")){
 					myConsole.log("waiting for data...");
 					return false;
-				}
-				
+				}				
 				
                 NVision.updateEngine.stop();
                 
@@ -598,8 +598,7 @@ function myAjax(options){
 										$th.removeClass("opening");
                                     },
                                     url:sysConfig.msgDetails
-                                })
-                                
+                                })                                
                                 
                             },
                             headClick:null                        
