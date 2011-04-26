@@ -540,39 +540,40 @@ var NVision={
                     success:function(data){
                        NVision.lightBoxes["overwrite"].removeClass("wait").closeIt();  
                         
-						if(data._code=="ok"){
-							var confBox={
-								title:"Overwrite confirmation",
-								yesCaption:data._code=="nok"?"Retry":"Resubmit",
-								noCaption:"Close",                    
-								onYes:function(){
-									if(data._code=="nok"){
-										$("#overwriteBtn").click();
-									}else{
-										$("#resubmitBtn").click();
-									}
-								},
-								onNo:function(){
-									if(data._code!="nok"){
-										myConsole.log("Refreshing the view...")
-										
-										//refreshing the tableView
-										NVision.updateEngine.updateNow();
-										NVision.updateEngine.start();
-									}							
-								},
-								msg:data.msg,
-								msgClass:data._code=="nok"?"error":"ok", // [ok||error]
-								onClose:null
-							}
-							
-							confirm(confBox);
+						
+						var confBox={
+							title:"Overwrite confirmation",
+							yesCaption:data._code=="nok"?"Retry":"Resubmit",
+							noCaption:"Close",                    
+							onYes:function(){
+								if(data._code=="nok"){
+									$("#overwriteBtn").click();
+								}else{
+									$("#resubmitBtn").click();
+								}
+							},
+							onNo:function(){
+								if(data._code!="nok"){
+									myConsole.log("Refreshing the view...")
+									
+									//refreshing the tableView
+									NVision.updateEngine.updateNow();
+									NVision.updateEngine.start();
+								}							
+							},
+							msg:data.msg||data._errObj.shortDesc,
+							msgClass:data._code=="nok"?"error":"ok", // [ok||error]
+							onClose:null
 						}
+						
+						confirm(confBox);
+						
                     
                     },
                     error:function(a,b,c){
                         myConsole.log(a,b,c)
                     },
+					delegateErrorHandling:false,
                     url:sysConfig.overwriteRequest,
                     data:form.serialize()
                 })                
@@ -619,36 +620,37 @@ var NVision={
                         
 						NVision.lightBoxes["resubmit"].removeClass("wait").closeIt();
 						
-						if(data._code=="ok"){
-							var confBox={
-								title:"Resubmit confirmation",
-								yesCaption:"View submitted trades",
-								noCaption:"Close",                    
-								onYes:function(){
-																	
-									NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
-									$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
-										
-								},
-								onNo:function(){
-									myConsole.log("Refreshing the view...")
+						
+						var confBox={
+							title:"Resubmit confirmation",
+							yesCaption:"View submitted trades",
+							noCaption:"Close",                    
+							onYes:function(){
+																
+								NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
+								$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
 									
-									//refreshing the tableView
-									NVision.updateEngine.updateNow();
-									NVision.updateEngine.start();								
-								},
-								msg:data.msg,
-								msgClass:data._code=="nok"?"error":"ok", // [ok||error]
-								onClose:null
-							}
-							
-							confirm(confBox);
+							},
+							onNo:function(){
+								myConsole.log("Refreshing the view...")
+								
+								//refreshing the tableView
+								NVision.updateEngine.updateNow();
+								NVision.updateEngine.start();								
+							},
+							msg:data.msg||data._errObj.shortDesc,
+							msgClass:data._code=="nok"?"error":"ok", // [ok||error]
+							onClose:null
 						}
+						
+						confirm(confBox);
+						
                     
                     },
                     error:function(a,b,c){
                         myConsole.log(a,b,c)
                     },
+					delegateErrorHandling:false,
                     url:sysConfig.resubmitRequest,
                     data:form.serialize()
                 })
@@ -741,7 +743,7 @@ var NVision={
             },
             success:function(dataObj){
                 
-                $("#businessMarket strong").text(dataObj.bm).removeClass("loading");
+                $("#businessMarket strong").removeClass("loading").text(dataObj.bm||"Error");
 				
 				if(dataObj._code=="ok"){
 					//showing the version number

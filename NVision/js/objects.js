@@ -24,6 +24,7 @@ function myAjax(options){
         url:"",
         success:function(){},
         error:function(){},
+		delegateErrorHandling:true,
         data:{}
     }
         
@@ -47,7 +48,7 @@ function myAjax(options){
                 myConsole.status("Ok ",msgId);
             }
 
-			if(data._code=="nok"){
+			if(data._code=="nok" && attributes.delegateErrorHandling){
 
 				var lb=NVision.lightBoxes["alertBox"];
 								
@@ -506,6 +507,11 @@ function myAjax(options){
 					},
                     success:function(data){
                         var messageData=data;
+						
+						if (data._code=="nok"){
+							$tr.removeClass("opening");
+							return false;
+						}
 						
 						$tr.removeClass("opening");
 						$tr.addClass("open");
