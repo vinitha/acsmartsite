@@ -233,7 +233,7 @@ function myAjax(options){
 		NVision.utils.deleteTable($("#tableData").find("table"))
 		
 		// creating the table
-		var table=NVision.utils.createTable({
+		NVision.utils.createTable({
 			selectRow:false,
 			container:tableContainer,
 			data:filteredData,
@@ -272,52 +272,56 @@ function myAjax(options){
 				
 			},
 			rowClick:null 
-		})
-		
-		table.addClass("resubmitted")
-		
-		
-		//highlighting the columns I am sorting the table by
-		if(sysObj.sortBy){
-			var headers=table.find("thead").find("a");
-			for (var x=0;x<sysObj.sortBy.length;x++){                            
-				headers.eq(x)
-					.addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
-					.prepend("<span class='order'/>")
-					.append(
-						$("<span title='disable' class='remove'/>")
-							.click(function(e){
-								e.preventDefault();
-								
-								var x=$(this).attr("data-idx")
-								sysObj.sortBy.splice(x,1);
-								
-								sysObj.showResubmitted(tableContainer,paginationContainer); 
-							})
-							.attr("data-idx",x)                                   
-					)
-			}
-			
-			//highlighting the sorted column cells
-			setTimeout(function(){
-				table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
-			},10)
-			
-		}
-	   
-		
-		
-		//adding the pagination
-		NVision.utils.createPagination({                    
-			container:paginationContainer,
-			system:sysObj,                    
-			// when the user clicks on a page numb.
-			pageClick:function(pageNum){
-				sysObj.currentPage=pageNum;
+		},function(table){
 				
-				sysObj.showResubmitted(tableContainer,paginationContainer);                    
-			}
-		})
+			table.addClass("resubmitted")
+				
+				
+				//highlighting the columns I am sorting the table by
+				if(sysObj.sortBy){
+					var headers=table.find("thead").find("a");
+					for (var x=0;x<sysObj.sortBy.length;x++){                            
+						headers.eq(x)
+							.addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
+							.prepend("<span class='order'/>")
+							.append(
+								$("<span title='disable' class='remove'/>")
+									.click(function(e){
+										e.preventDefault();
+										
+										var x=$(this).attr("data-idx")
+										sysObj.sortBy.splice(x,1);
+										
+										sysObj.showResubmitted(tableContainer,paginationContainer); 
+									})
+									.attr("data-idx",x)                                   
+							)
+					}
+					
+					//highlighting the sorted column cells
+					setTimeout(function(){
+						table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
+					},10)
+					
+				}
+			   
+				
+				
+				//adding the pagination
+				NVision.utils.createPagination({                    
+					container:paginationContainer,
+					system:sysObj,                    
+					// when the user clicks on a page numb.
+					pageClick:function(pageNum){
+						sysObj.currentPage=pageNum;
+						
+						sysObj.showResubmitted(tableContainer,paginationContainer);                    
+					}
+				})		
+			
+			})
+		
+		
 	}
 
 
@@ -370,7 +374,7 @@ function myAjax(options){
         NVision.utils.deleteTable($("#tableData").find("table"))
         
         // creating the table
-        var table=NVision.utils.createTable({
+        NVision.utils.createTable({
             selectRow:true,
             container:tableContainer,
             data:filteredData,
@@ -411,50 +415,56 @@ function myAjax(options){
             rowClick:function(tr){                            
                 showTradeDetails(tr)
             }                
-        })
+        },function(table){
+			
+			
+				//hiding the checkbox for the "COMPLETED" trades
+			if(sysObj.type=="searchResults"){
+				var tr=table.find("tbody").find("tr"),
+					first=sysObj.itemsPerPage*(sysObj.currentPage-1),
+					last=sysObj.displayAll?sysObj.trades.length:sysObj.itemsPerPage*(sysObj.currentPage);
+				
+				for(var x=first; x<last;x++){
+					var trade=sysObj.trades[x]
+					if (trade.Status=="Complete"){
+						tr.eq(x-first).addClass("complete")
+					}
+				}
+				
+			}
+			
+			//highlighting the columns I am sorting the table by
+			if(sysObj.sortBy){
+				var headers=table.find("thead").find("a");
+				for (var x=0;x<sysObj.sortBy.length;x++){                            
+					headers.eq(x)
+						.addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
+						.prepend("<span class='order'/>")
+						.append(
+							$("<span title='disable' class='remove'/>")
+								.click(function(e){
+									e.preventDefault();
+									
+									var x=$(this).attr("data-idx")
+									sysObj.sortBy.splice(x,1);
+									
+									sysObj.showTrades(tableContainer,paginationContainer); 
+								})
+								.attr("data-idx",x)                                   
+						)
+				}
+				
+				//highlighting the sorted column cells
+				setTimeout(function(){
+					table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
+				},10)
+				
+			}
+		
+		
+		})
         
-        //hiding the checkbox for the "COMPLETED" trades
-        if(sysObj.type=="searchResults"){
-            var tr=table.find("tbody").find("tr"),
-                first=sysObj.itemsPerPage*(sysObj.currentPage-1),
-                last=sysObj.displayAll?sysObj.trades.length:sysObj.itemsPerPage*(sysObj.currentPage);
-            
-            for(var x=first; x<last;x++){
-                var trade=sysObj.trades[x]
-                if (trade.Status=="Complete"){
-                    tr.eq(x-first).addClass("complete")
-                }
-            }
-            
-        }
         
-        //highlighting the columns I am sorting the table by
-        if(sysObj.sortBy){
-            var headers=table.find("thead").find("a");
-            for (var x=0;x<sysObj.sortBy.length;x++){                            
-                headers.eq(x)
-                    .addClass(sysObj.sortBy[x].ascending?"ascending":"descending")
-                    .prepend("<span class='order'/>")
-                    .append(
-                        $("<span title='disable' class='remove'/>")
-                            .click(function(e){
-                                e.preventDefault();
-                                
-                                var x=$(this).attr("data-idx")
-                                sysObj.sortBy.splice(x,1);
-                                
-                                sysObj.showTrades(tableContainer,paginationContainer); 
-                            })
-                            .attr("data-idx",x)                                   
-                    )
-            }
-            
-            //highlighting the sorted column cells
-            setTimeout(function(){
-                table.find("tbody tr").find("td.cell:lt(" + sysObj.sortBy.length +")").addClass("sorted")
-            },10)
-            
-        }
        
         
         
@@ -608,16 +618,19 @@ function myAjax(options){
                                 
                             },
                             headClick:null                        
-                        })
+                        },function(table){
+						
+							//replacing ok/nok with icons
+							$.each(table.find("tbody tr"),function(){
+									var td=$(this).children().eq(0),
+										text=td.text();
+										
+									td.empty().addClass("status");                                
+									$(this).addClass(text);                                
+								})						
+						
+						})
                         
-                        //replacing ok/nok with icons
-                        $.each(table.find("tbody tr"),function(){
-                                var td=$(this).children().eq(0),
-                                    text=td.text();
-                                    
-                                td.empty().addClass("status");                                
-                                $(this).addClass(text);                                
-                            })
                     },
                     url:sysConfig.tradeDetails
                 })    

@@ -432,12 +432,9 @@ var NVision={
 
             var qs=theForm.find("input:visible, select:visible").serializeArray();
             //putting the query into the browser history
-            /*
-            var newStatus = {
-                tabId:"tab_1",
-                view:{type:"search",query:qs}
-            }
-            */
+            
+			NVision.appStatus[NVision.appStatus.currentTab]._timeStamp=(new Date()).getTime();
+			
             NVision.appStatus[NVision.appStatus.currentTab].view={type:"search",query:qs}
             
             $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);         
@@ -1869,10 +1866,10 @@ var NVision={
             
             var pageCount=Math.ceil(options.system.filteredData.length/options.system.itemsPerPage),
                 ul=$("<ul/>");
-                
+				
             for(var x=0;x<pageCount;x++){
-                var page=x+1;                
-                $("<li/>")
+                var page=x+1;
+				$("<li />")
                     .append(
                         $("<a href='#" + page + "'/>")
                             .text(page)
@@ -1894,7 +1891,29 @@ var NVision={
                     .appendTo(ul);
             }            
             ul.appendTo(options.container);
-            ul.find("li").eq(options.system.currentPage-1).addClass("current")
+            ul.find("li").eq(options.system.currentPage-1).addClass("current").find("a").focus();
+			
+			
+			if(ul.innerWidth()<ul.get(0).scrollWidth){
+				ul.css("width",400);		//IE8 fix!
+				
+				//adding the scrolling buttons
+				$("<a class='button scrlLeft' href='#scroll left' title='Scroll left' />")
+					.text("<")
+					.insertBefore(ul)
+					.click(function(e){
+						e.preventDefault();
+						scroller($(this).siblings("ul")).scrollLeft(0.5)				
+					})
+				
+				$("<a class='button scrlRight' href='#scroll right' title='Scroll right' />")
+					.text(">")
+					.insertAfter(ul)
+					.click(function(e){
+						e.preventDefault();
+						scroller($(this).siblings("ul")).scrollRight(0.5)				
+					})
+			}
         },
         
         createFilters:function(data,filters){
@@ -1981,7 +2000,7 @@ var NVision={
         },
                 
         
-        createTable:function(options){
+        createTable:function(options,onComplete){
             /*
 				container
 				data
@@ -1994,8 +2013,9 @@ var NVision={
             */            
             var stTime=(new Date()).getTime();
 			
+			//console.time("table")
         
-            var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>"),
+            var table=$("<table cellspacing='0'><thead></thead><tbody></tbody></table>").appendTo(options.container),
                 thead=table.find("thead"),
                 tbody=table.find("tbody"),                    
                 hTr=[],
@@ -2011,90 +2031,121 @@ var NVision={
             }
         
             options.itemsPerPage=options.itemsPerPage||9999999;
+			
+			//displaying the trades list
+			var firstItem=options.itemsPerPage*(options.currentPage-1);
+			
+			doStep(firstItem,options.itemsPerPage);
+			
+			function doStep(first,ipp){
+				
+				for(var tradeIdx=0;tradeIdx<ipp && tradeIdx<options.data.length-first ;tradeIdx++){            
+					
+					if(tradeIdx>200){
+						break;
+					}
+					
+					var trade=options.data[first+tradeIdx];
+			
+					if(!head){			    
+						hTr.push("<tr>") 
+					}
+					
+					bTr.push("<tr data-id='" + (first+tradeIdx) +"'>");		     //-1 to take the th in account
+									
+					
+							
+					if(options.selectRow){
+								//adding the checkBox to the first cell
+						if(!head){	
+							hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
+						}
+						bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
+					}
+					
+					  
+					for (var cell in options.tableHeadings){
+						
+						var cellCaption=options.tableHeadings[cell];
+						
+						// skiping the ID cell
+						if(cellCaption!="id"){
+							//creating the table headers
+							if (tradeIdx==0){
+								hTr.push("<th>")
+								if(options.headClick){
+									hTr.push("<a href='#sort' title='sort'>")
+										hTr.push("<span class='header'>" + cellCaption+"</span>")
+									hTr.push("</a>")					
+								}else{
+									hTr.push("<span class='header'>" + cellCaption+"</span>")	
+								}
+								hTr.push("</th>");
+							}          
+							
+							bTr.push("<td class='cell'>" +trade[cellCaption] +"</td>")                        
+						}
+					}
+			
+					if(!head){
+						hTr.push("</tr>")
+					}
+					
+					bTr.push("</tr>");
+					
+					if(!head){
+						$(hTr.join("")).appendTo(thead);
+					}
+					
+					head=true;
+				}
+				
+				
+				
+				if(tradeIdx+first>=ipp || tradeIdx+first>=options.data.length ){
+					//calling the callback
+					finish();
+				}else{					
+					$(bTr.join("")).appendTo(tbody);
+					
+					bTr=[];
+					setTimeout(function(){
+						doStep(tradeIdx+first,options.itemsPerPage);
+					},1)
+				}
+				
+			}  
             
-            //displaying the trades list
-            var first=options.itemsPerPage*(options.currentPage-1);
-               
-            for(var tradeIdx=0;tradeIdx<options.itemsPerPage && tradeIdx<options.data.length-first ;tradeIdx++){            
-                
-                var trade=options.data[first+tradeIdx];
-        
-                if(!head){			    
-                    hTr.push("<tr>") 
-                }
-                
-                bTr.push("<tr data-id='" + (first+tradeIdx) +"'>");		     //-1 to take the th in account
-                                
-                
-                        
-                if(options.selectRow){
-                            //adding the checkBox to the first cell
-                    if(!head){	
-                        hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
-                    }
-                    bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
-                }
-                
-                
-        
-                for (var cell in options.tableHeadings){
-                    
-                    var cellCaption=options.tableHeadings[cell];
-                    
-                    // skiping the ID cell
-                    if(cellCaption!="id"){
-                        //creating the table headers
-                        if (tradeIdx==0){
-                            hTr.push("<th>")
-                            if(options.headClick){
-                                hTr.push("<a href='#sort' title='sort'>")
-                                    hTr.push("<span class='header'>" + cellCaption+"</span>")
-                                hTr.push("</a>")					
-                            }else{
-                                hTr.push("<span class='header'>" + cellCaption+"</span>")	
-                            }
-                            hTr.push("</th>");
-                        }          
-                        
-                        bTr.push("<td class='cell'>" +trade[cellCaption] +"</td>")                        
-                    }
-                }
-        
-                if(!head){
-                    hTr.push("</tr>")
-                }
-                
-                bTr.push("</tr>");
-                
-                head=true;
-            }
-                   
             
-            
-            thead.html(hTr.join(""));
-            tbody.html(bTr.join(""));
-            
-                  
-            table.appendTo(options.container);    
-        
-            //adding the selectAll function
-            thead.find("input").change(function(){
-                tbody.children("tr").not(".detailsContainer").find("input:visible").attr("checked",$(this).attr("checked"))                    
-                this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
-            })
-            
-              
-            //sort
-            options.headClick?
-                thead.find("a")
-                        .click(function(e){
-                            e.preventDefault();
-                            options.headClick(this);
-                        })
-                    :
-                    null;
-        
-            return table;
+			function finish(){
+
+				$(bTr.join("")).appendTo(tbody);
+				   
+			
+				//adding the selectAll function
+				thead.find("input").change(function(){
+					tbody.children("tr").not(".detailsContainer").find("input:visible").attr("checked",$(this).attr("checked"))                    
+					this.checked?NVision.updateEngine.stop():NVision.updateEngine.start();
+				})
+				
+				  
+				//sort
+				options.headClick?
+					thead.find("a")
+							.click(function(e){
+								e.preventDefault();
+								options.headClick(this);
+							})
+						:
+						null;
+				
+				//console.timeEnd("table")
+				
+				if(onComplete){
+					onComplete(table);
+				}
+			}
+			
         }
     }	
 
