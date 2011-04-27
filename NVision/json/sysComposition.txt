@@ -94,7 +94,7 @@
         {
             "type":"adapter",
             "name":"ClearVision IN",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"ClearVisionIN",
             "left":123,
             "top":40,
@@ -103,7 +103,7 @@
         {
             "type":"adapter",
             "name":"Newclear Out",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"NewclearOut",
             "left":391,
             "top":68,
@@ -112,7 +112,7 @@
         {
             "type":"adapter",
             "name":"Newclear Ticket TEO",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"NewclearTicketTEO",
             "left":676,
             "top":39,
@@ -121,7 +121,7 @@
         {
             "type":"adapter",
             "name":"TEO Out",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"TEOOut",
             "left":954,
             "top":46,
@@ -130,7 +130,7 @@
         {
             "type":"adapter",
             "name":"Newclear Ticket CAA",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"NEWCLEAR-TICKET-IN",
             "left":677,
             "top":187,
@@ -139,7 +139,7 @@
         {
             "type":"adapter",
             "name":"Newclear Market IN",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"NEWCLEAR-MARKET-IN",
             "left":428,
             "top":283,
@@ -148,7 +148,7 @@
         {
             "type":"adapter",
             "name":"Newclear Lite IN",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"NEWCLEAR-LITE-MARKET-IN",
             "left":713,
             "top":339,
@@ -157,7 +157,7 @@
         {
             "type":"adapter",
             "name":"Exchange Adapter",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"EUREX",
             "left":135,
             "top":426,
@@ -166,7 +166,7 @@
         {
             "type":"adapter",
             "name":"GMI IN",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"GMI",
             "left":715,
             "top":455,
@@ -175,7 +175,7 @@
         {
             "type":"adapter",
             "name":"UBIX IN",
-            "updateInterval":10000,
+            "updateInterval":20000,
             "id":"UBIXIN",
             "left":728,
             "top":547,

@@ -813,6 +813,7 @@
 	#pagination{
 		float:right;
 		overflow:hidden;
+		position:relative;
 	}
 	
 	#pagination .legend{
@@ -830,11 +831,15 @@
 	
 	#pagination ul{
 		float: left;
-		margin-top: 3px;
+		margin:3px 15px 1px 30px;
+		overflow:hidden;
+		max-width:400px;		
+		white-space:nowrap;
 	}
 	
 	#pagination li{
-		float:left;
+		display: inline-block;
+		zoom: 1; *display: inline; /* IE < 8: fake inline-block */
 	}
 	
 	#pagination li a{
@@ -867,6 +872,22 @@
 		border-color: #ccc!important;
 		color: #aaa!important;
 		cursor:default;
+	}
+	
+	
+	#pagination .scrlLeft,
+	#pagination .scrlRight{
+		position:absolute;
+		padding:3px 5px 4px;
+		right:413px;
+		top:2px;
+		font-weight:bold;
+		color:#666;
+	}
+
+
+	#pagination .scrlRight{
+		right:0px;
 	}
 	
 /* tableData */
