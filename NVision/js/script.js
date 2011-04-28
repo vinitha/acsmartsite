@@ -951,8 +951,13 @@ var NVision={
         $("#tableView").show(0);        
         $("#toolBar").show(0);
         $("#dashBoardView").hide(0);
-        $("#dbTools").hide(0);       
-        
+        $("#dbTools").hide(0);
+		
+        //clearing the filters
+		$("#tradesFilters").empty();
+		$("#resubmitted").hide(0);
+		
+		
         // clearing the update engine
         NVision.updateEngine.empty();
         
@@ -975,6 +980,7 @@ var NVision={
         
         NVision.currentSys=search;
                 
+		
         
         //adding the searchObj to the updates queue
         var reqObj=NVision.createSearchRequest(search);
@@ -996,6 +1002,7 @@ var NVision={
         $("#dashBoardView").hide(0);
         $("#updatesBtn").show(0);
         $("#dbTools").hide(0);
+		$("#resubmitted").show(0);
         
         //setting the table title....
         $("#systemName span")
@@ -1108,6 +1115,7 @@ var NVision={
         $("#dashBoardView").hide(0);
         $("#updatesBtn").show(0);
         $("#dbTools").hide(0);
+		$("#resubmitted").show(0);
 		
 		NVision.updateEngine.empty();
 		
@@ -1828,6 +1836,7 @@ var NVision={
 			//consistency check
             //options.system.itemsPerPage==0?(options.system.displayAll=true):(options.system.displayAll=false);
             
+			/*
             //adding the "displayAll" button
             var all=$("<a />")
                     .addClass("showAll button")
@@ -1846,7 +1855,35 @@ var NVision={
                         options.pageClick(1);                    
                     })
                     .appendTo(options.container)
-                    
+              
+			*/
+			
+			//adding the "page size" drop down
+			var ps=$("<select/>")
+				$("<option />").attr("value",10).text(10).appendTo(ps)
+				$("<option />").attr("value",25).text(25).appendTo(ps)
+				$("<option />").attr("value",50).text(50).appendTo(ps)
+				$("<option />").attr("value",100).text(100).appendTo(ps)
+				$("<option />").attr("value",250).text(250).appendTo(ps)
+			
+			ps.change(function(e){
+				if($("#tableView").hasClass("off")){
+					return false;
+				}
+				
+				options.system.itemsPerPage=$(this).val();
+				options.pageClick(1); 
+			})
+			
+			ps.appendTo(
+				$("<label class='pageSize' />")
+					.text("Items per page: ")
+					.appendTo(options.container)
+			);
+			ps.val(options.system.itemsPerPage)
+			
+			
+			
             if(options.system.filteredData.length==0){
                 return false;
             }
@@ -1856,14 +1893,16 @@ var NVision={
             var from=options.system.itemsPerPage*(options.system.currentPage-1),
                 to=Math.min(options.system.filteredData.length,options.system.itemsPerPage*options.system.currentPage);
                 
-                to=options.system.displayAll?options.system.filteredData.length:to;
+                //to=options.system.displayAll?options.system.filteredData.length:to;
             
             legend.text("Showing: " + (from+1) + "-" + to +  " / " + options.system.filteredData.length)
             
+			/*
             if(options.system.displayAll){
                 return false;
             }               
-            
+			*/
+			
             var pageCount=Math.ceil(options.system.filteredData.length/options.system.itemsPerPage),
                 ul=$("<ul/>");
 				
@@ -2041,7 +2080,7 @@ var NVision={
 				
 				for(var tradeIdx=0;tradeIdx<ipp && tradeIdx<options.data.length-first ;tradeIdx++){            
 					
-					if(tradeIdx>200){
+					if(tradeIdx>49){
 						break;
 					}
 					
@@ -2099,7 +2138,6 @@ var NVision={
 					
 					head=true;
 				}
-				
 				
 				
 				if(tradeIdx+first>=ipp || tradeIdx+first>=options.data.length ){

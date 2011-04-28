@@ -48,6 +48,12 @@ function myAjax(options){
                 myConsole.status("Ok ",msgId);
             }
 
+			if(!data || !data._code){
+				myConsole.alert("Wrong data format!");
+				attributes.error("Wrong data format!");
+				return false;
+			}
+			
 			if(data._code=="nok" && attributes.delegateErrorHandling){
 
 				var lb=NVision.lightBoxes["alertBox"];
@@ -422,7 +428,7 @@ function myAjax(options){
 			if(sysObj.type=="searchResults"){
 				var tr=table.find("tbody").find("tr"),
 					first=sysObj.itemsPerPage*(sysObj.currentPage-1),
-					last=sysObj.displayAll?sysObj.trades.length:sysObj.itemsPerPage*(sysObj.currentPage);
+					last=sysObj.displayAll?sysObj.trades.length:Math.min(sysObj.trades.length,sysObj.itemsPerPage*(sysObj.currentPage));
 				
 				for(var x=first; x<last;x++){
 					var trade=sysObj.trades[x]
