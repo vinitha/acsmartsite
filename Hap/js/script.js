@@ -709,7 +709,8 @@ var HAP=(function(){
             //delego l'evento click
             $("#clustersDiv a.subCluster").live("click",function(){
                 var $a=$(this),
-                    id=this.hash.replace("#","");
+                    id=this.hash.replace("#",""),
+                    arUL=$("#docMenu ul");
                 
                 if ($("#clust_" + id ).length>0){
                     return false;
@@ -724,7 +725,9 @@ var HAP=(function(){
                     .data("data-divId","clust_" + id)
                     .click(function(e){
                         e.preventDefault();
-                        var $this=$(this);
+                        var $this=$(this),
+                            arUL=$this.closest("ul");
+                        
                         
                         //rimuovo il div con i docs
                         $("#" + $this.data("data-divId")).remove();                    
@@ -744,8 +747,9 @@ var HAP=(function(){
                 //creo il div che conterra' i documenti
                 var docDiv=$("<div class='archDiv clusterDiv' id='clust_" + id + "' />").appendTo(risDiv).hide(0)
                 
-                //recupero i documenti dal server
                 
+                //recupero i documenti dal server
+                myConsole.log("recuperare i dati dal server!")
             })
             
             isNew=true;
