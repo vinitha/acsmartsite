@@ -151,6 +151,7 @@ $().ready(function(){
         }
     })
     
+    
     //setting the advanced search module up.
     var advForm=$("#advSearch"),
         fieldset=advForm.find("fieldset.multiple").eq(0),
@@ -318,8 +319,8 @@ var HAP=(function(){
         _currentDictionary=null,
         _Binder={},
         _Binder_Doc_count=0,
-        _currentResults={};      //hashtable usato per il lookup rapido dei documenti correntemente mostrati all'utente
-    
+        _currentResults={},     //hashtable usato per il lookup rapido dei documenti correntemente mostrati all'utente
+        _resultsSets={};        //hashtable usato per salvare le queryString e la pag corrente (utile per la paginazione)
 
     //la logica della ricerca avanzata e' mappata su quest'oggetto
     var _advQueryObj=(function(){
@@ -476,6 +477,7 @@ var HAP=(function(){
     
     
     //effettua la ricerca
+    
     function _doSearch(qObj){
         /*qObj structure:            
             qForm,qData,obj,callback
@@ -655,28 +657,14 @@ var HAP=(function(){
             //creo il div che conterra' i documenti
             var docDiv=$("<div class='archDiv' id='arch_"+obj.id+"' />").appendTo(risDiv).hide(0)
             
-            
+            myConsole.alert("check here!")
             //aggiungo la paginazione
-            var pagDiv=$("<div class='pagination' />")
-            var pagUl=$("<ul class='switch' />").appendTo(pagDiv);
-            
-            var pStart=Math.max(0,Math.min(obj.pagina-6,obj.totPagine-10)),
-                pEnd=Math.min(pStart+10,obj.totPagine),
-                curPage=null;
-                
-            for(var p=pStart;p<pEnd;p++){
-                var li=$("<li><a title='"+(p+1)+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
-                if((p+1)==obj.pagina){
-                    curPage=li.find("a");
-                }
-            }
-            
-            pagUl.appendTo(pagDiv.appendTo(docDiv))
-            doSwitch(pagUl);
-            pagUl.trigger("itemClick",curPage)
-            pagUl.change(function(e,aObj){
-                myConsole.info("vai a pag: "+$(aObj).text())
-            })
+            _createPagination({
+                    docDiv:docDiv,
+                    URI:obj.id,
+                    pagina:obj.pagina,
+                    totPagine:obj.totPagine
+                });
                         
             _currentResults=$.extend(_currentResults,_createDocumentsUl({
                     data:obj.risultati,
@@ -818,6 +806,48 @@ var HAP=(function(){
         
         mainMenu.trigger("itemClick",risLi.find("a"));
         arUL.trigger("itemClick",arUL.find("a:first"));        
+    };
+    
+    function _createPagination(obj){
+    
+            //aggiungo la paginazione
+            var pagDiv=obj.docDiv.find("div.pagination"),
+                pagUl=pagDiv.find("ul"),
+                isNew=(pagDiv.length==0);
+                
+            if(isNew){
+                pagDiv=$("<div class='pagination' />")
+                pagUl=$("<ul class='switch' />").appendTo(pagDiv);
+                
+                //mi segno la queryString
+                pagUl.data("data-URI",obj.URI);                
+            }
+            
+            pagUl.empty();
+            
+            var pStart=Math.max(0,Math.min(obj.pagina-6,obj.totPagine-10)),
+                pEnd=Math.min(pStart+10,obj.totPagine),
+                curPage=null;
+                
+            for(var p=pStart;p<pEnd;p++){
+                var li=$("<li><a title='"+(p+1)+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
+                if((p+1)==obj.pagina){
+                    curPage=li.find("a");
+                }
+            }
+            
+            if(isNew){
+                pagDiv.appendTo(obj.docDiv);
+                doSwitch(pagUl);
+                pagUl.trigger("itemClick",curPage)
+                pagUl.change(function(e,aObj){
+                    var $a=$(aObj),
+                        pagUl=$a.closest("ul"),
+                        URI=pagUl.data("data-URI");
+                    myConsole.info("vai a pag: "+obj.URI + "&pag=" + $a.text());
+                    
+                })
+            }
     };
     
     function _createDocumentsUl(options){
@@ -1101,6 +1131,7 @@ var HAP=(function(){
         tmpSettings:{},
         documents:{
             getDoc:function(docId){
+                //hashtable dei documenti correntemente visualizzati
                 return _currentResults[docId];
             }
         },
