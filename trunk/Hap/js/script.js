@@ -833,6 +833,7 @@ var HAP=(function(){
                 var li=$("<li><a title='"+(p+1)+"' href='#"+p+"'>"+ (p+1) +"</a></li>").appendTo(pagUl);
                 if((p+1)==obj.pagina){
                     curPage=li.find("a");
+                    curPage.parent().addClass("current");
                 }
             }
             
@@ -845,7 +846,9 @@ var HAP=(function(){
                         pagUl=$a.closest("ul"),
                         URI=pagUl.data("data-URI");
                     myConsole.info("vai a pag: "+obj.URI + "&pag=" + $a.text());
+                    obj.pagina=$a.text();
                     
+                    _createPagination(obj)
                 })
             }
     };
@@ -1320,7 +1323,7 @@ var HAP=(function(){
             $this.find("li").each(function(){
                 width+=$(this).outerWidth(true);
             })
-            $this.css("min-width",width+1);            
+            $this.css("min-width",width+2);            
             
             //nel caso servissero i pulsantini
             if(parent.innerWidth()<parent.get(0).scrollWidth){
@@ -1351,12 +1354,12 @@ var HAP=(function(){
                 
             $("<button class='btnLeft'><span>Scroll left</span></button>")
                 .click(function(){
-                    scroller(parent).scrollLeft();    
+                    scroller(parent).scrollLeft(0.5);    
                 })
                 .prependTo(div)
             $("<button class='btnRight'><span>Scroll right</span></button>")
                 .click(function(){
-                    scroller(parent).scrollRight();    
+                    scroller(parent).scrollRight(0.5);    
                 })
                 .appendTo(div);
             

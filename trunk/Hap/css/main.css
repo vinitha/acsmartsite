@@ -496,6 +496,11 @@ h2{
 		display:block
 	}
 	
+	#clustersDiv a.subCluster:hover,
+	#clustersDiv a.subCluster:focus{
+		background-color:#eee;
+	}
+	
 /* searchPanel */
 	#searchPanel{
 		background-color:#e0e0e0;		
