@@ -2084,7 +2084,8 @@ var NVision={
             options.itemsPerPage=options.itemsPerPage||9999999;
 			
 			//displaying the trades list
-			var firstItem=options.itemsPerPage*(options.currentPage-1);
+			var firstItem=options.itemsPerPage*(options.currentPage-1),
+				itemsCount=0;
 			
 			doStep(firstItem,options.itemsPerPage);
 			
@@ -2095,6 +2096,8 @@ var NVision={
 					if(tradeIdx>49){
 						break;
 					}
+					
+					itemsCount++;
 					
 					var trade=options.data[first+tradeIdx];
 			
@@ -2151,8 +2154,7 @@ var NVision={
 					head=true;
 				}
 				
-				
-				if(tradeIdx+first>=ipp || tradeIdx+first>=options.data.length ){
+				if(itemsCount>=ipp || tradeIdx+first>=options.data.length ){
 					//calling the callback
 					finish();
 				}else{					
