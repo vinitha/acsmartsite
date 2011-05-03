@@ -137,7 +137,7 @@ $().ready(function(){
     //setting the main tabMenus custom events
     var tabMenu=$("#mainMenu");
     tabMenu.bind("showTab",function(e,tabId){
-            var $a=tabMenu.find("a[href='#" + tabId + "']"),
+            var $a=tabMenu.find("a[href='#tabId=" + tabId + "']"),
                 oldTab=$a.closest("li").siblings(".current"),
                 oldId=oldTab.find("a").attr("hash");
             
@@ -150,7 +150,7 @@ $().ready(function(){
     tabMenu.find("a").live("click",function(e){
         e.preventDefault();           
         
-        NVision.appStatus.currentTab=this.hash.replace("#","");
+        NVision.appStatus.currentTab=this.hash.replace("#tabId=","");
         
         if(!NVision.appStatus[NVision.appStatus.currentTab]){
             NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab,BM:NVision.appStatus.BM}
@@ -166,12 +166,19 @@ $().ready(function(){
         
         var $a=$(this),
             oldTab=$a.closest("li").siblings(".current"),
-            oldId=oldTab.find("a").attr("hash");
+			oldHash=oldTab.find("a").attr("hash");
+			newHash=this.hash.indexOf("=")>0?"#" + this.hash.split("=")[1]:this.hash,
+			oldId="";
+			
+			if(oldHash){				
+				oldId=oldHash.indexOf("=")>0?"#" + oldHash.split("=")[1]:oldHash;
+			}
+			
         
         oldTab.removeClass("current");            
         $(oldId).removeClass("current");
         $a.closest("li").addClass("current");
-        $(this.hash).addClass("current");        
+        $(newHash).addClass("current");        
     })
     
     //setting the datePicker up
@@ -269,8 +276,13 @@ var NVision={
                 NVision.showDashboard()
             }
 			
+			
+			
 			$("#businessMarket,#sysVer,#dbTools").show(0);
-            
+			
+			//redrawing the links
+            NVision.redrawLinks()
+
         },
         
         tab_2:function(){
@@ -307,7 +319,7 @@ var NVision={
 		$("#mainMenu").find("a.iframe").each(function(index,item){
 
 			$('<div class="tabContent">')
-				.attr("id",this.hash.replace("#",""))
+				.attr("id",this.hash.split("=")[1])
 				.append(
 					$("<iframe />")
 						.attr("src",$(item).data("url"))
