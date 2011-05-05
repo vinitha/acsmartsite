@@ -277,8 +277,7 @@ var NVision={
             }
 			
 			
-			
-			$("#businessMarket,#sysVer,#dbTools").show(0);
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
 			
 			//redrawing the links
             NVision.redrawLinks()
@@ -289,14 +288,14 @@ var NVision={
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_2 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").show(0);
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
         },
         
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").show(0);
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
         },
 		
 		tab_4:function(){
@@ -461,7 +460,9 @@ var NVision={
             
             var h=$("html").innerHeight()-$("#filtersView").innerHeight()-$("#header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
         
-            $("div.tabContent").css("height",h);
+            //$("div.tabContent").css("height",h);
+			$("#dashBoardView, .tabContent iframe").css("height",h);
+			
             
         })
         
