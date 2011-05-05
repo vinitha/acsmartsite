@@ -729,11 +729,11 @@
 /* toolBar */
 	#toolBar{
 		background-image:url(../images/topBarBG.png);
-		background-position:0px bottom;
+		background-position:0px top;
 		background-repeat:repeat-x;
+		background-color:#dcdcdc;
 		
 		border: 1px solid #CCCCCC;
-		border-bottom:none;
 		
 		margin: 0 10px;
 		overflow: hidden;
@@ -842,7 +842,7 @@
 	}
 	
 	#pagination li a{
-		background-color: #DDDDDD;
+		background-color: #d0d0d0;
 		border: 1px solid transparent;
 		color: #666666;
 		display: block;
@@ -854,7 +854,7 @@
 	#pagination a:hover,
 	#pagination a:focus{
 		border-color:#aaa;
-		background-color:#ccc;
+		background-color:#c0c0c0;
 	}
 	
 	#pagination .current a{
@@ -892,12 +892,17 @@
 /* tableData */
 	#tableData{
 		background-color: #FFFFFF;
+		margin:0px 10px 10px 10px;
+		overflow-x:auto;
+		/*
 		bottom: 0;
 		left: 10px;
 		overflow: auto;
 		position: absolute;
 		right: 10px;
 		top: 99px;
+		*/
+		
 	}
 	
 	#tableData table{
@@ -1353,12 +1358,15 @@
 /* tableView */
 	#tableView{
 		background-color: #EEEEEE;
+		margin-top:10px;
+		/*
 		bottom: 10px;
 		left: 0;
 		overflow: auto;
 		position: absolute;
 		right: 0;
 		top: 10px;
+		*/
 	}
 	
 /* dashBoardView */
