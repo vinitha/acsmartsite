@@ -18,11 +18,16 @@
 		
 		<style type="text/css">
 		
-			.container{
+			.tabContent{
 				background-color: #f9f9f9;
 				border: 1px solid #999999;
 				margin: 0;
 				padding:10px;
+				display:none;
+			}
+			
+			.current.tabContent{
+				display:block;
 			}
 				
 			#menuBar {
@@ -142,10 +147,57 @@
 		</div>		
 		
 		
-		<div class="container">
-			This is the container of current tab content.
+		<div class="tabContent" id="tab_1">
+			This is the tab_1 content.
 		</div>
 		
+		<div class="tabContent" id="tab_2">
+			This is the tab_2 content.
+		</div>
 		
+		<div class="tabContent" id="tab_3">
+			This is the tab_3 content.
+		</div>		
+		
+		
+		
+		<!-- javascript -->
+		<script type="application/x-javascript" src="js/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript">
+		
+		//on document ready...
+		$().ready(function(){
+			//setting the tabMenu up
+			var tabMenu=$("ul.tabMenu");
+			
+			//delegating the click event
+			tabMenu.find("a").live("click",function(e){
+				e.preventDefault();
+				
+				var $a=$(this),
+					oldTab=$a.closest("li").siblings(".current"),
+					oldHash=oldTab.find("a").attr("hash");
+					newHash=this.hash.indexOf("=")>0?"#" + this.hash.split("=")[1]:this.hash,
+					oldId="";
+					
+					if(oldHash){				
+						oldId=oldHash.indexOf("=")>0?"#" + oldHash.split("=")[1]:oldHash;
+					}					
+				
+				oldTab.removeClass("current");            
+				$(oldId).removeClass("current");
+				$a.closest("li").addClass("current");
+				$(newHash).addClass("current");        
+			});
+			
+			//initialising the widget
+			tabMenu.find(".current a").click();
+			
+		
+		})
+
+					
+					
+		</script>
 	</body>
 </html>
