@@ -29,39 +29,40 @@
 			}
 		
 		/* pagination */
-			#pagination{
+			.pagination{
 				float:right;
 				overflow:hidden;
 				position:relative;
 			}
 			
-			#pagination .legend{
+			.pagination .legend{
 				color: #444444;
 				float: left;
 				margin-right: 20px;
 				margin-top: 10px;
 			}
 			
-			#pagination .pageSize{
+			.pagination .pageSize{
 				float:left;
 				margin-top: 6px;
 				color:#666;
+				margin-right:30px;
 			}
 			
-			#pagination ul{
+			.pagination ul{
 				float: left;
-				margin:3px 15px 1px 30px;
+				margin:3px 0px 1px 0px;
 				overflow:hidden;
-				max-width:400px;		
+				max-width:100px;		
 				white-space:nowrap;
 			}
 			
-			#pagination li{
+			.pagination li{
 				display: inline-block;
 				zoom: 1; *display: inline; /* IE < 8: fake inline-block */
 			}
 			
-			#pagination li a{
+			.pagination li a{
 				background-color: #DDDDDD;
 				border: 1px solid transparent;
 				color: #666666;
@@ -71,13 +72,13 @@
 				padding: 2px 4px;
 			}
 			
-			#pagination a:hover,
-			#pagination a:focus{
+			.pagination a:hover,
+			.pagination a:focus{
 				border-color:#aaa;
 				background-color:#ccc;
 			}
 			
-			#pagination .current a{
+			.pagination .current a{
 				background-color: #AAAAAA;
 				border-color: #888888;
 				color: #FFFFFF;
@@ -86,13 +87,21 @@
 				padding: 3px 5px 4px;
 			}
 			
-			.off #pagination a{
+			.off .pagination a{
 				background-color: #eee!important;
 				border-color: #ccc!important;
 				color: #aaa!important;
 				cursor:default;
 			}
-					
+				
+			.pagination .scrlLeft,
+			.pagination .scrlRight{
+				float:left;
+				padding:3px 5px 4px;
+				margin-top:2px;
+				font-weight:bold;
+				color:#666;
+			}
 					
 		</style>			
 
@@ -101,11 +110,11 @@
 	<body>
 		
 		<h2>Pagination:</h2>
-		<div id="toolBar">
 		
+		<div id="toolBar">
 			
 			<!-- Pagination -->
-			<div id="pagination">
+			<div class="pagination">
 				<span class="legend">Showing: 1-25 / 2000</span>
 				<label class="pageSize">Items per page:
 					<select>
@@ -134,6 +143,56 @@
 		
 		</div>
 		
+		
+		
+		
+		
+		<!-- javascript -->
+		<script type="application/x-javascript" src="js/jquery-1.5.2.min.js"></script>
+		<script type="application/x-javascript" src="js/plugins.js"></script>
+		
+		<script type="text/javascript">
+			//this function adds scroll buttons to the pagination widget when the widget content is wider than 100px
+			//to customise this value please change the max-width in ".pagination ul" css rule.
+			
+			//PLEASE NOTE: to style the scroll buttons you have to add the "button" css rules (available in buttons.html)
+			
+			//usage: call "checkForScrollBars" on the "document ready" event and whenever you add/remove pages.
+			
+			//when the doc is ready...
+			$().ready(checkForScrollBars)
+			
+			//looking for all the pagination divs			
+			function checkForScrollBars(){
+				$("div.pagination").each(function(){
+					var ul=$(this).children("ul");
+					
+					
+					if(ul.innerWidth()<ul.get(0).scrollWidth){
+	
+						ul.css("width",ul.css("width"));		//IE8 fix!
+						
+						//adding the left scroll button
+						$("<a class='button scrlLeft' href='#scroll left' title='Scroll left' />")
+							.text("<")
+							.insertBefore(ul)
+							.click(function(e){
+								e.preventDefault();
+								scroller($(this).siblings("ul")).scrollLeft(0.75); //scrolls the viewport by 75% of its width to the left
+							})
+						
+						//adding the right scroll button
+						$("<a class='button scrlRight' href='#scroll right' title='Scroll right' />")
+							.text(">")
+							.insertAfter(ul)
+							.click(function(e){
+								e.preventDefault();
+								scroller($(this).siblings("ul")).scrollRight(0.75);	//scrolls the viewport by 75% of its width to the right
+							})
+					}					
+				})
+			}
+		</script>
 		
 		
 	</body>
