@@ -710,21 +710,35 @@ function confirm(options){
 	
 	$.fn.lightBox = function(options) {		
 		var $this=$(this),
-		    defaults={
+			p=$this.parent();
+			
+			$this
+				.css("visibility","hidden")
+				.appendTo(document.body);
+				
+		var	defaults={
 				title:false,
 				onClose:function(){},
 				width:this.outerWidth(true)+20,
 				parent:null,
 				rtl:false,
 				modal:false
-			};		
-				
+			};
+			
+		$this
+			.css("visibility","visible")
+			.detach();
+		
+		if (p.length>0){
+			$this.appendTo(p)
+		}
+		
 		//extending the default options
 		$.extend(defaults,$.fn.lightBox.defaults,options)
 
-		defaults.parent=defaults.parent||this.parent();
+		defaults.parent=defaults.parent||$this.parent();
 		
-		$(this).data("_lightBox",defaults);
+		$(this).data("data-lightBox",defaults);
 		
 		this.closeIt=function(){
 		    return closing.call(this)
@@ -737,10 +751,12 @@ function confirm(options){
 	
 	// defining the plugin custom methods
 	var closing=function(){
-			var defaults=$(this).data("_lightBox")
+		
+			var defaults=$(this).data("data-lightBox")
 			bg.hide(0);
 			lb.hide(200);
 			
+			$(this).detach();
 			if(defaults.parent){
 			    this.appendTo(defaults.parent);
 			}
@@ -754,7 +770,7 @@ function confirm(options){
 	
 	var showing=function(){
 
-		var defaults=$(this).data("_lightBox"),
+		var defaults=$(this).data("data-lightBox"),
 		    thisObj=this;
 			
 		//get the background DIV (or create it)						

@@ -9,101 +9,7 @@
 		<meta name="author" content="Alessio Carnevale">
 		
 		<link rel="stylesheet" href="css/reset.css?v=1" />
-		
-		<style type="text/css">
-				
-		
-			#toolBar{
-				background-image:url(images/topBarBG.png);
-				background-position:0px bottom;
-				background-repeat:repeat-x;
-				
-				border: 1px solid #CCCCCC;
-				border-bottom:none;
-				
-				margin: 0 10px;
-				overflow: hidden;
-				padding: 4px;
-				
-				clear:both;
-			}
-		
-		/* pagination */
-			.pagination{
-				float:right;
-				overflow:hidden;
-				position:relative;
-			}
-			
-			.pagination .legend{
-				color: #444444;
-				float: left;
-				margin-right: 20px;
-				margin-top: 10px;
-			}
-			
-			.pagination .pageSize{
-				float:left;
-				margin-top: 6px;
-				color:#666;
-				margin-right:30px;
-			}
-			
-			.pagination ul{
-				float: left;
-				margin:3px 0px 1px 0px;
-				overflow:hidden;
-				max-width:100px;		
-				white-space:nowrap;
-			}
-			
-			.pagination li{
-				display: inline-block;
-				zoom: 1; *display: inline; /* IE < 8: fake inline-block */
-			}
-			
-			.pagination li a{
-				background-color: #DDDDDD;
-				border: 1px solid transparent;
-				color: #666666;
-				display: block;
-				margin-left: 2px;
-				margin-top: 1px;
-				padding: 2px 4px;
-			}
-			
-			.pagination a:hover,
-			.pagination a:focus{
-				border-color:#aaa;
-				background-color:#ccc;
-			}
-			
-			.pagination .current a{
-				background-color: #AAAAAA;
-				border-color: #888888;
-				color: #FFFFFF;
-				font-weight: bold;
-				margin-top: 0;
-				padding: 3px 5px 4px;
-			}
-			
-			.off .pagination a{
-				background-color: #eee!important;
-				border-color: #ccc!important;
-				color: #aaa!important;
-				cursor:default;
-			}
-				
-			.pagination .scrlLeft,
-			.pagination .scrlRight{
-				float:left;
-				padding:3px 5px 4px;
-				margin-top:2px;
-				font-weight:bold;
-				color:#666;
-			}
-					
-		</style>			
+		<link rel="stylesheet" href="css/common.css?v=1" />			
 
 	</head>
 
@@ -154,8 +60,6 @@
 		<script type="text/javascript">
 			//this function adds scroll buttons to the pagination widget when the widget content is wider than 100px
 			//to customise this value please change the max-width in ".pagination ul" css rule.
-			
-			//PLEASE NOTE: to style the scroll buttons you have to add the "button" css rules (available in buttons.html)
 			
 			//usage: call "checkForScrollBars()" on "document ready" event and whenever you add/remove pages.
 			
