@@ -17,8 +17,31 @@
     
     
     
-    
-    
+	
+	
+	
+            
+        {
+            "type":"safeStore",
+            "name":"Safe Store",
+            "id":"ss_01",
+            "left":111,
+            "top":290
+        },    
+        {
+            "type":"safeStore",
+            "name":"Safe Store",
+            "id":"ss_02",
+            "left":211,
+            "top":390
+        },
+        {
+            "type":"safeStore",
+            "name":"Safe Store",
+            "id":"ss_03",
+            "left":311,
+            "top":290
+        },  		
     
     
     
@@ -223,6 +246,7 @@
         
         
         
+			
      
         {
             "type":"link",
@@ -252,7 +276,7 @@
             "type":"link",
             "id":"L5",
             "from":"NewclearCORE",
-            "to":"NewclearOut"
+            "to":"ss_02"
         },
         {
             "type":"link",
@@ -282,7 +306,7 @@
             "type":"link",
             "id":"L10",
             "from":"CAACORE",
-            "to":"NEWCLEAR-TICKET-IN"
+            "to":"ss_03"
         },
         {
             "type":"link",
@@ -290,12 +314,8 @@
             "from":"HighTouch",
             "to":"NEWCLEAR-MARKET-IN"
         },
-        {
-            "type":"link",
-            "id":"L12",
-            "from":"exchange",
-            "to":"EUREX"
-        },
+		
+		
         {
             "type":"link",
             "id":"L13",
@@ -367,6 +387,30 @@
             "id":"L24",
             "from":"TEOOut",
             "to":"NewclearTicketTEO"
+        },
+        {
+            "type":"link",
+            "id":"L25",
+            "from":"exchange",
+            "to":"ss_01"
+        },
+        {
+            "type":"link",
+            "id":"L26",
+            "from":"ss_01",
+            "to":"EUREX"
+        },
+        {
+            "type":"link",
+            "id":"L27",
+            "from":"ss_02",
+            "to":"NewclearOut"
+        },
+        {
+            "type":"link",
+            "id":"L28",
+            "from":"ss_03",
+            "to":"NEWCLEAR-TICKET-IN"
         }
         
     ]

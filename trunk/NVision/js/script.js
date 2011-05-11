@@ -96,6 +96,18 @@ $(function(){
                         NVision.doSearch(newStatus.view.query);
                     }
                 break;
+			
+			
+				case "safeStore":
+					var sysName=newStatus.view.sysName,
+						sysObj=NVision.safeStores[sysName];
+						
+						NVision.currentSys=sysObj;
+						
+						NVision.showTable(sysObj);
+						
+					myConsole.info("safeStore view!")	
+				break;
             
                 default:
                     myConsole.alert("Unknown bookmark ignored!")                        
@@ -532,9 +544,10 @@ var NVision={
                             "id":"overwriteForm"
                         })
                         .append("<input type='hidden' id='_id' name='id' />")
-                        .append("<label><span class='caption'>Trading ref</span><input type='text' id='_tradingRef' name='tradingRef' value='nothing' /></label>")
+                        .append("<label><span class='caption'>Account</span><input type='text' id='_account' name='account' value='nothing' /></label>")
                         .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='trader' value='nothing' /></label>")
-                        .append("<div class='loadingData'><p>sending the request...</p></div>")
+                        .append("<label><span class='caption'>Give In Msg</span><input type='text' id='_giveInMsg' name='giveInMsg' value='nothing' /></label>")
+						.append("<div class='loadingData'><p>sending the request...</p></div>")
 						.append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
                 
@@ -800,7 +813,13 @@ var NVision={
 							  if(!NVision.otherObjects){NVision.otherObjects={}};
 								//adding the exchange to the NVision obj
 								NVision.otherObjects[this.id]=new exchange(this);
-							break;                    
+							break;
+						
+							case "safeStore":
+								if(!NVision.safeStores){NVision.safeStores={}};
+								//adding the exchange to the NVision obj
+								NVision.safeStores[this.id]=new safeStore(this);
+							break;
 							
 							default :
 							  if(!NVision.otherObjects){NVision.otherObjects={}};
@@ -838,7 +857,8 @@ var NVision={
                 .show()
                 .find("#_id").attr("value",tradeObj["id"]).end()
                 .find("#_trader").attr("value",tradeObj["Trader"]).end()
-                .find("#_tradingRef").attr("value",tradeObj["Trading Ref"]);                
+				.find("#_giveInMsg").attr("value",tradeObj["Give In Msg"]).end()
+                .find("#_account").attr("value",tradeObj["Account"]);                
             });
             
             $("#resubmitBtn").click(function(e){
@@ -1398,12 +1418,9 @@ var NVision={
             .removeClass("zoom" + NVision.zoomLevel)
             .addClass("zoom" + zFactor)
         
-        NVision.zoomLevel=zFactor;
-        
-        //putting all the dashboard objects together
-        objects=$.extend(objects,NVision.adapters);
-        objects=$.extend(objects,NVision.systems);
-        objects=$.extend(objects,NVision.otherObjects);
+        NVision.zoomLevel=zFactor;        
+		
+		objects=NVision.utils.getDBobjects();
         
         for(var obj in objects){
             var $obj=$(objects[obj].canvasBox),
@@ -1431,16 +1448,11 @@ var NVision={
                 positions=eval("(" + pos + ")");
             }
             
-            var objects={};
-                //putting all the dashboard objects together
-                objects=$.extend(objects,NVision.adapters);
-                objects=$.extend(objects,NVision.systems);
-                objects=$.extend(objects,NVision.otherObjects);
+            var objects=NVision.utils.getDBobjects();
 
             for(var i in objects){
                 var obj=objects[i],
-                    layout={left:obj.left||0,top:obj.top||0},
-                    //objToDraw=NVision.systems[i]||NVision.adapters[i]||NVision.otherObjects[i],               
+                    layout={left:obj.left||0,top:obj.top||0},                
                     objPos=positions?positions[i]:layout;
                                
                 if(pos && !objPos){
@@ -1470,9 +1482,15 @@ var NVision={
         for (var link in NVision.links){                
             
             var link=NVision.links[link],                
-                fromSys=NVision.systems[link.from]||NVision.adapters[link.from]||NVision.otherObjects[link.from],
-                toSys=NVision.systems[link.to]||NVision.adapters[link.to]||NVision.otherObjects[link.to];
-                
+                fromSys=NVision.systems[link.from]
+					||NVision.adapters[link.from]
+					||NVision.safeStores[link.from]
+					||NVision.otherObjects[link.from],
+					
+                toSys=NVision.systems[link.to]
+					||NVision.adapters[link.to]
+					||NVision.safeStores[link.to]
+					||NVision.otherObjects[link.to];
                 
                 
                 var canvasLink=NVision.paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
@@ -1488,12 +1506,7 @@ var NVision={
         //redrawing all the links
                 
         if(!objects){
-            objects={};
-            
-            //putting al the dashboard objects together
-            objects=$.extend(objects,NVision.adapters);
-            objects=$.extend(objects,NVision.systems);
-            objects=$.extend(objects,NVision.otherObjects);
+            objects=NVision.utils.getDBobjects();
         }
         
         //if the passed obj is a single object (i.e. is not an hashTable)
@@ -1611,14 +1624,21 @@ var NVision={
 	},
     
     utils:{
-        checkDbSize:function(){
+		getDBobjects:function(){
+			var objects={}
+			
+			//putting all the dashboard objects together
+			objects=$.extend(objects,NVision.adapters);
+			objects=$.extend(objects,NVision.systems);
+			objects=$.extend(objects,NVision.safeStores);
+			objects=$.extend(objects,NVision.otherObjects);
+			
+			return objects;
+		},
+        
+		checkDbSize:function(){
             
-            var objects={}
-            
-            //putting al the dashboard objects together
-            objects=$.extend(objects,NVision.adapters);
-            objects=$.extend(objects,NVision.systems);
-            objects=$.extend(objects,NVision.otherObjects);
+            var objects=NVision.utils.getDBobjects();
             
             var w=null,
                 h=null;
@@ -1779,12 +1799,7 @@ var NVision={
         
         savePositions:function(){
             var coords=[],
-                objects={}
-            
-            //putting all the dashboard objects together
-            objects=$.extend(objects,NVision.adapters);
-            objects=$.extend(objects,NVision.systems);
-            objects=$.extend(objects,NVision.otherObjects);            
+                objects=NVision.utils.getDBobjects();          
             
             
             for (var obj in objects){                
