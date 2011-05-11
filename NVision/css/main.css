@@ -1738,6 +1738,34 @@
 		color:#666;
 	}	
 	
+	#dashBoardView .safeStore{
+		position: absolute;
+		background-color: #cae6d6;
+		border:1px solid #92cbaa;
+		border-color:#cee8d9 #92cbaa #92cbaa #cee8d9;
+		cursor:default;
+		padding:0.5em 1em;
+	}
+	
+	#dashBoardView .safeStore h3{		
+		cursor: move;
+		font-size: 1.2em;
+		padding: 0px;		
+		color:#377552;
+		text-align:left;
+		line-height:1.2em;
+	}
+	
+	#dashBoardView .safeStore a{
+		display:block;
+		float:right;
+		margin-left:10px;
+		width:10px;
+		height:14px;
+		background-image:url(../images/replay.png);
+	}
+	
+	
 	#dashBoardView .exchange{
 		position:absolute;
 		background-image:url(../images/sysBg.png);

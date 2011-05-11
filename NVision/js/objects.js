@@ -662,6 +662,46 @@ function myAjax(options){
 
 
 
+
+
+// safeStore object def
+    function safeStore(obj){        
+        tradeHolder.call(this,obj)
+    }
+    
+    safeStore.prototype=new tradeHolder();
+    safeStore.prototype.constructor=safeStore;
+	
+	safeStore.prototype.draw=function(objPos,container){
+
+        //calling the base function first
+        baseObj.prototype.draw.call(this,objPos,container);
+       
+        var objDiv=$(this.canvasBox),
+            sysObj=this;
+                
+            
+        //adding the "Replay" button
+		$("<a />")
+			.addClass("replayBtn")
+			.attr({
+				"href":"#" + sysObj.id,
+				"title":"Replay"
+			})
+			.click(function(e){
+				e.preventDefault();
+				
+				NVision.appStatus[NVision.appStatus.currentTab].view={type:"safeStore","sysName":this.hash.replace("#","")}
+				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);    
+			})
+			.appendTo(objDiv.find("h3"));
+        
+    }
+
+
+
+
+
 //adapter object def
     function adapter(obj){
         tradeHolder.call(this,obj)
