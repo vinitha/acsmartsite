@@ -802,12 +802,7 @@ var NVision={
 								NVision.links[this.id]=this;
 							break;
 							
-							/*
-							case "layout":
-								//adding the layout to the NVision obj
-								NVision.layout=this;
-							break;
-							*/
+
 							
 							case "exchange":
 							  if(!NVision.otherObjects){NVision.otherObjects={}};
@@ -817,7 +812,12 @@ var NVision={
 						
 							case "safeStore":
 								if(!NVision.safeStores){NVision.safeStores={}};
-								//adding the exchange to the NVision obj
+								
+								//base settings
+								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
+								this.currentPage=1;								
+								
+								//adding the safeStore to the NVision obj
 								NVision.safeStores[this.id]=new safeStore(this);
 							break;
 							
@@ -1292,6 +1292,7 @@ var NVision={
                         error:function(a,b,c){
                             myConsole.log(a,b,c)
                         },
+						type:"jsonp",
                         url:reqObj.url,
                         data:reqObj.data
                     })
