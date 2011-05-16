@@ -1940,24 +1940,33 @@
 		width:250px;
 	}
 	
-	#confirmBox p{
+	#confirmBox p.confirmMsg{
 		font-size: 1.1em;
 		padding: 10px 0;
 	}
 	
-	#confirmBox.ok p{	
+	#confirmBox.ok p.confirmMsg{	
 		background-image:url(../images/greenTick.png);
 		background-position:0px 50%;
 		background-repeat:no-repeat;
 		padding-left: 30px;
 	}
 	
-	#confirmBox.error p{	
+	#confirmBox.error p.confirmMsg{	
 		background-image:url(../images/commError.png);
 		background-position:0px 50%;
 		background-repeat:no-repeat;
 		padding-left: 30px;
 	}
+	
+	#confirmBox.confirm p.confirmMsg{	
+		background-image:url(../images/question.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left: 30px;
+	}
+	
+	
 	
 	
 	#CSVbox{

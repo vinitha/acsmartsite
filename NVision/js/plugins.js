@@ -670,8 +670,10 @@ function confirm(options){
 	.attr("id","confirmBox")
 	.addClass(defaults.msgClass)
 	.append(
-		$("<p />").text(defaults.msg)
-	    )
+		$("<p />")
+			.addClass("confirmMsg")
+			.text(defaults.msg)
+	)
 	.append(
 	    $("<div/>")
 	    .addClass("buttonsBar")
@@ -680,20 +682,23 @@ function confirm(options){
 		.addClass("button")
 		.text(defaults.yesCaption)
 		.click(function(){
-		    lb.closeIt();
-		    defaults.onYes();
+			$("#confirmBox").addClass("wait")
+		    defaults.onYes(lb);
+			//lb.closeIt();
 		})
 	    )
 	    .append(
 		$("<a/>")
 		.addClass("button")
 		.text(defaults.noCaption)
-		.click(function(){
-		    lb.closeIt();
-		    defaults.onNo();
+		.click(function(){		    
+		    defaults.onNo?defaults.onNo(lb):null;			
+			//lb.closeIt();
 		})		
 	    )	    
 	)
+	.append("<div class='loadingData'><p>sending the request...</p></div>")
+	
     var lb=$msg.lightBox({
 					modal:true,
 					title:defaults.title,

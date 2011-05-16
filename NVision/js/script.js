@@ -287,32 +287,34 @@ var NVision={
                 //if not then runs its init function
                 NVision.showDashboard()
             }
-			
-			
+						
 			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#searchForm").show(0);
 			
 			//redrawing the links
-            NVision.redrawLinks()
-
+            NVision.redrawLinks()			
         },
         
         tab_2:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_2 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});			
+			$("#searchForm").show(0);
         },
         
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#businessMarket,#sysVer,#dbTools").css({display:"none"});			
+			$("#searchForm").hide(0);
         },
 		
 		tab_4:function(){
 			NVision.updateEngine.stop();
-			$("#businessMarket,#sysVer,#dbTools").hide(0);
+			$("#businessMarket,#sysVer,#dbTools").css({display:"none"});			
+			$("#searchForm").hide(0);
 		},
 		
 		defaultFn:function(){
@@ -568,14 +570,17 @@ var NVision={
 							title:"Overwrite confirmation",
 							yesCaption:data._code=="nok"?"Retry":"Resubmit",
 							noCaption:"Close",                    
-							onYes:function(){
+							onYes:function(lightBox){
+								lightBox.closeIt();
+								
 								if(data._code=="nok"){
 									$("#overwriteBtn").click();
 								}else{
 									$("#resubmitBtn").click();
 								}
 							},
-							onNo:function(){
+							onNo:function(lightBox){
+								lightBox.closeIt();
 								if(data._code!="nok"){
 									myConsole.log("Refreshing the view...")
 									
@@ -648,13 +653,17 @@ var NVision={
 							title:"Resubmit confirmation",
 							yesCaption:"View submitted trades",
 							noCaption:"Close",                    
-							onYes:function(){
-																
+							onYes:function(lightBox){
+								lightBox.closeIt();
+								
 								NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
 								$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
 									
 							},
-							onNo:function(){
+							onNo:function(lightBox){
+								
+								lightBox.closeIt();
+								
 								myConsole.log("Refreshing the view...")
 								
 								//refreshing the tableView
@@ -843,6 +852,75 @@ var NVision={
         
         
         // setting the buttons function up
+            $("#clearBtn").click(function(e){
+                e.preventDefault();
+                if($(this).hasClass("off")){
+                    return false;
+                }		
+		
+				var confBox={
+					title:"Clear breaks",
+					yesCaption:"Clear",
+					noCaption:"Cancel",                    
+					onYes:function(lightBox){
+						
+						//getting the trade objects from the selected row
+						var checked=$.map($("#tableData").find("input:checked"),function(item,index){
+									return $(item).closest("tr").attr("data-id")
+								}),
+							tradeObjs=[];
+						
+						$.each(checked,function(){
+							tradeObjs.push(NVision.currentSys.trades[this])
+						})
+							
+						var ids=$.map(tradeObjs,function(item,index){
+										return item["id"];
+									}).join(",")						
+						
+						//generating the ajax request
+						myAjax({
+							logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
+							success:function(data){                        
+								
+								lightBox.closeIt();
+								
+								myConsole.info("Trades cleared - Refreshing the view...")
+								
+								//refreshing the tableView
+								NVision.updateEngine.updateNow();
+								NVision.updateEngine.start();	
+								
+								
+							
+							},
+							error:function(a,b,c){
+								myConsole.log(a,b,c);
+								lightBox.closeIt();
+							},
+							delegateErrorHandling:false,
+							url:sysConfig.clearTrades,
+							data:{id:ids}
+						})						
+						
+						
+						
+					},
+					onNo:function(lightBox){
+						lightBox.closeIt();
+					},
+					msg:"Do you really want to remove the selected trades from the list?",
+					msgClass:"confirm", 
+					onClose:null
+				}
+				
+				confirm(confBox);		
+			});
+		
+		
+		
+		
+		
             $("#overwriteBtn").click(function(e){
                 e.preventDefault();
                 if($(this).hasClass("off")){
@@ -933,6 +1011,13 @@ var NVision={
                     $("#resubmitBtn").addClass("off")                                      
                 :
                     $("#resubmitBtn").removeClass("off");
+					
+                //clear button
+                (checkedCount==0) ?
+                    $("#clearBtn").addClass("off")                                      
+                :
+                    $("#clearBtn").removeClass("off");					
+					
             })
             
         //setting the back button
@@ -943,7 +1028,9 @@ var NVision={
 				return false;
 			}
 			
-            NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};            
+			NVision.appStatus.currentTab="tab_1";
+            NVision.appStatus[NVision.appStatus.currentTab]={view:{type:"dashBoard"}};
+			
             $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
             
         })
@@ -1026,7 +1113,9 @@ var NVision={
         NVision.updateEngine.onNewData(function(){
             $("#systemName span").removeClass("loading")
             NVision.updateEngine.stop();
-        })         
+        })
+		
+		$("#mainMenu").trigger("showTab","tab_1");
     },
     
     showTable:function(sysObj){
@@ -1480,19 +1569,13 @@ var NVision={
     
     drawLinks:function(){
         //drawing all the links
-        for (var link in NVision.links){                
+        for (var link in NVision.links){
+			
+			var objs=NVision.utils.getDBobjects();
             
             var link=NVision.links[link],                
-                fromSys=NVision.systems[link.from]
-					||NVision.adapters[link.from]
-					||NVision.safeStores[link.from]
-					||NVision.otherObjects[link.from],
-					
-                toSys=NVision.systems[link.to]
-					||NVision.adapters[link.to]
-					||NVision.safeStores[link.to]
-					||NVision.otherObjects[link.to];
-                
+                fromSys=objs[link.from],					
+                toSys=objs[link.to];                
                 
                 var canvasLink=NVision.paper.connection(fromSys.canvasBox,toSys.canvasBox,"#fff", "#a5bfcb|4");
                 
@@ -1698,8 +1781,7 @@ var NVision={
             
             
             //disabling the buttons
-            $("#overwriteBtn").addClass("off")
-            $("#resubmitBtn").addClass("off")
+            $("#toolBar .buttons .button").addClass("off")            
             
             
             //clearing and recreating the table
@@ -1752,8 +1834,7 @@ var NVision={
             
             
             //disabling the buttons
-            $("#overwriteBtn").addClass("off")
-            $("#resubmitBtn").addClass("off")
+            $("#toolBar .buttons .button").addClass("off") 
             
             
             //clearing and recreating the table
