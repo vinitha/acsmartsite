@@ -102,11 +102,9 @@ $(function(){
 					var sysName=newStatus.view.sysName,
 						sysObj=NVision.safeStores[sysName];
 						
-						NVision.currentSys=sysObj;
-						
+						NVision.currentSys=sysObj;						
 						NVision.showTable(sysObj);
-						
-					myConsole.info("safeStore view!")	
+							
 				break;
             
                 default:
@@ -1364,7 +1362,14 @@ var NVision={
 								var reqObj=tasks[data.id]
 	
 								if(!reqObj){
-									myConsole.alert("Unexpected data received: " + data.id)
+									myConsole.alert("Unexpected data received: " + data.id);
+				
+									//going back to the dashboard
+									NVision.appStatus.currentTab="tab_1";
+									NVision.appStatus[NVision.appStatus.currentTab]={view:{type:"dashBoard"}};
+									
+									$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+									
 									return false;
 								}
 								reqObj.callBack(data);
