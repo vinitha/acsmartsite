@@ -1738,28 +1738,36 @@
 		color:#666;
 	}	
 	
-	#dashBoardView .safeStore{
+	#dashBoardView .safestore{
 		position: absolute;
+		
+		background-image:url(../images/sysBg.png);
+		background-position:0px 0px;
+		background-repeat:no-repeat;
+		
 		background-color: #cae6d6;
 		border:1px solid #92cbaa;
 		border-color:#cee8d9 #92cbaa #92cbaa #cee8d9;
 		cursor:default;
 		padding:0.5em 1em;
+		padding-right:30px;
+		
 	}
 	
-	#dashBoardView .safeStore h3{		
+	#dashBoardView .safestore h3{		
 		cursor: move;
 		font-size: 1.2em;
 		padding: 0px;		
 		color:#377552;
 		text-align:left;
 		line-height:1.2em;
+		white-space:nowrap;
 	}
 	
-	#dashBoardView .safeStore a{
-		display:block;
-		float:right;
-		margin-left:10px;
+	#dashBoardView .safestore a{
+		position:absolute;
+		right:10px;
+		top:5px;
 		width:10px;
 		height:14px;
 		background-image:url(../images/replay.png);
@@ -2095,6 +2103,52 @@
 
 
 
+/* components visibility rules */
+
+	#updatesBtn,
+	#resubmitted,
+	#dashBoardView,
+	#dbTools,	
+	#tableView,
+	#toolBar .buttons li,
+	#pagination{
+		display:none;
+	}
+	
+	
+	.doSearch #tableView,
+	.doSearch #toolBar #resubmitBtn,
+	.doSearch #toolBar #overwriteBtn,
+	.doSearch #toolBar #clearBtn,
+	.doSearch #pagination,
+	
+	.showResubmitted #tableView,
+	.showResubmitted #toolBar #resubmitBtn,
+	.showResubmitted #toolBar #overwriteBtn,
+	.showResubmitted #toolBar #clearBtn,
+	.showResubmitted #pagination,
+	.showResubmitted #updatesBtn,	
+	.showResubmitted #resubmitted,
+	
+	.showTradesTable #tableView,
+	.showTradesTable #toolBar #resubmitBtn,
+	.showTradesTable #toolBar #overwriteBtn,
+	.showTradesTable #toolBar #clearBtn,
+	.showTradesTable #pagination,
+	.showTradesTable #updatesBtn,	
+	.showTradesTable #resubmitted,
+	
+	.showSafeStoreData #tableView,
+	.showSafeStoreData #toolBar #replayBtn,
+	.showSafeStoreData #pagination,
+	.showSafeStoreData #updatesBtn,	
+	.showSafeStoreData #resubmitted,	
+	
+	.showDashboard #dashBoardView,
+	.showDashboard #updatesBtn,
+	.showDashboard #dbTools{
+		display:block;
+	}
 
 
 

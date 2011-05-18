@@ -224,10 +224,11 @@
           <!-- data toolBar -->
             <div id="toolBar">
               <ul class="buttons">                                
-                <li><a id="resubmitBtn" class="button off" title="Resubmit" href="#resubmit">Resubmit</a></li>
-                <li><a id="overwriteBtn" class="button off" title="Overwrite" href="#overwrite">Overwrite</a></li>
-				<li><a id="clearBtn" class="button off" title="Clear Breaks" href="#clear">Clear Breaks</a></li>
-                <li><a id="resubmitted" class="link" title="View resubmitted Trades" href="#resubmitted">View resubmitted Trades</a></li>                
+                <li id="resubmitBtn"><a class="button off" title="Resubmit" href="#resubmit">Resubmit</a></li>
+                <li id="overwriteBtn"><a class="button off" title="Overwrite" href="#overwrite">Overwrite</a></li>
+				<li id="clearBtn"><a class="button off" title="Clear Breaks" href="#clear">Clear Breaks</a></li>
+				<li id="replayBtn"><a class="button off" title="Replay" href="#clear">Replay</a></li>
+                <li id="resubmitted"><a class="link" title="View resubmitted Trades" href="#resubmitted">View resubmitted Trades</a></li>                
               </ul>
               <div id="pagination">
               </div>
@@ -281,6 +282,8 @@
           resubmitRequest:"json/ok.txt",
 		  
 		  clearTrades:"json/nok.txt",
+		  
+		  replayTrades:"json/nok.txt",
           
           msgDetails:"json/msgDetails.txt",
           
