@@ -22,7 +22,7 @@
 	
             
         {
-            "type":"safeStore",
+            "type":"safestore",
             "name":"Safe Store - EUREX",
             "id":"ss_01",
 			"updateInterval":20000,
@@ -30,7 +30,7 @@
             "top":290
         },    
         {
-            "type":"safeStore",
+            "type":"safestore",
             "name":"Safe Store -  NC out",
             "id":"ss_02",
 			"updateInterval":20000,
@@ -38,7 +38,7 @@
             "top":390
         },
         {
-            "type":"safeStore",
+            "type":"safestore",
             "name":"Safe Store - CAA",
             "id":"ss_03",
 			"updateInterval":20000,

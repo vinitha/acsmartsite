@@ -664,15 +664,15 @@ function myAjax(options){
 
 
 
-// safeStore object def
-    function safeStore(obj){        
+// safestore object def
+    function safestore(obj){        
         tradeHolder.call(this,obj)
     }
     
-    safeStore.prototype=new tradeHolder();
-    safeStore.prototype.constructor=safeStore;
+    safestore.prototype=new tradeHolder();
+    safestore.prototype.constructor=safestore;
 	
-	safeStore.prototype.draw=function(objPos,container){
+	safestore.prototype.draw=function(objPos,container){
 
         //calling the base function first
         baseObj.prototype.draw.call(this,objPos,container);
@@ -691,12 +691,20 @@ function myAjax(options){
 			.click(function(e){
 				e.preventDefault();
 				
-				NVision.appStatus[NVision.appStatus.currentTab].view={type:"safeStore","sysName":this.hash.replace("#","")}
+				NVision.appStatus[NVision.appStatus.currentTab].view={type:"safestore","sysName":this.hash.replace("#","")}
 				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);    
 			})
 			.appendTo(objDiv.find("h3"));
         
     }
+	
+	
+	safestore.prototype.showTrades=function(tableContainer,paginationContainer){
+        //calling the base function first
+        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer);
+		
+		myConsole.alert("customise this!")
+	}
 
 
 
@@ -793,7 +801,6 @@ function myAjax(options){
                 .attr("href","#" + sysObj.id)
                 .text("View breaks")
                 .click(function(e){
-                    //NVision.showTable(NVision.systems[this.hash.replace("#","")]);
                     e.preventDefault();
                     
                     NVision.appStatus[NVision.appStatus.currentTab].view={type:"adapter","sysName":this.hash.replace("#","")}
