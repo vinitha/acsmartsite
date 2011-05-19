@@ -905,6 +905,11 @@
 		
 	}
 	
+	.ie7 #tableData{
+		overflow-y:hidden;
+		padding-bottom:20px;
+	}
+	
 	#tableData table{
 		width:100%;
 		border-right: 1px solid #B6CFDA;
@@ -913,6 +918,12 @@
 	#tableData td{
 		border:1px solid #ccc;
 		padding:3px 10px;
+		background-position:0px bottom;
+		background-repeat:repeat-x;
+		
+		max-width:800px;
+		overflow:hidden;
+		white-space:nowrap;
 	}
 	
 	#tableData thead tr{
@@ -944,6 +955,7 @@
 	
 	#tableData .chkbox{
 		text-align:center;
+		width:20px;
 	}
 	
 	#tableData .complete{
@@ -1026,12 +1038,12 @@
 	}
 	
 	#tableData td.sorted{
-		/*background-color:#fff1d9;*/
-		background-image:url(../images/sortBG.png);
+		background-color:#ffe7b9;
+		/*background-image:url(../images/sortBG.png);*/
 	}
 	
 	#tableData tr:hover td.sorted{
-		/*background-color:#ffe7b9;*/
+		background-color:#f2ffb9;
 		background-image:url(../images/tableRowBG.png);
 	}	
 	
@@ -1052,17 +1064,23 @@
 	
 	#tableData tbody tr{
 		cursor:pointer;
+		background-position:0px bottom;
+		background-repeat:repeat-x;			
 	}
 	
 	#tableData tbody tr:hover{
 		/*background-color:#e5e5e5;*/
-		background-image:url(../images/tableRowBG.png)
+		
+		background-color:#cfe895;
+		background-image:url(../images/tableRowBG.png);	
 	}	
 	
 	
 	#tableData tr.opening{
 		background-color:#ecedd1!important;
 		background-image:url(../images/opening.gif)!important;
+		background-position:0px 0px;
+		background-repeat:repeat;
 	}
 	
 	#tableData tr.open{
@@ -1073,6 +1091,7 @@
 	#tableData tbody tr.detailsContainer{
 		background-color:#e5e5e5;
 		background-image:url(../images/shadow.png);
+		background-position:0px 0px;
 		background-repeat:repeat-x;
 		cursor:default;
 	}

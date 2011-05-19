@@ -333,7 +333,7 @@ function myAjax(options){
 
 
 
-    tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer){    
+    tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer,rowClick){    
         // defining the table headings
         var sysObj=this; 
         var tableHeadings=[]
@@ -413,17 +413,14 @@ function myAjax(options){
                 }                            
                 
                 
-                sysObj.showTrades(tableContainer,paginationContainer);
+                sysObj.showTrades(tableContainer,paginationContainer,rowClick);
                 
                 //myConsole.chkSpeed("",up)
                 
             },
-            rowClick:function(tr){                            
-                showTradeDetails(tr)
-            }                
+            rowClick:rowClick||NVision.utils.showTradeDetails       
         },function(table){
-			
-			
+						
 				//hiding the checkbox for the "COMPLETED" trades
 			if(sysObj.type=="searchResults"){
 				var tr=table.find("tbody").find("tr"),
@@ -454,7 +451,7 @@ function myAjax(options){
 									var x=$(this).attr("data-idx")
 									sysObj.sortBy.splice(x,1);
 									
-									sysObj.showTrades(tableContainer,paginationContainer); 
+									sysObj.showTrades(tableContainer,paginationContainer,rowClick); 
 								})
 								.attr("data-idx",x)                                   
 						)
@@ -482,166 +479,12 @@ function myAjax(options){
             pageClick:function(pageNum){
                 sysObj.currentPage=pageNum;
                 
-                sysObj.showTrades(tableContainer,paginationContainer);                    
+                sysObj.showTrades(tableContainer,paginationContainer,rowClick);                    
             }
         })
         
         
-        //this function fetches and displays the passed trade details
-        function showTradeDetails(tr){
-			
-            var $tr=$(tr),
-                tradeId=NVision.currentSys.trades[tr.getAttribute("data-Id")].id;
-                        
-            //removing the details table 
-            if($tr.next().hasClass("detailsContainer")){
-                $tr.removeClass("open");
-                
-                //removing the old table and clearing the NVision.fnObj
-                NVision.utils.deleteTable($tr.next().find("table"))
-                
-                $tr.next().remove();
-                
-                NVision.updateEngine.start();
-            }else{
-				//checking whether the previous request is still pending
-				if($tr.hasClass("opening")){
-					myConsole.log("waiting for data...");
-					return false;
-				}				
-				
-                NVision.updateEngine.stop();
-                
-                //generating the ajax request
-                $tr.addClass("opening");
-                myAjax({
-                    data:{"tradeId":tradeId},
-                    //logMsg:"Getting the breaks details for trade: " + tradeId,
-					error:function(){
-						$tr.removeClass("opening");
-						$tr.removeClass("open");						
-					},
-                    success:function(data){
-                        var messageData=data;
-						
-						if (data._code=="nok"){
-							$tr.removeClass("opening");
-							return false;
-						}
-						
-						$tr.removeClass("opening");
-						$tr.addClass("open");
-                        
-                        //generating the table to display the trade details
-                        var newTr=$("<tr class='detailsContainer'><td class='detailsContainer' colspan='" + $tr.children().length + "'></td></tr>").insertAfter(tr),
-                            tableHeadings=[];
-                            
-                        // passing the default table headers
-                        for (var h in data.details[0]){
-                            tableHeadings.push(h);
-                        }                        
-                          
-                        var table=NVision.utils.createTable({
-                            container:newTr.find("td"),
-                            tableHeadings:tableHeadings,
-                            data:data.details,
-                            itemsPerPage:0,     //-> all
-                            currentPage:1,
-                            rowClick:function(tr){
-								
-								var $th=$(tr).closest("table").find("thead tr");
-								
-								//checking whether the previous request is still pending
-								if($th.hasClass("opening")){
-									myConsole.log("waiting for data...");
-									return false;
-								};
-								
-								$th.addClass("opening");
-								
-								
-                                var msgId=$(tr).attr("data-id");
-
-                                myAjax({
-                                    data:{"msgId":messageData.details[msgId].id},
-                                    success:function(msgDetails){
-                                        $th.removeClass("opening");
-										
-                                        var msg=$("<div />")
-                                            .addClass("popup")
-                                            .append("<h1>Message details:</h1>")
-                                            .append(
-                                                    $("<p class='details' />")
-                                                    .addClass(msgDetails.Status=="nok"?"error":"")
-                                                    .append($("<strong>Id: </strong>"))
-                                                    .append($("<span/>").text(msgDetails["id"]))
-                                                    
-                                                    .append($("<strong>Route: </strong>"))
-                                                    .append($("<span/>").text(msgDetails["Route"]))
-                                                    
-                                                    .append($("<strong>Rabbit Exch: </strong>"))
-                                                    .append($("<span/>").text(msgDetails["Rabbit Exch"]))
-                                            
-                                                    .append($("<strong>Routing Key: </strong>"))
-                                                    .append($("<span/>").text(msgDetails["Routing Key"]))
-                                                )
-                                            
-                                            .append(
-                                                $("<ul/>").addClass("tabMenu")
-                                                    //.append($("<li><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
-                                                    .append($("<li class='current'><a href='#_msg_in'><span>Incoming:</span></a></li>"))
-                                                    .append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
-                                                    .append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))                                            
-                                            )
-                                            
-                                            
-                                            //.append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
-                                            .append($("<p class='tabContent current' id='_msg_in'/>").append($("<pre />").text(msgDetails["Incoming"])))
-                                            .append($("<p class='tabContent' id='_msg_out'/>").append($("<pre />").text(msgDetails["Outgoing"])))
-                                            
-                                            var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
-                                            
-                                            for (var x in msgDetails["Steps"]){
-                                                var det=msgDetails["Steps"][x]
-                                                $("<p/>")
-                                                    .text(det)
-                                                    .appendTo(div)
-                                            }                                            
-                                            
-                                        var lb=msg
-                                            .lightBox({
-                                                title:"Break details:",
-                                                width:820
-                                            })
-                                            .show();
-                                    },
-                                    error:function(){
-                                        myConsole.log("Error!")
-										$th.removeClass("opening");
-                                    },
-                                    url:sysConfig.msgDetails
-                                })                                
-                                
-                            },
-                            headClick:null                        
-                        },function(table){
-						
-							//replacing ok/nok with icons
-							$.each(table.find("tbody tr"),function(){
-									var td=$(this).children().eq(0),
-										text=td.text();
-										
-									td.empty().addClass("status");                                
-									$(this).addClass(text);                                
-								})						
-						
-						})
-                        
-                    },
-                    url:sysConfig.tradeDetails
-                })    
-            }                           
-        }        
+              
     }    
 
 
@@ -701,9 +544,20 @@ function myAjax(options){
 	
 	safestore.prototype.showTrades=function(tableContainer,paginationContainer){
         //calling the base function first
-        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer);
+        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer,
+				//customising the rowClick function
+				function(tr){
+					var sysId=$(tr).attr("data-id");
+					NVision.updateEngine.stop();
+					
+					$("<p />").text(NVision.currentSys.filteredData[sysId].Msg).lightBox({
+							title:"Raw message",
+							modal:false,
+							width:600,
+							onClose:NVision.updateEngine.start
+						}).show()
+				});
 		
-		myConsole.alert("customise this!")
 	}
 
 
