@@ -1916,6 +1916,162 @@ var NVision={
             }
             
         },
+		
+		//this function fetches and displays the passed trade details
+        showTradeDetails:function(tr){
+			
+            var $tr=$(tr),
+                tradeId=NVision.currentSys.trades[tr.getAttribute("data-Id")].id;
+                        
+            //removing the details table 
+            if($tr.next().hasClass("detailsContainer")){
+                $tr.removeClass("open");
+                
+                //removing the old table and clearing the NVision.fnObj
+                NVision.utils.deleteTable($tr.next().find("table"))
+                
+                $tr.next().remove();
+                
+                NVision.updateEngine.start();
+            }else{
+				//checking whether the previous request is still pending
+				if($tr.hasClass("opening")){
+					myConsole.log("waiting for data...");
+					return false;
+				}				
+				
+                NVision.updateEngine.stop();
+                
+                //generating the ajax request
+                $tr.addClass("opening");
+                myAjax({
+                    data:{"tradeId":tradeId},
+                    //logMsg:"Getting the breaks details for trade: " + tradeId,
+					error:function(){
+						$tr.removeClass("opening");
+						$tr.removeClass("open");						
+					},
+                    success:function(data){
+                        var messageData=data;
+						
+						if (data._code=="nok"){
+							$tr.removeClass("opening");
+							return false;
+						}
+						
+						$tr.removeClass("opening");
+						$tr.addClass("open");
+                        
+                        //generating the table to display the trade details
+                        var newTr=$("<tr class='detailsContainer'><td class='detailsContainer' colspan='" + $tr.children().length + "'></td></tr>").insertAfter(tr),
+                            tableHeadings=[];
+                            
+                        // passing the default table headers
+                        for (var h in data.details[0]){
+                            tableHeadings.push(h);
+                        }                        
+                          
+                        var table=NVision.utils.createTable({
+                            container:newTr.find("td"),
+                            tableHeadings:tableHeadings,
+                            data:data.details,
+                            itemsPerPage:0,     //-> all
+                            currentPage:1,
+                            rowClick:function(tr){
+								
+								var $th=$(tr).closest("table").find("thead tr");
+								
+								//checking whether the previous request is still pending
+								if($th.hasClass("opening")){
+									myConsole.log("waiting for data...");
+									return false;
+								};
+								
+								$th.addClass("opening");
+								
+								
+                                var msgId=$(tr).attr("data-id");
+
+                                myAjax({
+                                    data:{"msgId":messageData.details[msgId].id},
+                                    success:function(msgDetails){
+                                        $th.removeClass("opening");
+										
+                                        var msg=$("<div />")
+                                            .addClass("popup")
+                                            .append("<h1>Message details:</h1>")
+                                            .append(
+                                                    $("<p class='details' />")
+                                                    .addClass(msgDetails.Status=="nok"?"error":"")
+                                                    .append($("<strong>Id: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["id"]))
+                                                    
+                                                    .append($("<strong>Route: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Route"]))
+                                                    
+                                                    .append($("<strong>Rabbit Exch: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Rabbit Exch"]))
+                                            
+                                                    .append($("<strong>Routing Key: </strong>"))
+                                                    .append($("<span/>").text(msgDetails["Routing Key"]))
+                                                )
+                                            
+                                            .append(
+                                                $("<ul/>").addClass("tabMenu")
+                                                    //.append($("<li><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
+                                                    .append($("<li class='current'><a href='#_msg_in'><span>Incoming:</span></a></li>"))
+                                                    .append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
+                                                    .append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))                                            
+                                            )
+                                            
+                                            
+                                            //.append($("<p class='tabContent current' id='_msg_raw'/>").text(msgDetails["Raw message"]))
+                                            .append($("<p class='tabContent current' id='_msg_in'/>").append($("<pre />").text(msgDetails["Incoming"])))
+                                            .append($("<p class='tabContent' id='_msg_out'/>").append($("<pre />").text(msgDetails["Outgoing"])))
+                                            
+                                            var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
+                                            
+                                            for (var x in msgDetails["Steps"]){
+                                                var det=msgDetails["Steps"][x]
+                                                $("<p/>")
+                                                    .text(det)
+                                                    .appendTo(div)
+                                            }                                            
+                                            
+                                        var lb=msg
+                                            .lightBox({
+                                                title:"Break details:",
+                                                width:820
+                                            })
+                                            .show();
+                                    },
+                                    error:function(){
+                                        myConsole.log("Error!")
+										$th.removeClass("opening");
+                                    },
+                                    url:sysConfig.msgDetails
+                                })                                
+                                
+                            },
+                            headClick:null                        
+                        },function(table){
+						
+							//replacing ok/nok with icons
+							$.each(table.find("tbody tr"),function(){
+									var td=$(this).children().eq(0),
+										text=td.text();
+										
+									td.empty().addClass("status");                                
+									$(this).addClass(text);                                
+								})						
+						
+						})
+                        
+                    },
+                    url:sysConfig.tradeDetails
+                })    
+            }                           
+        },		
         
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
 
@@ -2246,38 +2402,44 @@ var NVision={
 
             
             var html=[];
-            
-            for (var f in filterObj){
-                var fObj=filterObj[f];
-                
-                //sorting the dropDown items                
-                fObj.sort();
-                
-                var wrapper=$("<label />")
-                    .append(
-                        $("<span />").text(f + ":")
-                    )
-                    
-                var dropDown=$("<select />")
-                                .attr("name",f)
-                                .appendTo(wrapper)
-                
-                    $("<option />")
-                        .attr("value","")
-                        .text("-- --")
-                        .attr("selected","selected")
-                        .appendTo(dropDown)                
-                
-                for (var opt in fObj){
-                    $("<option />")
-                        .attr("value",fObj[opt])
-                        .text(fObj[opt])
-                        .appendTo(dropDown)
-                }
-                            
-                html.push(wrapper)
-            }
 
+            
+			try{
+				for (var f in filterObj){
+					var fObj=filterObj[f];
+					
+					//sorting the dropDown items                
+					fObj.sort();
+					
+					var wrapper=$("<label />")
+						.append(
+							$("<span />").text(f + ":")
+						)
+						
+					var dropDown=$("<select />")
+									.attr("name",f)
+									.appendTo(wrapper)
+					
+						$("<option />")
+							.attr("value","")
+							.text("-- --")
+							.attr("selected","selected")
+							.appendTo(dropDown)                
+					
+					for (var opt in fObj){
+						$("<option />")
+							.attr("value",fObj[opt])
+							.text(fObj[opt])
+							.appendTo(dropDown)
+					}
+								
+					html.push(wrapper)
+				}
+			}catch(er){
+				myConsole.alert("An error occurred while creating the filter objects")
+			}
+			
+			
             return html;
             
         },
@@ -2384,9 +2546,11 @@ var NVision={
 									hTr.push("<span class='header'>" + cellCaption+"</span>")	
 								}
 								hTr.push("</th>");
-							}          
+							}
 							
-							bTr.push("<td class='cell'>" +trade[cellCaption] +"</td>")                        
+							var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
+							
+							bTr.push("<td class='cell'>" + str +"</td>")                        
 						}
 					}
 			
