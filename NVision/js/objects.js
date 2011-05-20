@@ -236,7 +236,7 @@ function myAjax(options){
 		sysObj.filteredData=filteredData;
 		
 		//removing the old table and clearing the NVision.fnObj
-		NVision.utils.deleteTable($("#tableData").find("table"))
+		NVision.utils.deleteTable(tableContainer.find("table"))
 		
 		// creating the table
 		NVision.utils.createTable({
@@ -377,7 +377,7 @@ function myAjax(options){
         sysObj.filteredData=filteredData;
         
         //removing the old table and clearing the NVision.fnObj
-        NVision.utils.deleteTable($("#tableData").find("table"))
+        NVision.utils.deleteTable(tableContainer.find("table"))
         
         // creating the table
         NVision.utils.createTable({

@@ -141,7 +141,7 @@
 	}
 	
 	
-	#systemName{
+	.systemName{
 		float:left;
 	}
 	
@@ -157,18 +157,18 @@
 	}
 	
 	
-	#systemName .loading{
+	.systemName .loading{
 		background-image:url(../images/loading.gif);
 		background-position:4px 50%;
 		background-repeat:no-repeat;
 		padding-left:25px;
 	}
 	
-	#systemName .resub{
+	.systemName .resub{
 		background-color:#619652;
 	}
 	
-	#systemName strong{
+	.systemName strong{
 		color:#666;
 		font-size:0.7em;
 		padding-top:3px;
@@ -225,6 +225,7 @@
 		background-color:#ddd;
 		color:#999;
 		border-color:#ccc;
+		cursor:default;
 	}
 	
 	.button.submit:hover,
@@ -659,7 +660,7 @@
 
 
 /* bcBar */
-	#bcBar{
+	.bcBar{
 		overflow:hidden;
 		margin:0px 10px;
 	}
@@ -688,11 +689,11 @@
 		cursor:default;
 	}
 	
-	#bcBar .tools{
+	.bcBar .tools{
 		float:right;
 	}
 	
-	#bcBar .tools li{
+	.bcBar .tools li{
 		float:left;
 	}
 	
@@ -772,17 +773,17 @@
 	
 /* updatesBtn */
 	
-	#updatesBtn a.button{
+	#tableView .updatesBtn a.button{
 		padding:0px;
 	}
 	
-	#updatesBtn a.on{
+	#tableView .updatesBtn a.on{
 		background-color:#ebebeb;
 		border-color:#ffbc31;
 		
 	}
 	
-	#updatesBtn span{
+	#tableView .updatesBtn span{
 		background-color: transparent;
 		background-image: url("../images/ajaxLoader5.gif");
 		background-position: 50% 50%;
@@ -796,11 +797,11 @@
 		width: 24px;
 	}
 	
-	#updatesBtn a.on span{
+	#tableView .updatesBtn a.on span{
 		color:#000;
 	}
 	
-	#updatesBtn .pause span{
+	#tableView .updatesBtn .pause span{
 		background-image:url("../images/pause.png");
 		background-position:1px 1px;
 		font-size:1.2em;
@@ -890,7 +891,7 @@
 	}
 	
 /* tableData */
-	#tableData{
+	.tableData{
 		background-color: #FFFFFF;
 		margin:0px 10px 10px 10px;
 		overflow-x:auto;
@@ -905,17 +906,17 @@
 		
 	}
 	
-	.ie7 #tableData{
+	.ie7 .tableData{
 		overflow-y:hidden;
 		padding-bottom:20px;
 	}
 	
-	#tableData table{
+	.tableData table{
 		width:100%;
 		border-right: 1px solid #B6CFDA;
 	}
 	
-	#tableData td{
+	.tableData td{
 		border:1px solid #ccc;
 		padding:3px 10px;
 		background-position:0px bottom;
@@ -926,14 +927,14 @@
 		white-space:nowrap;
 	}
 	
-	#tableData thead tr{
+	.tableData thead tr{
 		background-color:#d9e7ec;
 		font-weight:bold;
 		color:#666;
 	}
 
-	#tableData thead p,
-	#tableData thead a{
+	.tableData thead p,
+	.tableData thead a{
 		background-color: #cbd8dc;
 		background-image:url("../images/btnBG.png");
 		background-repeat:no-repeat;
@@ -946,49 +947,51 @@
 		
 		font-weight:bold;		
 		overflow:hidden;
+		
+		border:1px solid #eaf7f9;
 	}
 
 	
-	#tableData thead p{
+	.tableData thead p{
 		padding-bottom:0px;
 	}
 	
-	#tableData .chkbox{
+	.tableData .chkbox{
 		text-align:center;
 		width:20px;
 	}
 	
-	#tableData .complete{
+	.tableData .complete{
 		color:#008000;
 	}
 	
-	#tableData .complete input[type=checkbox]{
+	.tableData .complete input[type=checkbox]{
 		display:none;
 	}
 	
-	#tableData thead .header{
+	.tableData thead .header{
 		/*background-color: #cbd8dc;*/
 		background-image:none;
 		cursor:pointer;
 		white-space:nowrap;
 	}
 	
-	#tableData thead span{
+	.tableData thead span{
 		float:left;
 	}
-	#tableData thead a{
+	.tableData thead a{
 		padding-right:16px;		
 	}
 	
-	#tableData thead a:hover .remove{
+	.tableData thead a:hover .remove{
 		background-image: url("../images/tableBGSprite.png");
 	}
 	
-	#tableData thead .remove:hover{
+	.tableData thead .remove:hover{
 		background-position: 0 -43px;
 	}
 	
-	#tableData thead .remove{    
+	.tableData thead .remove{    
     background-position: 0 -72px;
     height: 16px;
     position: absolute;
@@ -998,97 +1001,101 @@
 		cursor:pointer;
 	}
 	
-	#tableData th{
+	.tableData th{
 		border-left:1px solid #aabfc6;		
 		text-align:center;
 	}
 	
-	#tableData thead a:hover,
-	#tableData thead a:focus{
+	.tableData thead a:hover,
+	.tableData thead a:focus{
 		background-color:#aabfc6;
 		color:#222;
 	}
 	
 	
-	#tableData .resubmitted thead a {
+	.tableData .resubmitted thead a {
 		color: #5e8350;
 		background-color: #bdd8b6;
 	}
 	
-	#tableData .resubmitted thead a:hover,
-	#tableData .resubmitted thead a:focus{
+	.tableData .resubmitted thead a:hover,
+	.tableData .resubmitted thead a:focus{
 		background-color:#a2c998;
 		color:#222;
 	}
 	
-	#tableData .resubmitted tbody tr{
+	.tableData .resubmitted tbody tr{
 		cursor:default;
 	}	
 	
-	#tableData .resubmitted tbody tr:hover{
+	.tableData .resubmitted tbody tr:hover{
 		background-image:none;
 		cursor:default;
 	}
 	
-	#tableData table thead a.ascending,
-	#tableData table thead a.descending	{
+	.tableData table thead a.ascending,
+	.tableData table thead a.descending	{
 		background-color:#ffbc40;
 		color:#444;
 		position:relative;
 	}
 	
-	#tableData td.sorted{
+	.tableData td.sorted{
 		background-color:#ffe7b9;
 		/*background-image:url(../images/sortBG.png);*/
 	}
 	
-	#tableData tr:hover td.sorted{
+	.tableData tr:hover td.sorted{
 		background-color:#f2ffb9;
 		background-image:url(../images/tableRowBG.png);
-	}	
+	}
 	
-	#tableData .order{
+	.tableData .resubmitted tbody tr:hover td.sorted{
+		background-image:none;
+	}
+	
+	.tableData .order{
 		width:12px;
 		height:12px;
 		background-image:url(../images/tableBGSprite.png);
 		cursor:pointer;
 	}
 
-	#tableData .ascending .order{
+	.tableData .ascending .order{
 		background-position:-3px 0px;
 	}
 	
-	#tableData .descending .order{
+	.tableData .descending .order{
 		background-position:-3px -19px;
 	}
 	
-	#tableData tbody tr{
+	.tableData tbody tr{
 		cursor:pointer;
 		background-position:0px bottom;
 		background-repeat:repeat-x;			
 	}
 	
-	#tableData tbody tr:hover{
+	.tableData tbody tr:hover{
 		/*background-color:#e5e5e5;*/
 		
-		background-color:#cfe895;
+		background-color:#ddecb5;
 		background-image:url(../images/tableRowBG.png);	
 	}	
 	
 	
-	#tableData tr.opening{
+	.tableData tr.opening{
 		background-color:#ecedd1!important;
 		background-image:url(../images/opening.gif)!important;
 		background-position:0px 0px;
 		background-repeat:repeat;
 	}
 	
-	#tableData tr.open{
+	.tableData tr.open{
 		background-color:#e6e8d7;
 		background-image:url(../images/gradient.png)
 	}
 	
-	#tableData tbody tr.detailsContainer{
+	.tableData tbody tr.detailsContainer{
 		background-color:#e5e5e5;
 		background-image:url(../images/shadow.png);
 		background-position:0px 0px;
@@ -1096,19 +1103,19 @@
 		cursor:default;
 	}
 	
-	#tableData td.detailsContainer{
+	.tableData td.detailsContainer{
 		padding:3px;
 		cursor:default;
 	}
 	
-	#tableData .detailsContainer table{
+	.tableData .detailsContainer table{
 		background-color: #FFFCEC;
 		/*border: 5px solid #E6F8A7;*/
 		margin: 10px auto;
 		width: auto;
 	}
 	
-	#tableData .detailsContainer thead span{
+	.tableData .detailsContainer thead span{
 		background-color: #DAD3A1;
 		background-image: url("../images/btnBG.png");
 		background-position: 50% 55%;		
@@ -1120,39 +1127,39 @@
 		cursor:default;
 	}
 	
-	#tableData .detailsContainer thead tr.opening span{
+	.tableData .detailsContainer thead tr.opening span{
 		background-color:#ecedd1!important;
 		background-image:url(../images/opening.gif)!important;
 	}	
 	
 	
-	#tableData .detailsContainer thead p{
+	.tableData .detailsContainer thead p{
 		background-color: #DAD3A1;
 	}	
 	
-	#tableData .detailsContainer th,
-	#tableData .detailsContainer table{
+	.tableData .detailsContainer th,
+	.tableData .detailsContainer table{
 		border-color:#b4ad7b;
 		border-top:1px solid #b4ad7b;
 	}
 	
-	#tableData .ok .status,
-	#tableData .nok .status{
+	.tableData .ok .status,
+	.tableData .nok .status{
 		background-image:url(../images/tick_small.png);
 		background-position:50% 50%;
 		background-repeat:no-repeat;
 	}
 	
-	#tableData .nok {
+	.tableData .nok {
 		color:#de4d0e;
 	}
 	
-	#tableData .nok .status{
+	.tableData .nok .status{
 		background-image:url(../images/error_small.png);
 	}		
 	/*
-	#tableData tr.detailsContainer tr,
-	#tableData tr.detailsContainer tr:hover{
+	.tableData tr.detailsContainer tr,
+	.tableData tr.detailsContainer tr:hover{
 		background-color:inherit;
 	}
 	*/
@@ -2067,7 +2074,7 @@
 /* ie hasLayout fix */
 	.tip,
 	#marketPicker label,
-	#tableData,
+	.tableData,
 	.tabContent{
 		zoom:1;
 	}
@@ -2075,8 +2082,8 @@
 	
 	
 @media print{
-	#bcBar,
-	#systemName,
+	.bcBar,
+	.systemName,
 	#header,
 	#searchForm,
 	#pagination .showAll,
@@ -2098,12 +2105,12 @@
 		border-bottom:1px solid #999;
 	}
 	
-	#tableData,
+	.tableData,
 	#tableView{
 		position:static;
 	}
 	
-	#tableData table{
+	.tableData table{
 		border:3px solid #666;
 	}
 	
@@ -2112,7 +2119,7 @@
 	}
 	
 	#filtersView,
-	#tableData thead tr{
+	.tableData thead tr{
 		border-bottom:3px solid #666;
 	}
 	
@@ -2124,8 +2131,7 @@
 
 /* components visibility rules */
 
-	#updatesBtn,
-	#resubmitted,
+	#tableView .updatesBtn,
 	#dashBoardView,
 	#dbTools,	
 	#tableView,
@@ -2142,29 +2148,26 @@
 	.doSearch #pagination,
 	
 	.showResubmitted #tableView,
-	.showResubmitted #toolBar #resubmitBtn,
-	.showResubmitted #toolBar #overwriteBtn,
-	.showResubmitted #toolBar #clearBtn,
+	.showResubmitted #toolBar #resubmitted,
 	.showResubmitted #pagination,
-	.showResubmitted #updatesBtn,	
-	.showResubmitted #resubmitted,
+	.showResubmitted #tableView .updatesBtn,	
+	
 	
 	.showTradesTable #tableView,
 	.showTradesTable #toolBar #resubmitBtn,
 	.showTradesTable #toolBar #overwriteBtn,
 	.showTradesTable #toolBar #clearBtn,
+	.showTradesTable #toolBar #resubmitted,
 	.showTradesTable #pagination,
-	.showTradesTable #updatesBtn,	
-	.showTradesTable #resubmitted,
+	.showTradesTable #tableView .updatesBtn,	
 	
 	.showSafeStoreData #tableView,
 	.showSafeStoreData #toolBar #replayBtn,
 	.showSafeStoreData #pagination,
-	.showSafeStoreData #updatesBtn,	
-	.showSafeStoreData #resubmitted,	
+	.showSafeStoreData #tableView .updatesBtn,	
+		
 	
 	.showDashboard #dashBoardView,
-	.showDashboard #updatesBtn,
 	.showDashboard #dbTools{
 		display:block;
 	}
