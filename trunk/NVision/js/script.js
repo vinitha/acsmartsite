@@ -867,7 +867,7 @@ var NVision={
 					onYes:function(lightBox){
 						
 						//getting the trade objects from the selected row
-						var checked=$.map($("#tableData").find("input:checked"),function(item,index){
+						var checked=$.map($("#tableView .tableData").find("input:checked"),function(item,index){
 									return $(item).closest("tr").attr("data-id")
 								}),
 							tradeObjs=[];
@@ -935,7 +935,7 @@ var NVision={
 					onYes:function(lightBox){
 						
 						//getting the trade objects from the selected row
-						var checked=$.map($("#tableData").find("input:checked"),function(item,index){
+						var checked=$.map($("#tableView .tableData").find("input:checked"),function(item,index){
 									return $(item).closest("tr").attr("data-id")
 								}),
 							tradeObjs=[];
@@ -999,7 +999,7 @@ var NVision={
                 }
                 
                 //getting the trade object from the selected row
-                var tradeObj=NVision.currentSys.trades[($("#tableData").find("input:checked").closest("tr").attr("data-id"))]
+                var tradeObj=NVision.currentSys.trades[($("#tableView .tableData").find("input:checked").closest("tr").attr("data-id"))]
 				
                 //showing the Overwrite Overlay
                 NVision.lightBoxes["overwrite"]                    
@@ -1017,7 +1017,7 @@ var NVision={
                 }
                 
                 //getting the trade objects from the selected row
-                var checked=$.map($("#tableData").find("input:checked"),function(item,index){
+                var checked=$.map($("#tableView .tableData").find("input:checked"),function(item,index){
                             return $(item).closest("tr").attr("data-id")
                         }),
                     tradeObjs=[];
@@ -1044,7 +1044,7 @@ var NVision={
 				
 				var $this=$(this);
 				
-				if($("#tableView").hasClass("off")){
+				if($this.closest(".view").hasClass("off")){
 					return false;								
 				}
 				
@@ -1054,8 +1054,8 @@ var NVision={
 				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2); 				
 			})
             
-            $("#tableData input[type='checkbox']").live("change",function(){
-                var chkBox=$("#tableData").find("tbody input[type='checkbox']"),
+            $("#tableView .tableData input[type='checkbox']").live("change",function(){
+                var chkBox=$("#tableView .tableData").find("tbody input[type='checkbox']"),
                     checkedCount=chkBox.filter("input:checked").length;                
                                 
                 //setting the updateEngine
@@ -1101,7 +1101,7 @@ var NVision={
         $("#backToDB").click(function(e){
             e.preventDefault();
             
-			if($("#tableView").hasClass("off")){
+			if($(this).closest(".view").hasClass("off")){
 				return false;
 			}
 			
@@ -1113,25 +1113,25 @@ var NVision={
         })
         
         //setting the export button
-        $("#export").click(function(e){
+        $(".tools .export").click(function(e){
             e.preventDefault();
-			if ($("#tableView").hasClass("off")){
+			if ($(this).closest(".view").hasClass("off")){
 				return false;
 			}
             NVision.utils.exportToCSV(NVision.currentSys.trades)
         })
         
         //setting the print button
-        $("#bcBar .print").click(function(e){
+        $(".tools .print").click(function(e){
             e.preventDefault();
-			if ($("#tableView").hasClass("off")){
+			if ($(this).closest(".view").hasClass("off")){
 				return false;
 			}
             window.print();
         })
 		
         // setting the updateBtn function
-        $("#updatesBtn").find("a").click(            
+        $(".view .updatesBtn").find("a").click(            
             function(e){
                 e.preventDefault();
                 if($(this).hasClass("pause")){
@@ -1164,10 +1164,10 @@ var NVision={
         // clearing the update engine
         NVision.updateEngine.empty();
         
-        NVision.utils.deleteTable($("#tableData").find("table"));
+        NVision.utils.deleteTable($("#tableView .tableData").find("table"));
         
         //setting the table title....
-        $("#systemName span")
+        $(".current .systemName span")
             .addClass("loading")
             .text("searching...")
         
@@ -1188,13 +1188,13 @@ var NVision={
         //adding the searchObj to the updates queue
         var reqObj=NVision.createSearchRequest(search);
                 
-        $("#updatesBtn").hide(0);
+        $(".view .updatesBtn").hide(0);
         
          NVision.updateEngine.forceStart();
          
         
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span").removeClass("loading")
+            $(".current .systemName span").removeClass("loading")
             NVision.updateEngine.stop();
         })
 		
@@ -1202,19 +1202,19 @@ var NVision={
     },
 	
 	
-	showSafeStoreData:function(ssObject){
+	showETL:function(ssObject){
 		//assigning the class name to switch on/off the components visibility
-		document.getElementById("main").className="showSafeStoreData";
+		document.getElementById("main").className="showETL";
 		
 		//setting the table title....
-        $("#systemName span")
+        $(".current .systemName span")
             .addClass("loading")
 			.removeClass("resub")
             .text("loading data...");
 			
-		$("#tableView").addClass("off");
+		$("#etlView").addClass("off");
         
-        NVision.utils.deleteTable($("#tableData").find("table"));
+        NVision.utils.deleteTable($("#etlView .tableData").find("table"));
         
         NVision.currentSys=ssObject;
 		ssObject.currentPage=1;
@@ -1235,7 +1235,7 @@ var NVision={
 
             var now=(new Date()).getTime(),
                 timer=Math.round((ssObject.updateInterval-(now-reqObj.timeStamp))/1000),
-                span=$("#updatesBtn").find("span"),
+                span=$("#etlView .updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
             if(value<timer){
@@ -1248,7 +1248,63 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span")                
+            $(".current .systemName span")                
+                .removeClass("loading");
+			
+			$("#etlView").removeClass("off");
+        })
+        
+        NVision.updateEngine.forceStart();		
+		
+	},	
+	
+	showSafeStoreData:function(ssObject){
+		//assigning the class name to switch on/off the components visibility
+		document.getElementById("main").className="showSafeStoreData";
+		
+		//setting the table title....
+        $(".current .systemName span")
+            .addClass("loading")
+			.removeClass("resub")
+            .text("loading data...");
+			
+		$("#tableView").addClass("off");
+        
+        NVision.utils.deleteTable($("#tableView .tableData").find("table"));
+        
+        NVision.currentSys=ssObject;
+		ssObject.currentPage=1;
+        
+        //clearing the filters
+        delete(ssObject.filters);
+        delete(ssObject.filteredData)
+        
+        // clearing the update engine
+        NVision.updateEngine.empty();        
+        
+        //adding the system to the updates queue
+        var reqObj=NVision.createBreaksUpdateRequests(ssObject);
+
+        
+        //setting the callback to update the updatesBtn!
+        NVision.updateEngine.setCallback(function(){
+
+            var now=(new Date()).getTime(),
+                timer=Math.round((ssObject.updateInterval-(now-reqObj.timeStamp))/1000),
+                span=$("#tableView .updatesBtn").find("span"),
+                value=parseInt(span.text());
+                
+            if(value<timer){
+                span.parent().addClass("on")
+            }else{
+                span.parent().removeClass("on")
+            }
+            
+            span.text(timer);            
+        });
+        
+        NVision.updateEngine.onNewData(function(){
+            $(".current .systemName span")                
                 .removeClass("loading");
 			
 			$("#tableView").removeClass("off");
@@ -1265,14 +1321,14 @@ var NVision={
 		
 		
         //setting the table title....
-        $("#systemName span")
+        $(".current .systemName span")
             .addClass("loading")
 			.removeClass("resub")
             .text("loading data...");
 			
 		$("#tableView").addClass("off");
         
-        NVision.utils.deleteTable($("#tableData").find("table"));
+        NVision.utils.deleteTable($("#tableView").find(".tableData table"));
         
         NVision.currentSys=sysObj;
 		sysObj.currentPage=1;
@@ -1292,7 +1348,7 @@ var NVision={
 
             var now=(new Date()).getTime(),
                 timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
-                span=$("#updatesBtn").find("span"),
+                span=$("#tableView .updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
             if(value<timer){
@@ -1305,7 +1361,7 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span")                
+            $(".current .systemName span")                
                 .removeClass("loading");
 			
 			$("#tableView").removeClass("off");
@@ -1373,19 +1429,11 @@ var NVision={
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="showResubmitted";
 		
-		/*
-        $("#tableView").show(0);        
-        $("#toolBar").show(0);
-        $("#dashBoardView").hide(0);
-        $("#updatesBtn").show(0);
-        $("#dbTools").hide(0);
-		$("#resubmitted").show(0);
-		*/
 		
 		NVision.updateEngine.empty();
 		
 		//styling the #systemName
-		$("#systemName span")
+		$(".current .systemName span")
             .addClass("loading")
             .text("loading data...");
 		
@@ -1399,7 +1447,7 @@ var NVision={
 			var sysObj=NVision.currentSys,
 				now=(new Date()).getTime(),
 				timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
-				span=$("#updatesBtn").find("span"),
+				span=$("#tableView .updatesBtn").find("span"),
 				value=parseInt(span.text());
 				
 			if(value<timer){
@@ -1412,7 +1460,7 @@ var NVision={
 		});
 		
         NVision.updateEngine.onNewData(function(){
-            $("#systemName span")
+            $(".current .systemName span")
 				.addClass("resub")
 				.removeClass("loading");
 				
@@ -1455,7 +1503,7 @@ var NVision={
                 intervalHnd=setInterval(update,engineTimer);            
                 
                 myConsole.log("Update engine running...",3000);
-                $("#updatesBtn").find("a").removeClass("pause");
+                $("#tableView .updatesBtn").find("a").removeClass("pause");
                 
                 //running the first update
                 update();
@@ -1469,7 +1517,7 @@ var NVision={
             stopLevel++;
             if(intervalHnd){                
                 myConsole.log("Update engine paused",3000)
-                $("#updatesBtn").find("a").addClass("pause")
+                $("#tableView .updatesBtn").find("a").addClass("pause")
                 clearInterval(intervalHnd);
                 intervalHnd=null;
             }
@@ -1718,10 +1766,10 @@ var NVision={
     },
     
     drawLinks:function(){
+		var objs=NVision.utils.getDBobjects();
+		
         //drawing all the links
         for (var link in NVision.links){
-			
-			var objs=NVision.utils.getDBobjects();
             
             var link=NVision.links[link],                
                 fromSys=objs[link.from],					
@@ -1742,8 +1790,7 @@ var NVision={
         if(!objects){			
             objects=NVision.utils.getDBobjects();
         }
-        
-		
+        		
         //if the passed obj is a single object (i.e. is not an hashTable)
         if(objects instanceof  baseObj){
             //redrawing the links
@@ -1813,7 +1860,7 @@ var NVision={
             callBack:function(data){
                 
                 searchObj.currentPage=1;
-                NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -1831,7 +1878,7 @@ var NVision={
             url:sysConfig.sysTrades,
             data:{"sysId":sysObj.id},
             callBack:function(data){
-                NVision.utils.showObjTrades(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -1850,7 +1897,7 @@ var NVision={
             url:sysConfig.resubmittedTrades,
             data:{"sysId":sysObj.id},
             callBack:function(data){
-                NVision.utils.showObjResubmitted(data,$("#tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjResubmitted(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -2076,7 +2123,7 @@ var NVision={
         showObjTrades:function(data,tableContainer,paginationContainer,filtersContainer){
 
             //showing the adapter name
-            var nameSpan=$("#systemName").find("span").text(data.name),
+            var nameSpan=$(".current h2.systemName").find("span").text(data.name),
                 sysObj=NVision.currentSys;
 
             //updating the system trades object
@@ -2105,7 +2152,8 @@ var NVision={
                 html[filter].find("select").change(function(){
                     var selectObj=$(this);                        
 					
-					if($("#tableView").hasClass("off")){
+					if(tableContainer.closest(".view").hasClass("off")){
+					//if($("#tableView").hasClass("off")){
 						return false;
 					}              
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
@@ -2129,7 +2177,7 @@ var NVision={
 		showObjResubmitted:function(data,tableContainer,paginationContainer,filtersContainer){
 
             //showing the adapter name
-            var nameSpan=$("#systemName").find("span").text(data.name),
+            var nameSpan=$(".current h2.systemName").find("span").text(data.name),
                 sysObj=NVision.currentSys;
 
             //updating the system resubmitted object
@@ -2158,7 +2206,8 @@ var NVision={
                 html[filter].find("select").change(function(){
                     var selectObj=$(this);                        
                     
-					if($("#tableView").hasClass("off")){
+					if(tableContainer.closest(".view").hasClass("off")){
+					//if($("#tableView").hasClass("off")){
 						return false;
 					}
 					                        
@@ -2262,7 +2311,7 @@ var NVision={
                         e.preventDefault();
                         var $this=$(this);
 						
-						if($("#tableView").hasClass("off")){
+						if(tableContainer.closest(".view").hasClass("off")){
 							return false;
 						}
                         
@@ -2284,7 +2333,7 @@ var NVision={
 				$("<option />").attr("value",250).text(250).appendTo(ps)
 			
 			ps.change(function(e){
-				if($("#tableView").hasClass("off")){
+				if(options.container.closest(".view").hasClass("off")){
 					return false;
 				}
 				
@@ -2332,7 +2381,7 @@ var NVision={
                             .click(function(e){
                                 e.preventDefault();
 								
-								if($("#tableView").hasClass("off")){
+								if(options.container.hasClass("off")){
 									return false;
 								}
 								
