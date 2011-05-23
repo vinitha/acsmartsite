@@ -1141,7 +1141,7 @@ var NVision={
                 (checkedCount==chkBox.length)?$("#etlView .selectBtn").attr("checked",true):null;
                 
                 
-                //overwrite button
+                //Load button
                 (checkedCount>0) ?
                     
                     $("#loadBtn a").removeClass("off")
@@ -2245,7 +2245,7 @@ var NVision={
             
             
             //disabling the buttons
-            $("#tableView .toolBar .buttons .button").addClass("off")            
+            $(".view .toolBar .buttons .button").addClass("off")            
             
             
             //clearing and recreating the table
