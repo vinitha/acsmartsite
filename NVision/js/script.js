@@ -24,102 +24,19 @@ $(function(){
 			newStatus.view={type:"dashBoard"};
 		}
 		
-        
+
+		//updating the current appStatus	
+		NVision.appStatus.currentTab=newStatus.tabId;
+		NVision.appStatus[NVision.appStatus.currentTab]=newStatus;
+
+		
         //updating the tabMenu
         if(NVision.appStatus.tabId!=newStatus.tabId){            
             $("#mainMenu").trigger("showTab",newStatus.tabId);
-        }
-		
-				    
-        //if there's no view defined than exit
-        if(!newStatus.view) {
-
-			//running the tabMenu callbacks
-			if(NVision.tabMenuCallback[newStatus.tabId]){
-				NVision.tabMenuCallback[newStatus.tabId]();
-			}else{
-				NVision.tabMenuCallback.defaultFn();
-			}
-			
-            NVision.appStatus.currentTab=newStatus.tabId;
-            NVision.appStatus[NVision.appStatus.currentTab]={tabId:NVision.appStatus.currentTab, BM:NVision.appStatus.BM}
-                        
-            return false;
-        }
-        
-        
-        //updating the view
-        if(!NVision.appStatus.view || NVision.appStatus.view.type!=newStatus.view.type){
-            switch(newStatus.view.type){
-                case "dashBoard":
-                    NVision.showDashboard();
-                break;
-                
-                case "adapter":
-                    if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
-                        var sysName=newStatus.view.sysName,
-                            sysObj=NVision.adapters[sysName],
-							btn=$("#resubmitted a");
-							
-							NVision.currentSys=sysObj;
-							
-                        if(sysObj){
-							if(newStatus.view.resubmitted=="true"){
-								NVision.showResubmitted();
-								btn.text("< Back to the breaks view");
-								btn.data("resubmitted",true)								
-							}else{
-								NVision.showTradesTable(sysObj)
-								btn.text("View resubmitted Trades");
-								btn.data("resubmitted",false)							
-							}							
-                        }else{
-                            myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
-                        }
-                    }
-                break;
-            
-                case "search":
-                    
-                    if(!NVision.appStatus.view || NVision.appStatus.view.query!=newStatus.view.query){
-                        var fields=$("#searchForm").find("input,select");
-                
-                        for (var q in newStatus.view.query){
-                            var param=newStatus.view.query[q];
-                            var f=fields.filter("[name='"+ param.name +"']");
-                                if(f.attr("type")=="radio"){
-                                    f.filter("[value='" + param.value + "']").attr("checked",true)
-                                }else{
-                                    f.attr("value",param.value)
-                                }
-                                
-                        };
-                        NVision.doSearch(newStatus.view.query);
-                    }
-                break;
-			
-			
-				case "safestore":
-					var sysName=newStatus.view.sysName,
-						sysObj=NVision.safestores[sysName];
-						
-						NVision.currentSys=sysObj;						
-						NVision.showSafeStoreData(sysObj);
-							
-				break;
-            
-                default:
-                    myConsole.alert("Unknown bookmark ignored!")                        
-                break;
-            }        
-        }
-        
-        //updating the current appStatus
-        NVision.appStatus[NVision.appStatus.currentTab]=newStatus;        
+        }        
+              
         $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
-		
 
-		
     })
 	
 });
@@ -159,6 +76,15 @@ $().ready(function(){
             $(oldId).removeClass("current");
             $a.closest("li").addClass("current");
             $("#" + tabId).addClass("current");
+			
+			
+			//running the tabMenu callbacks
+			if(NVision.tabMenuCallback[tabId]){
+				NVision.tabMenuCallback[tabId]();
+			}else{
+				NVision.tabMenuCallback.defaultFn();
+			}			
+			
         })
     
     tabMenu.find("a").live("click",function(e){
@@ -268,7 +194,7 @@ $().ready(function(){
 
 // this object holds the logic of the entire app.
 var NVision={
-    ver:290,                //testers will log this number in the bugs report
+    ver:320,                //testers will log this number in the bugs report
     zoomLevel:0,            //ranges between -1 (125%) and 3 (25%)
     zoomFactor:1,           //the dashBoard elements size/position is multiplied by this value
     appStatus:{},           //this object holds the app status and is used to optimise the browser history navigation
@@ -281,20 +207,85 @@ var NVision={
     sysReady:null,          //this function gets exectuted after the json data has been processed by the client
     tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the user clicks on it
         tab_1:function(){
-            
-            NVision.updateEngine.forceStart();
-            
-            //checking if the tab content has already been initialised
-            if($("#tab_1").children(":visible").length==0){
-                //if not then runs its init function
-                NVision.showDashboard()
-            }
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
-			$("#searchForm").show(0);
+			NVision.appStatus.tab_1.view=NVision.appStatus.tab_1.view||{type:"dashBoard"};
 			
-			//redrawing the links
-            NVision.redrawLinks()			
+			var newStatus=NVision.appStatus.tab_1;			
+			
+			//updating the view
+            switch(NVision.appStatus.tab_1.view.type){
+                case "dashBoard":
+                    NVision.showDashboard();
+					
+					//redrawing the links
+					NVision.redrawLinks()
+					
+					NVision.updateEngine.forceStart();					
+                break;
+                
+                case "adapter":
+					$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+					
+                    //if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
+                        var sysName=newStatus.view.sysName,
+                            sysObj=NVision.adapters[sysName],
+							btn=$("#resubmitted a");
+							
+							NVision.currentSys=sysObj;
+							
+                        if(sysObj){
+							if(newStatus.view.resubmitted=="true"){
+								NVision.showResubmitted();
+								btn.text("< Back to the breaks view");
+								btn.data("resubmitted",true)								
+							}else{
+								NVision.showTradesTable(sysObj)
+								btn.text("View resubmitted Trades");
+								btn.data("resubmitted",false)							
+							}							
+                        }else{
+                            myConsole.alert("Unknown adapter [" + sysName +"]; ignored!")
+                        }
+                    //}
+                break;
+            
+                case "search":
+                    
+                    if(!NVision.appStatus.view || NVision.appStatus.view.query!=newStatus.view.query){
+                        var fields=$("#searchForm").find("input,select");
+                
+                        for (var q in newStatus.view.query){
+                            var param=newStatus.view.query[q];
+                            var f=fields.filter("[name='"+ param.name +"']");
+                                if(f.attr("type")=="radio"){
+                                    f.filter("[value='" + param.value + "']").attr("checked",true)
+                                }else{
+                                    f.attr("value",param.value)
+                                }
+                                
+                        };
+                        NVision.doSearch(newStatus.view.query);
+                    }
+                break;
+			
+			
+				case "safestore":
+					var sysName=newStatus.view.sysName,
+						sysObj=NVision.safestores[sysName];
+						
+						NVision.currentSys=sysObj;						
+						NVision.showSafeStoreData(sysObj);
+							
+				break;
+			
+					
+            
+                default:
+                    myConsole.alert("Unknown bookmark ignored!")                        
+                break;
+            }        			
+            
+			$("#searchForm").show(0);					
         },
         
         tab_2:function(){
@@ -319,6 +310,11 @@ var NVision={
 			$("#searchForm").hide(0);
 		},
 		
+		tab_5:function(){
+            NVision.showETL();
+			$("#searchForm").hide(0);
+		},
+		
 		defaultFn:function(){
 			NVision.updateEngine.stop();
 		}
@@ -328,7 +324,7 @@ var NVision={
         NVision.sysReady=sysReady;
         
         //showing the version number
-        $("#sysVer .frontEnd").text(NVision.ver);
+        $("#sysVer .frontEnd").text(NVision.ver + " - ");
 		
 		//checking the mainMenu tabs for iFrames
 		$("#mainMenu").find("a.iframe").each(function(index,item){
@@ -854,6 +850,81 @@ var NVision={
         
         
         // setting the buttons function up
+            $("#loadBtn a").click(function(e){
+                e.preventDefault();
+                if($(this).hasClass("off")){
+                    return false;
+                }
+                
+                //getting the trade objects from the selected row
+                var checked=$.map($("#etlView .tableData").find("input:checked"),function(item,index){
+                            return $(item).closest("tr").attr("data-id")
+                        }),
+                    tradeObjs=[];
+                
+
+				var confBox={
+					title:"Load trades",
+					yesCaption:"Load",
+					noCaption:"Cancel",                    
+					onYes:function(lightBox){
+						
+						//getting the trade objects from the selected row
+						var checked=$.map($("#etlView .tableData").find("input:checked"),function(item,index){
+									return $(item).closest("tr").attr("data-id")
+								}),
+							tradeObjs=[];
+						
+						$.each(checked,function(){
+							tradeObjs.push(NVision.currentSys.trades[this])
+						})
+							
+						var ids=$.map(tradeObjs,function(item,index){
+										return item["id"];
+									}).join(",")						
+						
+						//generating the ajax request
+						myAjax({
+							logMsg:null, //"Updating sys.: " + reqObj.attributes.callerObj.name,
+							success:function(data){                        
+								
+								lightBox.closeIt();
+								
+								if(data["_code"]=="ok"){
+									myConsole.info("Trades loaded - Refreshing the view...")
+								
+									//refreshing the tableView
+									NVision.updateEngine.updateNow();
+									NVision.updateEngine.start();	
+																		
+								}else{
+									myConsole.alert(data["_errObj"].shortDesc)
+								}
+								
+							},
+							error:function(a,b,c){
+								myConsole.log(a,b,c);
+								lightBox.closeIt();
+							},
+							delegateErrorHandling:false,
+							url:sysConfig.loadTrades,
+							data:{id:ids}
+						})						
+						
+						
+						
+					},
+					onNo:function(lightBox){
+						lightBox.closeIt();
+					},
+					msg:"Do you really want to re-load the selected trades?",
+					msgClass:"confirm", 
+					onClose:null
+				}
+				
+				confirm(confBox);		
+            });		
+		
             $("#clearBtn a").click(function(e){
                 e.preventDefault();
                 if($(this).hasClass("off")){
@@ -1053,6 +1124,31 @@ var NVision={
 				NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=$this.data("resubmitted")?false:true;
 				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2); 				
 			})
+			
+            $("#etlView .tableData input[type='checkbox']").live("change",function(){
+                var chkBox=$("#etlView .tableData").find("tbody input[type='checkbox']"),
+                    checkedCount=chkBox.filter("input:checked").length;                
+                                
+                //setting the updateEngine
+                if(this.checked){
+                    if(checkedCount==1){NVision.updateEngine.stop()}
+                }else{
+                    if(checkedCount==0){NVision.updateEngine.start()}
+                };                
+                
+                //select all checkbox
+                (checkedCount==0)?$("#etlView .selectBtn").attr("checked",false):null;
+                (checkedCount==chkBox.length)?$("#etlView .selectBtn").attr("checked",true):null;
+                
+                
+                //overwrite button
+                (checkedCount>0) ?
+                    
+                    $("#loadBtn a").removeClass("off")
+                :
+                    $("#loadBtn a").addClass("off");                    				
+					
+            })			
             
             $("#tableView .tableData input[type='checkbox']").live("change",function(){
                 var chkBox=$("#tableView .tableData").find("tbody input[type='checkbox']"),
@@ -1066,8 +1162,8 @@ var NVision={
                 };                
                 
                 //select all checkbox
-                (checkedCount==0)?$("#selectBtn").attr("checked",false):null;
-                (checkedCount==chkBox.length)?$("#selectBtn").attr("checked",true):null;
+                (checkedCount==0)?$("#tableView .selectBtn").attr("checked",false):null;
+                (checkedCount==chkBox.length)?$("#tableView .selectBtn").attr("checked",true):null;
                 
                 
                 //overwrite button
@@ -1131,8 +1227,9 @@ var NVision={
         })
 		
         // setting the updateBtn function
-        $(".view .updatesBtn").find("a").click(            
-            function(e){
+        $(".view li.updatesBtn").find("a").click(            
+            function(e){				
+				
                 e.preventDefault();
                 if($(this).hasClass("pause")){
                     NVision.updateEngine.updateNow();
@@ -1148,18 +1245,8 @@ var NVision={
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="doSearch";
 		
-		/*
-        $("#tableView").show(0);        
-        $("#toolBar").show(0);
-        $("#dashBoardView").hide(0);
-        $("#dbTools").hide(0);
-		$("#resubmitted").hide(0);
-		*/
-		
         //clearing the filters
-		$("#tradesFilters").empty();
-		
-		
+		$("#tableView .tradesFilters").empty();
 		
         // clearing the update engine
         NVision.updateEngine.empty();
@@ -1188,13 +1275,13 @@ var NVision={
         //adding the searchObj to the updates queue
         var reqObj=NVision.createSearchRequest(search);
                 
-        $(".view .updatesBtn").hide(0);
+        $(".view li.updatesBtn").hide(0);
         
          NVision.updateEngine.forceStart();
          
         
         NVision.updateEngine.onNewData(function(){
-            $(".current .systemName span").removeClass("loading")
+            $("#tableView .systemName span").removeClass("loading")
             NVision.updateEngine.stop();
         })
 		
@@ -1202,7 +1289,7 @@ var NVision={
     },
 	
 	
-	showETL:function(ssObject){
+	showETL:function(){
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="showETL";
 		
@@ -1216,26 +1303,31 @@ var NVision={
         
         NVision.utils.deleteTable($("#etlView .tableData").find("table"));
         
-        NVision.currentSys=ssObject;
-		ssObject.currentPage=1;
-        
-        //clearing the filters
-        delete(ssObject.filters);
-        delete(ssObject.filteredData)
         
         // clearing the update engine
-        NVision.updateEngine.empty();        
+        NVision.updateEngine.empty();    		
+		
+        var etlReq=new etlObj({
+            name:"Emergency Trade Load",
+            id:"etlObj",
+            currentPage:1,
+            itemsPerPage:sysConfig.tableView.itemsPerPage,
+            updateInterval:20000,
+            type:"emergencyTradeList",
+			queryString:[]
+        });
         
+        NVision.currentSys=etlReq;				
+    
         //adding the system to the updates queue
-        var reqObj=NVision.createBreaksUpdateRequests(ssObject);
-
-        
+        var reqObj=NVision.createEtlRequest(etlReq);
+      
         //setting the callback to update the updatesBtn!
         NVision.updateEngine.setCallback(function(){
 
             var now=(new Date()).getTime(),
-                timer=Math.round((ssObject.updateInterval-(now-reqObj.timeStamp))/1000),
-                span=$("#etlView .updatesBtn").find("span"),
+                timer=Math.round((reqObj.updateInterval-(now-reqObj.timeStamp))/1000),
+                span=$("#etlView li.updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
             if(value<timer){
@@ -1248,7 +1340,7 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $(".current .systemName span")                
+            $("#etlView .systemName span")                
                 .removeClass("loading");
 			
 			$("#etlView").removeClass("off");
@@ -1291,7 +1383,7 @@ var NVision={
 
             var now=(new Date()).getTime(),
                 timer=Math.round((ssObject.updateInterval-(now-reqObj.timeStamp))/1000),
-                span=$("#tableView .updatesBtn").find("span"),
+                span=$("#tableView li.updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
             if(value<timer){
@@ -1304,7 +1396,7 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $(".current .systemName span")                
+            $("#tableView .systemName span")                
                 .removeClass("loading");
 			
 			$("#tableView").removeClass("off");
@@ -1348,7 +1440,7 @@ var NVision={
 
             var now=(new Date()).getTime(),
                 timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
-                span=$("#tableView .updatesBtn").find("span"),
+                span=$("#tableView li.updatesBtn").find("span"),
                 value=parseInt(span.text());
                 
             if(value<timer){
@@ -1361,7 +1453,7 @@ var NVision={
         });
         
         NVision.updateEngine.onNewData(function(){
-            $(".current .systemName span")                
+            $("#tableView .systemName span")                
                 .removeClass("loading");
 			
 			$("#tableView").removeClass("off");
@@ -1371,7 +1463,6 @@ var NVision={
     },
     
     showDashboard:function(){
-		
 		
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="showDashboard";
@@ -1447,7 +1538,7 @@ var NVision={
 			var sysObj=NVision.currentSys,
 				now=(new Date()).getTime(),
 				timer=Math.round((sysObj.updateInterval-(now-reqObj.timeStamp))/1000),
-				span=$("#tableView .updatesBtn").find("span"),
+				span=$("#tableView li.updatesBtn").find("span"),
 				value=parseInt(span.text());
 				
 			if(value<timer){
@@ -1499,11 +1590,12 @@ var NVision={
             stopLevel=1;
             //console.log("start" , stopLevel);
             
+			
             if(!intervalHnd){
                 intervalHnd=setInterval(update,engineTimer);            
                 
                 myConsole.log("Update engine running...",3000);
-                $("#tableView .updatesBtn").find("a").removeClass("pause");
+                $(".current li.updatesBtn").find("a").removeClass("pause");
                 
                 //running the first update
                 update();
@@ -1517,7 +1609,7 @@ var NVision={
             stopLevel++;
             if(intervalHnd){                
                 myConsole.log("Update engine paused",3000)
-                $("#tableView .updatesBtn").find("a").addClass("pause")
+                $(".current li.updatesBtn").find("a").addClass("pause")
                 clearInterval(intervalHnd);
                 intervalHnd=null;
             }
@@ -1604,6 +1696,7 @@ var NVision={
         empty=function(){
             tasks={};
             loopCallback=[];
+			stop();
         },
         
         setCallback=function(fn){
@@ -1860,7 +1953,7 @@ var NVision={
             callBack:function(data){
                 
                 searchObj.currentPage=1;
-                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -1868,6 +1961,23 @@ var NVision={
         return updateReq;    
     },
     
+    createEtlRequest:function(etlObj){
+
+        var updateReq= new updateRequest({
+            callerObj:etlObj,
+            updateInterval:etlObj.updateInterval,
+            id:etlObj.id,
+            url:sysConfig.emergencyTradeLoad,
+			data:etlObj.queryString,
+            callBack:function(data){                
+                NVision.utils.showObjTrades(data,$("#etlView .tableData"),$("#etlView .pagination"),$("#etlView .tradesFilters"))
+            }
+        })
+        NVision.updateEngine.add(updateReq);
+        
+        return updateReq;    
+    },
+	
     createBreaksUpdateRequests:function(sysObj){
         // generating breaks updatesRequest for the passed system
 
@@ -1878,7 +1988,7 @@ var NVision={
             url:sysConfig.sysTrades,
             data:{"sysId":sysObj.id},
             callBack:function(data){
-                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -1897,7 +2007,7 @@ var NVision={
             url:sysConfig.resubmittedTrades,
             data:{"sysId":sysObj.id},
             callBack:function(data){
-                NVision.utils.showObjResubmitted(data,$("#tableView .tableData"),$("#pagination"),$("#tradesFilters"))
+                NVision.utils.showObjResubmitted(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -2135,12 +2245,12 @@ var NVision={
             
             
             //disabling the buttons
-            $("#toolBar .buttons .button").addClass("off")            
+            $("#tableView .toolBar .buttons .button").addClass("off")            
             
             
             //clearing and recreating the table
             NVision.utils.deleteTable(tableContainer.find("table"))
-            sysObj.showTrades(tableContainer,paginationContainer)
+            sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
             
             
             //creating the filters html
@@ -2168,7 +2278,7 @@ var NVision={
                     //moving to page 1
                     sysObj.currentPage=1;
                                             
-                    sysObj.showTrades(tableContainer,paginationContainer)
+                    sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
                 })
             }
             
@@ -2189,7 +2299,7 @@ var NVision={
             
             
             //disabling the buttons
-            $("#toolBar .buttons .button").addClass("off") 
+            $("#tableView .toolBar .buttons .button").addClass("off") 
             
             
             //clearing and recreating the table
@@ -2536,7 +2646,8 @@ var NVision={
                     
             if(options.rowClick){
                 //if the table has a rowClick function then 
-                table.data("fnId","fn_" + stTime);                
+                table.data("fnId","fn_" + stTime);
+				table.addClass("rowClick")
                 NVision.fnObj=NVision.fnObj?NVision.fnObj:{};                
                 NVision.fnObj["fn_" + stTime]=options.rowClick;
             }
@@ -2572,7 +2683,7 @@ var NVision={
 					if(options.selectRow){
 								//adding the checkBox to the first cell
 						if(!head){	
-							hTr.push('<th><p><input title="Select/deselect all" type="checkbox" id="selectBtn" value="selectAll" /></p></th>')
+							hTr.push('<th><p><input title="Select/deselect all" type="checkbox" class="selectBtn" value="selectAll" /></p></th>')
 						}
 						bTr.push("<td class='chkbox'><input type='checkbox'/></td>");			    
 					}

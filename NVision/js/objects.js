@@ -418,7 +418,7 @@ function myAjax(options){
                 //myConsole.chkSpeed("",up)
                 
             },
-            rowClick:rowClick||NVision.utils.showTradeDetails       
+            rowClick:rowClick      
         },function(table){
 						
 				//hiding the checkbox for the "COMPLETED" trades
@@ -505,6 +505,26 @@ function myAjax(options){
 
 
 
+
+// etlObj object def
+    function etlObj(obj){
+        //adding the BusinessMarket id to the query string
+        obj.queryString.push({name:"BM",value:NVision.appStatus.BM});
+        
+        tradeHolder.call(this,obj)
+    }
+    
+    etlObj.prototype=new tradeHolder();
+    etlObj.prototype.constructor=etlObj;
+	
+	etlObj.prototype.showTrades=function(tableContainer,paginationContainer){
+        //calling the base function first
+        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer);
+		
+	}	
+	
+	
+	
 
 
 // safestore object def
