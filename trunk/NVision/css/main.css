@@ -134,6 +134,10 @@
 		color:#444;
 	}
 	
+	#sysVer .frontEnd{
+		display:none;
+	}
+	
 	.indexPage #businessMarket{
 		color:#eee;
 		padding:10px;
@@ -633,28 +637,28 @@
 		border-bottom:1px solid #999;
 	}
 	
-	#tradesFilters{
+	.tradesFilters{
 		float:right;
 		margin-top: 15px;		
 	}
 	
-	#tradesFilters label{
+	.tradesFilters label{
 		float:left;
 		margin-right:10px;
 	}
 	
-	#tradesFilters span{
+	.tradesFilters span{
 		
 		color:#666;
 	}
 	
-	#tradesFilters input{
+	.tradesFilters input{
 		font-size:1.1em;
 		padding:2px;
 		color:#666;
 	}
 	
-	.off #tradesFilters{
+	.off .tradesFilters{
 		display:none;
 	}
 
@@ -728,7 +732,7 @@
 	
 	
 /* toolBar */
-	#toolBar{
+	.view .toolBar{
 		background-image:url(../images/topBarBG.png);
 		background-position:0px top;
 		background-repeat:repeat-x;
@@ -743,16 +747,16 @@
 		clear:both;
 	}
 	
-	#toolBar .buttons{
+	.view .toolBar .buttons{
 		overflow:hidden;
 		float:left;
 	}
-	#toolBar .buttons li{
+	.view .toolBar .buttons li{
 		float:left;
 		margin-right:1px;
 	}
 	
-	#toolBar .link{
+	.view .toolBar .link{
 		color: #369;
 		display: block;
 		font-size: 1.1em;
@@ -761,29 +765,29 @@
 		text-decoration: underline;		
 	}
 	
-	#toolBar .link:hover,
-	#toolBar .link:focus{
+	.view .toolBar .link:hover,
+	.view.toolBar .link:focus{
 		color: #274f76;
 	}
 	
-	.off #toolBar .link{
+	.off .view .toolBar .link{
 		color:#aaa!important;
 		cursor:default;
 	}
 	
 /* updatesBtn */
 	
-	#tableView .updatesBtn a.button{
+	.tools .updatesBtn a.button{
 		padding:0px;
 	}
 	
-	#tableView .updatesBtn a.on{
+	.tools .updatesBtn a.on{
 		background-color:#ebebeb;
 		border-color:#ffbc31;
 		
 	}
 	
-	#tableView .updatesBtn span{
+	.tools .updatesBtn span{
 		background-color: transparent;
 		background-image: url("../images/ajaxLoader5.gif");
 		background-position: 50% 50%;
@@ -797,11 +801,11 @@
 		width: 24px;
 	}
 	
-	#tableView .updatesBtn a.on span{
+	.tools .updatesBtn a.on span{
 		color:#000;
 	}
 	
-	#tableView .updatesBtn .pause span{
+	.tools .updatesBtn .pause span{
 		background-image:url("../images/pause.png");
 		background-position:1px 1px;
 		font-size:1.2em;
@@ -809,27 +813,27 @@
 	
 	
 /* pagination */
-	#pagination{
+	.pagination{
 		float:right;
 		overflow:hidden;
 		position:relative;
 	}
 	
-	#pagination .legend{
+	.pagination .legend{
 		color: #444444;
 		float: left;
 		margin-right: 20px;
 		margin-top: 10px;
 	}
 	
-	#pagination .pageSize{
+	.pagination .pageSize{
 		float:left;
 		margin-top: 6px;
 		color:#666;
 		/*padding: 3px 10px 2px;		*/
 	}
 	
-	#pagination ul{
+	.pagination ul{
 		float: left;
 		margin:3px 15px 1px 30px;
 		overflow:hidden;
@@ -837,12 +841,12 @@
 		white-space:nowrap;
 	}
 	
-	#pagination li{
+	.pagination li{
 		display: inline-block;
 		zoom: 1; *display: inline; /* IE < 8: fake inline-block */
 	}
 	
-	#pagination li a{
+	.pagination li a{
 		background-color: #d0d0d0;
 		border: 1px solid transparent;
 		color: #666666;
@@ -852,13 +856,13 @@
 		padding: 2px 4px;
 	}
 	
-	#pagination a:hover,
-	#pagination a:focus{
+	.pagination a:hover,
+	.pagination a:focus{
 		border-color:#aaa;
 		background-color:#c0c0c0;
 	}
 	
-	#pagination .current a{
+	.pagination .current a{
 		background-color: #AAAAAA;
 		border-color: #888888;
 		color: #FFFFFF;
@@ -867,7 +871,7 @@
 		padding: 3px 5px 4px;
 	}
 	
-	.off #pagination a{
+	.off .pagination a{
 		background-color: #eee!important;
 		border-color: #ccc!important;
 		color: #aaa!important;
@@ -875,8 +879,8 @@
 	}
 	
 	
-	#pagination .scrlLeft,
-	#pagination .scrlRight{
+	.pagination .scrlLeft,
+	.pagination .scrlRight{
 		position:absolute;
 		padding:3px 5px 4px;
 		right:413px;
@@ -886,7 +890,7 @@
 	}
 
 
-	#pagination .scrlRight{
+	.pagination .scrlRight{
 		right:0px;
 	}
 	
@@ -1070,10 +1074,13 @@
 	}
 	
 	.tableData tbody tr{
-		cursor:pointer;
 		background-position:0px bottom;
 		background-repeat:repeat-x;			
 	}
+	
+	.tableData .rowClick tbody tr{
+		cursor:pointer;
+	}	
 	
 	.tableData tbody tr:hover{
 		/*background-color:#e5e5e5;*/
@@ -1267,7 +1274,11 @@
 	
 	
 	
-	
+	#etlView{
+		display:block;
+		background-color:#eee;
+		margin-top:10px;
+	}
 	
 	
 	
@@ -2086,8 +2097,8 @@
 	.systemName,
 	#header,
 	#searchForm,
-	#pagination .showAll,
-	#toolBar .buttons{
+	.pagination .showAll,
+	.toolBar .buttons{
 		display:none;
 	}
 	#main{
@@ -2100,7 +2111,7 @@
 		overflow:visible;
 	}
 	
-	#toolBar {
+	.toolBar {
 		border:none;
 		border-bottom:1px solid #999;
 	}
@@ -2135,36 +2146,38 @@
 	#dashBoardView,
 	#dbTools,	
 	#tableView,
-	#toolBar .buttons li,
-	#pagination{
+	.toolBar .buttons li,
+	.pagination{
 		display:none;
 	}
 	
 	
 	.doSearch #tableView,
-	.doSearch #toolBar #resubmitBtn,
-	.doSearch #toolBar #overwriteBtn,
-	.doSearch #toolBar #clearBtn,
-	.doSearch #pagination,
+	.doSearch #tableView .toolBar #resubmitBtn,
+	.doSearch #tableView .toolBar #overwriteBtn,
+	.doSearch #tableView .toolBar #clearBtn,
+	.doSearch .pagination,
 	
 	.showResubmitted #tableView,
-	.showResubmitted #toolBar #resubmitted,
-	.showResubmitted #pagination,
+	.showResubmitted #tableView .toolBar #resubmitted,
+	.showResubmitted .pagination,
 	.showResubmitted #tableView .updatesBtn,	
 	
 	
 	.showTradesTable #tableView,
-	.showTradesTable #toolBar #resubmitBtn,
-	.showTradesTable #toolBar #overwriteBtn,
-	.showTradesTable #toolBar #clearBtn,
-	.showTradesTable #toolBar #resubmitted,
-	.showTradesTable #pagination,
+	.showTradesTable #tableView .toolBar #resubmitBtn,
+	.showTradesTable #tableView .toolBar #overwriteBtn,
+	.showTradesTable #tableView .toolBar #clearBtn,
+	.showTradesTable #tableView .toolBar #resubmitted,
+	.showTradesTable .pagination,
 	.showTradesTable #tableView .updatesBtn,	
 	
 	.showSafeStoreData #tableView,
-	.showSafeStoreData #toolBar #replayBtn,
-	.showSafeStoreData #pagination,
-	.showSafeStoreData #tableView .updatesBtn,	
+	.showSafeStoreData #tableView .toolBar #replayBtn,
+	.showSafeStoreData .pagination,
+	.showSafeStoreData #tableView .updatesBtn,
+	
+	#etlView .toolBar .buttons li,
 		
 	
 	.showDashboard #dashBoardView,

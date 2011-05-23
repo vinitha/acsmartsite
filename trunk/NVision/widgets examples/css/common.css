@@ -251,6 +251,8 @@
 			background-image:url("../images/btnBG.png");
 			background-repeat:no-repeat;
 			background-position:50% 55%;
+			
+			border: 1px solid #EAF7F9;
 	
 			color: #46778c;
 			display: block;
@@ -260,6 +262,7 @@
 			font-weight:bold;		
 			overflow:hidden;
 		}
+	
 	
 		
 		#tableData thead p{
