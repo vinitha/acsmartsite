@@ -210,7 +210,9 @@ var NVision={
 			
 			NVision.appStatus.tab_1.view=NVision.appStatus.tab_1.view||{type:"dashBoard"};
 			
-			var newStatus=NVision.appStatus.tab_1;			
+			var newStatus=NVision.appStatus.tab_1;
+			
+			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"block"});
 			
 			//updating the view
             switch(NVision.appStatus.tab_1.view.type){
@@ -223,8 +225,7 @@ var NVision={
 					NVision.updateEngine.forceStart();					
                 break;
                 
-                case "adapter":
-					$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+                case "adapter":					
 					
                     //if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
                         var sysName=newStatus.view.sysName,
@@ -284,38 +285,38 @@ var NVision={
                     myConsole.alert("Unknown bookmark ignored!")                        
                 break;
             }        			
-            
-			$("#searchForm").show(0);					
+            				
         },
         
         tab_2:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_2 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});			
-			$("#searchForm").hide(0);
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#searchForm").css({display:"none"});
         },
         
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"none"});			
-			$("#searchForm").hide(0);
+			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"none"});			
         },
 		
 		tab_4:function(){
 			NVision.updateEngine.stop();
-			$("#businessMarket,#sysVer,#dbTools").css({display:"none"});			
-			$("#searchForm").hide(0);
+			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"none"});			
 		},
 		
 		tab_5:function(){
+			
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#searchForm").css({display:"none"});
             NVision.showETL();
-			$("#searchForm").hide(0);
 		},
 		
 		defaultFn:function(){
+			myConsole.alert("No default action defined!")
 			NVision.updateEngine.stop();
 		}
     },
@@ -1142,8 +1143,7 @@ var NVision={
                 
                 
                 //Load button
-                (checkedCount>0) ?
-                    
+                (checkedCount>0) ?                    
                     $("#loadBtn a").removeClass("off")
                 :
                     $("#loadBtn a").addClass("off");                    				
