@@ -1376,7 +1376,9 @@ var NVision={
         
         //adding the system to the updates queue
         var reqObj=NVision.createBreaksUpdateRequests(ssObject);
-
+		reqObj.url=sysConfig.safeStoreUrl;
+		
+		
         
         //setting the callback to update the updatesBtn!
         NVision.updateEngine.setCallback(function(){
