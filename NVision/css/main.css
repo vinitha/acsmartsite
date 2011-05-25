@@ -142,6 +142,11 @@
 		color:#eee;
 		padding:10px;
 		float:none;
+		background-image: url("../images/black50.png");
+		
+		-moz-border-radius: 5px; /* For FireFox */
+		-webkit-border-radius: 5px; /* For Safari/Chrome */
+		border-radius: 5px; /* For when the standard gets fully supported */		
 	}
 	
 	
@@ -1180,7 +1185,6 @@
 	#marketPicker{
 		overflow:hidden;
 		padding:4px 10px;
-		background-color:#333;
 	}
 	
 	#marketPicker label{
@@ -1263,10 +1267,100 @@
 		outline:none;
 		border-color:#ccc;
 
-		background-image: url("../images/btnBG.png");
+		background-image:url("../images/btnBG.png");
 		background-position: 50% 52%;
 		background-repeat:no-repeat;
 	}		
+	
+	
+#worldMap {
+	overflow:hidden;
+	height:218px;
+	background-image:url("../images/worldMap.png");
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	margin:20px 0px;
+}
+
+#worldMap li{
+	float:left;
+	height:100%;
+}
+
+
+#worldMap li:hover{
+	z-index:2;
+}
+
+#worldMap li a{
+	display:block;
+	height:100%;
+	margin-top:5px;
+	position:relative;
+}
+
+#worldMap li a span{
+	display:block;
+	color:#aaa;
+}
+
+#worldMap li.emea a span{
+	margin-left:20px;
+}
+
+#worldMap li.amer a span{
+	margin-left:40px;
+}
+
+#worldMap li.apac a span{
+	margin-left:5px;
+}
+
+#worldMap .emea a{
+	width:78px;
+}
+#worldMap .amer a{
+	width:121px;
+}
+#worldMap .apac a{
+	width:90px;
+}
+
+
+#worldMap.amerCL{
+	background-position:0px -226px;
+}
+
+#worldMap.emeaCL{
+	background-position:0px -451px;
+}
+
+#worldMap.apacCL{
+	background-position:0px 1px;
+}
+	
+	
+#worldMap.amerBG{
+	background-position:0px -226px;
+}
+
+#worldMap.emeaBG{
+	background-position:0px -451px;
+}
+
+#worldMap.apacBG{
+	background-position:0px 1px;
+}
+	
+	
+#worldMap .current span{
+	color:#fff;
+	font-weight:bold;
+}
+		
+	
+	
+	
 	
 	
 	
