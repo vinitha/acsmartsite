@@ -41,6 +41,31 @@ $().ready(function(){
             alert(textStatus||errorThrown);            
         }
     })
+	
+	
+	
+	$("#worldMap a")
+		.hover(
+			function(){							
+				 $("#worldMap").addClass(this.parentNode.className + "BG");
+			 },
+			 function(){
+				var world=document.getElementById("worldMap");
+				 world.className=world.className.replace(this.parentNode.className + "BG","")
+			 }
+		)
+		.click(function(){
+			
+			var world=document.getElementById("worldMap");
+			world.className=this.parentNode.className + "CL";
+			
+			$(world)
+				.addClass(this.parentNode.className + "CL")
+				.find("a").removeClass("current")
+			
+			$(this).addClass("current");
+		})
+
     
 });
 
