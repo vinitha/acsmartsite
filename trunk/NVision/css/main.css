@@ -143,10 +143,15 @@
 		padding:10px;
 		float:none;
 		background-image: url("../images/black50.png");
+		text-align:left;
 		
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
 		border-radius: 5px; /* For when the standard gets fully supported */		
+	}
+	
+	.indexPage #container{
+		text-align:center;
 	}
 	
 	
@@ -284,10 +289,10 @@
 }
 
 .indexPage #main{
-	width:600px;
 	background-color:transparent;
 	background-image:url(../images/black50.png);
-	margin:100px auto;
+	margin:100px;
+	display:inline-block;
 
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
@@ -1185,18 +1190,12 @@
 	#marketPicker{
 		overflow:hidden;
 		padding:4px 10px;
+		white-space:nowrap;
+		overflow-x:auto;
+		min-width:500px
 	}
 	
-	#marketPicker label{
-		float:left;
-		margin-right:10px;
-		display:block;
-	}
-	
-	#marketPicker label span{
-		font-size:1.1em;
-		color:#ddd;
-	}
+
 	
 	.tip{
 		background-color: #333;
@@ -1209,7 +1208,8 @@
 		padding: 3px 0 3px 5px;
 		-moz-border-radius: 5px; /* For FireFox */
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
-		border-radius: 5px; /* For when the standard gets fully supported */			
+		border-radius: 5px; /* For when the standard gets fully supported */
+		text-align:left;
 	}
 	
 	.tip.on{
@@ -1227,37 +1227,51 @@
 	}
 	
 	#availableBMs{
-		padding:10px 0px 10px 5px;
 		overflow:hidden;
-		max-height:125px;
-		overflow-y:auto;
+		display:inline-block;
+		vertical-align:top;
+
 	}
 	
-	#availableBMs p{
-		margin:20px 0px;
+	#availableBMs .bmList{
+		display:inline-block;
+		background-image: url("../images/black20.png");
+		margin-right:10px;
+		vertical-align:top;
+		min-width:180px;
+	}
+	
+	#availableBMs .bmList ul{
+		margin:10px;
+	}
+	
+	#availableBMs .bmList li{
+		display:block;
+	}
+	
+	#availableBMs h3{
+		background-image: url("../images/black20.png");
 		color:#ccc;
 		font-size:1.2em;
-		font-style:italic;
+		font-weight:bold;
 		text-align:center;
+		padding:3px 5px;
 	}
 	
 	#availableBMs a{
-		float:left;
+		display:block;
 		font-size:1.2em;
 		padding:2px 10px;
 		color:#a4b0bf;
 		background-color:#677789;
-		margin-right:5px;
+
 		margin-top:5px;
 		
 		border:1px solid transparent;
 		
 		white-space:nowrap;
 
-		-moz-border-radius: 3px; /* For FireFox */
-		-webkit-border-radius: 3px; /* For Safari/Chrome */
-		border-radius: 3px; /* For when the standard gets fully supported */			
-		
+
 	}
 	
 	#availableBMs a:hover,
@@ -1280,6 +1294,8 @@
 	background-repeat:no-repeat;
 	background-position:left bottom;
 	margin:20px 0px;
+	display:inline-block;
+	margin-right:20px;
 }
 
 #worldMap li{
@@ -1297,11 +1313,13 @@
 	height:100%;
 	margin-top:5px;
 	position:relative;
+	outline:none;
 }
 
 #worldMap li a span{
 	display:block;
 	color:#aaa;
+	text-align:left;
 }
 
 #worldMap li.emea a span{

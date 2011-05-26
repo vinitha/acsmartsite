@@ -4,15 +4,15 @@
 $().ready(function(){
     
 	
-	$(".tip").addClass("loading").text("Loading the Business Markets definition...")
+	var $tip=$(".tip").addClass("loading").text("Loading the Business Markets definition...")
 	
-    //getting the bmMAtrix
+    //getting the bmMatrix
     $.ajax({
         url:sysConfig.bmMatrix,
         type:"GET",
         dataType:"json",
         success:function(data){
-            bmMatrix.buildWidget(data);
+            bmMatrix.setData(data);
             
             $("#marketPicker label").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
 			
@@ -20,21 +20,9 @@ $().ready(function(){
 				.removeClass("loading")
 				.addClass("on")
 				.fadeOut(0)
-				.html("Please use the above DropDowns to filter the B.M. list")
+				.html("Please use the above map to show the B.M. list")
 				.fadeIn(1000);
 			
-			setTimeout(
-				function(){
-					$(".tip")
-						.fadeOut(600,
-							function(){
-								$(this)
-									.fadeIn(1000)									
-									.html("<strong>Ctrl + click</strong> to open the Business Martket in a new Tab.");
-						})        
-				}   
-				,5000
-			)
 	
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -42,29 +30,80 @@ $().ready(function(){
         }
     })
 	
+	var worldMap=$("#worldMap");
 	
-	
-	$("#worldMap a")
-		.hover(
-			function(){							
-				 $("#worldMap").addClass(this.parentNode.className + "BG");
-			 },
-			 function(){
-				var world=document.getElementById("worldMap");
-				 world.className=world.className.replace(this.parentNode.className + "BG","")
-			 }
-		)
-		.click(function(){
-			
-			var world=document.getElementById("worldMap");
-			world.className=this.parentNode.className + "CL";
-			
-			$(world)
-				.addClass(this.parentNode.className + "CL")
-				.find("a").removeClass("current")
-			
-			$(this).addClass("current");
+	//defining the custom event handler
+	worldMap.bind("change",function(ev,anchor){
+			//updating the layout
+			var world=document.getElementById("worldMap"),
+				areaName=anchor.parentNode.className;
+				
+			world.className=areaName + "CL";			
+			$(world).find("a").removeClass("current")			
+			$(anchor).addClass("current");
+
 		})
+		.find("a")
+			.hover(
+				function(){							
+					 $("#worldMap").addClass(this.parentNode.className + "BG");
+				 },
+				 function(){
+					var world=document.getElementById("worldMap");
+					 world.className=world.className.replace(this.parentNode.className + "BG","")
+				 }
+			)
+			//triggering the custom event
+			.click(function(){
+				$("#worldMap").trigger("change",this)
+			})
+	
+		
+	//handling the change event
+	worldMap.bind("change",function(ev,anchor){
+		
+		if(!$tip.data("init")){
+			$tip.fadeOut(600,
+					function(){
+						$(this)
+							.fadeIn(1000)									
+							.html("<strong>Ctrl + click</strong> on the Business Market to open it in a new Tab.");
+				})
+			$tip.data("init",true)
+		}
+		
+		//filtering the data
+		var bmTable=bmMatrix.getBMs({region:anchor.hash.replace("#","")}),
+			assets=bmMatrix.getHashAtLevel(bmTable,1),
+			bmsContainer=$("#availableBMs").empty();
+            
+            var bms=bmMatrix.getHashAtLevel(bmTable,1);
+			
+			$.each(bms,function(i,elem){
+				
+				var markets=bmMatrix.getListAtLevel(elem,3)
+				
+				
+				var ul=$("<ul />").appendTo($("<div class='bmList' />").appendTo(bmsContainer))
+				$("<h3 />").text(i).insertBefore(ul);
+				
+				$.each(markets,function(i,elem){
+					
+					$("<a />")
+						.text(elem.name)
+						.attr("href",sysConfig.bmUrl+ "?BM=" + elem.id)
+						.appendTo(
+							$("<li/>").appendTo(ul)
+						)
+				})
+				
+				
+				
+			});
+			
+		
+	})
+	
 
     
 });
@@ -72,77 +111,17 @@ $().ready(function(){
 
 
 var bmMatrix=(function(){
-    var _matrix=null;
-    var filterObj={};
+    var _matrix=null,
     
-    _buildWidget=function(data){
-        _matrix=data;//.MarketsMatrix;
-        
-        var cmbAsset=$("#asset"),
-            cmbRegion=$("#region");
-            //cmbExchange=$("#exchange");
+    _getBMs=function (filters){
 
-        
-        //creating the first level buttons
-        _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(_matrix,1))
-        _populateCombo(cmbRegion,"Regions",_getHashAtLevel(_matrix,3))
-        //_populateCombo(cmbExchange,"Exchange",_getHashAtLevel(_matrix,5))
-              
-            
-        $("#marketPicker select").change(function(ev){
-            var comboVal=$(this).blur().attr("value");            
-            
-            filterObj[this.id]=(comboVal=="")?null:comboVal;
-                    
-            var bmTable=_getBMs(filterObj);            
-            
-            $("#availableBMs").empty();
-            
-            var bms=_getListAtLevel(bmTable,5);
-            
-            //filtering out the combos content
-            _populateCombo(cmbAsset,"Asset class",_getHashAtLevel(bmTable,1),filterObj.asset)
-            _populateCombo(cmbRegion,"Regions",_getHashAtLevel(bmTable,3),filterObj.region)
-            //_populateCombo(cmbExchange,"Exchange",_getHashAtLevel(bmTable,5),filterObj.exchange)            
-            
-            //creating the BMS buttons
-            for(var x=0;x<bms.length;x++){
-                $("<a />")
-                    .attr("href",sysConfig.bmUrl+ "?BM=" + bms[x].id)
-                    .text(bms[x].name)
-                    .appendTo("#availableBMs")
-            }
-        })
-        
-        cmbAsset.change();
-        
-    };
-    
-    _populateCombo=function(combo,title,data,selectedValue){
-        combo.empty();
-        
-        $("<option />")
-            .text("- - -")
-            .attr("value","")
-            .appendTo(combo)    
-            
-        for (var obj in data){
-            $("<option/>")
-                .text(obj)
-                .attr("value",obj)
-                .attr("selected",selectedValue==obj?"selected":"")
-                .appendTo(combo)
-        }            
-    };
-
-    _getBMs=function (filters){        
         var obj=_getObjsByName(_matrix,1,filters.asset);
         obj=_getObjsByName(obj,3,filters.region);
         obj=_getObjsByName(obj,5,filters.exchange);
         
         return obj    
-    };
-    
+    },
+	
     _getObjsByName=function(obj,level,name){
         //traverses an object and returns an hashtable of that object filtered by "name".
         
@@ -166,7 +145,7 @@ var bmMatrix=(function(){
             
         }
         return hasChildren?newObj:null;
-    };   
+    },  
     
     _getHashAtLevel=function(obj,level){
         //traverses an object and returns an hashtable of that object Nth-level children.
@@ -189,7 +168,7 @@ var bmMatrix=(function(){
         }
         return newObj;
 
-    };      
+    },     
     
     
     _getListAtLevel=function(obj,level){
@@ -216,7 +195,11 @@ var bmMatrix=(function(){
     };      
     
     return   {
-       buildWidget:_buildWidget
+       setData:function(data){_matrix=data},
+	   getBMs:_getBMs,
+	   getListAtLevel:_getListAtLevel,
+	   getHashAtLevel:_getHashAtLevel,
+	   getObjsByName:_getObjsByName
     };
     
     })();
