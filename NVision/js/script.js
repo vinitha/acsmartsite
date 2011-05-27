@@ -486,7 +486,7 @@ var NVision={
                 return false;
             };
             
-            if(!$(this).hasClass("detailsContainer")&& e.target.tagName.toLowerCase()=="td"){
+            if(!$(this).hasClass("detailsContainer")&& (e.target.tagName.toLowerCase()=="td"||e.target.className=="cellSpan")){
                 var fnId=$(this).closest("table").data("fnId");
                 if(fnId && NVision.fnObj[fnId]){
                     NVision.fnObj[fnId](this);
@@ -2712,7 +2712,7 @@ var NVision={
 							
 							var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
 							
-							bTr.push("<td class='cell'>" + str +"</td>")                        
+							bTr.push("<td class='cell'><span class='cellSpan'>" + str +"</span></td>")                        
 						}
 					}
 			
