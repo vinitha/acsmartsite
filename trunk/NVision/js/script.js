@@ -628,6 +628,7 @@ var NVision={
                             "id":"resubmitForm"
                         })
                         .append("<input type='hidden' id='_id' name='id' />")
+                        .append("<input type='hidden' id='_adapter' name='adapter' />")
                         .append("<label><span class='caption'>Select a reason</span><select id='_reason' name='reason' ><option value='staticData'>Static data</option><option value='jobFailing'>Job failing</option><option value='other'>Other</option></selet></label>")
                         .append("<label><span class='caption'>Add comment</span><textarea id='_comment' name='comment' ></textarea></label>")
                         .append("<div class='loadingData'><p>sending the request...</p></div>")
@@ -681,7 +682,7 @@ var NVision={
                     error:function(a,b,c){
                         myConsole.log(a,b,c)
                     },
-					delegateErrorHandling:false,
+		    delegateErrorHandling:false,
                     url:sysConfig.resubmitRequest,
                     data:form.serialize()
                 })
@@ -1106,6 +1107,7 @@ var NVision={
                 NVision.lightBoxes["resubmit"]                    
                     .show()
                     .find("#_id").attr("value",ids).end()
+                    .find("#_adapter").attr("value",NVision.currentSys.id).end()
                     .find("#_comment").attr("value","").end()
                     .find("#_reason").find("option").eq(0).attr("selected",true);
             });
