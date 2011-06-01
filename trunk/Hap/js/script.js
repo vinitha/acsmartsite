@@ -701,12 +701,13 @@ var HAP=(function(){
                     arUL=$("#docMenu ul");
                 
                 if ($("#clust_" + id ).length>0){
+                    myConsole.log("verificare che il tab del cluster sia visibile -> scroll")
                     return false;
                 }
                 //creo l'entry nel tabmenu
                 var li=$("<li class='li_arch clusters' ></li>")
                 
-                $("<a href='#clust_" + id + "' title='" + HAP.dictionary.getTranslation("d_18") + "' ><span>" + $a.text() + "</span></a>")
+                var menuLink=$("<a href='#clust_" + id + "' title='" + HAP.dictionary.getTranslation("d_18") + "' ><span>" + $a.text() + "</span></a>")
                     .appendTo(li)
                 $("<button/>")
                     .attr("title",HAP.dictionary.getTranslation("d_14"))
@@ -735,6 +736,8 @@ var HAP=(function(){
                 //creo il div che conterra' i documenti
                 var docDiv=$("<div class='archDiv clusterDiv' id='clust_" + id + "' />").appendTo(risDiv).hide(0)
                 
+                //lo clicco
+                arUL.trigger("change",menuLink);
                 
                 //recupero i documenti dal server
                 myConsole.log("recuperare i dati dal server!")
@@ -1311,6 +1314,12 @@ var HAP=(function(){
 
     //tabMenu widget
     function doTabMenu(ulElem){
+        ulElem.bind("scrLeft",function(ev){
+            $(this).find("div.scrollBtnsBar button.btnLeft").click();
+        })
+        ulElem.bind("scrRight",function(ev,menu){
+            $(menu).closest("div").siblings("div.scrollBtnsBar").find("button.btnRight").click();
+        })
         
         ulElem.bind("checkWidth",function(e,ul){
                         
@@ -1345,6 +1354,7 @@ var HAP=(function(){
         ulElem.bind("change",function(e,anchor){
             var menu=$(anchor).closest("ul")
             menu.trigger("checkWidth",menu);
+            menu.trigger("scrRight",menu);
         })
         
         //tabMenu
