@@ -6,7 +6,7 @@ body{
 	font-size:100%;
 	font-family:Verdana, "Tempus Sans ITC", Arial, Helvetica, sans-serif;
 	color:#444;
-	background-color:#fff;
+	background-image:url(../images/bg-darker.jpg);
 }
 
 body{
@@ -15,15 +15,55 @@ body{
 	width:960px;
 	margin:auto;
 	position:relative;
+	background-image:url(../images/bg.png);
+	background-repeat:repeat-y;
+}
+
+#header{
+	position:relative;
+}
+
+.menu{
+	position:absolute;
+	right:20px;
+	bottom:15px;
+}
+
+.menu li{
+	float:left;
+	margin-left:10px;
+}
+
+.menu a{
+    background-image: url("../images/btnBg.png");
+    color: #FFFFFF;
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 31px;
+    line-height: 29px;
+    text-align: center;
+    width: 107px;
+}
+
+.menu span{
+	opacity:0.70;
+	filter:alpha(opacity=70);
+}
+
+.menu :hover span{
+	opacity:1;
+	filter:"";
 }
 
 
 h1{
 	background-image:url(../images/panoramica.jpg);
 	background-position:0px 0px;
-	background-repeat:none;
+	background-repeat:no-repeat;
 	height:179px;
 	position:relative;
+	margin:0px 4px;
 }
 
 h1 span{
@@ -45,11 +85,29 @@ h2{
 	margin-bottom:10px;
 	font-size:2em;
 	background-color:#715933;
+	background-image:url(../images/headerBg.jpg);
 	padding:2px 5px;
+	overflow:hidden;
+}
+
+h3{
+	font-weight:bold;
+	color:#715933;
+	margin-bottom:10px;
 }
 
 a{
 	outline:none;
+}
+
+img.fLeft{
+   float:left;
+   margin-right:20px;
+}
+ 
+img.fRight{
+   float:right;
+   margin-left:20px;
 }
 
 strong{
@@ -66,8 +124,6 @@ strong{
 }
 
 #main {
-	background-image:url(../images/bg.png);
-	background-repeat:repeat-y;
 	padding:30px;
 }
 
@@ -76,10 +132,6 @@ strong{
 }
 .intro {
 	
-	width:400px;
-	float:left;
-	margin-right:20px;
-	overflow:hidden;
 }
 p{
 	margin-bottom:15px;
@@ -94,10 +146,97 @@ p.subTitle{
 
 
 .carousel {
+	width:480px;
+	float:right;
+	margin-left:20px;
+	overflow:hidden;	
 	overflow:hidden;
 	background-color:#000;
+	position:relative;
+}
+
+.carousel li{
+	position:absolute;
 }
 
 .carousel img{
 	display:block;
+}
+
+.prices {
+	border:1px solid #999;
+	width:100%;
+	margin-bottom:40px;
+}
+
+.prices th{
+	background-color:#ddd;
+	padding:5px;
+	font-size:1.2em;
+	font-weight:bold;
+}
+
+.prices td{
+	background-color:#eee;
+	padding:5px;
+	font-size:1.2em;
+	border:1px solid #bbb;
+}
+
+
+.cancFee {
+    font-size: 1.4em;
+    list-style-position: outside;
+    list-style-type: circle;
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.cancFee li{
+    list-style-type: circle;
+    text-align: left;
+	margin-bottom:5px;
+}
+
+.contacts{
+	font-size:1.2em;
+	margin-bottom:20px;
+	margin-left:20px;
+}
+
+.contacts li{
+	margin-bottom:5px;
+}
+
+.leftCol{
+	width:49%;
+	float:left;	
+}
+
+.rightCol{
+	width:49%;
+	float:right;	
+}
+
+.journey li{
+	clear:both;
+	padding:20px 30px;
+	margin-bottom:5px;
+	overflow:hidden; 
+}
+
+
+#footer p{
+	color:#aaa;
+	text-align:right;
+	background-color:#eee;
+	padding:2px 5px;
+	margin:0px;
+}
+
+
+#footer span{
+	font-weight:bold;
 }
