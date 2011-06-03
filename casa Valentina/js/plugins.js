@@ -578,8 +578,8 @@ var scroller=function(element){
 	
 	var defaults={
 		transitionFx:"fade",
-		duration:8000,
-		speed:4000,
+		duration:5000,
+		speed:2000,
 		autostart:true,
                 ieFix:($.browser.msie && parseInt($.browser.version)<7)?3:0,
 		events:{
@@ -592,6 +592,7 @@ var scroller=function(element){
 	};
 	//extending the default options
 	$.extend(defaults,options);
+	var fadeIn=defaults.transitionFx=="fade";
 	defaults.transitionFx=eval(defaults.transitionFx);
 	
 	var intervalHnd=null,
@@ -680,12 +681,14 @@ var scroller=function(element){
 	    }
 	};
 	
-	pluginObj.currentPanel=LIs.eq(defaultIndex).css("z-index",2).css({position:"static"});
+	pluginObj.currentPanel=LIs.eq(defaultIndex).css("z-index",2).css({position:"static",display:"block"});
 	
-	ul.css({"height":pluginObj.currentPanel.innerHeight(true)+defaults.ieFix});
-	pluginObj.nextPanel=pluginObj.currentPanel;
-	defaults.transitionFx.call(pluginObj);
-	
+	if(fadeIn){
+	    pluginObj.currentPanel.css({display:"none"})
+	    ul.css({"height":pluginObj.currentPanel.innerHeight(true)+defaults.ieFix});
+	    pluginObj.nextPanel=pluginObj.currentPanel;
+	    defaults.transitionFx.call(pluginObj);
+	}
 	
 	pluginObj.nextPanel=pluginObj.currentPanel.next().length>0?pluginObj.currentPanel.next():pluginObj.currentPanel.prevAll(":last");
 	
