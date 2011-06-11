@@ -1,9 +1,6 @@
 <%@LANGUAGE="VBSCRIPT" CODEPAGE="1252"%>
 
-
 <%
-	dim mailBody
-
 	'creo la mail
 	Set myMail=CreateObject("CDO.Message")
 		myMail.Subject="Richiesta informazioni inviata da: " & request("nome")
@@ -19,6 +16,5 @@
 	end if
 	
 	set myMail=nothing
-	
 	
 %>
