@@ -1436,7 +1436,8 @@
 	
 	
 	
-	#etlView{
+	#etlView,
+	#sysMsgView{
 		display:block;
 		background-color:#eee;
 		margin-top:10px;
@@ -2339,8 +2340,9 @@
 	.showSafeStoreData .pagination,
 	.showSafeStoreData #tableView .updatesBtn,
 	
-	#etlView .toolBar .buttons li,
+	.showETL .toolBar .buttons li,
 		
+	.showSysMsg .pagination,
 	
 	.showDashboard #dashBoardView,
 	.showDashboard #dbTools{
