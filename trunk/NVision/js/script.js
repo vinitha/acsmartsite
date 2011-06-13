@@ -315,6 +315,13 @@ var NVision={
             NVision.showETL();
 		},
 		
+		tab_6:function(){
+			
+			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
+			$("#searchForm").css({display:"none"});
+            NVision.showSysMessages();
+		},		
+		
 		defaultFn:function(){
 			myConsole.alert("No default action defined!")
 			NVision.updateEngine.stop();
@@ -1260,7 +1267,7 @@ var NVision={
             .addClass("loading")
             .text("searching...")
         
-        var search=new searchObj({
+        var search=new tradeHolder({
             name:"Search results:",
             id:"searchResults",
             currentPage:1,
@@ -1309,7 +1316,7 @@ var NVision={
         // clearing the update engine
         NVision.updateEngine.empty();    		
 		
-        var etlReq=new etlObj({
+        var etlReq=new tradeHolder({
             name:"Emergency Trade Load",
             id:"etlObj",
             currentPage:1,
@@ -1350,7 +1357,70 @@ var NVision={
         
         NVision.updateEngine.forceStart();		
 		
-	},	
+	},
+	
+	
+	showSysMessages:function(){
+		//assigning the class name to switch on/off the components visibility
+		document.getElementById("main").className="showSysMsg";
+		
+		//setting the table title....
+        $(".current .systemName span")
+            .addClass("loading")
+			.removeClass("resub")
+            .text("loading data...");
+			
+		$("#sysMsgView").addClass("off");
+        
+        NVision.utils.deleteTable($("#sysMsgView .tableData").find("table"));
+        
+        
+        // clearing the update engine
+        NVision.updateEngine.empty();    		
+		
+        var sysMsgReq=new sysMessage({
+            name:"System messages",
+            id:"sysMsgObj",
+            currentPage:1,
+            itemsPerPage:sysConfig.tableView.itemsPerPage,
+            updateInterval:20000,
+            type:"systemMessage",
+			queryString:[]
+        });
+        
+        NVision.currentSys=sysMsgReq;				
+    
+        //adding the system to the updates queue
+        var reqObj=NVision.createSysMsgRequest(sysMsgReq);
+      
+        //setting the callback to update the updatesBtn!
+        NVision.updateEngine.setCallback(function(){
+
+            var now=(new Date()).getTime(),
+                timer=Math.round((reqObj.updateInterval-(now-reqObj.timeStamp))/1000),
+                span=$("#sysMsgView li.updatesBtn").find("span"),
+                value=parseInt(span.text());
+                
+            if(value<timer){
+                span.parent().addClass("on")
+            }else{
+                span.parent().removeClass("on")
+            }
+            
+            span.text(timer);            
+        });
+        
+        NVision.updateEngine.onNewData(function(){
+            $("#sysMsgView .systemName span")                
+                .removeClass("loading");
+			
+			$("#sysMsgView").removeClass("off");
+        })
+        
+        NVision.updateEngine.forceStart();		
+		
+	},		
+	
 	
 	showSafeStoreData:function(ssObject){
 		//assigning the class name to switch on/off the components visibility
@@ -1958,6 +2028,25 @@ var NVision={
                 
                 searchObj.currentPage=1;
                 NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
+            }
+        })
+        NVision.updateEngine.add(updateReq);
+        
+        return updateReq;    
+    },
+	
+	createSysMsgRequest:function(sysMsgObj){
+
+        var updateReq= new updateRequest({
+            callerObj:sysMsgObj,
+            updateInterval:sysMsgObj.updateInterval,
+            id:sysMsgObj.id,
+            url:sysConfig.systemMessages,
+			data:sysMsgObj.queryString,
+            callBack:function(data){
+				//renaming the attribute for consistenct
+				data.trades=data.messages;
+                NVision.utils.showObjTrades(data,$("#sysMsgView .tableData"),$("#sysMsgView .pagination"),$("#sysMsgView .tradesFilters"))
             }
         })
         NVision.updateEngine.add(updateReq);

@@ -187,6 +187,12 @@ function myAjax(options){
     
 // tradeHolder object def
     function tradeHolder(obj){
+		
+		if(obj && obj.queryString){
+			//adding the BusinessMarket id to the query string
+			obj.queryString.push({name:"BM",value:NVision.appStatus.BM})
+		}
+		
         baseObj.call(this,obj)
     }
     
@@ -333,15 +339,14 @@ function myAjax(options){
 
 
 
-    tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer,rowClick){    
+    tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer,rowClick,selectRow){    
         // defining the table headings
         var sysObj=this; 
         var tableHeadings=[]
         for(var h in sysObj.trades[0]){
             tableHeadings.push(h);
         }                                        
-        
-		
+        		
 		
         if(sysObj.sortBy){
             //defining the column order
@@ -381,7 +386,7 @@ function myAjax(options){
         
         // creating the table
         NVision.utils.createTable({
-            selectRow:true,
+            selectRow:selectRow===undefined?true:false,
             container:tableContainer,
             data:filteredData,
             tableHeadings:tableHeadings,
@@ -489,42 +494,23 @@ function myAjax(options){
 
 
 
-
-
-
-// searchObj object def
-    function searchObj(obj){
-        //adding the BusinessMarket id to the query string
-        obj.queryString.push({name:"BM",value:NVision.appStatus.BM});
-        
+// sysMsg object def
+    function sysMessage(obj){        
         tradeHolder.call(this,obj)
     }
     
-    searchObj.prototype=new tradeHolder();
-    searchObj.prototype.constructor=searchObj;   
+    sysMessage.prototype=new tradeHolder();
+    sysMessage.prototype.constructor=sysMessage;
+	
+
+	sysMessage.prototype.showTrades=function(tableContainer,paginationContainer){
+        //calling the base function passing rowClick=null and selectRow=false
+        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer,null,false);		
+	}
 
 
 
 
-// etlObj object def
-    function etlObj(obj){
-        //adding the BusinessMarket id to the query string
-        obj.queryString.push({name:"BM",value:NVision.appStatus.BM});
-        
-        tradeHolder.call(this,obj)
-    }
-    
-    etlObj.prototype=new tradeHolder();
-    etlObj.prototype.constructor=etlObj;
-	
-	etlObj.prototype.showTrades=function(tableContainer,paginationContainer){
-        //calling the base function first
-        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer);
-		
-	}	
-	
-	
-	
 
 
 // safestore object def
