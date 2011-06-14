@@ -125,13 +125,16 @@
 	}
 	
 	#sysVer{
-		float:right;
-		color:#999;
+		position:absolute;
+		top:10px;
+		right:10px;
+		color:#ddd;
 		line-height:2em;
+		font-size:1.1em;
 	}
 	
 	#sysVer span{
-		color:#444;
+		color:#fff;
 	}
 	
 	#sysVer .frontEnd{
@@ -286,6 +289,7 @@
 	border: 1px solid #999999;
 	margin:0px;
 	background-color:#eee;
+	position:relative;
 }
 
 .indexPage #main{
@@ -386,22 +390,14 @@
 /* searchForm */
 	#searchForm{
 		position:absolute;
-		overflow:hidden;
+		/*overflow:hidden;*/
 		top:0px;
-		right:20px;
+		right:10px;
 		background-color:#eee;
+		border-left:1px solid #ccc;
+		border-right:1px solid #fff;
 		
-		-moz-border-radius: 0px 0px 5px 5px; /* For FireFox */
-		-webkit-border-radius: 0px 0px 5px 5px; /* For Safari/Chrome */
-		border-radius: 0px 0px 5px 5px; /* For when the standard gets fully supported */			
-		
-		-moz-box-shadow:0px 1px 3px #000;		
-		box-shadow: 0px 1px 3px #000; /* CSS3    */
-		-webkit-box-shadow: 0px 1px 3px #000; /* Webkit  */
-
-
-		
-		padding:10px 0px;
+		padding:9px 0px;
 		z-index:12;
 				
 	}
@@ -430,6 +426,8 @@
 		padding: 2px;
 		width:180px;
 		color:#666;
+		
+
 	}
 	
 	#keyword{
@@ -533,6 +531,7 @@
 /* basicSearch */	
 	#basicSearch{
 		margin:0px 10px;
+		line-height: 1.6em;
 	}
 	
 	.ie7 #basicSearch{
@@ -545,10 +544,15 @@
 		background-image:url(../images/searchBG.png);
 		background-repeat:no-repeat;
 		margin-top: 10px;
+		margin-bottom:-10px;
 		padding: 10px;
 		border-top:1px solid #bbb;
-		border-bottom:1px solid #fff;
+		border-bottom:1px solid #999;
 		display:none;
+		
+		-webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+		-moz-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);		
 	}
 	
 	fieldset label,
