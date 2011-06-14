@@ -2314,7 +2314,8 @@
 	#dbTools,	
 	#tableView,
 	.toolBar .buttons li,
-	.pagination{
+	.pagination,
+	#filtersView{
 		display:none;
 	}
 	
@@ -2328,7 +2329,8 @@
 	.showResubmitted #tableView,
 	.showResubmitted #tableView .toolBar #resubmitted,
 	.showResubmitted .pagination,
-	.showResubmitted #tableView .updatesBtn,	
+	.showResubmitted #tableView .updatesBtn,
+	.showResubmitted #filtersView,
 	
 	
 	.showTradesTable #tableView,
@@ -2337,7 +2339,8 @@
 	.showTradesTable #tableView .toolBar #clearBtn,
 	.showTradesTable #tableView .toolBar #resubmitted,
 	.showTradesTable .pagination,
-	.showTradesTable #tableView .updatesBtn,	
+	.showTradesTable #tableView .updatesBtn,
+	.showTradesTable #filtersView,
 	
 	.showSafeStoreData #tableView,
 	.showSafeStoreData #tableView .toolBar #replayBtn,
@@ -2345,11 +2348,14 @@
 	.showSafeStoreData #tableView .updatesBtn,
 	
 	.showETL .toolBar .buttons li,
+	.showETL #filtersView,
 		
 	.showSysMsg .pagination,
+	.showSysMsg #filtersView,
 	
 	.showDashboard #dashBoardView,
-	.showDashboard #dbTools{
+	.showDashboard #dbTools,
+	.showDashboard #filtersView{
 		display:block;
 	}
 
