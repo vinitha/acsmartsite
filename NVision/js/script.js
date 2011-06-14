@@ -77,6 +77,8 @@ $().ready(function(){
             $a.closest("li").addClass("current");
             $("#" + tabId).addClass("current");
 			
+			//re-setting the #main content className
+			document.getElementById("main").className="";
 			
 			//running the tabMenu callbacks
 			if(NVision.tabMenuCallback[tabId]){
