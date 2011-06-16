@@ -2404,6 +2404,7 @@
 	.showSafeStoreData #tableView .toolBar #replayBtn,
 	.showSafeStoreData .pagination,
 	.showSafeStoreData #tableView .updatesBtn,
+	.showSafeStoreData #shadedBar,
 	
 	.showETL .toolBar .buttons li,
 	.showETL #shadedBar,
