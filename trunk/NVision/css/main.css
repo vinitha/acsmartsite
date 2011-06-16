@@ -204,6 +204,7 @@
 		overflow:hidden;
 		position:relative;
 		display:none;
+		clear:both;
 	}
 	
 	.tabContent.current{
@@ -387,6 +388,48 @@
 		padding-bottom:5px;
 	}
 	
+	.simpleMenu{
+		position:relative;
+		z-index:2;
+		margin-bottom:-1px;
+		margin-top:10px;
+	}
+	
+	.simpleMenu li a{
+		-moz-border-radius: 0px; /* For FireFox */
+		-webkit-border-radius: 0px; /* For Safari/Chrome */
+		border-radius: 0px; /* For when the standard gets fully supported */
+	}
+	.simpleMenu li.current a{
+		border:1px solid #666;
+		border-bottom:none;
+		background-color:#fff;
+	}
+	
+	.simpleMenuContent{
+		border:1px solid #666;
+		background-color:#fff;
+		clear:both;
+		margin:0px 10px 10px;
+		padding-top:10px;
+	}
+	
+	.simpleMenu li.kpi_1 span{
+		border-top:3px solid #f8d774;
+	}
+	
+	.simpleMenu li.kpi_2 span{
+		border-top:3px solid #8be871;
+	}
+	
+	.simpleMenu li.kpi_3 span{
+		border-top:3px solid #66a5f0;
+	}
+	
+	.simpleMenu li.kpi_4 span{
+		border-top:3px solid #e05866;
+	}		
+	
 /* searchForm */
 	#searchForm{
 		position:absolute;
@@ -402,14 +445,13 @@
 				
 	}
 	
-	.ie7 #searchForm,
+	.ie7 #searchForm{
+		width:315px;
+		padding-bottom:6px;
+	}
+	
 	.ie8 #searchForm{
 		width:315px;
-		
-		/* For IE 8 */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
-		/* For IE 5.5 - 7 */
-		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
 	}
 	
 	fieldset label{
@@ -555,6 +597,14 @@
 		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);		
 	}
 	
+	.ie7 #advancedSearch,
+	.ie8 #advancedSearch{
+		/* For IE 8 */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333')";
+		/* For IE 5.5 - 7 */
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#333333');
+	}	
+	
 	fieldset label,
 	fieldset p
 	{
@@ -645,8 +695,8 @@
 	form .validError{
 		background-color:#fffcb9;
 	}
-/* filtersView */
-	#filtersView {
+/* shadedBar */
+	#shadedBar {
 		overflow:hidden;
 		background-color:#f9f9f9;
 		padding:10px;
@@ -658,7 +708,8 @@
 	
 	.tradesFilters{
 		float:right;
-		margin-top: 15px;		
+		margin-top: 15px;
+		margin-bottom:5px;
 	}
 	
 	.tradesFilters label{
@@ -856,7 +907,7 @@
 		float: left;
 		margin:3px 15px 1px 30px;
 		overflow:hidden;
-		max-width:400px;		
+		max-width:350px;		
 		white-space:nowrap;
 	}
 	
@@ -902,7 +953,7 @@
 	.pagination .scrlRight{
 		position:absolute;
 		padding:3px 5px 4px;
-		right:413px;
+		right:363px;
 		top:2px;
 		font-weight:bold;
 		color:#666;
@@ -1439,7 +1490,7 @@
 	
 	
 	
-	
+	#kpiView,
 	#etlView,
 	#sysMsgView{
 		display:block;
@@ -2296,7 +2347,7 @@
 		height:auto!important;
 	}
 	
-	#filtersView,
+	#shadedBar,
 	.tableData thead tr{
 		border-bottom:3px solid #666;
 	}
@@ -2309,28 +2360,34 @@
 
 /* components visibility rules */
 
+	#searchForm,
 	#tableView .updatesBtn,
-	#dashBoardView,
-	#dbTools,	
+	#dashBoardView,	
 	#tableView,
 	.toolBar .buttons li,
 	.pagination,
-	#filtersView{
+	#shadedBar{
 		display:none;
 	}
 	
+	
+	
+	.showKPI #shadedBar,
+	.showKPI .pagination,
 	
 	.doSearch #tableView,
 	.doSearch #tableView .toolBar #resubmitBtn,
 	.doSearch #tableView .toolBar #overwriteBtn,
 	.doSearch #tableView .toolBar #clearBtn,
 	.doSearch .pagination,
+	.doSearch #shadedBar,
+	.doSearch #searchForm,
 	
 	.showResubmitted #tableView,
 	.showResubmitted #tableView .toolBar #resubmitted,
 	.showResubmitted .pagination,
 	.showResubmitted #tableView .updatesBtn,
-	.showResubmitted #filtersView,
+	.showResubmitted #shadedBar,
 	
 	
 	.showTradesTable #tableView,
@@ -2340,7 +2397,8 @@
 	.showTradesTable #tableView .toolBar #resubmitted,
 	.showTradesTable .pagination,
 	.showTradesTable #tableView .updatesBtn,
-	.showTradesTable #filtersView,
+	.showTradesTable #shadedBar,
+	.showTradesTable #searchForm,
 	
 	.showSafeStoreData #tableView,
 	.showSafeStoreData #tableView .toolBar #replayBtn,
@@ -2348,14 +2406,14 @@
 	.showSafeStoreData #tableView .updatesBtn,
 	
 	.showETL .toolBar .buttons li,
-	.showETL #filtersView,
+	.showETL #shadedBar,
 		
 	.showSysMsg .pagination,
-	.showSysMsg #filtersView,
+	.showSysMsg #shadedBar,
 	
+	.showDashboard #searchForm,
 	.showDashboard #dashBoardView,
-	.showDashboard #dbTools,
-	.showDashboard #filtersView{
+	.showDashboard #shadedBar{
 		display:block;
 	}
 

@@ -70,15 +70,33 @@ $().ready(function(){
     tabMenu.bind("showTab",function(e,tabId){
             var $a=tabMenu.find("a[href='#tabId=" + tabId + "']"),
                 oldTab=$a.closest("li").siblings(".current"),
-                oldId=oldTab.find("a").attr("hash");
+                oldId=oldTab.find("a").attr("hash"),
+				newTabContent=$("#" + tabId);
             
             oldTab.removeClass("current");            
             $(oldId).removeClass("current");
             $a.closest("li").addClass("current");
-            $("#" + tabId).addClass("current");
+            newTabContent.addClass("current");
 			
 			//re-setting the #main content className
 			document.getElementById("main").className="";
+			
+			//creating the iFrame if necessary
+			if(newTabContent.length==0){
+				if ($a.hasClass("iframe")){
+					newTabContent=$('<div class="tabContent">')
+					.attr("id",$a.attr("hash").split("=")[1])
+					.append(
+						$("<iframe />")
+							.attr("src",$a.data("url"))
+					)
+					.appendTo("#main")
+					.addClass("current");
+					
+					//resizing the iframe;
+					$(window).resize()
+				}
+			}			
 			
 			//running the tabMenu callbacks
 			if(NVision.tabMenuCallback[tabId]){
@@ -120,7 +138,8 @@ $().ready(function(){
         oldTab.removeClass("current");            
         $(oldId).removeClass("current");
         $a.closest("li").addClass("current");
-        $(newHash).addClass("current");        
+        $(newHash).addClass("current");
+		
     })
     
     //setting the datePicker up
@@ -214,8 +233,6 @@ var NVision={
 			
 			var newStatus=NVision.appStatus.tab_1;
 			
-			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"block"});
-			
 			//updating the view
             switch(NVision.appStatus.tab_1.view.type){
                 case "dashBoard":
@@ -291,36 +308,24 @@ var NVision={
         },
         
         tab_2:function(){
-            NVision.updateEngine.stop();
-            myConsole.alert("Please define tab_2 default content")
-			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
-			$("#searchForm").css({display:"none"});
+            NVision.showKpi();
         },
         
         tab_3:function(){
             NVision.updateEngine.stop();
             myConsole.alert("Please define tab_3 default content")
-			
-			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"none"});			
         },
 		
 		tab_4:function(){
-			NVision.updateEngine.stop();
-			$("#businessMarket,#sysVer,#dbTools,#searchForm").css({display:"none"});			
+			NVision.updateEngine.stop();		
 		},
 		
 		tab_5:function(){
 			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
-			$("#searchForm").css({display:"none"});
             NVision.showETL();
 		},
 		
 		tab_6:function(){
-			
-			$("#businessMarket,#sysVer,#dbTools").css({display:"block"});
-			$("#searchForm").css({display:"none"});
             NVision.showSysMessages();
 		},		
 		
@@ -336,17 +341,6 @@ var NVision={
         //showing the version number
         $("#sysVer .frontEnd").text(NVision.ver + " - ");
 		
-		//checking the mainMenu tabs for iFrames
-		$("#mainMenu").find("a.iframe").each(function(index,item){
-
-			$('<div class="tabContent">')
-				.attr("id",this.hash.split("=")[1])
-				.append(
-					$("<iframe />")
-						.attr("src",$(item).data("url"))
-				)
-				.appendTo("#main")
-		})
         
         // adding the panning function to the dashBoard        
         $("#dashBoardView").draggable({
@@ -480,10 +474,11 @@ var NVision={
         //handling the resizing event
         $(window).resize(function(){
             
-            var h=$("html").innerHeight()-$("#filtersView").innerHeight()-$("#header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
+            var h=$("html").innerHeight()-$("#shadedBar").innerHeight()-$("#header").innerHeight()-11;   //11 is the #main margin bottom + 1px border
         
             //$("div.tabContent").css("height",h);
-			$("#dashBoardView, .tabContent iframe").css("height",h);
+			$("#dashBoardView").css("height",h);
+			$(".tabContent iframe").css("height",h+35);
 			
             
         })
@@ -1300,6 +1295,114 @@ var NVision={
     },
 	
 	
+	showKpi:function(){
+		//assigning the class name to switch on/off the components visibility
+		document.getElementById("main").className="showKPI";		
+		
+		//creating the tabmenu for the KPI tables
+		if(!NVision.kpiInitialised){
+			
+			NVision.kpiInitialised=true;
+			NVision.kpi={};
+			
+			var view=$("#kpiView"),
+				ul=$("<ul class='tabMenu simpleMenu' />"),
+				contentDiv=$("<div class='simpleMenuContent'>"),
+				idx=0;
+						
+			
+			for (var group in sysConfig.kpi){			  
+				idx++;
+				for (var tabs in sysConfig.kpi[group]){	
+					var tabObj=sysConfig.kpi[group][tabs],
+						tabDiv=$("<div class='tabContent' />").attr("id",tabObj.id).appendTo(contentDiv);
+					
+					//creating the pagination,table and filters placeholders
+					$('<form class="tradesFilters" method="post" action="#" />').appendTo(tabDiv)
+					$('<div class="toolBar"><div class="pagination" /></div>').appendTo(tabDiv)				
+					$('<div class="tableData" />').appendTo(tabDiv)					
+					
+										
+					//creating the <li>s
+					$("<li/>")
+						.append(
+							$("<a/>")
+								.attr("href","#tabId=" + tabObj.id)
+								.data("dataObj",tabObj)
+								.append($("<span/>").text(tabObj.name))
+						)
+						.addClass("kpi_" + idx)
+						.appendTo(ul);
+				}
+			}
+			
+			ul.appendTo(view);
+			contentDiv.appendTo(view);
+			
+			//handling the tabMenu clicks
+			ul.find("a").bind("click",function(data){
+				var dataObj=($(this).data("dataObj")),
+					kpiReqObj=NVision.kpi[dataObj["name"]];
+					
+				// clearing the update engine
+				NVision.updateEngine.empty();
+				
+				//avoiding creating unnecessary objects
+				if(!kpiReqObj){
+					var kpiObj=new kpiObject({
+						name:"kpi report",
+						id:dataObj.id,
+						currentPage:1,
+						itemsPerPage:sysConfig.tableView.itemsPerPage,
+						url:dataObj.url,
+						updateInterval:dataObj.updateInterval,
+						type:"kpiObject",
+						queryString:[]
+					})
+					
+					NVision.currentSys=kpiObj;
+										
+					//adding the system to the updates queue
+					kpiReqObj=NVision.createKpiRequest(kpiObj);
+					
+					NVision.kpi[dataObj["name"]]=kpiReqObj;					
+					
+				}else{
+					NVision.currentSys=kpiReqObj.callerObj;
+					NVision.updateEngine.add(kpiReqObj);
+				}
+
+      
+				//setting the callback to update the updatesBtn!
+				NVision.updateEngine.setCallback(function(){
+		
+					var now=(new Date()).getTime(),
+						timer=Math.round((kpiReqObj.updateInterval-(now-kpiReqObj.timeStamp))/1000),
+						span=$("#kpiView li.updatesBtn").find("span"),
+						value=parseInt(span.text());
+						
+					if(value<timer){
+						span.parent().addClass("on")
+					}else{
+						span.parent().removeClass("on")
+					}
+					
+					span.text(timer);            
+				});
+				
+				
+				NVision.updateEngine.forceStart();	
+								
+			})
+			
+		}
+		
+		//activating the first tab
+		$("#kpiView .tabMenu").find("li:first a").click();		
+		
+	},
+	
+	
 	showETL:function(){
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="showETL";
@@ -1784,7 +1887,13 @@ var NVision={
             
             //this functions are executed whenever new data is available
             newDataCallback.push(opt)
-        };        ;
+        },
+		
+		getTasks=function(){
+			return tasks;
+		};
+		
+		
         
         //public functions
         return {
@@ -1797,7 +1906,8 @@ var NVision={
             setCallback:setCallback,
             updateNow:updateNow,
             forceStart:forceStart,
-            onNewData:onNewData
+            onNewData:onNewData,
+			tasks:getTasks
         }
         
     })(),
@@ -2037,6 +2147,23 @@ var NVision={
         return updateReq;    
     },
 	
+	createKpiRequest:function(kpiObj){
+
+        var updateReq= new updateRequest({
+            callerObj:kpiObj,
+            updateInterval:kpiObj.updateInterval,
+            id:kpiObj.id,
+            url:kpiObj.url,
+			data:kpiObj.queryString,
+            callBack:function(data){
+                NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))
+            }
+        })
+        NVision.updateEngine.add(updateReq);
+        
+        return updateReq;    
+    },
+	
 	createSysMsgRequest:function(sysMsgObj){
 
         var updateReq= new updateRequest({
@@ -2046,7 +2173,7 @@ var NVision={
             url:sysConfig.systemMessages,
 			data:sysMsgObj.queryString,
             callBack:function(data){
-				//renaming the attribute for consistenct
+				//renaming the attribute for consistency
 				data.trades=data.messages;
                 NVision.utils.showObjTrades(data,$("#sysMsgView .tableData"),$("#sysMsgView .pagination"),$("#sysMsgView .tradesFilters"))
             }
@@ -2346,21 +2473,25 @@ var NVision={
             //clearing and recreating the table
             NVision.utils.deleteTable(tableContainer.find("table"))
             sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
-            
-            
+                        
             //creating the filters html
             var html=NVision.utils.createFilters(data.trades,data.filters),                
                 filtersDiv=filtersContainer.empty();
+								
             
             for(var filter in html){
                 filtersDiv.append(html[filter])
+				
                 html[filter].find("select").change(function(){
                     var selectObj=$(this);                        
 					
 					if(tableContainer.closest(".view").hasClass("off")){
 					//if($("#tableView").hasClass("off")){
 						return false;
-					}              
+					}
+					
+					
+					
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
                     if(selectObj.val()==""){
                         delete(sysObj.filters[selectObj.attr("name")]);
