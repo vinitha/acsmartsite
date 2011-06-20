@@ -2858,8 +2858,8 @@ var NVision={
 				
 				$.each(data,function(index,dataItem){				
 					$.each(showTotalOn,function(index,totalItem){
-						var value=parseFloat(dataItem[totalItem]);
-						value=parseInt(value*10);
+						var value=dataItem[totalItem];
+						value=parseInt(value*100);
 						
 						totals[totalItem]=totals[totalItem]?totals[totalItem]+value:value;
 					})				
@@ -2875,7 +2875,7 @@ var NVision={
 						if(totals[index]){
 							td.addClass("data")
 							//this is to avoid the floating numbers sum issue
-							td.text(totals[index]/10)
+							td.text(totals[index]/100)
 						}
 					}
 				})
