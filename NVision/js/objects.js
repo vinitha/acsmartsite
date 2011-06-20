@@ -519,7 +519,7 @@ function myAjax(options){
 
 	kpiObject.prototype.showTrades=function(tableContainer,paginationContainer){
         //calling the base function passing rowClick=null and selectRow=false
-        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer,null,false);		
+        tradeHolder.prototype.showTrades.call(this,tableContainer,paginationContainer,null,false);
 	}
 
 

@@ -18,9 +18,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -37,9 +37,9 @@
             "Contract":"FDAX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -56,9 +56,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -75,9 +75,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -94,9 +94,9 @@
             "Contract":"FDAX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -113,9 +113,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -132,9 +132,9 @@
             "Contract":"FDAX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -151,9 +151,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -170,9 +170,9 @@
             "Contract":"FDAX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         },
         {
@@ -189,9 +189,9 @@
             "Contract":"XXXX",
             "Expiry":"01/02/2011",
             "Put/Call":"Call",
-            "Strike price":"34500.2",
+            "Strike price":34500.2,
             "Lots":20,
-            "Price":"552.8",
+            "Price":552.8,
             "Activate Acct":"Y"
         }
 	]

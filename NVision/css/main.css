@@ -997,6 +997,26 @@
 		background-repeat:repeat-x;
 	}
 	
+	.tableData tr .number{
+		text-align:right;
+	}
+	
+	.tableData tfoot{		
+		font-weight:bold;
+	}
+	
+	.tableData tfoot td{
+		border:none;
+		background-color:#e6f4ea;
+	}
+	
+	.tableData tfoot .data{
+		background-color:#d2ecd9;
+		text-align:right;
+		border-top:2px solid #429d5b;
+		font-size:1.2em;
+	}
+	
 	.tableData .cellSpan{
 		max-width:800px;
 		overflow:hidden;

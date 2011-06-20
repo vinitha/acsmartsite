@@ -2155,8 +2155,12 @@ var NVision={
             id:kpiObj.id,
             url:kpiObj.url,
 			data:kpiObj.queryString,
-            callBack:function(data){
-                NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))
+            callBack:function(data){                
+				//showing the tableView
+				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))
+				
+				//adding totals to the tableView
+				NVision.utils.createTableTotals($("#"+ kpiObj.id + " .tableData table"),data.showTotalOn,data.trades)				
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -2845,6 +2849,41 @@ var NVision={
                 tmpTable.remove();                        
             }) 
         },
+		
+		createTableTotals:function(table,showTotalOn,data){
+			//given a table this function adds content to the tableFooter displaying totals for the fields defined in showTotalOn
+			
+			if(data.length>0 && showTotalOn.length>0){				
+				var totals={};
+				
+				$.each(data,function(index,dataItem){				
+					$.each(showTotalOn,function(index,totalItem){
+						var value=parseFloat(dataItem[totalItem]);
+						value=parseInt(value*10);
+						
+						totals[totalItem]=totals[totalItem]?totals[totalItem]+value:value;
+					})				
+				})
+				
+				//creating the tableFooter
+				var tr=$("<tr />")
+				$.each(data[0],function(index,dataItem){
+					
+					if(index!="id"){
+						var td=$("<td />").appendTo(tr)
+	
+						if(totals[index]){
+							td.addClass("data")
+							//this is to avoid the floating numbers sum issue
+							td.text(totals[index]/10)
+						}
+					}
+				})
+				
+				tr.appendTo($("<tfoot />").appendTo(table))
+			}	
+			
+		},
                 
         
         createTable:function(options,onComplete){
@@ -2935,8 +2974,9 @@ var NVision={
 							}
 							
 							var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
-							
-							bTr.push("<td class='cell'><span class='cellSpan'>" + str +"</span></td>")                        
+							var format=utils.RealTypeOf(trade[cellCaption]);
+														
+							bTr.push("<td class='cell "+format+"'><span class='cellSpan'>" + str +"</span></td>")                        
 						}
 					}
 			
