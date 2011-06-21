@@ -1828,12 +1828,9 @@ var NVision={
 								if(!reqObj){
 									myConsole.alert("Unexpected data received: " + data.id);
 				
-									//going back to the dashboard
-									NVision.appStatus.currentTab="tab_1";
-									NVision.appStatus[NVision.appStatus.currentTab]={view:{type:"dashBoard"}};
-									
-									$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
-									
+									//going back to the first tab
+									$("#mainMenu").find("a:first").click();
+
 									return false;
 								}
 								reqObj.callBack(data);
