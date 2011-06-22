@@ -1744,6 +1744,7 @@ var NVision={
     //handles all the updates requests
     updateEngine:(function(){
         var tasks={},               //hash table
+		xhrs={}						//hash table of the on-going ajax request (used to abort requests when .empty method is invoked)
         engineTimer=1000,           //checks the tasks list every x millisec.
         intervalHnd=null,
         loopCallback=[],            //functions array to be executed every second
@@ -1815,11 +1816,12 @@ var NVision={
                     reqObj.timeStamp=now;
 
                     //generating the ajax request
-                    myAjax({
+                    var xhr=myAjax({
                         logMsg:null,//"Updating sys.: " + reqObj.callerObj.name,
                         success:function(data){
                             
 							if(data._code=="ok"){
+								
 								//executing the newDataCallbacks
 								for (var f in newDataCallback){
 									//executing and removing it
@@ -1828,12 +1830,14 @@ var NVision={
 								}
 	
 								var reqObj=tasks[data.id]
-	
+								
+								delete(xhrs[data.id]);
+								
 								if(!reqObj){
 									myConsole.alert("Unexpected data received: " + data.id);
 				
 									//going back to the first tab
-									$("#mainMenu").find("a:first").click();
+									//$("#mainMenu").find("a:first").click();
 
 									return false;
 								}
@@ -1855,6 +1859,9 @@ var NVision={
                         url:reqObj.url,
                         data:reqObj.data
                     })
+					
+					//making a note of the ongoing request
+					xhrs[reqObj.id]=xhr;
                 }                
             }
             
@@ -1874,6 +1881,13 @@ var NVision={
             update();
         },
         empty=function(){
+			
+			//aborting the on-going requests
+			for(var r in xhrs){
+				xhrs[r].abort();
+				delete(xhrs[r])
+			}
+			
             tasks={};
             loopCallback=[];
 			stop();

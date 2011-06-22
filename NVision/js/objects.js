@@ -38,7 +38,7 @@ function myAjax(options){
 	//adding dummy data to avoid cache issues
     attributes.data.dummyId=(new Date()).getTime();
     
-	$.ajax({
+	return $.ajax({
         url:attributes.url,
         type:"GET",
         dataType:"json",
