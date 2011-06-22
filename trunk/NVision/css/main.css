@@ -1651,7 +1651,7 @@
 		height:100%;
 		position:relative;
 		-webkit-text-size-adjust:none;
-		cursor: url(hand.cur),url(../images/openhand.ico),default;
+		cursor: url(../images/openhand.ico),default;
 	}
 	
 	#dashBoardView #zoomWidget{
