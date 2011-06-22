@@ -2936,7 +2936,7 @@ var NVision={
 								hTr.push("<th>")
 								if(options.headClick){
 									hTr.push("<a href='#sort' title='sort'>")
-										hTr.push("<span class='header'>" + cellCaption+"</span>")
+									hTr.push("<span class='header'>" + cellCaption+"</span>")
 									hTr.push("</a>")					
 								}else{
 									hTr.push("<span class='header'>" + cellCaption+"</span>")	
@@ -3015,18 +3015,19 @@ var NVision={
 							totals[totalItem]=totals[totalItem]?totals[totalItem]+value:value;
 						})				
 					})
+										
 					
 					//creating the tableFooter
 					var tr=$("<tr />")
-					$.each(options.data[0],function(index,dataItem){
+					$.each(options.tableHeadings,function(index,dataItem){
 						
-						if(index!="id"){
+						if(dataItem!="id"){
 							var td=$("<td />").appendTo(tr)
 		
-							if(totals[index]){
+							if(totals[dataItem]){
 								td.addClass("data")
 								//this is to avoid the floating numbers sum issue
-								td.text(totals[index]/100)
+								td.text(totals[dataItem]/100)
 							}
 						}
 					})
