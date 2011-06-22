@@ -389,6 +389,7 @@ function myAjax(options){
             selectRow:selectRow===undefined?true:false,
             container:tableContainer,
             data:filteredData,
+			showTotalOn:sysObj.showTotalOn,
             tableHeadings:tableHeadings,
             itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
             currentPage:sysObj.currentPage,
