@@ -1802,6 +1802,10 @@ var NVision={
             for(var reqObj in tasks){
                 reqObj=tasks[reqObj];
                                 
+				if(reqObj.updateInterval<1){
+					continue;
+				}
+				
                 if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updateInterval<now)){                    
                     
                     var cb=$(reqObj.callerObj.canvasBox);
@@ -2152,12 +2156,14 @@ var NVision={
             id:kpiObj.id,
             url:kpiObj.url,
 			data:kpiObj.queryString,
-            callBack:function(data){                
+            callBack:function(data){
+				            
+				
 				//showing the tableView
-				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))
+				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))				
 				
 				//adding totals to the tableView
-				NVision.utils.createTableTotals($("#"+ kpiObj.id + " .tableData table"),data.showTotalOn,data.trades)				
+				//NVision.utils.createTableTotals($("#"+ kpiObj.id + " .tableData table"),data.showTotalOn,data.trades)				
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -2461,6 +2467,8 @@ var NVision={
 
             //updating the system trades object
             sysObj.trades=data.trades;
+			//in case we want to display totals in the table footer
+			sysObj.showTotalOn=data.showTotalOn;
             
             //clearing the filters
             delete(sysObj.filters)
@@ -2846,42 +2854,7 @@ var NVision={
                 tmpTable.remove();                        
             }) 
         },
-		
-		createTableTotals:function(table,showTotalOn,data){
-			//given a table this function adds content to the tableFooter displaying totals for the fields defined in showTotalOn
-			
-			if(data.length>0 && showTotalOn.length>0){				
-				var totals={};
-				
-				$.each(data,function(index,dataItem){				
-					$.each(showTotalOn,function(index,totalItem){
-						var value=dataItem[totalItem];
-						value=parseInt(value*100);
-						
-						totals[totalItem]=totals[totalItem]?totals[totalItem]+value:value;
-					})				
-				})
-				
-				//creating the tableFooter
-				var tr=$("<tr />")
-				$.each(data[0],function(index,dataItem){
-					
-					if(index!="id"){
-						var td=$("<td />").appendTo(tr)
-	
-						if(totals[index]){
-							td.addClass("data")
-							//this is to avoid the floating numbers sum issue
-							td.text(totals[index]/100)
-						}
-					}
-				})
-				
-				tr.appendTo($("<tfoot />").appendTo(table))
-			}	
-			
-		},
-                
+		  
         
         createTable:function(options,onComplete){
             /*
@@ -2893,6 +2866,7 @@ var NVision={
 				headClick
 				rowClick
 				selectRow
+				showTotalOn
             */            
             var stTime=(new Date()).getTime();
 			
@@ -3028,6 +3002,37 @@ var NVision={
 						null;
 				
 				//console.timeEnd("table")
+				
+				
+				if(options.data.length>0 && options.showTotalOn){				
+					var totals={};
+					
+					$.each(options.data,function(index,dataItem){				
+						$.each(options.showTotalOn,function(index,totalItem){
+							var value=dataItem[totalItem];
+							value=parseInt(value*100);
+							
+							totals[totalItem]=totals[totalItem]?totals[totalItem]+value:value;
+						})				
+					})
+					
+					//creating the tableFooter
+					var tr=$("<tr />")
+					$.each(options.data[0],function(index,dataItem){
+						
+						if(index!="id"){
+							var td=$("<td />").appendTo(tr)
+		
+							if(totals[index]){
+								td.addClass("data")
+								//this is to avoid the floating numbers sum issue
+								td.text(totals[index]/100)
+							}
+						}
+					})
+					
+					tr.appendTo($("<tfoot />").appendTo(table))
+				}					
 				
 				if(onComplete){
 					onComplete(table);
