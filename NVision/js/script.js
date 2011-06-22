@@ -1831,6 +1831,7 @@ var NVision={
 	
 								var reqObj=tasks[data.id]
 								
+								//removing the pending req.
 								delete(xhrs[data.id]);
 								
 								if(!reqObj){
