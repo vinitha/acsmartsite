@@ -38,6 +38,9 @@ function myAjax(options){
 	//adding dummy data to avoid cache issues
     attributes.data.dummyId=(new Date()).getTime();
     
+	console.log(attributes.data)
+	
+	
 	return $.ajax({
         url:attributes.url,
         type:"GET",
@@ -190,7 +193,7 @@ function myAjax(options){
 		
 		if(obj && obj.queryString){
 			//adding the BusinessMarket id to the query string
-			obj.queryString.push({name:"BM",value:NVision.appStatus.BM})
+			//obj.queryString.push({name:"BM",value:NVision.appStatus.BM})
 		}
 		
         baseObj.call(this,obj)

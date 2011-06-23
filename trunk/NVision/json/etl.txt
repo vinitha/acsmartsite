@@ -2,6 +2,12 @@
    "_code":"ok",
    "id":"etlObj",
    "name":"Emergency Trade Load",
+   
+   "currentPage":4,
+   "pageCount":5,
+   "recordCount":102,
+   
+   
    "filters":[
       "Time",
       "Market",
