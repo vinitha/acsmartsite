@@ -330,7 +330,7 @@ var NVision={
 		},		
 		
 		defaultFn:function(){
-			myConsole.alert("No default action defined!")
+			//myConsole.alert("No default action defined!")
 			NVision.updateEngine.stop();
 		}
     },
@@ -686,7 +686,7 @@ var NVision={
                     error:function(a,b,c){
                         myConsole.log(a,b,c)
                     },
-		    delegateErrorHandling:false,
+					delegateErrorHandling:false,
                     url:sysConfig.resubmitRequest,
                     data:form.serialize()
                 })
@@ -1542,7 +1542,7 @@ var NVision={
         NVision.utils.deleteTable($("#tableView .tableData").find("table"));
         
         NVision.currentSys=ssObject;
-		ssObject.currentPage=1;
+		ssObject.currentPage=1;		
         
         //clearing the filters
         delete(ssObject.filters);
@@ -1807,13 +1807,22 @@ var NVision={
 					continue;
 				}
 				
-                if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updateInterval<now)){                    
+                if(!reqObj.timeStamp || (reqObj.timeStamp+reqObj.updateInterval<now)){
                     
                     var cb=$(reqObj.callerObj.canvasBox);
                     
                     cb.addClass("updating");
                     
                     reqObj.timeStamp=now;
+					
+					var data=reqObj.data;
+					
+					if(data.itemsPerPage){
+						data.currentPage=reqObj.callerObj.currentPage;
+						data.itemsPerPage=reqObj.callerObj.itemsPerPage;
+					}
+
+
 
                     //generating the ajax request
                     var xhr=myAjax({
@@ -1858,7 +1867,7 @@ var NVision={
                         },
 						type:"jsonp",
                         url:reqObj.url,
-                        data:reqObj.data
+                        data:data
                     })
 					
 					//making a note of the ongoing request
@@ -2109,8 +2118,17 @@ var NVision={
     
     createSystemsUpdateRequests:function(){
         // looping through the adapters list and generating updatesRequest for each adapter       
-         for (var sysName in NVision.adapters){    
-            var sysObj= NVision.adapters[sysName];          
+        for (var sysName in NVision.adapters){    
+            var sysObj= NVision.adapters[sysName],
+				//augmenting the data object with the server side pagination details
+				data={
+					"sysId":sysObj.id,
+					"currentPage":sysObj.currentPage,
+					"itemsPerPage":sysObj.itemsPerPage
+				};
+				
+				
+			
             
             //generating and adding updatesRequest
             //to the updating queue.
@@ -2145,13 +2163,17 @@ var NVision={
     },
     
     createSearchRequest:function(searchObj){
-
+		var data=searchObj.queryString;
+		//augmenting the data object with the server side pagination details
+		data.currentPage=searchObj.currentPage;
+		data.itemsPerPage=searchObj.itemsPerPage;
+			
         var updateReq= new updateRequest({
             callerObj:searchObj,
             updateInterval:searchObj.updateInterval,
             id:searchObj.id,
             url:sysConfig.searchUrl,
-            data:searchObj.queryString,
+            data:data,
             callBack:function(data){
                 
                 searchObj.currentPage=1;
@@ -2164,21 +2186,22 @@ var NVision={
     },
 	
 	createKpiRequest:function(kpiObj){
+		
+		var data=kpiObj.queryString;
+		//augmenting the data object with the server side pagination details
+		data.currentPage=kpiObj.currentPage;
+		data.itemsPerPage=kpiObj.itemsPerPage;
 
         var updateReq= new updateRequest({
             callerObj:kpiObj,
             updateInterval:kpiObj.updateInterval,
             id:kpiObj.id,
             url:kpiObj.url,
-			data:kpiObj.queryString,
+			data:data,
             callBack:function(data){
-				            
-				
+				            				
 				//showing the tableView
-				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))				
-				
-				//adding totals to the tableView
-				//NVision.utils.createTableTotals($("#"+ kpiObj.id + " .tableData table"),data.showTotalOn,data.trades)				
+				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))								
             }
         })
         NVision.updateEngine.add(updateReq);
@@ -2188,12 +2211,17 @@ var NVision={
 	
 	createSysMsgRequest:function(sysMsgObj){
 
+		var data=sysMsgObj.queryString;
+		//augmenting the data object with the server side pagination details
+		data.currentPage=sysMsgObj.currentPage;
+		data.itemsPerPage=sysMsgObj.itemsPerPage;
+		
         var updateReq= new updateRequest({
             callerObj:sysMsgObj,
             updateInterval:sysMsgObj.updateInterval,
             id:sysMsgObj.id,
             url:sysConfig.systemMessages,
-			data:sysMsgObj.queryString,
+			data:data,
             callBack:function(data){
 				//renaming the attribute for consistency
 				data.trades=data.messages;
@@ -2207,12 +2235,17 @@ var NVision={
     
     createEtlRequest:function(etlObj){
 
+		var data=etlObj.queryString;
+		//augmenting the data object with the server side pagination details
+		data.currentPage=etlObj.currentPage;
+		data.itemsPerPage=etlObj.itemsPerPage;
+		
         var updateReq= new updateRequest({
             callerObj:etlObj,
             updateInterval:etlObj.updateInterval,
             id:etlObj.id,
             url:sysConfig.emergencyTradeLoad,
-			data:etlObj.queryString,
+			data:data,
             callBack:function(data){                
                 NVision.utils.showObjTrades(data,$("#etlView .tableData"),$("#etlView .pagination"),$("#etlView .tradesFilters"))
             }
@@ -2222,16 +2255,22 @@ var NVision={
         return updateReq;    
     },
 	
-    createBreaksUpdateRequests:function(sysObj){
-        // generating breaks updatesRequest for the passed system
-
+    createBreaksUpdateRequests:function(sysObj){        
+		//augmenting the data object with the server side pagination details
+		var data={
+				"sysId":sysObj.id,
+				"currentPage":sysObj.currentPage,
+				"itemsPerPage":sysObj.itemsPerPage
+			};		
+		
+		// generating breaks updatesRequest for the passed system	
         var updateReq= new updateRequest({
             callerObj:sysObj,
             updateInterval:sysObj.updateInterval,
             id:sysObj.id,
             url:sysConfig.sysTrades,
-            data:{"sysId":sysObj.id},
-            callBack:function(data){
+            data:data,
+            callBack:function(data){				
                 NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
         })
@@ -2242,6 +2281,13 @@ var NVision={
     },
 	
 	createResubmittedRequest:function(sysObj){
+		//augmenting the data object with the server side pagination details
+		var data={
+				"sysId":sysObj.id,
+				"currentPage":sysObj.currentPage,
+				"itemsPerPage":sysObj.itemsPerPage
+			};		
+
         // generating breaks updatesRequest for the passed system
 
         var updateReq= new updateRequest({
@@ -2249,7 +2295,7 @@ var NVision={
             updateInterval:sysObj.updateInterval,
             id:sysObj.id,
             url:sysConfig.resubmittedTrades,
-            data:{"sysId":sysObj.id},
+            data:data,
             callBack:function(data){
                 NVision.utils.showObjResubmitted(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
@@ -2482,6 +2528,10 @@ var NVision={
 
             //updating the system trades object
             sysObj.trades=data.trades;
+			sysObj.currentPage=data.currentPage;
+			sysObj.pageCount=data.pageCount;
+			sysObj.recordCount=data.recordCount;
+			
 			//in case we want to display totals in the table footer
 			sysObj.showTotalOn=data.showTotalOn;
             
@@ -2510,7 +2560,6 @@ var NVision={
                     var selectObj=$(this);                        
 					
 					if(tableContainer.closest(".view").hasClass("off")){
-					//if($("#tableView").hasClass("off")){
 						return false;
 					}
 					
@@ -2542,6 +2591,9 @@ var NVision={
 
             //updating the system resubmitted object
             sysObj.resubmitted=data.trades;
+			sysObj.currentPage=data.currentPage;
+			sysObj.pageCount=data.pageCount;
+			sysObj.recordCount=data.recordCount;			
             
             //clearing the filters
             delete(sysObj.filters)
@@ -2697,8 +2749,9 @@ var NVision={
 					return false;
 				}
 				
-				options.system.itemsPerPage=$(this).val();
-				options.pageClick(1); 
+				options.system.itemsPerPage=parseInt($(this).val());
+								
+				options.pageClick(1);			
 			})
 			
 			ps.appendTo(
@@ -2717,11 +2770,11 @@ var NVision={
          
             
             var from=options.system.itemsPerPage*(options.system.currentPage-1),
-                to=Math.min(options.system.filteredData.length,options.system.itemsPerPage*options.system.currentPage);
+                to=from + options.system.filteredData.length;//Math.min(options.system.filteredData.length,options.system.itemsPerPage*options.system.currentPage);
                 
                 //to=options.system.displayAll?options.system.filteredData.length:to;
             
-            legend.text("Showing: " + (from+1) + "-" + to +  " / " + options.system.filteredData.length)
+            legend.text("Showing: " + from + "-" + to +  " / " + options.system.recordCount);
             
 			/*
             if(options.system.displayAll){
@@ -2729,7 +2782,7 @@ var NVision={
             }               
 			*/
 			
-            var pageCount=Math.ceil(options.system.filteredData.length/options.system.itemsPerPage),
+            var pageCount=options.system.pageCount, //Math.ceil(options.system.filteredData.length/options.system.itemsPerPage),
                 ul=$("<ul/>");
 				
             for(var x=0;x<pageCount;x++){
@@ -2878,6 +2931,7 @@ var NVision={
 				itemsPerPage
 				tableHeadings
 				currentPage
+				pageCount
 				headClick
 				rowClick
 				selectRow
@@ -2906,7 +2960,7 @@ var NVision={
             options.itemsPerPage=options.itemsPerPage||9999999;
 			
 			//displaying the trades list
-			var firstItem=options.itemsPerPage*(options.currentPage-1),
+			var firstItem=0,//options.itemsPerPage*(options.currentPage-1),
 				itemsCount=0;
 			
 			doStep(firstItem,options.itemsPerPage);
