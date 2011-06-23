@@ -17,11 +17,10 @@ $(function(){
         }
         NVision.appStatus.BM=newStatus.BM||NVision.appStatus.BM;
         	
-		
-		//normalising the appStatus
-		if(!newStatus.tabId){
-			newStatus.tabId="tab_1";
-			newStatus.view={type:"dashBoard"};
+				
+		if(!newStatus.tabId){			
+			$("#mainMenu").find("a:first").click()
+			return false;
 		}
 		
 
@@ -35,7 +34,7 @@ $(function(){
             $("#mainMenu").trigger("showTab",newStatus.tabId);
         }        
               
-        $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue (WTF!)
+        $("#main").css("zoom",1)  //this is needed to fix an IE7 layout issue
 
     })
 	
@@ -1817,6 +1816,9 @@ var NVision={
 					
 					var data=reqObj.data;
 					
+					
+					
+					
 					if(data.itemsPerPage){
 						data.currentPage=reqObj.callerObj.currentPage;
 						data.itemsPerPage=reqObj.callerObj.itemsPerPage;
@@ -2236,6 +2238,7 @@ var NVision={
     createEtlRequest:function(etlObj){
 
 		var data=etlObj.queryString;
+		
 		//augmenting the data object with the server side pagination details
 		data.currentPage=etlObj.currentPage;
 		data.itemsPerPage=etlObj.itemsPerPage;
