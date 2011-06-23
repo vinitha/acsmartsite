@@ -243,6 +243,7 @@ function myAjax(options){
 		
 		//removing the old table and clearing the NVision.fnObj
 		NVision.utils.deleteTable(tableContainer.find("table"))
+			
 		
 		// creating the table
 		NVision.utils.createTable({
@@ -252,6 +253,7 @@ function myAjax(options){
 			tableHeadings:tableHeadings,
 			itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
 			currentPage:sysObj.currentPage,
+			pageCount:sysObj.pageCount,			
 			headClick:function(anchor){
 				
 				var $anchor=$(anchor);
@@ -325,9 +327,11 @@ function myAjax(options){
 					system:sysObj,                    
 					// when the user clicks on a page numb.
 					pageClick:function(pageNum){
-						sysObj.currentPage=pageNum;
 						
-						sysObj.showResubmitted(tableContainer,paginationContainer);                    
+						sysObj.currentPage=pageNum;
+						NVision.updateEngine.updateNow();
+						
+						//sysObj.showResubmitted(tableContainer,paginationContainer);                    
 					}
 				})		
 			
@@ -393,6 +397,7 @@ function myAjax(options){
             tableHeadings:tableHeadings,
             itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
             currentPage:sysObj.currentPage,
+			pageCount:sysObj.pageCount,
             headClick:function(anchor){
                 
                 var $anchor=$(anchor);
@@ -483,9 +488,12 @@ function myAjax(options){
             system:sysObj,                    
             // when the user clicks on a page numb.
             pageClick:function(pageNum){
+				
                 sysObj.currentPage=pageNum;
+				
+				NVision.updateEngine.updateNow();
                 
-                sysObj.showTrades(tableContainer,paginationContainer,rowClick);                    
+                //sysObj.showTrades(tableContainer,paginationContainer,rowClick);                    
             }
         })
         

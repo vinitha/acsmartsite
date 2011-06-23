@@ -2,6 +2,11 @@
    "_code":"ok",
    "id":"ss_02",
    "name":"Safe Store 02",
+   
+   "currentPage":3,
+   "pageCount":8,
+   "recordCount":232,
+   
    "filters":[
       "Time"
    ],

@@ -2,7 +2,12 @@
     "_code":"ok",
     "id":"ClearVisionIN",
     "name":"ClearVision IN: (resubmitted trades)",
-    "filters":["Time","Market","Trader","Trading Ref","Contract"],
+    "filters":["Time","Market","Trader","Trading Ref","Contract"], 
+   
+   "currentPage":1,
+   "pageCount":10,
+   "recordCount":272,
+   
     "trades":[
         {
             "id":16,
