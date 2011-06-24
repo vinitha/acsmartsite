@@ -3,6 +3,11 @@
 	"id":"kpi01",
 	"filters":["Time","Market","Trader","Trading Ref","Contract"],
 	"showTotalOn":["Price","Strike price"],
+	
+   "currentPage":3,
+   "pageCount":25,
+   "recordCount":1202,
+   
     "trades":[
         {
             "id":16,
