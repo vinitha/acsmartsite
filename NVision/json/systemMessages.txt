@@ -2,6 +2,11 @@
    "_code":"ok",
    "id":"sysMsgObj",
    "name":"System Messages",
+   
+   "currentPage":7,
+   "pageCount":15,
+   "recordCount":1902,
+   
    "filters":[
       "Time",
       "Source",

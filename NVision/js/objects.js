@@ -18,7 +18,7 @@ function updateRequest(options){
 
 // function used to bind the ajax request with myConsole message
 function myAjax(options){
-    
+
     var attributes={
         logMsg:null,
         url:"",
@@ -27,18 +27,28 @@ function myAjax(options){
 		delegateErrorHandling:true,
         data:{}
     }
-        
+	    
     $.extend(attributes,options)
-    $.extend(attributes.data,{"BM":NVision.appStatus.BM})
-    
+	
+	if(utils.RealTypeOf(attributes.data)=="array"){
+		
+		var data={};
+		$.each(attributes.data,function(i,elem){
+			data[elem.name]=elem.value			
+		})
+		
+		attributes.data=data;
+	}
+	
+	
+	attributes.data["BM"]=NVision.appStatus.BM	
+	//adding dummy data to avoid cache issues
+	attributes.data["dummyId"]=(new Date()).getTime();
+		
     if(attributes.logMsg){
         var msgId=myConsole.status(attributes.logMsg);    
     }
-	
-	//adding dummy data to avoid cache issues
-    attributes.data.dummyId=(new Date()).getTime();
-    
-	console.log(attributes.data)
+
 	
 	
 	return $.ajax({

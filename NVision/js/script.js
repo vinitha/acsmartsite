@@ -12,8 +12,11 @@ $(function(){
 
         //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
         if(!newStatus.BM && NVision.appStatus.BM==undefined){
-            myConsole.alert("Business Market undefined!")
-            return false;
+            
+			/*myConsole.alert("Business Market undefined!")
+	        return false;*/
+			NVision.appStatus.BM="noBM"
+		
         }
         NVision.appStatus.BM=newStatus.BM||NVision.appStatus.BM;
         	
@@ -53,8 +56,9 @@ $().ready(function(){
 	}
 	
 	if(NVision.appStatus.BM==undefined){
-		myConsole.alert("Business Market undefined!")
-		return false;
+		//myConsole.alert("Business Market undefined!")
+		//return false;
+		NVision.appStatus.BM="noBM";
 	}
 	
     //init. the NVision object (passing a function to be executed when the system is ready)
@@ -310,14 +314,6 @@ var NVision={
             NVision.showKpi();
         },
         
-        tab_3:function(){
-            NVision.updateEngine.stop();
-            myConsole.alert("Please define tab_3 default content")
-        },
-		
-		tab_4:function(){
-			NVision.updateEngine.stop();		
-		},
 		
 		tab_5:function(){
 			
@@ -1207,7 +1203,10 @@ var NVision={
 			}
 			
 			NVision.appStatus.currentTab="tab_1";
-            NVision.appStatus[NVision.appStatus.currentTab]={view:{type:"dashBoard"}};
+            NVision.appStatus[NVision.appStatus.currentTab]={
+				view:{type:"dashBoard"},
+				tabId:"tab_1"
+			};
 			
             $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
             
@@ -1426,8 +1425,7 @@ var NVision={
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
             updateInterval:20000,
-            type:"emergencyTradeList",
-			queryString:[]
+            type:"emergencyTradeList"
         });
         
         NVision.currentSys=etlReq;				
@@ -1488,8 +1486,7 @@ var NVision={
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
             updateInterval:20000,
-            type:"systemMessage",
-			queryString:[]
+            type:"systemMessage"
         });
         
         NVision.currentSys=sysMsgReq;				
@@ -1814,14 +1811,11 @@ var NVision={
                     
                     reqObj.timeStamp=now;
 					
-					var data=reqObj.data;
-					
-					
-					
+					var data=reqObj.data;					
 					
 					if(data.itemsPerPage){
-						data.currentPage=reqObj.callerObj.currentPage;
-						data.itemsPerPage=reqObj.callerObj.itemsPerPage;
+						data["currentPage"]=reqObj.callerObj.currentPage;
+						data["itemsPerPage"]=reqObj.callerObj.itemsPerPage;
 					}
 
 
@@ -2121,13 +2115,12 @@ var NVision={
     createSystemsUpdateRequests:function(){
         // looping through the adapters list and generating updatesRequest for each adapter       
         for (var sysName in NVision.adapters){    
-            var sysObj= NVision.adapters[sysName],
+            var sysObj= NVision.adapters[sysName];
+			
 				//augmenting the data object with the server side pagination details
-				data={
-					"sysId":sysObj.id,
-					"currentPage":sysObj.currentPage,
-					"itemsPerPage":sysObj.itemsPerPage
-				};
+			var data=[
+					{name:"sysId",value:sysObj.id}
+				];
 				
 				
 			
@@ -2139,7 +2132,7 @@ var NVision={
                 updateInterval:sysObj.updateInterval,
                 id:sysObj.id,
                 url:sysConfig.sysUpdates,
-                data:{"sysId":sysObj.id},
+                data:data,
                 callBack:function(data){
                     var sysObj=NVision.adapters[data.id];
                     
@@ -2166,9 +2159,11 @@ var NVision={
     
     createSearchRequest:function(searchObj){
 		var data=searchObj.queryString;
+		
+		
 		//augmenting the data object with the server side pagination details
-		data.currentPage=searchObj.currentPage;
-		data.itemsPerPage=searchObj.itemsPerPage;
+		$.extend(data,{name:"currentPage",value:searchObj.currentPage})
+		$.extend(data,{name:"itemsPerPage",value:searchObj.itemsPerPage})
 			
         var updateReq= new updateRequest({
             callerObj:searchObj,
@@ -2189,10 +2184,11 @@ var NVision={
 	
 	createKpiRequest:function(kpiObj){
 		
-		var data=kpiObj.queryString;
-		//augmenting the data object with the server side pagination details
-		data.currentPage=kpiObj.currentPage;
-		data.itemsPerPage=kpiObj.itemsPerPage;
+		var data={
+			"sysId":kpiObj.id,
+			"currentPage":kpiObj.currentPage,
+			"itemsPerPage":kpiObj.itemsPerPage
+		};
 
         var updateReq= new updateRequest({
             callerObj:kpiObj,
@@ -2213,10 +2209,11 @@ var NVision={
 	
 	createSysMsgRequest:function(sysMsgObj){
 
-		var data=sysMsgObj.queryString;
-		//augmenting the data object with the server side pagination details
-		data.currentPage=sysMsgObj.currentPage;
-		data.itemsPerPage=sysMsgObj.itemsPerPage;
+		var data={
+			"sysId":sysMsgObj.id,
+			"currentPage":sysMsgObj.currentPage,
+			"itemsPerPage":sysMsgObj.itemsPerPage
+		};
 		
         var updateReq= new updateRequest({
             callerObj:sysMsgObj,
@@ -2236,12 +2233,13 @@ var NVision={
     },
     
     createEtlRequest:function(etlObj){
-
-		var data=etlObj.queryString;
 		
 		//augmenting the data object with the server side pagination details
-		data.currentPage=etlObj.currentPage;
-		data.itemsPerPage=etlObj.itemsPerPage;
+		var data={
+			"sysId":etlObj.id,
+			"currentPage":etlObj.currentPage,
+			"itemsPerPage":etlObj.itemsPerPage
+		};	
 		
         var updateReq= new updateRequest({
             callerObj:etlObj,
@@ -2261,11 +2259,11 @@ var NVision={
     createBreaksUpdateRequests:function(sysObj){        
 		//augmenting the data object with the server side pagination details
 		var data={
-				"sysId":sysObj.id,
-				"currentPage":sysObj.currentPage,
-				"itemsPerPage":sysObj.itemsPerPage
-			};		
-		
+			"sysId":sysObj.id,
+			"currentPage":sysObj.currentPage,
+			"itemsPerPage":sysObj.itemsPerPage
+		};		
+
 		// generating breaks updatesRequest for the passed system	
         var updateReq= new updateRequest({
             callerObj:sysObj,
@@ -2286,10 +2284,10 @@ var NVision={
 	createResubmittedRequest:function(sysObj){
 		//augmenting the data object with the server side pagination details
 		var data={
-				"sysId":sysObj.id,
-				"currentPage":sysObj.currentPage,
-				"itemsPerPage":sysObj.itemsPerPage
-			};		
+			"sysId":sysObj.id,
+			"currentPage":sysObj.currentPage,
+			"itemsPerPage":sysObj.itemsPerPage
+		};		
 
         // generating breaks updatesRequest for the passed system
 

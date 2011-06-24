@@ -2331,53 +2331,6 @@
 	
 	
 	
-@media print{
-	.bcBar,
-	.systemName,
-	#header,
-	#searchForm,
-	.pagination .showAll,
-	.toolBar .buttons{
-		display:none;
-	}
-	#main{
-		margin:0px;
-	}
-	.tabContent{
-		width: 100%;
-		margin: 0;
-		float: none;
-		overflow:visible;
-	}
-	
-	.toolBar {
-		border:none;
-		border-bottom:1px solid #999;
-	}
-	
-	.tableData,
-	#tableView{
-		position:static;
-	}
-	
-	.tableData table{
-		border:3px solid #666;
-	}
-	
-	.tabContent{
-		height:auto!important;
-	}
-	
-	#shadedBar,
-	.tableData thead tr{
-		border-bottom:3px solid #666;
-	}
-	
-	
-}
-
-
-
 
 /* components visibility rules */
 
@@ -2429,6 +2382,7 @@
 	
 	.showETL .toolBar .buttons li,
 	.showETL #shadedBar,
+	.showETL .pagination,
 		
 	.showSysMsg .pagination,
 	.showSysMsg #shadedBar,
@@ -2441,6 +2395,53 @@
 
 
 
+
+
+@media print{
+	#container .bcBar,
+	#container .systemName,
+	#container #header,
+	#container #searchForm,
+	#container .pagination .showAll,
+	#container .toolBar .buttons{
+		display:none;
+	}
+	
+	#main{
+		margin:0px;
+	}
+	.tabContent{
+		width: 100%;
+		margin: 0;
+		float: none;
+		overflow:visible;
+	}
+	
+	.toolBar {
+		border:none;
+		border-bottom:1px solid #999;
+	}
+	
+	.tableData,
+	#tableView{
+		position:static;
+	}
+	
+	.tableData table{
+		border:3px solid #666;
+	}
+	
+	.tabContent{
+		height:auto!important;
+	}
+	
+	#shadedBar,
+	.tableData thead tr{
+		border-bottom:3px solid #666;
+	}
+	
+	
+}
 
 
 @font-face {
