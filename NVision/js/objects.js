@@ -241,18 +241,18 @@ function myAjax(options){
 		}
 		
 		
-		//filtering out the data according to the "filters" settings
-		var filteredData=[]
-		_t:for (var trade in sysObj.resubmitted){
-			_f:for(var f in sysObj.filters){                        
-				if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
-					continue _t;
-				}
-			}
-			filteredData.push(sysObj.resubmitted[trade]);
-		}
+		////filtering out the data according to the "filters" settings
+		//var filteredData=[]
+		//_t:for (var trade in sysObj.resubmitted){
+		//	_f:for(var f in sysObj.filters){                        
+		//		if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
+		//			continue _t;
+		//		}
+		//	}
+		//	filteredData.push(sysObj.resubmitted[trade]);
+		//}
 		
-		sysObj.filteredData=filteredData;
+		sysObj.filteredData=sysObj.resubmitted;
 		
 		//removing the old table and clearing the NVision.fnObj
 		NVision.utils.deleteTable(tableContainer.find("table"))
@@ -262,7 +262,7 @@ function myAjax(options){
 		NVision.utils.createTable({
 			selectRow:false,
 			container:tableContainer,
-			data:filteredData,
+			data:sysObj.resubmitted,
 			tableHeadings:tableHeadings,
 			itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
 			currentPage:sysObj.currentPage,
@@ -384,19 +384,19 @@ function myAjax(options){
         }
         
         
-        //filtering out the data according to the "filters" settings
-        var filteredData=[];
-		
-        _t:for (var trade in sysObj.trades){
-            _f:for(var f in sysObj.filters){                        
-                if(sysObj.trades[trade][f]!=sysObj.filters[f]){
-                    continue _t;
-                }
-            }
-            filteredData.push(sysObj.trades[trade]);
-        }
+        ////filtering out the data according to the "filters" settings
+        //var filteredData=[];
+        //
+        //_t:for (var trade in sysObj.trades){
+        //    _f:for(var f in sysObj.filters){                        
+        //        if(sysObj.trades[trade][f]!=sysObj.filters[f]){
+        //            continue _t;
+        //        }
+        //    }
+        //    filteredData.push(sysObj.trades[trade]);
+        //}
         
-        sysObj.filteredData=filteredData;
+        sysObj.filteredData=sysObj.trades;
         
         //removing the old table and clearing the NVision.fnObj
         NVision.utils.deleteTable(tableContainer.find("table"))
@@ -405,7 +405,7 @@ function myAjax(options){
         NVision.utils.createTable({
             selectRow:selectRow===undefined?true:false,
             container:tableContainer,
-            data:filteredData,
+            data:sysObj.trades,
 			showTotalOn:sysObj.showTotalOn,
             tableHeadings:tableHeadings,
             itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
@@ -577,7 +577,7 @@ function myAjax(options){
 				NVision.appStatus[NVision.appStatus.currentTab].view={type:"safestore","sysName":this.hash.replace("#","")}
 				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);    
 			})
-			.appendTo(objDiv.find("h3"));
+			.insertAfter(objDiv.find("h3"));
         
     }
 	

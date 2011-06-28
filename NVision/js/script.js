@@ -59,13 +59,7 @@ $().ready(function(){
 		//myConsole.alert("Business Market undefined!")
 		//return false;
 		NVision.appStatus.BM="noBM";
-	}
-	
-    //init. the NVision object (passing a function to be executed when the system is ready)
-    NVision.init(function(){
-		$(window).trigger("hashchange")       
-        $(window).resize()        
-    });
+	}	
     
     
     //setting the main tabMenus custom events
@@ -129,7 +123,7 @@ $().ready(function(){
         
         var $a=$(this),
             oldTab=$a.closest("li").siblings(".current"),
-			oldHash=oldTab.find("a").attr("hash");
+			oldHash=oldTab.find("a").attr("hash"),
 			newHash=this.hash.indexOf("=")>0?"#" + this.hash.split("=")[1]:this.hash,
 			oldId="";
 			
@@ -211,6 +205,13 @@ $().ready(function(){
                 advBtn.trigger("hideAdv")
             }
         })
+		
+		
+    //init. the NVision object (passing a function to be executed when the system is ready)
+    NVision.init(function(){		
+		$(window).trigger("hashchange")       
+        $(window).resize()        
+    });		
 
 })
 
@@ -228,7 +229,7 @@ var NVision={
     adapters:null,
     links:null,
     //layout:null,
-    sysReady:null,          //this function gets exectuted after the json data has been processed by the client
+    dashBoardReady:null,          //this function gets exectuted after the json data has been processed by the client
     tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the user clicks on it
         tab_1:function(){
 			
@@ -239,6 +240,20 @@ var NVision={
 			//updating the view
             switch(NVision.appStatus.tab_1.view.type){
                 case "dashBoard":
+					
+					
+					if(!NVision._sysInitialised){
+						NVision._sysInitialised=true;
+						NVision.getSysComposition(function(){
+							//firing the ready event!
+							NVision.dashBoardReady();
+													
+							//setting the zoom level to 100%
+							NVision.zoom(0);					
+						})
+						return false;
+					}
+					
                     NVision.showDashboard();
 					
 					//redrawing the links
@@ -247,7 +262,15 @@ var NVision={
 					NVision.updateEngine.forceStart();					
                 break;
                 
-                case "adapter":					
+                case "adapter":
+					
+					if(!NVision._sysInitialised){
+						NVision._sysInitialised=true;
+						NVision.getSysComposition(function(){
+							$(window).trigger("hashchange");
+						})
+						return false;
+					}					
 					
                     //if(!NVision.appStatus.view || NVision.appStatus.view.sysName!=newStatus.view.sysName){
                         var sysName=newStatus.view.sysName,
@@ -293,6 +316,15 @@ var NVision={
 			
 			
 				case "safestore":
+					
+					if(!NVision._sysInitialised){
+						NVision._sysInitialised=true;
+						NVision.getSysComposition(function(){
+							$(window).trigger("hashchange");
+						})
+						return false;
+					}
+					
 					var sysName=newStatus.view.sysName,
 						sysObj=NVision.safestores[sysName];
 						
@@ -329,9 +361,9 @@ var NVision={
 			NVision.updateEngine.stop();
 		}
     },
-    init:function(sysReady){
+    init:function(dashBoardReady){
         
-        NVision.sysReady=sysReady;
+        NVision.dashBoardReady=dashBoardReady;
         
         //showing the version number
         $("#sysVer .frontEnd").text(NVision.ver + " - ");
@@ -475,6 +507,40 @@ var NVision={
 			$("#dashBoardView").css("height",h);
 			$(".tabContent iframe").css("height",h+35);
 			
+			
+			//adding scrollbars to the tab menus			
+			$(".menuContainer").each(function(){
+				var div=$(this),
+					ul=div.children("ul");
+				
+				if(ul.innerWidth()<ul.get(0).scrollWidth){
+
+					if(!div.data("data-hasScrolls")){
+						//adding the scrolling buttons
+						$("<a class='button scrlLeft' href='#scroll left' title='Scroll left' />")
+							.text("<")
+							.prependTo(div)
+							.click(function(e){
+								e.preventDefault();
+								scroller($(this).siblings("ul")).scrollLeft(0.5)				
+							})
+						
+						$("<a class='button scrlRight' href='#scroll right' title='Scroll right' />")
+							.text(">")
+							.appendTo(div)
+							.click(function(e){
+								e.preventDefault();
+								scroller($(this).siblings("ul")).scrollRight(0.5)				
+							})
+							
+						div.data("data-hasScrolls",true)
+					}
+				}else{
+					div.data("data-hasScrolls",false)
+					div.find("a.button").remove();
+				}
+			})
+					
             
         })
         
@@ -762,92 +828,6 @@ var NVision={
                                     })            
         })();
                 
-				
-		$("#businessMarket strong").addClass("loading").text("loading...")
-        
-        //getting the system definition
-        myAjax({
-            logMsg:null,
-            url:sysConfig.sysComposition,
-            error:function(XMLHttpRequest, textStatus, errorThrown){
-                myConsole.error(textStatus || errorThrown);
-            },
-            success:function(dataObj){
-                
-                $("#businessMarket strong").removeClass("loading").text(dataObj.bm||"Error");
-				
-				if(dataObj._code=="ok"){
-					//showing the version number
-					$("#sysVer .backEnd").text(dataObj.ver);
-			
-					var data=dataObj.composition;
-					
-					$("#sysVer")
-					//add the objects to NVision
-					$(data).each(function(){
-						switch(this.type){
-							case "system":
-								if(!NVision.systems){NVision.systems={}};
-	
-								//adding the system to the NVision obj
-								NVision.systems[this.id]=new system(this);
-							break;
-												
-							case "adapter":
-								if(!NVision.adapters){NVision.adapters={}};
-								
-								//base settings
-								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
-								this.currentPage=1;
-								
-								//adding the adapter to the NVision obj
-								NVision.adapters[this.id]=new adapter(this);
-							break;
-							
-							case "link":
-								if(!NVision.links){NVision.links={}};
-								//adding the link to the NVision obj
-								NVision.links[this.id]=this;
-							break;
-							
-
-							
-							case "exchange":
-							  if(!NVision.otherObjects){NVision.otherObjects={}};
-								//adding the exchange to the NVision obj
-								NVision.otherObjects[this.id]=new exchange(this);
-							break;
-						
-							case "safestore":
-								if(!NVision.safestores){NVision.safestores={}};
-								
-								//base settings
-								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
-								this.currentPage=1;								
-								
-								//adding the safestore to the NVision obj
-								NVision.safestores[this.id]=new safestore(this);
-							break;
-							
-							default :
-							  if(!NVision.otherObjects){NVision.otherObjects={}};
-								//adding the otherObjects to the NVision obj
-								NVision.otherObjects[this.id]=new baseObj(this);                            
-							break;
-	
-						}
-					})
-									
-									
-					//firing the ready event!
-					NVision.sysReady();
-					
-					
-					//setting the zoom level to 100%
-					NVision.zoom(0);
-				}
-            }
-        });
         
         
         // setting the buttons function up
@@ -1243,9 +1223,97 @@ var NVision={
                 }
             }
         )
+		
+		
+		dashBoardReady();
     },
     
-    doSearch:function(qs){
+    
+	getSysComposition:function(callBack){
+		$("#businessMarket strong").addClass("loading").text("loading...")
+        
+        //getting the system definition
+        myAjax({
+            logMsg:null,
+            url:sysConfig.sysComposition,
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                myConsole.error(textStatus || errorThrown);
+            },
+            success:function(dataObj){
+                
+                $("#businessMarket strong").removeClass("loading").text(dataObj.bm||"Error");
+				
+				if(dataObj._code=="ok"){
+					//showing the version number
+					$("#sysVer .backEnd").text(dataObj.ver);
+			
+					var data=dataObj.composition;
+					
+					$("#sysVer")
+					//add the objects to NVision
+					$(data).each(function(){
+						switch(this.type){
+							case "system":
+								if(!NVision.systems){NVision.systems={}};
+	
+								//adding the system to the NVision obj
+								NVision.systems[this.id]=new system(this);
+							break;
+												
+							case "adapter":
+								if(!NVision.adapters){NVision.adapters={}};
+								
+								//base settings
+								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
+								this.currentPage=1;
+								
+								//adding the adapter to the NVision obj
+								NVision.adapters[this.id]=new adapter(this);
+							break;
+							
+							case "link":
+								if(!NVision.links){NVision.links={}};
+								//adding the link to the NVision obj
+								NVision.links[this.id]=this;
+							break;
+							
+
+							
+							case "exchange":
+							  if(!NVision.otherObjects){NVision.otherObjects={}};
+								//adding the exchange to the NVision obj
+								NVision.otherObjects[this.id]=new exchange(this);
+							break;
+						
+							case "safestore":
+								if(!NVision.safestores){NVision.safestores={}};
+								
+								//base settings
+								this.itemsPerPage=sysConfig.tableView.itemsPerPage;                            
+								this.currentPage=1;								
+								
+								//adding the safestore to the NVision obj
+								NVision.safestores[this.id]=new safestore(this);
+							break;
+							
+							default :
+							  if(!NVision.otherObjects){NVision.otherObjects={}};
+								//adding the otherObjects to the NVision obj
+								NVision.otherObjects[this.id]=new baseObj(this);                            
+							break;
+	
+						}
+					})
+					
+					if(callBack){
+						callBack();
+					}
+				}
+            }
+        });		
+	},
+	
+	doSearch:function(qs){
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="doSearch";
 		
@@ -1267,7 +1335,7 @@ var NVision={
             id:"searchResults",
             currentPage:1,
             itemsPerPage:sysConfig.tableView.itemsPerPage,
-            updateInterval:10000,
+            updateInterval:99999,
             type:"searchResults",
             queryString:qs
         });
@@ -1304,7 +1372,8 @@ var NVision={
 			NVision.kpi={};
 			
 			var view=$("#kpiView"),
-				ul=$("<ul class='tabMenu simpleMenu' />"),
+				menuContainer=$("<div class='menuContainer simpleMenu' />"),
+				ul=$("<ul class='tabMenu' />"),
 				contentDiv=$("<div class='simpleMenuContent'>"),
 				idx=0;
 						
@@ -1334,7 +1403,7 @@ var NVision={
 				}
 			}
 			
-			ul.appendTo(view);
+			ul.appendTo(menuContainer.appendTo(view));
 			contentDiv.appendTo(view);
 			
 			//handling the tabMenu clicks
@@ -1398,6 +1467,8 @@ var NVision={
 		//activating the first tab
 		$("#kpiView .tabMenu").find("li:first a").click();		
 		
+		//checking whether the scroll buttons are required
+		$(window).resize();
 	},
 	
 	
@@ -1541,7 +1612,7 @@ var NVision={
 		ssObject.currentPage=1;		
         
         //clearing the filters
-        delete(ssObject.filters);
+        //delete(ssObject.filters);
         delete(ssObject.filteredData)
         
         // clearing the update engine
@@ -1601,7 +1672,7 @@ var NVision={
 		sysObj.currentPage=1;
         
         //clearing the filters
-        delete(sysObj.filters);
+        //delete(sysObj.filters);
         delete(sysObj.filteredData)
         
         // clearing the update engine
@@ -1740,7 +1811,7 @@ var NVision={
     //handles all the updates requests
     updateEngine:(function(){
         var tasks={},               //hash table
-		xhrs={}						//hash table of the on-going ajax request (used to abort requests when .empty method is invoked)
+		xhrs={},					//hash table of the on-going ajax request (used to abort requests when .empty method is invoked)
         engineTimer=1000,           //checks the tasks list every x millisec.
         intervalHnd=null,
         loopCallback=[],            //functions array to be executed every second
@@ -1811,12 +1882,42 @@ var NVision={
                     
                     reqObj.timeStamp=now;
 					
-					var data=reqObj.data;					
+					var data=reqObj.data;
 					
+					
+					
+					if(utils.RealTypeOf(data)=="array"){
+						
+						//converting the array into an hashtable obj.
+						var hash={};				
+						$.each(data,function(i,item){							
+							hash[item.name]=item.value;
+						})
+						
+						reqObj.data=hash;
+						
+					}
+					
+					//updating the query params
 					if(data.itemsPerPage){
+						
+						data={};
+						
+						//pagination stuff
 						data["currentPage"]=reqObj.callerObj.currentPage;
 						data["itemsPerPage"]=reqObj.callerObj.itemsPerPage;
+						
+						//filters stuff
+						if (reqObj.callerObj.filters){
+							for (f in reqObj.callerObj.filters){
+								data[f]=reqObj.callerObj.filters[f];
+							}
+						}								
 					}
+											
+			
+					
+
 
 
 
@@ -2159,11 +2260,10 @@ var NVision={
     
     createSearchRequest:function(searchObj){
 		var data=searchObj.queryString;
-		
-		
+				
 		//augmenting the data object with the server side pagination details
-		$.extend(data,{name:"currentPage",value:searchObj.currentPage})
-		$.extend(data,{name:"itemsPerPage",value:searchObj.itemsPerPage})
+		data.push({name:"currentPage",value:searchObj.currentPage})
+		data.push({name:"itemsPerPage",value:searchObj.itemsPerPage})
 			
         var updateReq= new updateRequest({
             callerObj:searchObj,
@@ -2197,7 +2297,8 @@ var NVision={
             url:kpiObj.url,
 			data:data,
             callBack:function(data){
-				            				
+				$("#businessMarket strong").text(data.bm);
+				
 				//showing the tableView
 				NVision.utils.showObjTrades(data,$("#"+ kpiObj.id + " .tableData"),$("#"+ kpiObj.id + " .pagination"),$("#"+ kpiObj.id + " .tradesFilters"))								
             }
@@ -2247,7 +2348,8 @@ var NVision={
             id:etlObj.id,
             url:sysConfig.emergencyTradeLoad,
 			data:data,
-            callBack:function(data){                
+            callBack:function(data){
+				$("#businessMarket strong").text(data.bm)
                 NVision.utils.showObjTrades(data,$("#etlView .tableData"),$("#etlView .pagination"),$("#etlView .tradesFilters"))
             }
         })
@@ -2537,7 +2639,7 @@ var NVision={
 			sysObj.showTotalOn=data.showTotalOn;
             
             //clearing the filters
-            delete(sysObj.filters)
+            //delete(sysObj.filters)
             delete(sysObj.filteredData)
             
             
@@ -2550,7 +2652,7 @@ var NVision={
             sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
                         
             //creating the filters html
-            var html=NVision.utils.createFilters(data.trades,data.filters),                
+            var html=NVision.utils.createFilters(data.filters),                
                 filtersDiv=filtersContainer.empty();
 								
             
@@ -2564,21 +2666,25 @@ var NVision={
 						return false;
 					}
 					
-					
-					
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
                     if(selectObj.val()==""){
                         delete(sysObj.filters[selectObj.attr("name")]);
-                        NVision.updateEngine.start();
                     }else{
                         sysObj.filters[selectObj.attr("name")]=selectObj.val();
-                        NVision.updateEngine.stop();
                     }
                     
                     //moving to page 1
                     sysObj.currentPage=1;
                                             
-                    sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
+                    
+					NVision.updateEngine.updateNow();
+					if(selectObj.val()!=""){
+						NVision.updateEngine.stop()
+					}else{
+						NVision.updateEngine.start()
+					}
+					
+					//sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
                 })
             }
             
@@ -2597,7 +2703,7 @@ var NVision={
 			sysObj.recordCount=data.recordCount;			
             
             //clearing the filters
-            delete(sysObj.filters)
+            //delete(sysObj.filters)
             delete(sysObj.filteredData)
             
             
@@ -2611,7 +2717,7 @@ var NVision={
             
             
             //creating the filters html
-            var html=NVision.utils.createFilters(data.trades,data.filters),                
+            var html=NVision.utils.createFilters(data.filters),                
                 filtersDiv=filtersContainer.empty();
             
             for(var filter in html){
@@ -2627,16 +2733,20 @@ var NVision={
                     sysObj.filters=sysObj.filters?sysObj.filters:{};
                     if(selectObj.val()==""){
                         delete(sysObj.filters[selectObj.attr("name")]);
-                        NVision.updateEngine.start();
                     }else{
                         sysObj.filters[selectObj.attr("name")]=selectObj.val();
-                        NVision.updateEngine.stop();
                     }
                     
                     //moving to page 1
                     sysObj.currentPage=1;
                                             
-                    sysObj.showResubmitted(tableContainer,paginationContainer)
+					NVision.updateEngine.updateNow();
+					if(selectObj.val()!=""){
+						NVision.updateEngine.stop()
+					}else{
+						NVision.updateEngine.start()
+					}
+					//sysObj.showResubmitted(tableContainer,paginationContainer)
                 })
             }
             
@@ -2814,7 +2924,7 @@ var NVision={
 			
 			
 			if(ul.innerWidth()<ul.get(0).scrollWidth){
-				ul.css("width",400);		//IE8 fix!
+				ul.css("width",350);		//IE8 fix!
 				
 				//adding the scrolling buttons
 				$("<a class='button scrlLeft' href='#scroll left' title='Scroll left' />")
@@ -2835,7 +2945,7 @@ var NVision={
 			}
         },
         
-        createFilters:function(data,filters){
+        createFilters:function(filters){
             // html template
             /*
             <label>
@@ -2847,59 +2957,69 @@ var NVision={
               </select>
             </label>
             */
-            var filterObj={};
             
-           
-            // getting only the unique values
-            for (var f in filters){
-                filterObj[filters[f]]=[];
-                var tmpObj={};  //dummy obj used to filter out dups
-                
-                for (var d in data){
-                    if(!tmpObj[data[d][filters[f]]]){
-                        filterObj[filters[f]].push(data[d][filters[f]]);
-                    }
-                    tmpObj[data[d][filters[f]]]=data[d][filters[f]];
-                }
-            }
+			
+			
+//			var filterObj={};
+//            
+//            // getting only the unique values
+//            for (var f in filters){
+//                filterObj[filters[f]]=[];
+//                var tmpObj={};  //dummy obj used to filter out dups
+//                
+//                for (var d in data){
+//                    if(!tmpObj[data[d][filters[f]]]){
+//                        filterObj[filters[f]].push(data[d][filters[f]]);
+//                    }
+//                    tmpObj[data[d][filters[f]]]=data[d][filters[f]];
+//                }
+//            }
 
             
             var html=[];
 
             
 			try{
-				for (var f in filterObj){
-					var fObj=filterObj[f];
+				for (var f in filters){
+					var fObj=filters[f];
 					
 					//sorting the dropDown items                
-					fObj.sort();
+					//fObj.sort();
 					
-					var wrapper=$("<label />")
-						.append(
-							$("<span />").text(f + ":")
-						)
+					for (var fName in fObj){
+						var wrapper=$("<label />")
+							.append(
+								$("<span />").text(fName + ":")
+							)
+							
+						var dropDown=$("<select />")
+										.attr("name",fName)
+										.appendTo(wrapper)
 						
-					var dropDown=$("<select />")
-									.attr("name",f)
-									.appendTo(wrapper)
-					
-						$("<option />")
-							.attr("value","")
-							.text("-- --")
-							.attr("selected","selected")
-							.appendTo(dropDown)                
-					
-					for (var opt in fObj){
-						$("<option />")
-							.attr("value",fObj[opt])
-							.text(fObj[opt])
-							.appendTo(dropDown)
+							$("<option />")
+								.attr("value","")
+								.text("-- --")
+								.attr("selected","selected")
+								.appendTo(dropDown)                
+						
+						for (var opt in fObj[fName]){
+							$("<option />")
+								.attr({
+									"value":fObj[fName][opt],
+									"selected":NVision.currentSys.filters?NVision.currentSys.filters[fName]?NVision.currentSys.filters[fName]==fObj[fName][opt]:false:false
+								})
+								.text(fObj[fName][opt])
+								.appendTo(dropDown)								
+						}
+									
+						html.push(wrapper)						
 					}
-								
-					html.push(wrapper)
+					
+
 				}
 			}catch(er){
-				myConsole.alert("An error occurred while creating the filter objects")
+				myConsole.alert("An error occurred while creating the filter objects!")
+				console.error(er)
 			}
 			
 			

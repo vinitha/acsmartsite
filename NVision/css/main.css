@@ -278,14 +278,6 @@
 
 /* *** */
 
-#menuBar{
-	margin-bottom: -1px;
-	overflow: hidden;	
-	z-index: 2;
-	position: relative;
-}
-
-
 #main{
 	border: 1px solid #999999;
 	margin:0px;
@@ -303,9 +295,9 @@
 		-webkit-border-radius: 5px; /* For Safari/Chrome */
 		border-radius: 5px; /* For when the standard gets fully supported */
 		
-		-moz-box-shadow:1px 1px 3px #000;		
-		box-shadow: 1px 1px 3px #000; /* CSS3    */
+		-moz-box-shadow:1px 1px 3px #000;				
 		-webkit-box-shadow: 1px 1px 3px #000; /* Webkit  */
+		box-shadow: 1px 1px 3px #000; /* CSS3    */
 }
 
 .ie7 .indexPage #main{
@@ -314,16 +306,47 @@
 }
 
 /* tabMenu */
+	.menuContainer{
+		margin-bottom: -1px;
+		position: relative;
+		z-index: 2;
+		overflow:hidden;
+		padding:0px 18px;
+	}
+	
+	.menuContainer .scrlLeft,
+	.menuContainer .scrlRight{
+		position:absolute;
+		padding:5px;
+		left:0px;
+		bottom:0px;
+		font-weight:bold;
+		color:#666;
+		background-color:#f9f9f9;
+		border-color:#999;
+		border-bottom:none;
+	}
+
+	.menuContainer .scrlRight{
+		right:0px;
+		left:auto;
+	}
+	
+	
 	.tabMenu{
 		overflow:hidden;
 		float:left;
-		margin-left:20px;
+		margin:0px;
 		font-family:"myriad-pro-1";
+		white-space:nowrap;
+		width:100%;
 	}
 	
 	.tabMenu li{
-		float:left;
+		display:inline-block;
+		zoom: 1; *display: inline; /* IE < 8: fake inline-block */
 	}
+	
 	
 	.tabMenu li a{
 		background-color: #d0d0d0;
@@ -331,7 +354,7 @@
 		color: #666666;
 		display: block;
 		font-size: 1.3em;
-		margin-right: 1px;
+		margin-left: 1px;
 		
 		outline:none;
 		
@@ -389,10 +412,14 @@
 	}
 	
 	.simpleMenu{
-		position:relative;
-		z-index:2;
-		margin-bottom:-1px;
-		margin-top:10px;
+		margin: 10px 10px -1px;
+	}
+	
+	.simpleMenu .scrlLeft,
+	.simpleMenu .scrlRight{
+		background-color: #FFFFFF;
+		border-color: #666666;
+		padding: 8px 5px 7px;
 	}
 	
 	.simpleMenu li a{
@@ -402,7 +429,7 @@
 	}
 	.simpleMenu li.current a{
 		border:1px solid #666;
-		border-bottom:none;
+		border-bottom-color:transparent;
 		background-color:#fff;
 	}
 	
@@ -435,7 +462,7 @@
 		position:absolute;
 		/*overflow:hidden;*/
 		top:0px;
-		right:10px;
+		right:15px;
 		background-color:#eee;
 		border-left:1px solid #ccc;
 		border-right:1px solid #fff;
@@ -1770,7 +1797,7 @@
 	#dashBoardView .adapter{
 		padding:1em;		
 		position:absolute;
-		width:20em;
+		width:17em;
 		background-color:#c1d3db;
 		border:1px solid #a5bfcb;
 		border-top-color:#dae4e9;
@@ -1848,7 +1875,7 @@
 	
 	#dashBoardView .adapter.updating h3{
 		background-image:url(../images/refresh_0.gif);
-		background-position:11.7em 50%;
+		background-position:9.7em 50%;
 		background-repeat:no-repeat;	
 	}
 	
@@ -2042,13 +2069,28 @@
 	
 	#dashBoardView .safestore a{
 		position:absolute;
-		right:10px;
-		top:5px;
-		width:10px;
-		height:14px;
+		right:1em;
+		top:0.5em;
+		width:1em;
+		height:1.4em;
 		background-image:url(../images/replay.png);
 	}
 	
+	#dashBoardView.zoom1 .safestore a{
+		background-image:url(../images/replay75.png);
+	}
+	
+	#dashBoardView.zoom2 .safestore a{
+		background-image:url(../images/replay50.png);
+	}
+	
+	#dashBoardView.zoom3 .safestore a{
+		background-image:url(../images/replay25.png);
+	}		
+	
+	#dashBoardView.zoom-1 .safestore a{
+		background-image:url(../images/replay125.png);
+	}
 	
 	#dashBoardView .exchange{
 		position:absolute;
@@ -2334,6 +2376,7 @@
 
 /* components visibility rules */
 
+	#businessMarket,
 	#searchForm,
 	#tableView .updatesBtn,
 	#dashBoardView,	
@@ -2346,6 +2389,9 @@
 	
 	
 	
+	.indexPage #businessMarket,
+	
+	.showKPI #businessMarket,
 	.showKPI #shadedBar,
 	.showKPI .pagination,
 	
@@ -2356,6 +2402,7 @@
 	.doSearch .pagination,
 	.doSearch #shadedBar,
 	.doSearch #searchForm,
+	.doSearch #businessMarket,
 	
 	.showResubmitted #tableView,
 	.showResubmitted #tableView .toolBar #resubmitted,
@@ -2373,6 +2420,7 @@
 	.showTradesTable #tableView .updatesBtn,
 	.showTradesTable #shadedBar,
 	.showTradesTable #searchForm,
+	.showTradesTable #businessMarket,
 	
 	.showSafeStoreData #tableView,
 	.showSafeStoreData #tableView .toolBar #replayBtn,
@@ -2380,6 +2428,7 @@
 	.showSafeStoreData #tableView .updatesBtn,
 	.showSafeStoreData #shadedBar,
 	
+	.showETL #businessMarket,
 	.showETL .toolBar .buttons li,
 	.showETL #shadedBar,
 	.showETL .pagination,
@@ -2387,6 +2436,7 @@
 	.showSysMsg .pagination,
 	.showSysMsg #shadedBar,
 	
+	.showDashboard #businessMarket,
 	.showDashboard #searchForm,
 	.showDashboard #dashBoardView,
 	.showDashboard #shadedBar{

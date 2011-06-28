@@ -2,19 +2,19 @@
    "_code":"ok",
    "id":"etlObj",
    "name":"Emergency Trade Load",
+   "bm":"dummy BM",
    
    "currentPage":4,
    "pageCount":5,
    "recordCount":102,
    
-   
    "filters":[
-      "Time",
-      "Market",
-      "Trader",
-      "Account",
-      "Contract"
+      {"Time":["10:00","10:01","10:05","10:27","12:20","18:45"]},
+      {"Market":["Eurex 1","Eurex 2","Eurex 3"]},
+      {"Trader":["John Smith","Jack Daniel","Arthur Guinness"]},
+      {"Account":["Glen Miller","Miles Davis","Charlie Parker","Keith Jarrett"]}
    ],
+
    "trades":[
       {
          "id":1,
