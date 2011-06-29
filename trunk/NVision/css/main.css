@@ -889,7 +889,7 @@
 		background-image: url("../images/ajaxLoader5.gif");
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
-		color: #666666;
+		color: #000;
 		cursor: pointer;
 		display: block;
 		font-weight: bold;
@@ -904,8 +904,7 @@
 	
 	.tools .updatesBtn .pause span{
 		background-image:url("../images/pause.png");
-		background-position:1px 1px;
-		font-size:1.2em;
+		background-position:1px 1px;		
 	}
 	
 	
