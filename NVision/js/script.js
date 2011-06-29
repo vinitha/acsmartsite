@@ -1899,13 +1899,12 @@ var NVision={
 					}
 					
 					//updating the query params
-					if(data.itemsPerPage){
-						
-						data={};
+					if(data.itemsPerPage){					
 						
 						//pagination stuff
 						data["currentPage"]=reqObj.callerObj.currentPage;
 						data["itemsPerPage"]=reqObj.callerObj.itemsPerPage;
+						
 						
 						//filters stuff
 						if (reqObj.callerObj.filters){
@@ -1915,11 +1914,6 @@ var NVision={
 						}								
 					}
 											
-			
-					
-
-
-
 
                     //generating the ajax request
                     var xhr=myAjax({

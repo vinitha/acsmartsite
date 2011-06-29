@@ -117,7 +117,7 @@
         {
             "type":"adapter",
             "name":"ClearVision IN",
-            "updateInterval":20000,
+            "updateInterval":2000000,
             "id":"ClearVisionIN",
             "left":123,
             "top":40,
