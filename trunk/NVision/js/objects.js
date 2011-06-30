@@ -221,6 +221,8 @@ function myAjax(options){
 		for(var h in sysObj.resubmitted[0]){
 			tableHeadings.push(h);
 		}                                        
+					
+					
 							
 		if(sysObj.sortBy){
 			//defining the column order
@@ -228,15 +230,15 @@ function myAjax(options){
 				var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
 				tableHeadings.unshift(tableHeadings.splice(h,1)[0])
 				
-				//sorting the trades list
-				sysObj.resubmitted.sort(function(a,b){
-					if (sysObj.sortBy[x].ascending){
-						return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
-					}else{
-						return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
-					}
-					
-				})
+				////sorting the trades list
+				//sysObj.resubmitted.sort(function(a,b){
+				//	if (sysObj.sortBy[x].ascending){
+				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
+				//	}else{
+				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
+				//	}
+				//	
+				//})
 			}
 		}
 		
@@ -293,7 +295,9 @@ function myAjax(options){
 				}                            
 				
 				
-				sysObj.showResubmitted(tableContainer,paginationContainer);
+				//sysObj.showResubmitted(tableContainer,paginationContainer);
+				
+				NVision.updateEngine.updateNow();
 				
 				//myConsole.chkSpeed("",up)
 				
@@ -371,15 +375,15 @@ function myAjax(options){
                 var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
                 tableHeadings.unshift(tableHeadings.splice(h,1)[0])
                 
-                //sorting the trades list
-                sysObj.trades.sort(function(a,b){
-                    if (sysObj.sortBy[x].ascending){
-                        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
-                    }else{
-                        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
-                    }
-                    
-                })
+                ////sorting the trades list
+                //sysObj.trades.sort(function(a,b){
+                //    if (sysObj.sortBy[x].ascending){
+                //        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
+                //    }else{
+                //        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
+                //    }
+                //    
+                //})
             }
         }
         
@@ -437,8 +441,9 @@ function myAjax(options){
                 }                            
                 
                 
-                sysObj.showTrades(tableContainer,paginationContainer,rowClick);
-                
+                //sysObj.showTrades(tableContainer,paginationContainer,rowClick);
+                NVision.updateEngine.updateNow();
+				
                 //myConsole.chkSpeed("",up)
                 
             },
