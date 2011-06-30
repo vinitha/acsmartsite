@@ -3,7 +3,7 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
 
 .popup{
     width:800px;
-    height:450px;
+    /*height:450px;*/
     overflow:auto;
 }
 .popup h1{
@@ -40,7 +40,7 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
 }
 
 .popup .tabMenu{
-    margin:10px 0 -1px 10px;
+    margin:10px 0 -1px 0px;
     position:relative;
     z-index:2;
 }

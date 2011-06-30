@@ -1911,7 +1911,19 @@ var NVision={
 							for (f in reqObj.callerObj.filters){
 								data[f]=reqObj.callerObj.filters[f];
 							}
-						}								
+						}
+						
+						//sortBy
+						if(reqObj.callerObj.sortBy){
+							var sortStr=[]
+							for (s in reqObj.callerObj.sortBy){
+								var sortObj=reqObj.callerObj.sortBy[s]
+								sortStr.push(sortObj.name + "," + (sortObj.ascending?"d":"a"));
+							}
+							
+							data["orderBy="]=sortStr.join("|")
+						}
+						
 					}
 											
 
@@ -2561,11 +2573,14 @@ var NVision={
                                                 )
                                             
                                             .append(
-                                                $("<ul/>").addClass("tabMenu")
-                                                    //.append($("<li><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
-                                                    .append($("<li class='current'><a href='#_msg_in'><span>Incoming:</span></a></li>"))
-                                                    .append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
-                                                    .append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))                                            
+												$("<div class='menuContainer' />")
+													.append(
+														$("<ul/>").addClass("tabMenu")
+															//.append($("<li><a href='#_msg_raw'><span>Raw message:</span></a></li>"))                                            
+															.append($("<li class='current'><a href='#_msg_in'><span>Incoming:</span></a></li>"))
+															.append($("<li><a href='#_msg_out'><span>Outgoing:</span></a></li>"))                                            
+															.append($("<li><a href='#_msg_steps'><span>Steps:</span></a></li>"))
+													)
                                             )
                                             
                                             
