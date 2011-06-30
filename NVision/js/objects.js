@@ -319,11 +319,13 @@ function myAjax(options){
 								$("<span title='disable' class='remove'/>")
 									.click(function(e){
 										e.preventDefault();
+										e.stopPropagation();
 										
 										var x=$(this).attr("data-idx")
 										sysObj.sortBy.splice(x,1);
+										NVision.updateEngine.updateNow();
 										
-										sysObj.showResubmitted(tableContainer,paginationContainer); 
+										//sysObj.showResubmitted(tableContainer,paginationContainer); 
 									})
 									.attr("data-idx",x)                                   
 							)
@@ -476,11 +478,13 @@ function myAjax(options){
 							$("<span title='disable' class='remove'/>")
 								.click(function(e){
 									e.preventDefault();
+									e.stopPropagation();
 									
 									var x=$(this).attr("data-idx")
 									sysObj.sortBy.splice(x,1);
 									
-									sysObj.showTrades(tableContainer,paginationContainer,rowClick); 
+									NVision.updateEngine.updateNow();
+									//sysObj.showTrades(tableContainer,paginationContainer,rowClick); 
 								})
 								.attr("data-idx",x)                                   
 						)

@@ -1914,16 +1914,18 @@ var NVision={
 						}
 						
 						//sortBy
-						if(reqObj.callerObj.sortBy){
+						if(reqObj.callerObj.sortBy && reqObj.callerObj.sortBy.length>0){
 							var sortStr=[]
 							for (s in reqObj.callerObj.sortBy){
 								var sortObj=reqObj.callerObj.sortBy[s]
 								sortStr.push(sortObj.name + "," + (sortObj.ascending?"d":"a"));
 							}
 							
-							data["orderBy="]=sortStr.join("|")
+							data["orderBy"]=sortStr.join("|")
+						}else{
+							delete(reqObj.callerObj.sortBy);
+							delete(data["orderBy"]);
 						}
-						
 					}
 											
 
