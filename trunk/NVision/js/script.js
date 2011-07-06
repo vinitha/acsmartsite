@@ -64,14 +64,15 @@ $().ready(function(){
     
     //setting the main tabMenus custom events
     var tabMenu=$("#mainMenu");
-    tabMenu.bind("showTab",function(e,tabId){
+    tabMenu.bind("showTab",function(e,tabId){		
             var $a=tabMenu.find("a[href='#tabId=" + tabId + "']"),
                 oldTab=$a.closest("li").siblings(".current"),
                 oldId=oldTab.find("a").attr("hash"),
-				newTabContent=$("#" + tabId);
-            
+				newTabContent=$("#" + tabId);							
+			
             oldTab.removeClass("current");            
             $(oldId).removeClass("current");
+            
             $a.closest("li").addClass("current");
             newTabContent.addClass("current");
 			
@@ -106,7 +107,7 @@ $().ready(function(){
     
     tabMenu.find("a").live("click",function(e){
         e.preventDefault();           
-        
+		
         NVision.appStatus.currentTab=this.hash.replace("#tabId=","");
         
         if(!NVision.appStatus[NVision.appStatus.currentTab]){
@@ -123,17 +124,20 @@ $().ready(function(){
         
         var $a=$(this),
             oldTab=$a.closest("li").siblings(".current"),
-			oldHash=oldTab.find("a").attr("hash"),
+			oldA=oldTab.find("a"),
+			oldHash=oldA.length>0?oldA.get(0).hash:null,
 			newHash=this.hash.indexOf("=")>0?"#" + this.hash.split("=")[1]:this.hash,
 			oldId="";
+			
 			
 			if(oldHash){				
 				oldId=oldHash.indexOf("=")>0?"#" + oldHash.split("=")[1]:oldHash;
 			}
 			
-        
+		
         oldTab.removeClass("current");            
         $(oldId).removeClass("current");
+		
         $a.closest("li").addClass("current");
         $(newHash).addClass("current");
 		
@@ -1405,6 +1409,9 @@ var NVision={
 			
 			ul.appendTo(menuContainer.appendTo(view));
 			contentDiv.appendTo(view);
+			
+			ul.find("li:first").addClass("current");
+			contentDiv.children("div:first").addClass("current");
 			
 			//handling the tabMenu clicks
 			ul.find("a").bind("click",function(data){
