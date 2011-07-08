@@ -7,7 +7,7 @@
 $(function(){
     // Bind the event.
     $(window).bind("hashchange",function(){
-		
+		//console.log("hashchange")		
         var newStatus=$.deparam($.param.fragment())
 
         //setting the business market (it's the Id used to identify the business market whose data the user is seeing)
@@ -31,6 +31,8 @@ $(function(){
 		NVision.appStatus.currentTab=newStatus.tabId;
 		NVision.appStatus[NVision.appStatus.currentTab]=newStatus;
 
+
+		//console.log("showTab")
 		
         //updating the tabMenu
         if(NVision.appStatus.tabId!=newStatus.tabId){            
@@ -43,11 +45,10 @@ $(function(){
 	
 });
 
-
-        
-		
 		
 $().ready(function(){
+	
+	//console.log("ready")
     
 	if(NVision.appStatus.BM==undefined){
 		NVision.appStatus={
@@ -64,7 +65,8 @@ $().ready(function(){
     
     //setting the main tabMenus custom events
     var tabMenu=$("#mainMenu");
-    tabMenu.bind("showTab",function(e,tabId){		
+    tabMenu.bind("showTab",function(e,tabId){
+			
             var $a=tabMenu.find("a[href='#tabId=" + tabId + "']"),
                 oldTab=$a.closest("li").siblings(".current"),
                 oldId=oldTab.find("a").attr("hash"),
@@ -212,12 +214,24 @@ $().ready(function(){
 		
 		
     //init. the NVision object (passing a function to be executed when the system is ready)
-    NVision.init(function(){		
+    NVision.init(function(){
+		//console.log("init")
 		$(window).trigger("hashchange")       
-        $(window).resize()        
+        $(window).resize()
+		
+		
+		if(document.documentElement.className=="ie7"){
+			setTimeout(function(){
+				if(!NVision._dbReady){
+					$(window).trigger("hashchange")
+				}
+				
+			},1000)
+		}
     });		
 
 })
+
 
 
 
