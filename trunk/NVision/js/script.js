@@ -371,7 +371,48 @@ var NVision={
 		},
 		
 		tab_6:function(){
-            NVision.showSysMessages();
+			
+			if (!NVision.safestoreEvents){
+				
+				//styling the .systemName label
+				$("#sysMsgView").find(".systemName span")
+					.addClass("loading")
+					.text("loading SafeStore's events...");
+					
+				myAjax({
+					error:null,
+					success:function(data){
+						NVision.safestoreEvents=data.events;
+						
+						//creating the comboBox
+						$("<label for='ssEventsSel'>Events: </label>").appendTo($("#ssEvents"));
+						var sel= $("<select/>");						
+						$.each(data.events,function(i,elem){
+							$("<option/>")
+								.text(elem.label)
+								.attr({
+									"value":elem.id
+								})								
+								.appendTo(sel);
+						})
+						sel.find("option:first").attr({"selected":"selected"});
+						
+						sel.change(function(ev){
+							NVision.currentSys.ssEventsId=this.value;
+							NVision.updateEngine.updateNow();
+						})
+						
+						sel.appendTo($("#ssEvents"));
+						
+						NVision.showSysMessages();
+					},
+					data:{"BM":NVision.appStatus.BM},
+					url:sysConfig.safeStoreEventsUrl
+				})
+			}else{
+				NVision.showSysMessages();
+			}
+            
 		},		
 		
 		defaultFn:function(){
@@ -1200,11 +1241,13 @@ var NVision={
 				return false;
 			}
 			
-			NVision.appStatus.currentTab="tab_1";
-            NVision.appStatus[NVision.appStatus.currentTab]={
-				view:{type:"dashBoard"},
-				tabId:"tab_1"
-			};
+//			NVision.appStatus.currentTab="tab_1";
+//            NVision.appStatus[NVision.appStatus.currentTab]={
+//				view:{type:"dashBoard"},
+//				tabId:"tab_1"
+//			};
+			
+            NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};			
 			
             $.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
             
@@ -1252,7 +1295,7 @@ var NVision={
         
         //getting the system definition
         myAjax({
-            logMsg:null,
+            logMsg:"Loading the system composition...",
             url:sysConfig.sysComposition,
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 myConsole.error(textStatus || errorThrown);
@@ -1581,7 +1624,11 @@ var NVision={
             type:"systemMessage"
         });
         
-        NVision.currentSys=sysMsgReq;				
+        NVision.currentSys=sysMsgReq;
+		
+		//setting the safeStore events id
+		sysMsgReq.ssEventsId=NVision.safestoreEvents[0].id;
+		
     
         //adding the system to the updates queue
         var reqObj=NVision.createSysMsgRequest(sysMsgReq);
@@ -1927,6 +1974,12 @@ var NVision={
 						data["itemsPerPage"]=reqObj.callerObj.itemsPerPage;
 						
 						
+						//ssEventsId stuff
+						if(reqObj.callerObj.ssEventsId){
+							data["ssEventsId"]=reqObj.callerObj.ssEventsId;
+						}
+						
+						
 						//filters stuff
 						if (reqObj.callerObj.filters){
 							for (f in reqObj.callerObj.filters){
@@ -1989,7 +2042,9 @@ var NVision={
                         }
                         ,
                         error:function(a,b,c){
-                            myConsole.log(a,b,c)
+							if(reqObj.error){
+								reqObj.error(a,b,c)
+							}
                         },
 						type:"jsonp",
                         url:reqObj.url,
@@ -2008,6 +2063,9 @@ var NVision={
                         
         },
         updateNow=function(){
+			
+			discardPending();
+			
             //reseting the timeStamp values
             for(var reqObj in tasks){
                 tasks[reqObj].timeStamp=null;
@@ -2016,13 +2074,18 @@ var NVision={
             //calling the update function
             update();
         },
-        empty=function(){
-			
+		
+		discardPending=function(){
 			//aborting the on-going requests
 			for(var r in xhrs){
 				xhrs[r].abort();
 				delete(xhrs[r])
-			}
+			}		
+		},
+		
+        empty=function(){
+			
+			discardPending();
 			
             tasks={};
             loopCallback=[];
@@ -2058,7 +2121,8 @@ var NVision={
             updateNow:updateNow,
             forceStart:forceStart,
             onNewData:onNewData,
-			tasks:getTasks
+			tasks:getTasks,
+			discardPending:discardPending
         }
         
     })(),
@@ -2401,6 +2465,11 @@ var NVision={
             updateInterval:sysObj.updateInterval,
             id:sysObj.id,
             url:sysConfig.sysTrades,
+			error:function(a,b,c){
+				myConsole.alert("Error getting the adapter breaks!");
+				NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};						
+				$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+			},
             data:data,
             callBack:function(data){				
                 NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
