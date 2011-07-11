@@ -872,6 +872,12 @@
 		cursor:default;
 	}
 	
+	
+	#ssEvents{
+		margin-top:6px;
+		margin-left: 5px;
+	}
+	
 /* updatesBtn */
 	
 	.tools .updatesBtn a.button{
@@ -2434,6 +2440,7 @@
 		
 	.showSysMsg .pagination,
 	.showSysMsg #shadedBar,
+	.showSysMsg .toolBar .buttons li,
 	
 	.showDashboard #businessMarket,
 	.showDashboard #searchForm,

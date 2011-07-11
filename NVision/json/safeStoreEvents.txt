@@ -1,0 +1,9 @@
+{
+	"_code":"ok",
+	"id":"safeStoreEvents",
+	"events":[
+		{"label":"Dummy event 01","id":"evId_01"},
+		{"label":"Dummy event 02","id":"evId_02"},
+		{"label":"Dummy event 03","id":"evId_03"}
+	]
+}
