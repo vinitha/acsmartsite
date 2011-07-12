@@ -1085,7 +1085,7 @@ var NVision={
 							},
 							delegateErrorHandling:false,
 							url:sysConfig.replayTrades,
-							data:{id:ids}
+							data:{id:ids,"sysId":NVision.currentSys.id}
 						})						
 						
 						
