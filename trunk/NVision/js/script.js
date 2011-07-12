@@ -385,7 +385,7 @@ var NVision={
 						NVision.safestoreEvents=data.events;
 						
 						//creating the comboBox
-						$("<label for='ssEventsSel'>Events: </label>").appendTo($("#ssEvents"));
+						$("<label for='ssEventsSel'>Events source: </label>").appendTo($("#ssEvents"));
 						var sel= $("<select/>");						
 						$.each(data.events,function(i,elem){
 							$("<option/>")

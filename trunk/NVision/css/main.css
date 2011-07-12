@@ -874,8 +874,17 @@
 	
 	
 	#ssEvents{
-		margin-top:6px;
-		margin-left: 5px;
+		background-color: #edebcd;
+		border-radius: 3px 3px 3px 3px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) inset;
+		margin-left: 0;
+		margin-top: 0;
+		padding: 4px 4px 4px 10px;
+	}
+	
+	.ie7 #ssEvents,
+	.ie8 #ssEvents{
+		background-color:#ccc;
 	}
 	
 /* updatesBtn */
@@ -1000,8 +1009,8 @@
 	.tableData{
 		background-color: #FFFFFF;
 		margin:0px 10px 10px 10px;
-		overflow-x:auto;
-		/*
+		/*overflow-x:auto;
+		
 		bottom: 0;
 		left: 10px;
 		overflow: auto;
@@ -1014,7 +1023,7 @@
 	
 	.ie7 .tableData{
 		overflow-y:hidden;
-		padding-bottom:20px;
+		padding-bottom:10px;
 	}
 	
 	.tableData table{
@@ -1053,9 +1062,24 @@
 	.tableData .cellSpan{
 		max-width:800px;
 		overflow:hidden;
-		white-space:nowrap;
+		/*white-space:nowrap;*/
 		display:block;
 	}
+	
+	
+	.showSafeStoreData .tableData{
+		overflow-x:auto;
+	}
+	
+	.showSafeStoreData .tableData .cellSpan{
+		white-space:nowrap;
+		max-width:none;
+	}	
+	
+	.ie7 .showSafeStoreData .tableData{
+		padding-bottom:20px;
+	}	
+	
 	
 	.tableData thead tr{
 		background-color:#d9e7ec;
@@ -1231,7 +1255,7 @@
 	.tableData tbody tr.detailsContainer{
 		background-color:#e5e5e5;
 		background-image:url(../images/shadow.png);
-		background-position:0px 0px;
+		background-position:left top;
 		background-repeat:repeat-x;
 		cursor:default;
 	}
@@ -1239,6 +1263,7 @@
 	.tableData td.detailsContainer{
 		padding:3px;
 		cursor:default;
+		background-position:left top;
 	}
 	
 	.tableData .detailsContainer table{
