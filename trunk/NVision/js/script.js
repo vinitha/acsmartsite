@@ -85,7 +85,7 @@ $().ready(function(){
 			if(newTabContent.length==0){
 				if ($a.hasClass("iframe")){
 					newTabContent=$('<div class="tabContent">')
-					.attr("id",$a.attr("hash").split("=")[1])
+					.attr("id",$a.get(0).hash.split("=")[1])
 					.append(
 						$("<iframe />")
 							.attr("src",$a.data("url"))
