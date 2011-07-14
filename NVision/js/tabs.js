@@ -1,21 +1,5 @@
 
-
-
 $().ready(function(){
-	
-	//setting the main tabMenus custom events
-    var tabMenu=$("#mainMenu");
-    tabMenu.bind("showTab",function(e,tabId){
-		console.log(tabId)
-            var $a=tabMenu.find("a[href='#" + tabId + "']"),
-                oldTab=$a.closest("li").siblings(".current"),
-                oldId=oldTab.find("a").attr("hash");
-            
-            oldTab.removeClass("current");            
-            $(oldId).removeClass("current");
-            $a.closest("li").addClass("current");
-            $("#" + tabId).addClass("current");
-        })
     
     
     //setting the other tabMenus
@@ -23,11 +7,15 @@ $().ready(function(){
         e.preventDefault();
         
         var $a=$(this),
-            oldTab=$a.closest("li").siblings(".current"),
-            oldId=oldTab.find("a").attr("hash");
+            oldTab=$a.closest("li").siblings(".current");
+			
+		if(oldTab.length>0){
+            var oldId=oldTab.find("a").get(0).hash;
+			oldTab.removeClass("current");            
+			$(oldId).removeClass("current");		
+		}
         
-        oldTab.removeClass("current");            
-        $(oldId).removeClass("current");
+		
         $a.closest("li").addClass("current");
         $(this.hash).addClass("current");        
     })
