@@ -35,7 +35,7 @@ $(function(){
 		//console.log("showTab")
 		
         //updating the tabMenu
-        if(NVision.appStatus.tabId!=newStatus.tabId){            
+        if(NVision.appStatus.tabId!=newStatus.tabId){			
             $("#mainMenu").trigger("showTab",newStatus.tabId);
         }        
               
@@ -68,13 +68,12 @@ $().ready(function(){
     tabMenu.bind("showTab",function(e,tabId){
 			
             var $a=tabMenu.find("a[href='#tabId=" + tabId + "']"),
-                oldTab=$a.closest("li").siblings(".current"),
-                oldId=oldTab.find("a").attr("hash"),
-				newTabContent=$("#" + tabId);							
+                oldTab=$a.closest("li").siblings(".current").removeClass("current"),
+				newTabContent=$("#" + tabId);
+				
 			
-            oldTab.removeClass("current");            
-            $(oldId).removeClass("current");
-            
+			newTabContent.siblings(".tabContent").removeClass("current");
+			
             $a.closest("li").addClass("current");
             newTabContent.addClass("current");
 			
@@ -123,7 +122,7 @@ $().ready(function(){
     //setting the other tabMenus
     $("ul.tabMenu").find("a").live("click",function(e){
         e.preventDefault();
-        
+
         var $a=$(this),
             oldTab=$a.closest("li").siblings(".current"),
 			oldA=oldTab.find("a"),
