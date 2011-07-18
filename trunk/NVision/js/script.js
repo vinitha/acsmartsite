@@ -563,7 +563,7 @@ var NVision={
         
             //$("div.tabContent").css("height",h);
 			$("#dashBoardView").css("height",h);
-			$(".tabContent iframe").css("height",h+35);
+			$(".tabContent iframe").css("height",h+20);
 			
 			
 			//adding scrollbars to the tab menus			
