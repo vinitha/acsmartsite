@@ -1724,7 +1724,6 @@ var NVision={
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="showTradesTable";
 		
-		
         //setting the table title....
         $(".current .systemName span")
             .addClass("loading")
@@ -1738,6 +1737,14 @@ var NVision={
         NVision.currentSys=sysObj;
 		sysObj.currentPage=1;
         
+		
+		//showing/hiding the action buttons according to the adapter configuration
+		$("#resubmitBtn").css({display:sysObj.actions.resubmit?"block":"none"});
+		$("#overwriteBtn").css({display:sysObj.actions.overwrite?"block":"none"});
+		$("#clearBtn").css({display:sysObj.actions.clear?"block":"none"});
+		
+		
+		
         //clearing the filters
         //delete(sysObj.filters);
         delete(sysObj.filteredData)

@@ -121,7 +121,12 @@
             "id":"ClearVisionIN",
             "left":123,
             "top":40,
-            "collapsed":false
+            "collapsed":false,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -130,7 +135,12 @@
             "id":"NewclearOut",
             "left":391,
             "top":68,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -139,7 +149,12 @@
             "id":"NewclearTicketTEO",
             "left":676,
             "top":39,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -148,7 +163,12 @@
             "id":"TEOOut",
             "left":954,
             "top":46,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -157,7 +177,12 @@
             "id":"NEWCLEAR-TICKET-IN",
             "left":677,
             "top":187,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -166,7 +191,12 @@
             "id":"NEWCLEAR-MARKET-IN",
             "left":428,
             "top":283,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -175,7 +205,12 @@
             "id":"NEWCLEAR-LITE-MARKET-IN",
             "left":713,
             "top":339,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -184,7 +219,12 @@
             "id":"EUREX",
             "left":135,
             "top":426,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -193,7 +233,12 @@
             "id":"GMI",
             "left":715,
             "top":455,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         {
             "type":"adapter",
@@ -202,7 +247,12 @@
             "id":"UBIXIN",
             "left":728,
             "top":547,
-            "collapsed":true
+            "collapsed":true,
+			"actions":{
+				"resubmit":true,
+				"overwrite":true,
+				"clear":false
+			}			
         },
         
         
