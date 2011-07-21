@@ -84,7 +84,11 @@ function myAjax(options){
             attributes.success(data)
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
-            myConsole.error(textStatus||errorThrown);
+			if((textStatus||errorThrown)=="abort"){
+				//console.log("error")
+			}else{
+				myConsole.error(textStatus||errorThrown);
+			}
             attributes.error(XMLHttpRequest, textStatus, errorThrown);			
         }
     })    

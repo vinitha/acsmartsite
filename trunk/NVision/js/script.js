@@ -1915,7 +1915,7 @@ var NVision={
             if(!intervalHnd){
                 intervalHnd=setInterval(update,engineTimer);            
                 
-                myConsole.log("Update engine running...",3000);
+                myConsole.log("Update engine running...",1000);
                 $(".current li.updatesBtn").find("a").removeClass("pause");
                 
                 //running the first update
@@ -1929,7 +1929,7 @@ var NVision={
         stop=function(){
             stopLevel++;
             if(intervalHnd){                
-                myConsole.log("Update engine paused",3000)
+                myConsole.log("Update engine paused",1000)
                 $(".current li.updatesBtn").find("a").addClass("pause")
                 clearInterval(intervalHnd);
                 intervalHnd=null;
@@ -2703,7 +2703,7 @@ var NVision={
                                             .show();
                                     },
                                     error:function(){
-                                        myConsole.log("Error!")
+                                        myConsole.error("Error!")
 										$th.removeClass("opening");
                                     },
                                     url:sysConfig.msgDetails
