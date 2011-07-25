@@ -3,6 +3,9 @@
 */
 
 
+
+myConsole.debugMode=false;		//avoid displayoing .log messages
+
 //enabling the browser history buttons
 $(function(){
     // Bind the event.

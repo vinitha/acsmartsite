@@ -1663,6 +1663,7 @@ var scroller=function(element){
 (function($){		  
 	window.myConsole={
 		enabled:true,
+		debugMode:true,
 		prog:0,
 		timers:{},
 		init:function(){
@@ -1683,6 +1684,7 @@ var scroller=function(element){
 		},
 		
 		log:function(msg,duration){
+			if(!myConsole.debugMode) return false;
 			if(!myConsole.enabled) return false;
 			var Msg=myConsole.showMsg(msg);
 			setTimeout(function(){Msg.slideUp("normal",function(){$(this).remove()})},duration||2000)		
