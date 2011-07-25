@@ -1741,7 +1741,7 @@ var NVision={
 		sysObj.currentPage=1;
         
 		
-		//showing/hiding the action buttons according to the adapter configuration
+		//showing/hiding the action buttons according to the adapter/safestore configuration
 		$("#resubmitBtn").css({display:sysObj.actions.resubmit?"block":"none"});
 		$("#overwriteBtn").css({display:sysObj.actions.overwrite?"block":"none"});
 		$("#clearBtn").css({display:sysObj.actions.clear?"block":"none"});
