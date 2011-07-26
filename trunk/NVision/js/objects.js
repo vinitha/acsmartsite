@@ -53,7 +53,7 @@ function myAjax(options){
 	
 	return $.ajax({
         url:attributes.url,
-        type:"GET",
+        type:"POST",
         dataType:"json",
         data:attributes.data,
         success:function(data){
