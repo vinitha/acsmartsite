@@ -232,31 +232,10 @@ function myAjax(options){
 			//defining the column order
 			for (var x=sysObj.sortBy.length-1;x>-1;x--){
 				var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
-				tableHeadings.unshift(tableHeadings.splice(h,1)[0])
-				
-				////sorting the trades list
-				//sysObj.resubmitted.sort(function(a,b){
-				//	if (sysObj.sortBy[x].ascending){
-				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
-				//	}else{
-				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
-				//	}
-				//	
-				//})
+				tableHeadings.unshift(tableHeadings.splice(h,1)[0])				
 			}
 		}
 		
-		
-		////filtering out the data according to the "filters" settings
-		//var filteredData=[]
-		//_t:for (var trade in sysObj.resubmitted){
-		//	_f:for(var f in sysObj.filters){                        
-		//		if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
-		//			continue _t;
-		//		}
-		//	}
-		//	filteredData.push(sysObj.resubmitted[trade]);
-		//}
 		
 		sysObj.filteredData=sysObj.resubmitted;
 		
