@@ -125,7 +125,7 @@
 			"actions":{
 				"resubmit":true,
 				"overwrite":true,
-				"clear":false
+				"clear":true
 			}			
         },
         {
