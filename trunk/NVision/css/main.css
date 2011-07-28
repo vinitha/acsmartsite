@@ -2402,7 +2402,9 @@
 	}
 	
 	
-	
+.hide{
+	display:none!important;
+}
 
 /* components visibility rules */
 
