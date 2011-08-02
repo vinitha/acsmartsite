@@ -149,6 +149,7 @@ $().ready(function(){
     
     //setting the datePicker up
     $("input.datePicker").datepicker({
+		dateFormat: 'dd/mm/yy',
         inline: true
     });
     
@@ -2747,6 +2748,7 @@ var NVision={
             //updating the system trades object
             sysObj.trades=data.trades;
 			sysObj.currentPage=data.currentPage;
+			sysObj.tableHeaders=data.tableHeaders;
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			
