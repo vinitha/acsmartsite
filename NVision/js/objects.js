@@ -53,7 +53,7 @@ function myAjax(options){
 	
 	return $.ajax({
         url:attributes.url,
-        type:"GET",
+        type:"POST",
         dataType:"json",
         data:attributes.data,
         success:function(data){
@@ -221,21 +221,47 @@ function myAjax(options){
 		// defining the table headings
 		var sysObj=this;
 		  
-		var tableHeadings=[]
-		for(var h in sysObj.resubmitted[0]){
-			tableHeadings.push(h);
-		}                                        
+        var tableHeaders=[];
+		
+		if(this.tableHeaders){
+			tableHeaders=this.tableHeaders
+		}else{
+			for(var h in sysObj.trades[0]){
+				tableHeaders.push(h);
+			}                                        
+		}                                       
 					
 					
 							
 		if(sysObj.sortBy){
 			//defining the column order
 			for (var x=sysObj.sortBy.length-1;x>-1;x--){
-				var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
-				tableHeadings.unshift(tableHeadings.splice(h,1)[0])				
+				var h=$.inArray(sysObj.sortBy[x].name,tableHeaders);
+				tableHeaders.unshift(tableHeaders.splice(h,1)[0])
+				
+				////sorting the trades list
+				//sysObj.resubmitted.sort(function(a,b){
+				//	if (sysObj.sortBy[x].ascending){
+				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
+				//	}else{
+				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
+				//	}
+				//	
+				//})
 			}
 		}
 		
+		
+		////filtering out the data according to the "filters" settings
+		//var filteredData=[]
+		//_t:for (var trade in sysObj.resubmitted){
+		//	_f:for(var f in sysObj.filters){                        
+		//		if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
+		//			continue _t;
+		//		}
+		//	}
+		//	filteredData.push(sysObj.resubmitted[trade]);
+		//}
 		
 		sysObj.filteredData=sysObj.resubmitted;
 		
@@ -248,7 +274,7 @@ function myAjax(options){
 			selectRow:false,
 			container:tableContainer,
 			data:sysObj.resubmitted,
-			tableHeadings:tableHeadings,
+			tableHeadings:tableHeaders,
 			itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
 			currentPage:sysObj.currentPage,
 			pageCount:sysObj.pageCount,			
@@ -348,17 +374,21 @@ function myAjax(options){
     tradeHolder.prototype.showTrades=function(tableContainer,paginationContainer,rowClick,selectRow){    
         // defining the table headings
         var sysObj=this; 
-        var tableHeadings=[]
-        for(var h in sysObj.trades[0]){
-            tableHeadings.push(h);
-        }                                        
-        		
+        var tableHeaders=[];
+		
+		if(this.tableHeaders){
+			tableHeaders=this.tableHeaders
+		}else{
+			for(var h in sysObj.trades[0]){
+				tableHeaders.push(h);
+			}                                        
+		}
 		
         if(sysObj.sortBy){
             //defining the column order
             for (var x=sysObj.sortBy.length-1;x>-1;x--){
-                var h=$.inArray(sysObj.sortBy[x].name,tableHeadings);
-                tableHeadings.unshift(tableHeadings.splice(h,1)[0])
+                var h=$.inArray(sysObj.sortBy[x].name,tableHeaders);
+                tableHeaders.unshift(tableHeaders.splice(h,1)[0])
                 
                 ////sorting the trades list
                 //sysObj.trades.sort(function(a,b){
@@ -396,7 +426,7 @@ function myAjax(options){
             container:tableContainer,
             data:sysObj.trades,
 			showTotalOn:sysObj.showTotalOn,
-            tableHeadings:tableHeadings,
+            tableHeadings:tableHeaders,
             itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
             currentPage:sysObj.currentPage,
 			pageCount:sysObj.pageCount,
