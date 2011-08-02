@@ -3,6 +3,7 @@
 	"id":"kpi01",
 	"filters":["Time","Market","Trader","Trading Ref","Contract"],
 	"showTotalOn":["Price","Strike price"],
+
 	"bm":"dummy BM",	
 	
    "currentPage":3,
@@ -14,7 +15,11 @@
       {"Market":["Eurex 1","Eurex 2","Eurex 3"]},
       {"Trader":["John Smith","Jack Daniel","Arthur Guinness"]},
       {"Account":["Glen Miller","Miles Davis","Charlie Parker","Keith Jarrett"]}
-   ],   
+   ],
+   
+   "tableHeaders":[
+        "Status","Time","Market","Broker"
+   ],
    
     "trades":[
         {
