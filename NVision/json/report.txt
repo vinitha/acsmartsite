@@ -17,10 +17,6 @@
       {"Account":["Glen Miller","Miles Davis","Charlie Parker","Keith Jarrett"]}
    ],
    
-   "tableHeaders":[
-        "Status","Time","Market","Broker"
-   ],
-   
     "trades":[
         {
             "id":16,

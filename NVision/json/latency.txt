@@ -1,0 +1,73 @@
+{
+   "_code":"ok",
+   "latencyReports":[
+      {
+         "Time to Book":"LAT_300_1800",
+         "Metrics":[
+            {
+               "Label":"Top Day",
+               "Metric":1
+            },
+            {
+               "Label":"T + 1",
+               "Metric":1
+            },
+            {
+               "Label":"T + 2",
+               "Metric":1
+            }
+         ]
+      },
+      {
+         "Time to Book":"LAT_60_300",
+         "Metrics":[
+            {
+               "Label":"Top Day",
+               "Metric":1
+            },
+            {
+               "Label":"T + 1",
+               "Metric":1
+            },
+            {
+               "Label":"T + 2",
+               "Metric":1
+            }
+         ]
+      },
+      {
+         "Time to Book":"LAT_OVER_1800",
+         "Metrics":[
+            {
+               "Label":"Top Day",
+               "Metric":1
+            },
+            {
+               "Label":"T + 1",
+               "Metric":1
+            },
+            {
+               "Label":"T + 2",
+               "Metric":1
+            }
+         ]
+      },
+      {
+         "Time to Book":"LAT_0_59",
+         "Metrics":[
+            {
+               "Label":"Top Day",
+               "Metric":1
+            },
+            {
+               "Label":"T + 1",
+               "Metric":1
+            },
+            {
+               "Label":"T + 2",
+               "Metric":1
+            }
+         ]
+      }
+   ]
+}
