@@ -2802,8 +2802,6 @@ var NVision={
                        NVision.updateEngine.updateNow();
                        NVision.updateEngine.start()                   
                     })
-                    
-                    
                 }
                                      
 					
@@ -2845,33 +2843,33 @@ var NVision={
                 filtersDiv=filtersContainer.empty();
             
             for(var filter in html){
-                filtersDiv.append(html[filter])
-                html[filter].find("select").change(function(){
-                    var selectObj=$(this);                        
+                var elem=html[filter]
+                filtersDiv.append(elem)
+                 
+                if(elem.get(0).tagName=="BUTTON"){
                     
-					if(tableContainer.closest(".view").hasClass("off")){
-					//if($("#tableView").hasClass("off")){
-						return false;
-					}
-					                        
-                    sysObj.filters=sysObj.filters?sysObj.filters:{};
-                    if(selectObj.val()==""){
-                        delete(sysObj.filters[selectObj.attr("name")]);
-                    }else{
-                        sysObj.filters[selectObj.attr("name")]=selectObj.val();
-                    }
-                    
-                    //moving to page 1
-                    sysObj.currentPage=1;
-                                            
-					NVision.updateEngine.updateNow();
-					if(selectObj.val()!=""){
-						NVision.updateEngine.stop()
-					}else{
-						NVision.updateEngine.start()
-					}
-					//sysObj.showResubmitted(tableContainer,paginationContainer)
-                })
+                    elem.click(function(e){
+                        e.preventDefault();
+                        var fObject=elem.closest("form").serializeArray();
+                        
+                        if(tableContainer.closest(".view").hasClass("off")){
+                           return false;
+                       }
+                       
+                       sysObj.filters={};
+                       for(var obj in fObject){
+                           var tmpObj=fObject[obj];
+                           sysObj.filters[tmpObj.name]=tmpObj.value;
+                       }
+                       
+                       //moving to page 1
+                       sysObj.currentPage=1;
+                                               
+                       
+                       NVision.updateEngine.updateNow();
+                       NVision.updateEngine.start()                   
+                    })
+                }
             }
             
         },
