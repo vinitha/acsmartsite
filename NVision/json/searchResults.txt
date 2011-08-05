@@ -11,8 +11,7 @@
       {"Time":"time"},
       {"Day":"date"},
       {"Trader":"string"},
-      {"Order No.":"number"},
-      {"Checked":"bool"}
+      {"Order No.":"number"}
    ],
    
     "trades":[
