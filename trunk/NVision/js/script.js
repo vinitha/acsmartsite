@@ -2769,46 +2769,7 @@ var NVision={
             sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
                         
             //creating the filters html
-            var html=NVision.utils.createFilters(data.filters),                
-                filtersDiv=filtersContainer.empty();
-								
-            
-            
-            
-            for(var filter in html){
-                var elem=html[filter]
-                filtersDiv.append(elem)
-                 
-                if(elem.get(0).tagName=="BUTTON"){
-                    
-                    elem.click(function(e){
-                        e.preventDefault();
-                        var fObject=elem.closest("form").serializeArray();
-                        
-                        if(tableContainer.closest(".view").hasClass("off")){
-                           return false;
-                       }
-                       
-                       sysObj.filters={};
-                       for(var obj in fObject){
-                           var tmpObj=fObject[obj];
-                           sysObj.filters[tmpObj.name]=tmpObj.value;
-                       }
-                       
-                       //moving to page 1
-                       sysObj.currentPage=1;
-                                               
-                       
-                       NVision.updateEngine.updateNow();
-                       NVision.updateEngine.start()                   
-                    })
-                }
-                                     
-					
-
-					
-					//sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
-            }
+            NVision.utils.createFilters(data.filters,filtersContainer.empty());
             
         },
 		
@@ -2839,38 +2800,7 @@ var NVision={
             
             
             //creating the filters html
-            var html=NVision.utils.createFilters(data.filters),                
-                filtersDiv=filtersContainer.empty();
-            
-            for(var filter in html){
-                var elem=html[filter]
-                filtersDiv.append(elem)
-                 
-                if(elem.get(0).tagName=="BUTTON"){
-                    
-                    elem.click(function(e){
-                        e.preventDefault();
-                        var fObject=elem.closest("form").serializeArray();
-                        
-                        if(tableContainer.closest(".view").hasClass("off")){
-                           return false;
-                       }
-                       
-                       sysObj.filters={};
-                       for(var obj in fObject){
-                           var tmpObj=fObject[obj];
-                           sysObj.filters[tmpObj.name]=tmpObj.value;
-                       }
-                       
-                       //moving to page 1
-                       sysObj.currentPage=1;
-                                               
-                       
-                       NVision.updateEngine.updateNow();
-                       NVision.updateEngine.start()                   
-                    })
-                }
-            }
+            var html=NVision.utils.createFilters(data.filters,filtersContainer.empty());
             
         },
         
@@ -3067,7 +2997,7 @@ var NVision={
 			}
         },
         
-        createFilters:function(filters){
+        createFilters:function(filters,container){
             // html template
             /*
             <label>
@@ -3079,8 +3009,15 @@ var NVision={
               </select>
             </label>
             */
-            
-            var html=[];
+			
+			var classMap={
+				string:"",
+				time:"timePicker",
+				date:"datePicker",
+				number:"currency",
+				bool:"bool"
+			}
+
 			try{
 				for (var f in filters){
 					var fObj=filters[f];
@@ -3093,50 +3030,61 @@ var NVision={
 							.append(
 								$("<span />").text(fName + ":")
 							)
+							.appendTo(container)
                             
                             $("<input />")
                                 .attr({
-                                    "class":"fType_" + fObj[fName],
+                                    "class":classMap[fObj[fName]],
                                     "name":fName,
                                     "type":fObj[fName]=="bool"?"checkbox":'text',
                                     "value":NVision.currentSys.filters?NVision.currentSys.filters[fName]:""
                                 })
-                                .appendTo(wrapper);
-                                
-						//var dropDown=$("<select />")
-						//				.attr("name",fName)
-						//				.appendTo(wrapper)
-						//
-						//	$("<option />")
-						//		.attr("value","")
-						//		.text("-- --")
-						//		.attr("selected","selected")
-						//		.appendTo(dropDown)                
-						//
-						//for (var opt in fObj[fName]){
-						//	$("<option />")
-						//		.attr({
-						//			"value":fObj[fName][opt],
-						//			"selected":NVision.currentSys.filters?NVision.currentSys.filters[fName]?NVision.currentSys.filters[fName]==fObj[fName][opt]:false:false
-						//		})
-						//		.text(fObj[fName][opt])
-						//		.appendTo(dropDown)								
-						//}
-									
-						html.push(wrapper)						
+                                .appendTo(wrapper);					
 					}
 				}
+				
+				//setting the datePicker up
+				container.find(".datePicker").datepicker({
+					dateFormat: 'dd/mm/yy',
+					inline: true
+				});
+				
+				//setting the timePicker up
+				container.find(".timePicker").timePicker()
+				
                 //creating the button
-                var submit=$("<button class='searchBtn button' type='submit' ><span></span></button>")
-                html.push(submit)
+                var submit=$("<button class='filterBtn button' title='Filter results' type='submit' ><span></span></button>")
+						.click(function(e){
+							e.preventDefault();
+							var fObject=$(this).closest("form").serializeArray();
+							
+							if(container.closest(".view").hasClass("off")){
+							   return false;
+						   }
+						   
+						   var sysObj=NVision.currentSys;
+						   
+						   sysObj.filters={};
+						   for(var obj in fObject){
+								var tmpObj=fObject[obj];
+								if(tmpObj.value.length>0){
+									sysObj.filters[tmpObj.name]=tmpObj.value;
+								}
+						   }
+						   
+						   //moving to page 1
+						   sysObj.currentPage=1;
+												   
+						   
+						   NVision.updateEngine.updateNow();
+						   NVision.updateEngine.start()                   
+						})
+						.appendTo(container);
                 
 			}catch(er){
 				myConsole.alert("An error occurred while creating the filter objects!")
 				console.error(er)
 			}
-			
-			
-            return html;
             
         },
         
