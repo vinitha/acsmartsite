@@ -1,5 +1,5 @@
 {
-	"_code":"ok",
+    "_code":"ok",
     "ver":"xx.xx",
     "bm":"Eurex 2",
     "composition":[
