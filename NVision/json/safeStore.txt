@@ -8,10 +8,10 @@
    "recordCount":232,
    
    "filters":[
-      {"Time":["10:00","10:01","10:05","10:27","12:20","18:45"]},
-      {"Market":["Eurex 1","Eurex 2","Eurex 3"]},
-      {"Trader":["John Smith","Jack Daniel","Arthur Guinness"]},
-      {"Account":["Glen Miller","Miles Davis","Charlie Parker","Keith Jarrett"]}
+      {"Time":"time"},
+      {"Day":"date"},
+      {"Trader":"string"},
+      {"Order No.":"number"}
    ],
    
    "trades":[
