@@ -247,7 +247,7 @@ $.fn.reverse = [].reverse;
 		    //and then defining its rules in your CSS
 		    var rules=[
 			       ".x_timePicker {position:absolute; z-index:99; text-align:center;font-size:1.3em;}",
-				   ".x_timePicker ul{background-color:#eee;border:1px solid #e0e0e0;}",
+				   ".x_timePicker ul{background-color:#eee;border:1px solid #e0e0e0;box-shadow:0px 1px 4px}",
 				   '.x_timePicker ul:hover{opacity:1}',
 				   ".x_timePicker a{display:block;padding:2px 4px;cursor:pointer; background-color:#fff;}",
 				   ".x_timePicker .hover a{background-color:#977;color:#fff;}",
@@ -397,18 +397,26 @@ $.fn.reverse = [].reverse;
 			thisObj
 				.focus(function(){
 					widget.data("data-input",thisObj);
+					widget.appendTo(document.body);
+					
+					var amPm=$("#x_amPm"),
+						hUl=$("#_tpH");
+				
 					
 					clearTimeout(widget.data("data-hnd"))
 					
 					var pos=$(this).offset();					
-					widget.appendTo(document.body);
+					
 					widget.css({left:pos.left+2,top:pos.top+thisObj.outerHeight()});
 					hUl.find("li").removeClass("hover")
 					amPm.css("left",-amPm.outerWidth())
+					
 				})
 				.blur(function (e) {
 					var val = $(this).val().parseTime(),
-						thisObj=$(this)
+						thisObj=$(this),
+						m1Ul=$("#x_tpM1"),
+						m2Ul=$("#x_tpM2");						
 					
 					var hnd=setTimeout(function(){
 						thisObj.val(val?val.shortTime():thisObj.attr("title"));
@@ -418,7 +426,7 @@ $.fn.reverse = [].reverse;
 						m1Ul.hide();
 					},400)
 										
-					widget.data("data-hnd",hnd)
+					widget.data("data-hnd",hnd);
 				})
 				.keypress(function(e){
 					if(e.keyCode==13){

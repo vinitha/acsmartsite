@@ -503,6 +503,7 @@
 		margin-right: -1px;
 	}
 	
+	button.filterBtn span,
 	button.searchBtn span{
 		background-image: url("../images/search.png");
 		background-position: 3px 1px;
@@ -513,12 +514,18 @@
 		cursor:pointer;
 	}
 	
+	button.filterBtn span{
+		background-image: url("../images/filter.png");
+	}	
+	
+	.ie7 button.filterBtn span,
 	.ie7 button.searchBtn span{
 		background-position: 4px 1px;
 		height:16px;
 		width:24px;
 	}
 	
+	.ie8 button.filterBtn span,
 	.ie8 button.searchBtn span{
 		background-position: 6px 2px;
 		height:19px;
@@ -526,12 +533,12 @@
 	}
 	
 	
-	
+	button.filterBtn,
 	button.searchButton {
 		-webkit-appearance: none;
 	}
 
-	
+	button.filterBtn,
 	button.searchBtn{
 		outline:none;
 		padding:0px;

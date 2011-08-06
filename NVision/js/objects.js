@@ -50,10 +50,10 @@ function myAjax(options){
     }
 
 	
-	myConsole.alert("revert to POST method!")
+	//myConsole.alert("revert to POST method!")
 	return $.ajax({
         url:attributes.url,
-        type:"GET",
+        type:"POST",
         dataType:"json",
         data:attributes.data,
         success:function(data){
@@ -226,7 +226,7 @@ function myAjax(options){
 		if(this.tableHeaders){
 			tableHeaders=this.tableHeaders
 		}else{
-			for(var h in sysObj.trades[0]){
+			for(var h in sysObj.resubmitted[0]){
 				tableHeaders.push(h);
 			}                                        
 		}                                       
@@ -238,30 +238,9 @@ function myAjax(options){
 			for (var x=sysObj.sortBy.length-1;x>-1;x--){
 				var h=$.inArray(sysObj.sortBy[x].name,tableHeaders);
 				tableHeaders.unshift(tableHeaders.splice(h,1)[0])
-				
-				////sorting the trades list
-				//sysObj.resubmitted.sort(function(a,b){
-				//	if (sysObj.sortBy[x].ascending){
-				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
-				//	}else{
-				//		return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
-				//	}
-				//	
-				//})
 			}
 		}
 		
-		
-		////filtering out the data according to the "filters" settings
-		//var filteredData=[]
-		//_t:for (var trade in sysObj.resubmitted){
-		//	_f:for(var f in sysObj.filters){                        
-		//		if(sysObj.resubmitted[trade][f]!=sysObj.filters[f]){
-		//			continue _t;
-		//		}
-		//	}
-		//	filteredData.push(sysObj.resubmitted[trade]);
-		//}
 		
 		sysObj.filteredData=sysObj.resubmitted;
 		
@@ -302,9 +281,6 @@ function myAjax(options){
 				}else{
 					sysObj.sortBy.push({name:$anchor.text(),ascending:true})
 				}                            
-				
-				
-				//sysObj.showResubmitted(tableContainer,paginationContainer);
 				
 				NVision.updateEngine.updateNow();
 				
