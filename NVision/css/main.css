@@ -766,6 +766,14 @@
 		color:#666;
 	}
 	
+	.tradesFilters .currency{
+		width:70px;
+	}
+	
+	.tradesFilters .string{
+
+	}
+	
 	.off .tradesFilters{
 		display:none;
 	}

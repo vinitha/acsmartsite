@@ -50,10 +50,10 @@ function myAjax(options){
     }
 
 	
-	//myConsole.alert("revert to POST method!")
+	myConsole.alert("revert to POST method!")
 	return $.ajax({
         url:attributes.url,
-        type:"POST",
+        type:"GET",
         dataType:"json",
         data:attributes.data,
         success:function(data){

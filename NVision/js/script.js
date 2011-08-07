@@ -1967,8 +1967,6 @@ var NVision={
 					
 					var data=reqObj.data;
 					
-					
-					
 					if(utils.RealTypeOf(data)=="array"){
 						
 						//converting the array into an hashtable obj.
@@ -1998,7 +1996,12 @@ var NVision={
 						//filters stuff
 						if (reqObj.callerObj.filters){
 							for (f in reqObj.callerObj.filters){
-								data[f]=reqObj.callerObj.filters[f];
+								if(reqObj.callerObj.filters[f].length==0){
+									delete(data[f])
+								}else{
+									data[f]=reqObj.callerObj.filters[f];
+								}
+								
 							}
 						}
 						
@@ -3011,7 +3014,7 @@ var NVision={
             */
 			
 			var classMap={
-				string:"",
+				string:"string",
 				time:"timePicker",
 				date:"datePicker",
 				number:"currency",
@@ -3060,24 +3063,22 @@ var NVision={
 							
 							if(container.closest(".view").hasClass("off")){
 							   return false;
-						   }
+							}
 						   
-						   var sysObj=NVision.currentSys;
-						   
-						   sysObj.filters={};
-						   for(var obj in fObject){
+							var sysObj=NVision.currentSys;
+							
+							sysObj.filters={};
+							for(var obj in fObject){
 								var tmpObj=fObject[obj];
-								if(tmpObj.value.length>0){
-									sysObj.filters[tmpObj.name]=tmpObj.value;
-								}
-						   }
-						   
-						   //moving to page 1
-						   sysObj.currentPage=1;
-												   
-						   
-						   NVision.updateEngine.updateNow();
-						   NVision.updateEngine.start()                   
+								sysObj.filters[tmpObj.name]=tmpObj.value;
+							}
+							
+							//moving to page 1
+							sysObj.currentPage=1;
+													
+							
+							NVision.updateEngine.updateNow();
+							NVision.updateEngine.start()                   
 						})
 						.appendTo(container);
                 
