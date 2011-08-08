@@ -1127,8 +1127,13 @@ var NVision={
                     return false;
                 }
                 
-                //getting the trade object from the selected row
-                var tradeObj=NVision.currentSys.trades[($("#tableView .tableData").find("input:checked").closest("tr").attr("data-id"))]				
+				var tradeObjs=[];
+                //getting the trade objects from the selected row
+				$.each($("#tableView .tableData").find("input:checked"),function(i,elem){
+					
+					tradeObjs.push(NVision.currentSys.trades[$(elem).closest("tr").attr("data-id")]["id"])
+				})
+				
 				var fieldset=NVision.lightBoxes["overwrite"].find("fieldset").empty();			
 				
 				for (var field in NVision.currentSys.overwritable){
@@ -1151,7 +1156,7 @@ var NVision={
                 //showing the Overwrite Overlay
                 NVision.lightBoxes["overwrite"]                    
                 .show()
-				.find("#_id").attr("value",tradeObj["id"]);
+				.find("#_id").attr("value",tradeObjs.join(";"));
 				
             });
             
