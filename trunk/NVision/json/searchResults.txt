@@ -7,12 +7,7 @@
    "pageCount":10,
    "recordCount":272,
    
-   "filters":[
-      {"Time":"time"},
-      {"Market":"string"},
-      {"Trader":"string"},
-      {"Order NO.":"number"}
-   ],
+   "filters":[],
    
     "trades":[
         {
