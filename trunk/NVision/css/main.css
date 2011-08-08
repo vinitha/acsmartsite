@@ -2259,7 +2259,23 @@
 	
 	#overwriteBox{
 		width:300px;
-		overflow:hidden;	
+		overflow:hidden;
+	}
+	#overwriteBox fieldset p{
+		clear:both;
+		padding-left:20px;
+		position:relative;
+	}
+	
+	#overwriteBox .chk{
+		position:absolute;
+		left:0px;
+		top:1px;
+	}
+	
+	#overwriteBox .off .caption{
+		color:#ccc!important;
+		font-style:italic;
 	}
 	
 	#resubmitBox{

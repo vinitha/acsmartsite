@@ -248,7 +248,14 @@ var NVision={
     lightBoxes:{},          //hashtable of premade lightboxes      
     adapters:null,
     links:null,
-    //layout:null,
+    
+	classMap:{
+		string:"string",
+		time:"timePicker",
+		date:"datePicker",
+		number:"currency",
+		bool:"bool"
+	},
     dashBoardReady:null,          //this function gets exectuted after the json data has been processed by the client
     tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the user clicks on it
         tab_1:function(){
@@ -671,19 +678,28 @@ var NVision={
                             "id":"overwriteForm"
                         })
                         .append("<input type='hidden' id='_id' name='id' />")
-                        .append("<label><span class='caption'>Account</span><input type='text' id='_account' name='account' value='nothing' /></label>")
-                        .append("<label><span class='caption'>Trader</span><input type='text' id='_trader' name='trader' value='nothing' /></label>")
-                        .append("<label><span class='caption'>Give In Msg</span><input type='text' id='_giveInMsg' name='giveInMsg' value='nothing' /></label>")
+						.append("<fieldset />")                        
 						.append("<div class='loadingData'><p>sending the request...</p></div>")
 						.append("<div class='buttonsBar'><input type='submit' class='button submit' href='#overwrite' value='Overwrite' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
-                
+            
+			form.delegate(".chk","click",function(e){				
+				$(this)
+					.siblings("label").toggleClass("off",!this.checked)
+					.find("input").attr("disabled",!this.checked)					
+			});
+			
             form.find("input.cancel").click(function(){NVision.lightBoxes["overwrite"].closeIt()})
             form.submit(function(e){
                 e.preventDefault();
                 
+				if(form.find("fieldset").serialize()==""){
+					myConsole.alert("No changes to save!")
+					return false;
+				}
+				
                 NVision.lightBoxes["overwrite"].addClass("wait")        
-                
+
                 //generating the ajax request
                 myAjax({
                     logMsg:null, 
@@ -1112,15 +1128,31 @@ var NVision={
                 }
                 
                 //getting the trade object from the selected row
-                var tradeObj=NVision.currentSys.trades[($("#tableView .tableData").find("input:checked").closest("tr").attr("data-id"))]
+                var tradeObj=NVision.currentSys.trades[($("#tableView .tableData").find("input:checked").closest("tr").attr("data-id"))]				
+				var fieldset=NVision.lightBoxes["overwrite"].find("fieldset").empty();			
+				
+				for (var field in NVision.currentSys.overwritable){
+					var tmpField=NVision.currentSys.overwritable[field];
+					
+					for (var f in tmpField){
+						fieldset.append("<p><input class='chk' type='checkbox' /><label class='off'><span class='caption'>" + f + "</span><input disabled='disabled' class=" + NVision.classMap[tmpField[f]] +" type='text' id='_" + f + "' name='" + f + "' value='' /></label></p>")	
+					}					
+				}
+				
+				//setting the datePicker up
+				fieldset.find(".datePicker").datepicker({
+					dateFormat: 'dd/mm/yy',
+					inline: true
+				});
+				
+				//setting the timePicker up
+				fieldset.find(".timePicker").timePicker()				
 				
                 //showing the Overwrite Overlay
                 NVision.lightBoxes["overwrite"]                    
                 .show()
-                .find("#_id").attr("value",tradeObj["id"]).end()
-                .find("#_trader").attr("value",tradeObj["Trader"]).end()
-				.find("#_giveInMsg").attr("value",tradeObj["Give In Msg"]).end()
-                .find("#_account").attr("value",tradeObj["Account"]);                
+				.find("#_id").attr("value",tradeObj["id"]);
+				
             });
             
             $("#resubmitBtn a").click(function(e){
@@ -1209,11 +1241,11 @@ var NVision={
                 
                 
                 //overwrite button
-                (checkedCount==1) ?
+                (checkedCount==0) ?
                     
-                    $("#overwriteBtn a").removeClass("off")
+                    $("#overwriteBtn a").addClass("off")
                 :
-                    $("#overwriteBtn a").addClass("off");
+                    $("#overwriteBtn a").removeClass("off");
                     
                 //resubmit button
                 (checkedCount==0) ?
@@ -3002,13 +3034,6 @@ var NVision={
         },
         
         createFilters:function(filters,container){
-			var classMap={
-				string:"string",
-				time:"timePicker",
-				date:"datePicker",
-				number:"currency",
-				bool:"bool"
-			}
 			
 			if(filters.length==0){
 				container.hide(0);
@@ -3029,7 +3054,7 @@ var NVision={
                             
                             $("<input />")
                                 .attr({
-                                    "class":classMap[fObj[fName]],
+                                    "class":NVision.classMap[fObj[fName]],
                                     "name":fName,
                                     "type":fObj[fName]=="bool"?"checkbox":'text',
                                     "value":NVision.currentSys.filters?NVision.currentSys.filters[fName]:""

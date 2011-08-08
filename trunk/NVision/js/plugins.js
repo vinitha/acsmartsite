@@ -910,7 +910,7 @@ function confirm(options){
 			);
 			
 			//moving the focus to the first input, anchor or to the close button
-			lb.find("input:visible, a:visible").eq(0).focus()
+			lb.find("input:visible, a:visible").not("[disabled=true]").eq(0).focus()
 			//closeBtn.focus()			
 		});		
 		
