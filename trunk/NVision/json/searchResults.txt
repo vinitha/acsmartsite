@@ -9,9 +9,9 @@
    
    "filters":[
       {"Time":"time"},
-      {"Day":"date"},
+      {"Market":"string"},
       {"Trader":"string"},
-      {"Order No.":"number"}
+      {"Order NO.":"number"}
    ],
    
     "trades":[
