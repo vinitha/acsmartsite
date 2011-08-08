@@ -2447,9 +2447,9 @@
 	.showKPI .pagination,
 	
 	.doSearch #tableView,
-	.doSearch #tableView .toolBar #resubmitBtn,
+/*	.doSearch #tableView .toolBar #resubmitBtn,
 	.doSearch #tableView .toolBar #overwriteBtn,
-	.doSearch #tableView .toolBar #clearBtn,
+	.doSearch #tableView .toolBar #clearBtn,*/
 	.doSearch .pagination,
 	.doSearch #shadedBar,
 	.doSearch #searchForm,

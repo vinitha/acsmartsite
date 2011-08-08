@@ -3002,18 +3002,6 @@ var NVision={
         },
         
         createFilters:function(filters,container){
-            // html template
-            /*
-            <label>
-              <span>Market:</span>
-              <select name="exchange">
-                <option value="01">Eurex</option>
-                <option value="02">Option 2</option>
-                <option value="03">Option 3</option>
-              </select>
-            </label>
-            */
-			
 			var classMap={
 				string:"string",
 				time:"timePicker",
@@ -3021,13 +3009,16 @@ var NVision={
 				number:"currency",
 				bool:"bool"
 			}
-
+			
+			if(filters.length==0){
+				container.hide(0);
+				return false;
+			}
+			container.show(0);
+			
 			try{
 				for (var f in filters){
 					var fObj=filters[f];
-					
-					//sorting the dropDown items                
-					//fObj.sort();
 					
 					for (var fName in fObj){
 						var wrapper=$("<label />")
