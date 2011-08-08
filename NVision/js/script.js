@@ -3,7 +3,6 @@
 */
 
 
-
 myConsole.debugMode=false;		//avoid displayoing .log messages
 
 //enabling the browser history buttons
@@ -1993,16 +1992,18 @@ var NVision={
 						}
 						
 						
+						delete(data["filters"])
 						//filters stuff
 						if (reqObj.callerObj.filters){
+							var filterArray=[];
 							for (f in reqObj.callerObj.filters){
-								if(reqObj.callerObj.filters[f].length==0){
-									delete(data[f])
-								}else{
-									data[f]=reqObj.callerObj.filters[f];
+								if(reqObj.callerObj.filters[f].length!=0){
+									filterArray.push(f + "," + reqObj.callerObj.filters[f]);
 								}
 								
 							}
+							
+							data["filters"]=filterArray.join("|");
 						}
 						
 						//sortBy
