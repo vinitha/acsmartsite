@@ -770,9 +770,9 @@ var NVision={
                             "id":"resubmitForm"
                         })
                         .append("<input type='hidden' id='_id' name='id' />")
-                        .append("<input type='hidden' id='_adapter' name='adapter' />")
-                        .append("<label><span class='caption'>Select a reason</span><select id='_reason' name='reason' ><option value='staticData'>Static data</option><option value='jobFailing'>Job failing</option><option value='other'>Other</option></selet></label>")
-                        .append("<label><span class='caption'>Add comment</span><textarea id='_comment' name='comment' ></textarea></label>")
+                        .append("<input type='hidden' id='_adapter' name='adapter' />")                        
+                        .append("<label><span class='caption'>Select a reason</span><select id='_reason' name='reason' ><option value='Static Data Error'>Static Data</option><option value='Core System Error'>Core System</option><option value='Other'>Other</option></selet></label>")
+						.append("<label><span class='caption'>Add comment</span><textarea id='_comment' name='comment' ></textarea></label>")
                         .append("<div class='loadingData'><p>sending the request...</p></div>")
 						.append("<div class='buttonsBar'><input class='button submit' type='submit' href='#resubmit' value='Resubmit' /> <input type='button' class='button cancel' href='#close' value='Cancel' /></div>")
                         .appendTo($msg)
