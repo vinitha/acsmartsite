@@ -173,7 +173,6 @@
 		padding-left:25px;
 	}
 	
-	
 	.systemName .loading{
 		background-image:url(../images/loading.gif);
 		background-position:4px 50%;
@@ -769,14 +768,6 @@
 	.tradesFilters .currency{
 		width:70px;
 	}
-	
-	.tradesFilters .string{
-
-	}
-	
-	.off .tradesFilters{
-		display:none;
-	}
 
 
 /* bcBar */
@@ -804,10 +795,11 @@
 		text-decoration:underline;
 	}
 	
-	.off .breadcrumb a{
+	
+	/*.off .breadcrumb a{
 		color:#aaa;
 		cursor:default;
-	}
+	}*/
 	
 	.bcBar .tools{
 		float:right;
@@ -839,12 +831,12 @@
 		background-image:url("../images/exportEx.png");
 	}
 
-	.off .tools .button{
+	/*.off .tools .button{
 		background-color: #DDDDDD;
 		border-color: #CCCCCC;
 		color: #999999;
 		cursor:default;
-	}
+	}*/
 	
 	
 /* toolBar */
@@ -886,10 +878,10 @@
 		color: #274f76;
 	}
 	
-	.off .view .toolBar .link{
+/*	.off .view .toolBar .link{
 		color:#aaa!important;
 		cursor:default;
-	}
+	}*/
 	
 	
 	#ssEvents{
@@ -1001,12 +993,12 @@
 		padding: 3px 5px 4px;
 	}
 	
-	.off .pagination a{
+/*	.off .pagination a{
 		background-color: #eee!important;
 		border-color: #ccc!important;
 		color: #aaa!important;
 		cursor:default;
-	}
+	}*/
 	
 	
 	.pagination .scrlLeft,

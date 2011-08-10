@@ -698,10 +698,15 @@ var NVision={
 					return false;
 				}
 				
-                NVision.lightBoxes["overwrite"].addClass("wait")        
+                NVision.lightBoxes["overwrite"].addClass("wait")
+				
+				var data={"filters":form.serialize()};
+				data["adapter"]=NVision.currentSys.id;
+					
 
                 //generating the ajax request
                 myAjax({
+					data:data,
                     logMsg:null, 
                     success:function(data){
                        NVision.lightBoxes["overwrite"].removeClass("wait").closeIt();  
@@ -743,8 +748,7 @@ var NVision={
                         myConsole.log(a,b,c)
                     },
 					delegateErrorHandling:false,
-                    url:sysConfig.overwriteRequest,
-                    data:form.serialize()
+                    url:sysConfig.overwriteRequest                    
                 })                
                 
                 return false;
@@ -1329,8 +1333,23 @@ var NVision={
     },
     
     
+	disableUi:function(){
+		if(!NVision.disablingOverlay){
+			$("<style type='text/css'>#disablingOverlay{position:absolute;width:100%;height:100%;top:0px;left:0px;background-color:#fff;}</style>").prependTo("head");
+			NVision.disablingOverlay=$("<div id='disablingOverlay' />").fadeTo(0,0.5);
+		}
+		var viewDiv=$(".current .view:visible");
+
+		NVision.disablingOverlay.appendTo(viewDiv);
+		viewDiv.find(".systemName span").addClass("loading");
+		
+	},
+	enableUi:function(){
+		NVision.disablingOverlay.detach();
+		$(".current .view:visible").find(".systemName span").removeClass("loading");
+	},
 	getSysComposition:function(callBack){
-		$("#businessMarket strong").addClass("loading").text("loading...")
+		//$("#businessMarket strong").addClass("loading").text("loading...")
         
         //getting the system definition
         myAjax({
@@ -1417,6 +1436,8 @@ var NVision={
 		//assigning the class name to switch on/off the components visibility
 		document.getElementById("main").className="doSearch";
 		
+		NVision.disableUi();
+		
         //clearing the filters
 		$("#tableView .tradesFilters").empty();
 		
@@ -1455,6 +1476,7 @@ var NVision={
         NVision.updateEngine.onNewData(function(){
             $("#tableView .systemName span").removeClass("loading")
             NVision.updateEngine.stop();
+			NVision.enableUi();
         })
 		
 		//$("#mainMenu").trigger("showTab","tab_1");
@@ -1558,8 +1580,7 @@ var NVision={
 					}
 					
 					span.text(timer);            
-				});
-				
+				});				
 				
 				NVision.updateEngine.forceStart();	
 								
@@ -1585,7 +1606,8 @@ var NVision={
 			.removeClass("resub")
             .text("loading data...");
 			
-		$("#etlView").addClass("off");
+		//$("#etlView").addClass("off");
+		NVision.disableUi();
         
         NVision.utils.deleteTable($("#etlView .tableData").find("table"));
         
@@ -1628,7 +1650,8 @@ var NVision={
             $("#etlView .systemName span")                
                 .removeClass("loading");
 			
-			$("#etlView").removeClass("off");
+			//$("#etlView").removeClass("off");
+			NVision.enableUi();
         })
         
         NVision.updateEngine.forceStart();		
@@ -1646,7 +1669,8 @@ var NVision={
 			.removeClass("resub")
             .text("loading data...");
 			
-		$("#sysMsgView").addClass("off");
+		//$("#sysMsgView").addClass("off");
+		NVision.disableUi();
         
         NVision.utils.deleteTable($("#sysMsgView .tableData").find("table"));
         
@@ -1668,13 +1692,11 @@ var NVision={
 		//setting the safeStore events id
 		sysMsgReq.ssEventsId=NVision.safestoreEvents[0].id;
 		
-    
         //adding the system to the updates queue
         var reqObj=NVision.createSysMsgRequest(sysMsgReq);
       
         //setting the callback to update the updatesBtn!
         NVision.updateEngine.setCallback(function(){
-
             var now=(new Date()).getTime(),
                 timer=Math.round((reqObj.updateInterval-(now-reqObj.timeStamp))/1000),
                 span=$("#sysMsgView li.updatesBtn").find("span"),
@@ -1693,7 +1715,7 @@ var NVision={
             $("#sysMsgView .systemName span")                
                 .removeClass("loading");
 			
-			$("#sysMsgView").removeClass("off");
+			NVision.enableUi();
         })
         
         NVision.updateEngine.forceStart();		
@@ -1711,7 +1733,8 @@ var NVision={
 			.removeClass("resub")
             .text("loading data...");
 			
-		$("#tableView").addClass("off");
+		//$("#tableView").addClass("off");
+		NVision.disableUi();
         
         NVision.utils.deleteTable($("#tableView .tableData").find("table"));
         
@@ -1752,7 +1775,8 @@ var NVision={
             $("#tableView .systemName span")                
                 .removeClass("loading");
 			
-			$("#tableView").removeClass("off");
+			//$("#tableView").removeClass("off");
+			NVision.enableUi();
         })
         
         NVision.updateEngine.forceStart();		
@@ -1770,7 +1794,8 @@ var NVision={
 			.removeClass("resub")
             .text("loading data...");
 			
-		$("#tableView").addClass("off");
+		//$("#tableView").addClass("off");
+		NVision.disableUi();
         
         NVision.utils.deleteTable($("#tableView").find(".tableData table"));
         
@@ -1821,7 +1846,8 @@ var NVision={
             $("#tableView .systemName span")                
                 .removeClass("loading");
 			
-			$("#tableView").removeClass("off");
+			//$("#tableView").removeClass("off");
+			NVision.enableUi();
         })
         
         NVision.updateEngine.forceStart();
@@ -1894,7 +1920,8 @@ var NVision={
             .text("loading data...");
 		
 		//disabling the button during the asyncronous phase
-		$("#tableView").addClass("off");
+		//$("#tableView").addClass("off");
+		NVision.disableUi();
 		
 		var reqObj=NVision.createResubmittedRequest(NVision.currentSys);
 		
@@ -1920,7 +1947,8 @@ var NVision={
 				.addClass("resub")
 				.removeClass("loading");
 				
-			$("#tableView").removeClass("off");
+			//$("#tableView").removeClass("off");
+			NVision.enableUi();
         })		
 		
 		NVision.updateEngine.forceStart();		
@@ -2913,32 +2941,7 @@ var NVision={
             
             var legend=$("<span class='legend' />")
                     .text("Showing: 0/0")
-                    .appendTo(options.container);
-                    
-			//consistency check
-            //options.system.itemsPerPage==0?(options.system.displayAll=true):(options.system.displayAll=false);
-            
-			/*
-            //adding the "displayAll" button
-            var all=$("<a />")
-                    .addClass("showAll button")
-                    .text(options.system.displayAll?"Paginate":"Display all")
-                    .click(function(e){
-                        e.preventDefault();
-                        var $this=$(this);
-						
-						if(tableContainer.closest(".view").hasClass("off")){
-							return false;
-						}
-                        
-						options.system.displayAll=options.system.displayAll?false:true;
-                        
-                        $this.text(options.system.displayAll?"Paginate":"Display all")
-                        options.pageClick(1);                    
-                    })
-                    .appendTo(options.container)
-              
-			*/
+                    .appendTo(options.container);                    
 			
 			//adding the "page size" drop down
 			var ps=$("<select/>")
@@ -3098,7 +3101,9 @@ var NVision={
 							//moving to page 1
 							sysObj.currentPage=1;
 													
-							
+							NVision.updateEngine.onNewData(NVision.enableUi);
+							NVision.disableUi();
+				
 							NVision.updateEngine.updateNow();
 							NVision.updateEngine.start()                   
 						})
