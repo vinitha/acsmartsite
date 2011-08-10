@@ -48,7 +48,6 @@ function myAjax(options){
     if(attributes.logMsg){
         var msgId=myConsole.status(attributes.logMsg);    
     }
-
 	
 	myConsole.alert("revert to POST method!")
 	return $.ajax({
@@ -63,7 +62,9 @@ function myAjax(options){
 
 			if(!data || !data._code){
 				myConsole.alert("Wrong data format!");
-				attributes.error("Wrong data format!");
+				if(attributes.error){
+					attributes.error("Wrong data format!");
+				}
 				return false;
 			}
 			
@@ -86,6 +87,7 @@ function myAjax(options){
         error:function(XMLHttpRequest, textStatus, errorThrown){
 			if((textStatus||errorThrown)=="abort"){
 				//console.log("error")
+				return false;
 			}else{
 				myConsole.error(textStatus||errorThrown);
 			}
@@ -282,6 +284,9 @@ function myAjax(options){
 					sysObj.sortBy.push({name:$anchor.text(),ascending:true})
 				}                            
 				
+				NVision.updateEngine.onNewData(NVision.enableUi);
+				NVision.disableUi();
+				
 				NVision.updateEngine.updateNow();
 				
 				//myConsole.chkSpeed("",up)
@@ -308,6 +313,10 @@ function myAjax(options){
 										
 										var x=$(this).attr("data-idx")
 										sysObj.sortBy.splice(x,1);
+										
+										NVision.updateEngine.onNewData(NVision.enableUi);
+										NVision.disableUi();
+										
 										NVision.updateEngine.updateNow();
 										
 										//sysObj.showResubmitted(tableContainer,paginationContainer); 
@@ -331,6 +340,10 @@ function myAjax(options){
 					system:sysObj,                    
 					// when the user clicks on a page numb.
 					pageClick:function(pageNum){
+						
+						//temporarely disabling the UI
+						NVision.updateEngine.onNewData(NVision.enableUi)
+						NVision.disableUi();
 						
 						sysObj.currentPage=pageNum;
 						NVision.updateEngine.updateNow();
@@ -432,7 +445,9 @@ function myAjax(options){
                 }                            
                 
                 
-                //sysObj.showTrades(tableContainer,paginationContainer,rowClick);
+                NVision.updateEngine.onNewData(NVision.enableUi);
+				NVision.disableUi();
+				
                 NVision.updateEngine.updateNow();
 				
                 //myConsole.chkSpeed("",up)
@@ -472,6 +487,9 @@ function myAjax(options){
 									var x=$(this).attr("data-idx")
 									sysObj.sortBy.splice(x,1);
 									
+									NVision.updateEngine.onNewData(NVision.enableUi);
+									NVision.disableUi();
+									
 									NVision.updateEngine.updateNow();
 									//sysObj.showTrades(tableContainer,paginationContainer,rowClick); 
 								})
@@ -499,12 +517,14 @@ function myAjax(options){
             system:sysObj,                    
             // when the user clicks on a page numb.
             pageClick:function(pageNum){
+		
+				//temporarely disabling the UI
+				NVision.updateEngine.onNewData(NVision.enableUi)
+				NVision.disableUi();
 				
-                sysObj.currentPage=pageNum;
-				
-				NVision.updateEngine.updateNow();
+				sysObj.currentPage=pageNum;
+				NVision.updateEngine.updateNow();				
                 
-                //sysObj.showTrades(tableContainer,paginationContainer,rowClick);                    
             }
         })
         
