@@ -1334,9 +1334,6 @@
 	*/
 	
 	
-
-	
-	
 	
 /* marketPicker */
 	#marketPicker{
@@ -2432,6 +2429,21 @@
 .hide{
 	display:none!important;
 }
+
+
+/*overwriteForm*/
+	#overwriteForm input[type="text"]{
+		width:184px!important;
+	}
+	
+	#overwriteForm input.datePicker,
+	#overwriteForm input.timePicker{
+		width:165px!important;
+	}
+	
+	#overwriteForm .off input{
+		background-color:#e0e0e0;
+	}
 
 /* components visibility rules */
 
