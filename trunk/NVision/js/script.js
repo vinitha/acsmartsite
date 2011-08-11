@@ -692,15 +692,15 @@ var NVision={
             form.find("input.cancel").click(function(){NVision.lightBoxes["overwrite"].closeIt()})
             form.submit(function(e){
                 e.preventDefault();
-                
-				if(form.find("fieldset").serialize()==""){
+				
+				if(form.serializeArray().length==1){
 					myConsole.alert("No changes to save!")
 					return false;
 				}
 				
                 NVision.lightBoxes["overwrite"].addClass("wait")
 				
-				var data={"filters":form.serialize()};
+				var data={"overwrites":form.serialize()};
 				data["adapter"]=NVision.currentSys.id;
 					
 
