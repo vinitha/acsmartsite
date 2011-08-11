@@ -2283,7 +2283,7 @@
 	
 	
 	#alertBox{
-		width:600px;
+		width:800px;
 		overflow:hidden;		
 	}
 	
@@ -2306,8 +2306,8 @@
 	
 	#alertBox .longDesc{
 		overflow:auto;
-		max-height:400px;
-		font-size:1.4em;
+		max-height:500px;
+		font-size:1.2em;
 	}
 	
 	
