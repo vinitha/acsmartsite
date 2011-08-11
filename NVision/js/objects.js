@@ -68,13 +68,13 @@ function myAjax(options){
 				return false;
 			}
 			
-			if(data._code=="nok" && attributes.delegateErrorHandling){
+			if(data._code!="ok" && attributes.delegateErrorHandling){
 
 				var lb=NVision.lightBoxes["alertBox"];
 								
 					lb.find("h3").text(data._errObj.id)
 					lb.find("p.shortDesc").text(data._errObj.shortDesc)
-					lb.find(".longDesc pre").text(data._errObj.longDesc)
+					lb.find(".longDesc span").text(data._errObj.longDesc)
 				
 				if(!lb.is(":visible")){	
 					lb.show();

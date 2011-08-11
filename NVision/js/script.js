@@ -657,7 +657,7 @@ var NVision={
 				
 				$("<h3 />").appendTo($msg)				
 				$("<p />").addClass("shortDesc").appendTo($msg)
-				$("<p />").addClass("longDesc").append($("<pre />")).appendTo($msg)
+				$("<p />").addClass("longDesc").append($("<span />")).appendTo($msg)
 		
 		
 			    NVision.lightBoxes["alertBox"]=$msg.lightBox({
