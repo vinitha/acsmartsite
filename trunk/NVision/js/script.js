@@ -3,7 +3,7 @@
 */
 
 
-myConsole.debugMode=false;		//avoid displayoing .log messages
+myConsole.debugMode=false;		//avoid displaying .log messages
 
 //enabling the browser history buttons
 $(function(){
@@ -711,37 +711,41 @@ var NVision={
                     success:function(data){
                        NVision.lightBoxes["overwrite"].removeClass("wait").closeIt();  
                         
-						
-						var confBox={
-							title:"Overwrite confirmation",
-							yesCaption:data._code=="nok"?"Retry":"Resubmit",
-							noCaption:"Close",                    
-							onYes:function(lightBox){
-								lightBox.closeIt();
-								
-								if(data._code=="nok"){
-									$("#overwriteBtn a").click();
-								}else{
-									$("#resubmitBtn a").click();
-								}
-							},
-							onNo:function(lightBox){
-								lightBox.closeIt();
-								if(data._code!="nok"){
+						if(data._code=="ok"){
+							var confBox={
+								title:"Overwrite confirmation",
+								yesCaption:"Resubmit",
+								noCaption:"Close",                    
+								onYes:function(lightBox){
+									lightBox.closeIt();
+										$("#resubmitBtn a").click();
+								},
+								onNo:function(lightBox){
+									lightBox.closeIt();
 									myConsole.log("Refreshing the view...")
 									
 									//refreshing the tableView
 									NVision.updateEngine.updateNow();
 									NVision.updateEngine.start();
-								}							
-							},
-							msg:data.msg||data._errObj.shortDesc,
-							msgClass:data._code=="nok"?"error":"ok", // [ok||error]
-							onClose:null
+															
+								},
+								msg:data.msg,
+								msgClass:"ok",
+								onClose:null
+							}
+							
+							confirm(confBox);
+						}else{
+							var lb=NVision.lightBoxes["alertBox"];
+											
+								lb.find("h3").text(data._errObj.id)
+								lb.find("p.shortDesc").text(data._errObj.shortDesc)
+								lb.find(".longDesc span").text(data._errObj.longDesc)
+							
+							if(!lb.is(":visible")){	
+								lb.show();
+							}							
 						}
-						
-						confirm(confBox);
-						
                     
                     },
                     error:function(a,b,c){
@@ -793,36 +797,46 @@ var NVision={
                     success:function(data){                        
                         
 						NVision.lightBoxes["resubmit"].removeClass("wait").closeIt();
-						
-						
-						var confBox={
-							title:"Resubmit confirmation",
-							yesCaption:"View submitted trades",
-							noCaption:"Close",                    
-							onYes:function(lightBox){
-								lightBox.closeIt();
-								
-								NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
-								$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+
+						if(data._code=="ok"){	
+							var confBox={
+								title:"Resubmit confirmation",
+								yesCaption:"View submitted trades",
+								noCaption:"Close",                    
+								onYes:function(lightBox){
+									lightBox.closeIt();
 									
-							},
-							onNo:function(lightBox){
-								
-								lightBox.closeIt();
-								
-								myConsole.log("Refreshing the view...")
-								
-								//refreshing the tableView
-								NVision.updateEngine.updateNow();
-								NVision.updateEngine.start();								
-							},
-							msg:data.msg||data._errObj.shortDesc,
-							msgClass:data._code=="nok"?"error":"ok", // [ok||error]
-							onClose:null
+									NVision.appStatus[NVision.appStatus.currentTab].view.resubmitted=true;
+									$.bbq.pushState( NVision.appStatus[NVision.appStatus.currentTab],2);
+										
+								},
+								onNo:function(lightBox){
+									
+									lightBox.closeIt();
+									
+									myConsole.log("Refreshing the view...")
+									
+									//refreshing the tableView
+									NVision.updateEngine.updateNow();
+									NVision.updateEngine.start();								
+								},
+								msg:data.msg||data._errObj.shortDesc,
+								msgClass:data._code=="nok"?"error":"ok", // [ok||error]
+								onClose:null
+							}
+							
+							confirm(confBox);
+						}else{
+							var lb=NVision.lightBoxes["alertBox"];
+											
+								lb.find("h3").text(data._errObj.id)
+								lb.find("p.shortDesc").text(data._errObj.shortDesc)
+								lb.find(".longDesc span").text(data._errObj.longDesc)
+							
+							if(!lb.is(":visible")){	
+								lb.show();
+							}								
 						}
-						
-						confirm(confBox);
-						
                     
                     },
                     error:function(a,b,c){
@@ -960,7 +974,15 @@ var NVision={
 									NVision.updateEngine.start();	
 																		
 								}else{
-									myConsole.alert(data["_errObj"].shortDesc)
+									var lb=NVision.lightBoxes["alertBox"];
+													
+										lb.find("h3").text(data._errObj.id)
+										lb.find("p.shortDesc").text(data._errObj.shortDesc)
+										lb.find(".longDesc span").text(data._errObj.longDesc)
+									
+									if(!lb.is(":visible")){	
+										lb.show();
+									}	
 								}
 								
 							},
@@ -1000,7 +1022,7 @@ var NVision={
 					onYes:function(lightBox){
 						
 						//getting the trade objects from the selected row
-						var checked=$.map($("#tableView .tableData").find("input:checked"),function(item,index){
+						var checked=$.map($("#tableView .tableData tbody").find("input:checked"),function(item,index){
 									return $(item).closest("tr").attr("data-id")
 								}),
 							tradeObjs=[];
@@ -1028,7 +1050,15 @@ var NVision={
 									NVision.updateEngine.start();	
 																		
 								}else{
-									myConsole.alert(data["_errObj"].shortDesc)
+									var lb=NVision.lightBoxes["alertBox"];
+													
+										lb.find("h3").text(data._errObj.id)
+										lb.find("p.shortDesc").text(data._errObj.shortDesc)
+										lb.find(".longDesc span").text(data._errObj.longDesc)
+									
+									if(!lb.is(":visible")){	
+										lb.show();
+									}	
 								}
 								
 							},
@@ -1097,7 +1127,15 @@ var NVision={
 									NVision.updateEngine.start();	
 																		
 								}else{
-									myConsole.alert(data["_errObj"].shortDesc)
+									var lb=NVision.lightBoxes["alertBox"];
+													
+										lb.find("h3").text(data._errObj.id)
+										lb.find("p.shortDesc").text(data._errObj.shortDesc)
+										lb.find(".longDesc span").text(data._errObj.longDesc)
+									
+									if(!lb.is(":visible")){	
+										lb.show();
+									}	
 								}																
 							
 							},
@@ -1134,8 +1172,9 @@ var NVision={
 				var tradeObjs=[];
                 //getting the trade objects from the selected row
 				$.each($("#tableView .tableData").find("input:checked"),function(i,elem){
-					
-					tradeObjs.push(NVision.currentSys.trades[$(elem).closest("tr").attr("data-id")]["id"])
+					if($(elem).closest("tr").attr("data-id")){
+						tradeObjs.push(NVision.currentSys.trades[$(elem).closest("tr").attr("data-id")]["id"])
+					}
 				})
 				
 				var fieldset=NVision.lightBoxes["overwrite"].find("fieldset").empty();			
@@ -1345,8 +1384,10 @@ var NVision={
 		
 	},
 	enableUi:function(){
-		NVision.disablingOverlay.detach();
-		$(".current .view:visible").find(".systemName span").removeClass("loading");
+		if(NVision.disablingOverlay){
+			NVision.disablingOverlay.detach();
+			$(".current .view:visible").find(".systemName span").removeClass("loading");
+		}
 	},
 	getSysComposition:function(callBack){
 		//$("#businessMarket strong").addClass("loading").text("loading...")

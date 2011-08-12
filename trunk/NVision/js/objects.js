@@ -79,7 +79,8 @@ function myAjax(options){
 				if(!lb.is(":visible")){	
 					lb.show();
 				}
-
+                
+                NVision.enableUi();
 			}
 			
             attributes.success(data)
