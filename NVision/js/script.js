@@ -3084,7 +3084,7 @@ var NVision={
         
         createFilters:function(filters,container){
 			
-			if(filters.length==0){
+			if(!filters||filters.length==0){
 				container.hide(0);
 				return false;
 			}
@@ -3264,7 +3264,14 @@ var NVision={
 								hTr.push("</th>");
 							}
 							
-							var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
+							//var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")					
+							
+							var str=' '
+							var format='string'
+							if(trade[cellCaption]){
+							str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
+							format=utils.RealTypeOf(trade[cellCaption]);
+														
 							var format=utils.RealTypeOf(trade[cellCaption]);
 														
 							bTr.push("<td class='cell "+format+"'><span class='cellSpan'>" + str +"</span></td>")                        
