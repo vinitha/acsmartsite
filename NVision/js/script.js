@@ -1644,7 +1644,6 @@ var NVision={
 		//setting the table title....
         $(".current .systemName span")
             .addClass("loading")
-			.removeClass("resub")
             .text("loading data...");
 			
 		//$("#etlView").addClass("off");
@@ -1707,7 +1706,6 @@ var NVision={
 		//setting the table title....
         $(".current .systemName span")
             .addClass("loading")
-			.removeClass("resub")
             .text("loading data...");
 			
 		//$("#sysMsgView").addClass("off");
@@ -1771,7 +1769,6 @@ var NVision={
 		//setting the table title....
         $(".current .systemName span")
             .addClass("loading")
-			.removeClass("resub")
             .text("loading data...");
 			
 		//$("#tableView").addClass("off");
@@ -1832,7 +1829,6 @@ var NVision={
         //setting the table title....
         $(".current .systemName span")
             .addClass("loading")
-			.removeClass("resub")
             .text("loading data...");
 			
 		//$("#tableView").addClass("off");
@@ -1985,7 +1981,6 @@ var NVision={
 		
         NVision.updateEngine.onNewData(function(){
             $(".current .systemName span")
-				.addClass("resub")
 				.removeClass("loading");
 				
 			//$("#tableView").removeClass("off");

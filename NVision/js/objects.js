@@ -296,9 +296,6 @@ function myAjax(options){
 			rowClick:null 
 		},function(table){
 				
-			table.addClass("resubmitted")
-				
-				
 				//highlighting the columns I am sorting the table by
 				if(sysObj.sortBy){
 					var headers=table.find("thead").find("a");
