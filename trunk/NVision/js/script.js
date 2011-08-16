@@ -3265,16 +3265,18 @@ var NVision={
 							}
 							
 							//var str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")					
+							//var format=utils.RealTypeOf(trade[cellCaption]);
 							
 							var str=' '
 							var format='string'
-							if(trade[cellCaption]){
-							str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
-							format=utils.RealTypeOf(trade[cellCaption]);
+							if(!(trade[cellCaption]==null)){
+								str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
+								format=utils.RealTypeOf(trade[cellCaption]);
+							}					
+							
 														
-							var format=utils.RealTypeOf(trade[cellCaption]);
-														
-							bTr.push("<td class='cell "+format+"'><span class='cellSpan'>" + str +"</span></td>")                        
+							bTr.push("<td class='cell "+format+"'><span class='cellSpan'>" + str +"</span></td>")
+							
 						}
 					}
 			
