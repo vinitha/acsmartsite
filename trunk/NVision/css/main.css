@@ -180,16 +180,19 @@
 		padding-left:25px;
 	}
 	
-	.systemName .resub{
-		background-color:#619652;
-	}
-	
 	.systemName strong{
 		color:#666;
 		font-size:0.7em;
 		padding-top:3px;
 		float:left;
 		margin-left:10px;
+	}
+	
+	.showResubmitted .systemName span{
+		background-color:#619652;
+	}	
+	.doSearch .systemName span{
+		background-color:#e2c703;
 	}
 	
 	#header{
@@ -1178,22 +1181,35 @@
 	}
 	
 	
-	.tableData .resubmitted thead a {
+	.showResubmitted .tableData thead a {
 		color: #5e8350;
 		background-color: #bdd8b6;
 	}
 	
-	.tableData .resubmitted thead a:hover,
-	.tableData .resubmitted thead a:focus{
+	.showResubmitted .tableData thead a:hover,
+	.showResubmitted .tableData thead a:focus{
 		background-color:#a2c998;
 		color:#222;
 	}
 	
-	.tableData .resubmitted tbody tr{
+	.showResubmitted .tableData tbody tr{
 		cursor:default;
-	}	
+	}
 	
-	.tableData .resubmitted tbody tr:hover{
+	.doSearch .tableData thead a,
+	.doSearch .tableData thead p{
+		color: #826409;
+		background-color: #f4e871;
+	}
+	
+	.doSearch .tableData thead a:hover,
+	.doSearch .tableData thead a:focus{
+		background-color:#edd712;
+		color:#615807;
+	}
+	
+	
+	.showResubmitted .tableData tbody tr:hover{
 		background-image:none;
 		cursor:default;
 	}
@@ -1215,7 +1231,7 @@
 		background-image:url(../images/tableRowBG.png);
 	}
 	
-	.tableData .resubmitted tbody tr:hover td.sorted{
+	.showResubmitted .tableData tbody tr:hover td.sorted{
 		background-image:none;
 	}
 	
