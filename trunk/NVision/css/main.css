@@ -190,10 +190,20 @@
 	
 	.showResubmitted .systemName span{
 		background-color:#619652;
-	}	
+	}
+	
+	.showResubmitted .systemName .loading{
+		background-image:url(../images/ajax-loader_resubmitted.gif);
+	}
+	
 	.doSearch .systemName span{
 		background-color:#e2c703;
 	}
+	
+	.doSearch .systemName .loading{
+		background-image:url(../images/ajax-loader_search.gif);
+	}
+	
 	
 	#header{
 		position:relative;
