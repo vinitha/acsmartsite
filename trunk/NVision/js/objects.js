@@ -49,7 +49,7 @@ function myAjax(options){
         var msgId=myConsole.status(attributes.logMsg);    
     }
 	
-	myConsole.alert("revert to POST method!")
+	//myConsole.alert("revert to POST method!")
 	return $.ajax({
         url:attributes.url,
         type:"GET",

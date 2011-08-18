@@ -197,7 +197,7 @@
 	}
 	
 	.doSearch .systemName span{
-		background-color:#e2c703;
+		background-color:#e1b324;
 	}
 	
 	.doSearch .systemName .loading{
@@ -1209,12 +1209,12 @@
 	.doSearch .tableData thead a,
 	.doSearch .tableData thead p{
 		color: #826409;
-		background-color: #f4e871;
+		background-color: #ead17d;
 	}
 	
 	.doSearch .tableData thead a:hover,
 	.doSearch .tableData thead a:focus{
-		background-color:#edd712;
+		background-color:#d8b445;
 		color:#615807;
 	}
 	
@@ -1226,7 +1226,7 @@
 	
 	.tableData table thead a.ascending,
 	.tableData table thead a.descending	{
-		background-color:#ffbc40;
+		background-color:#ffbc40!important;
 		color:#444;
 		position:relative;
 	}
