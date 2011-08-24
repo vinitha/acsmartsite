@@ -174,7 +174,7 @@
 	}
 	
 	.systemName .loading{
-		background-image:url(../images/ajax-loader_resubmitted.gif);
+		background-image:url(../images/ajax-loader_red.gif);
 		background-position:4px 50%;
 		background-repeat:no-repeat;
 		padding-left:25px;
@@ -193,7 +193,7 @@
 	}
 	
 	.showResubmitted .systemName .loading{
-		background-image:url(../images/ajax-loader_search.gif);
+		background-image:url(../images/ajax-loader_yellow.gif);
 	}
 	
 	.doSearch .systemName span{
@@ -201,7 +201,7 @@
 	}
 	
 	.doSearch .systemName .loading{
-		background-image:url(../images/loading.gif);
+		background-image:url(../images/ajax-loader_blue.gif);
 	}
 	
 	
@@ -1118,7 +1118,7 @@
 
 	.tableData thead p,
 	.tableData thead a{
-		background-color: #cba5a6;
+		background-color: #d8aa98;
 		background-image:url("../images/btnBG.png");
 		background-repeat:no-repeat;
 		background-position:50% 55%;
@@ -1191,7 +1191,7 @@
 	
 	.tableData thead a:hover,
 	.tableData thead a:focus{
-		background-color:#bc8b8c;
+		background-color:#c6856c;
 		color:#553132;
 	}
 	
@@ -1211,12 +1211,17 @@
 		cursor:default;
 	}
 	
+	
+	.showKPI .tableData thead a,
+	.showKPI .tableData thead p,
 	.doSearch .tableData thead a,
 	.doSearch .tableData thead p{
 		color: #46778c;
 		background-color: #cbd8dc;
 	}
 	
+	.showKPI .tableData thead a:hover,
+	.showKPI .tableData thead a:focus,
 	.doSearch .tableData thead a:hover,
 	.doSearch .tableData thead a:focus{
 		background-color:#aabfc6;
