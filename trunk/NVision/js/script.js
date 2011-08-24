@@ -313,7 +313,7 @@ var NVision={
 								btn.data("resubmitted",true)								
 							}else{
 								NVision.showTradesTable(sysObj)
-								btn.text("View resubmitted Trades");
+								btn.text("View pending Trades");
 								btn.data("resubmitted",false)							
 							}							
                         }else{
@@ -801,7 +801,7 @@ var NVision={
 						if(data._code=="ok"){	
 							var confBox={
 								title:"Resubmit confirmation",
-								yesCaption:"View submitted trades",
+								yesCaption:"View pending trades",
 								noCaption:"Close",                    
 								onYes:function(lightBox){
 									lightBox.closeIt();
