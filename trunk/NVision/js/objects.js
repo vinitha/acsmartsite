@@ -409,7 +409,7 @@ function myAjax(options){
         
         // creating the table
         NVision.utils.createTable({
-            selectRow:selectRow===undefined?true:false,
+            selectRow:selectRow===undefined?true:selectRow,
             container:tableContainer,
             data:sysObj.trades,
 			showTotalOn:sysObj.showTotalOn,

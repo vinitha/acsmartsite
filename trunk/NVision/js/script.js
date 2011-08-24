@@ -2484,8 +2484,7 @@ var NVision={
             id:searchObj.id,
             url:sysConfig.searchUrl,
             data:data,
-            callBack:function(data){
-                
+            callBack:function(data){                
                 searchObj.currentPage=1;
                 NVision.utils.showObjTrades(data,$("#tableView .tableData"),$("#tableView .pagination"),$("#tableView .tradesFilters"))
             }
@@ -2868,10 +2867,11 @@ var NVision={
             //disabling the buttons
             $(".view .toolBar .buttons .button").addClass("off")            
             
-            
+            var selectRow=(sysObj.type=="searchResults")?false:true;
+			
             //clearing and recreating the table
             NVision.utils.deleteTable(tableContainer.find("table"))
-            sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails )
+            sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails,selectRow )
                         
             //creating the filters html
             NVision.utils.createFilters(data.filters,filtersContainer.empty());

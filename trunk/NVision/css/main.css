@@ -107,7 +107,7 @@
 	}
 	
 	h2 span{
-		background-color: #ca9e1c;
+		background-color: #a25e60;
 		color: #FFFFFF;
 		float: left;
 		display:block;
@@ -174,7 +174,7 @@
 	}
 	
 	.systemName .loading{
-		background-image:url(../images/ajax-loader_search.gif);
+		background-image:url(../images/ajax-loader_resubmitted.gif);
 		background-position:4px 50%;
 		background-repeat:no-repeat;
 		padding-left:25px;
@@ -189,11 +189,11 @@
 	}
 	
 	.showResubmitted .systemName span{
-		background-color:#619652;
+		background-color:#CA9E1C;
 	}
 	
 	.showResubmitted .systemName .loading{
-		background-image:url(../images/ajax-loader_resubmitted.gif);
+		background-image:url(../images/ajax-loader_search.gif);
 	}
 	
 	.doSearch .systemName span{
@@ -891,6 +891,11 @@
 		color: #274f76;
 	}
 	
+	
+	#resubmitted .link{
+		color:#666;
+	}
+	
 /*	.off .view .toolBar .link{
 		color:#aaa!important;
 		cursor:default;
@@ -1113,12 +1118,12 @@
 
 	.tableData thead p,
 	.tableData thead a{
-		background-color: #ead17d;
+		background-color: #cba5a6;
 		background-image:url("../images/btnBG.png");
 		background-repeat:no-repeat;
 		background-position:50% 55%;
 
-		color: #826409;
+		color: #7c4748;
 		display: block;
 		padding: 6px;
 		outline:none;
@@ -1186,20 +1191,20 @@
 	
 	.tableData thead a:hover,
 	.tableData thead a:focus{
-		background-color:#d8b445;
-		color:#615807;
+		background-color:#bc8b8c;
+		color:#553132;
 	}
 	
 	
 	.showResubmitted .tableData thead a {
-		color: #5e8350;
-		background-color: #bdd8b6;
+		color: #826409;
+		background-color: #ead17d;
 	}
 	
 	.showResubmitted .tableData thead a:hover,
 	.showResubmitted .tableData thead a:focus{
-		background-color:#a2c998;
-		color:#222;
+		background-color:#d8b445;
+		color:#615807;
 	}
 	
 	.showResubmitted .tableData tbody tr{
