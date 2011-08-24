@@ -107,7 +107,7 @@
 	}
 	
 	h2 span{
-		background-color: #46778C;
+		background-color: #ca9e1c;
 		color: #FFFFFF;
 		float: left;
 		display:block;
@@ -174,7 +174,7 @@
 	}
 	
 	.systemName .loading{
-		background-image:url(../images/loading.gif);
+		background-image:url(../images/ajax-loader_search.gif);
 		background-position:4px 50%;
 		background-repeat:no-repeat;
 		padding-left:25px;
@@ -197,11 +197,11 @@
 	}
 	
 	.doSearch .systemName span{
-		background-color:#e1b324;
+		background-color:#46778C;
 	}
 	
 	.doSearch .systemName .loading{
-		background-image:url(../images/ajax-loader_search.gif);
+		background-image:url(../images/loading.gif);
 	}
 	
 	
@@ -1113,12 +1113,12 @@
 
 	.tableData thead p,
 	.tableData thead a{
-		background-color: #cbd8dc;
+		background-color: #ead17d;
 		background-image:url("../images/btnBG.png");
 		background-repeat:no-repeat;
 		background-position:50% 55%;
 
-		color: #46778c;
+		color: #826409;
 		display: block;
 		padding: 6px;
 		outline:none;
@@ -1170,12 +1170,12 @@
 	}
 	
 	.tableData thead .remove{    
-    background-position: 0 -72px;
-    height: 16px;
-    position: absolute;
-    right: 0;
-    top: 3px;
-    width: 16px;
+		background-position: 0 -72px;
+		height: 16px;
+		position: absolute;
+		right: 0;
+		top: 3px;
+		width: 16px;
 		cursor:pointer;
 	}
 	
@@ -1186,8 +1186,8 @@
 	
 	.tableData thead a:hover,
 	.tableData thead a:focus{
-		background-color:#aabfc6;
-		color:#222;
+		background-color:#d8b445;
+		color:#615807;
 	}
 	
 	
@@ -1208,14 +1208,14 @@
 	
 	.doSearch .tableData thead a,
 	.doSearch .tableData thead p{
-		color: #826409;
-		background-color: #ead17d;
+		color: #46778c;
+		background-color: #cbd8dc;
 	}
 	
 	.doSearch .tableData thead a:hover,
 	.doSearch .tableData thead a:focus{
-		background-color:#d8b445;
-		color:#615807;
+		background-color:#aabfc6;
+		color:#222;
 	}
 	
 	
@@ -1272,7 +1272,7 @@
 	.tableData tbody tr:hover{
 		/*background-color:#e5e5e5;*/
 		
-		background-color:#ddecb5;
+		background-color:#ecedb4;
 		background-image:url(../images/tableRowBG.png);	
 	}	
 	
