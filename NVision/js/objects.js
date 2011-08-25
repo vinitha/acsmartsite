@@ -454,19 +454,15 @@ function myAjax(options){
             rowClick:rowClick      
         },function(table){
 						
-				//hiding the checkbox for the "COMPLETED" trades
+			//highlighting "COMPLETED" trades
 			if(sysObj.type=="searchResults"){
-				var tr=table.find("tbody").find("tr"),
-					first=sysObj.itemsPerPage*(sysObj.currentPage-1),
-					last=sysObj.displayAll?sysObj.trades.length:Math.min(sysObj.trades.length,sysObj.itemsPerPage*(sysObj.currentPage));
+				var tr=table.find("tbody").find("tr");
 				
-				for(var x=first; x<last;x++){
-					var trade=sysObj.trades[x]
+				$.each(sysObj.trades,function(i,trade){
 					if (trade.Status=="Complete"){
-						tr.eq(x-first).addClass("complete")
-					}
-				}
-				
+						tr.eq(i).addClass("complete")
+					}					
+				})		
 			}
 			
 			//highlighting the columns I am sorting the table by
