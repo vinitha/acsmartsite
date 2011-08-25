@@ -474,8 +474,7 @@ var NVision={
                     type=$this.parent().get(0).className,
                     ul=$this.closest("ul");
                     
-                
-                
+                                
                 switch(type){
                     case "In":
                         NVision.zoom(NVision.zoomLevel-1)
@@ -496,59 +495,13 @@ var NVision={
         //handling the search form
         $("#searchForm").submit(function(e){
             e.preventDefault();
-            var missingField=null,
+            var firstError=null,
                 theForm=$(this);
             
-            var fields=theForm.find(".mandatory:visible").each(function(){
-                var $this=$(this);
-                
-                if ($this.attr("value")==""){
-                    $this.addClass("validError")
-                    
-                    missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
-                }                                
-            })
-            
-            var fields=theForm.find(".currency:visible").each(function(){
-                var $this=$(this),
-                    cur=$this.attr("value")
-                    
-                    if(cur=="") {
-                        $this.removeClass("validError")
-                        return false;
-                    }
-                
-                if (parseFloat(cur)!=cur){
-                    $this.addClass("validError")
-                    
-                    missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
-                }
-            })            
-            
-            var fields=theForm.find(".integer:visible").each(function(){
-                var $this=$(this),
-                    cur=$this.attr("value")
-                    
-                    if(cur=="") {
-                        $this.removeClass("validError")
-                        return false;
-                    }
-                if (parseInt(cur)!=cur){
-                    $this.addClass("validError")
-                    
-                    missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
-                }
-                                
-            })
-            
-            if(missingField){
-                missingField.focus();
+			firstError=NVision.utils.validateForm(theForm);
+            if(firstError){
+				myConsole.alert("Invalid value!");
+                firstError.focus();
                 return false;
             }
 
@@ -698,7 +651,17 @@ var NVision={
 					return false;
 				}
 				
+				var errorField=NVision.utils.validateForm(form);
+				
+				if(errorField){
+					myConsole.alert("Invalid value!");
+					errorField.focus();
+					return false;
+				}				
+				
                 NVision.lightBoxes["overwrite"].addClass("wait")
+				
+				
 				
 				var data={"overwrites":form.serialize()};
 				data["adapter"]=NVision.currentSys.id;
@@ -2626,6 +2589,96 @@ var NVision={
 	},
     
     utils:{
+		
+		validateForm:function(theForm){
+			var missingField=null;
+			
+			theForm.find(".mandatory:visible").each(function(){
+                var $this=$(this);
+                
+                if ($this.attr("value")==""){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+                }else{
+                    $this.removeClass("validError")
+                }                                
+            })
+            
+            theForm.find(".currency:visible").each(function(){
+                var $this=$(this),
+                    cur=$this.attr("value")
+                    
+                    if(cur=="") {
+                        $this.removeClass("validError")
+                        return false;
+                    }
+                
+                if (parseFloat(cur)!=cur){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+                }else{
+                    $this.removeClass("validError")
+                }
+            })            
+            
+            theForm.find(".integer:visible").each(function(){
+                var $this=$(this),
+                    cur=$this.attr("value")
+                    
+                    if(cur=="") {
+                        $this.removeClass("validError")
+                        return false;
+                    }
+                if (parseInt(cur)!=cur){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+                }else{
+                    $this.removeClass("validError")
+                }
+                                
+            })
+			
+			
+            theForm.find(".timePicker:visible").each(function(){
+                var $this=$(this),
+                    cur=$this.attr("value")
+                    
+                    if(cur==""||this.title==cur) {
+                        $this.removeClass("validError")
+                        return false;
+                    }
+                if (utils.parseTime(cur)==null){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+                }else{
+                    $this.removeClass("validError")
+                }
+                                
+            })			
+			
+            theForm.find(".datePicker:visible").each(function(){
+                var $this=$(this),
+                    cur=$this.attr("value")
+                    
+                    if(cur==""||this.title==cur) {
+                        $this.removeClass("validError")
+                        return false;
+                    }
+                if (isNaN(Date.parse(cur))){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+                }else{
+                    $this.removeClass("validError")
+                }
+                                
+            })				
+			return missingField;
+		},
 		getDBobjects:function(){
 			var objects={}
 			
@@ -3121,6 +3174,13 @@ var NVision={
 						.click(function(e){
 							e.preventDefault();
 							var fObject=$(this).closest("form").serializeArray();
+							
+							var errorField=NVision.utils.validateForm($(this).closest("form"));
+							if(errorField){
+								myConsole.alert("Invalid value!");
+								errorField.focus();
+								return false;
+							}
 							
 							if(container.closest(".view").hasClass("off")){
 							   return false;

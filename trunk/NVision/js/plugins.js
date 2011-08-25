@@ -70,7 +70,27 @@ var utils={
         date2=date2||baseDate;
         
         return Math.abs(date1.getTime()-date2.getTime())
-    },  
+    },
+	
+	parseTime:function(timeString) {    
+		if (timeString == '') return null;
+	
+		var time = timeString.match(/^(\d+)(:(\d\d))?\s*((a|(p))m?)?$/i); 
+		if (time == null) return null;
+	
+		var hours = parseInt(time[1],10);    
+		if (hours == 12 && !time[6]) {
+			  hours = 0;
+		}
+		else {
+			hours += (hours < 12 && time[4])? 12 : 0;
+		}   
+		var d = new Date();             
+		d.setHours(hours);
+		d.setMinutes(parseInt(time[3],10) || 0);
+		d.setSeconds(0, 0);  
+		return d;
+	},
 
     RealTypeOf:function(v) {
         if (typeof(v) == "object") {
