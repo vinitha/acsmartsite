@@ -204,7 +204,14 @@
 		background-image:url(../images/ajax-loader_blue.gif);
 	}
 	
+	.showSafeStoreData .systemName span{
+		background-color:#46778C;
+	}
 	
+	.showSafeStoreData .systemName .loading{
+		background-image:url(../images/ajax-loader_blue.gif);
+	}
+		
 	#header{
 		position:relative;
 		display:block;
@@ -1146,6 +1153,7 @@
 	
 	.tableData .complete{
 		color:#008000;
+		font-weight:bold;
 	}
 	
 	.tableData .complete input[type=checkbox]{
@@ -1212,6 +1220,8 @@
 	}
 	
 	
+	.showSafeStoreData .tableData thead a,
+	.showSafeStoreData .tableData thead p,
 	.showKPI .tableData thead a,
 	.showKPI .tableData thead p,
 	.doSearch .tableData thead a,
@@ -1220,6 +1230,8 @@
 		background-color: #cbd8dc;
 	}
 	
+	.showSafeStoreData .tableData thead a:hover,
+	.showSafeStoreData .tableData thead a:focus,
 	.showKPI .tableData thead a:hover,
 	.showKPI .tableData thead a:focus,
 	.doSearch .tableData thead a:hover,
@@ -1645,6 +1657,7 @@
 		left:50%;
 		width:400px;
 		margin-left:-200px;
+		text-align:center;
 	}
 		
 	.myConsole span{
