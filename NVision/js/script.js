@@ -1146,7 +1146,7 @@ var NVision={
 					var tmpField=NVision.currentSys.overwritable[field];
 					
 					for (var f in tmpField){
-						fieldset.append("<p><input class='chk' type='checkbox' /><label class='off'><span class='caption'>" + f + "</span><input disabled='disabled' class=" + NVision.classMap[tmpField[f]] +" type='text' id='_" + f + "' name='" + f + "' value='' /></label></p>")	
+						fieldset.append("<p><input class='chk' type='checkbox' /><label class='off'><span class='caption'>" + f + "</span><input disabled='disabled' class=" + NVision.classMap[tmpField[f]] +" type='text' id='_" + f + "' name='" + f + "' /></label></p>")	
 					}					
 				}
 				
@@ -2593,7 +2593,7 @@ var NVision={
 		validateForm:function(theForm){
 			var missingField=null;
 			
-			theForm.find(".mandatory:visible").each(function(){
+			theForm.find(".mandatory:visible").not(":disabled").each(function(){
                 var $this=$(this);
                 
                 if ($this.attr("value")==""){
@@ -2605,13 +2605,13 @@ var NVision={
                 }                                
             })
             
-            theForm.find(".currency:visible").each(function(){
+            theForm.find(".currency:visible").not(":disabled").each(function(){
                 var $this=$(this),
                     cur=$this.attr("value")
                     
                     if(cur=="") {
                         $this.removeClass("validError")
-                        return false;
+                        return true;
                     }
                 
                 if (parseFloat(cur)!=cur){
@@ -2623,13 +2623,13 @@ var NVision={
                 }
             })            
             
-            theForm.find(".integer:visible").each(function(){
+            theForm.find(".integer:visible").not(":disabled").each(function(){
                 var $this=$(this),
                     cur=$this.attr("value")
                     
                     if(cur=="") {
                         $this.removeClass("validError")
-                        return false;
+                        return true;
                     }
                 if (parseInt(cur)!=cur){
                     $this.addClass("validError")
@@ -2642,13 +2642,13 @@ var NVision={
             })
 			
 			
-            theForm.find(".timePicker:visible").each(function(){
+            theForm.find(".timePicker:visible").not(":disabled").each(function(){
                 var $this=$(this),
                     cur=$this.attr("value")
                     
                     if(cur==""||this.title==cur) {
                         $this.removeClass("validError")
-                        return false;
+                        return true;
                     }
                 if (utils.parseTime(cur)==null){
                     $this.addClass("validError")
@@ -2660,13 +2660,13 @@ var NVision={
                                 
             })			
 			
-            theForm.find(".datePicker:visible").each(function(){
+            theForm.find(".datePicker:visible").not(":disabled").each(function(){
                 var $this=$(this),
                     cur=$this.attr("value")
                     
                     if(cur==""||this.title==cur) {
                         $this.removeClass("validError")
-                        return false;
+                        return true;
                     }
                 if (isNaN(Date.parse(cur))){
                     $this.addClass("validError")
