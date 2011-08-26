@@ -148,7 +148,7 @@ $().ready(function(){
     
     //setting the datePicker up
     $("input.datePicker").datepicker({
-		dateFormat: 'dd/mm/yy',
+		dateFormat: 'yy/mm/dd',
         inline: true
     });
     
@@ -1152,7 +1152,7 @@ var NVision={
 				
 				//setting the datePicker up
 				fieldset.find(".datePicker").datepicker({
-					dateFormat: 'dd/mm/yy',
+					dateFormat: 'yy/mm/dd',
 					inline: true
 				});
 				
@@ -3162,7 +3162,7 @@ var NVision={
 				
 				//setting the datePicker up
 				container.find(".datePicker").datepicker({
-					dateFormat: 'dd/mm/yy',
+					dateFormat: 'yy/mm/dd',
 					inline: true
 				});
 				
