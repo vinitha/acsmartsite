@@ -2923,11 +2923,13 @@ var NVision={
             var selectRow=(sysObj.type=="searchResults")?false:true;
 			
             //clearing and recreating the table
-            NVision.utils.deleteTable(tableContainer.find("table"))
+			var theTable=tableContainer.find("table");
+            NVision.utils.deleteTable(theTable)
             sysObj.showTrades(tableContainer,paginationContainer,NVision.utils.showTradeDetails,selectRow )
                         
             //creating the filters html
-            NVision.utils.createFilters(data.filters,filtersContainer.empty());
+			theTable=tableContainer.find("table");
+            NVision.utils.createFilters(data.filters,filtersContainer,theTable);
             
         },
 		
@@ -2953,12 +2955,14 @@ var NVision={
             
             
             //clearing and recreating the table
-            NVision.utils.deleteTable(tableContainer.find("table"))
+			var theTable=tableContainer.find("table");
+            NVision.utils.deleteTable(theTable)
             sysObj.showResubmitted(tableContainer,paginationContainer)
             
             
             //creating the filters html
-            var html=NVision.utils.createFilters(data.filters,filtersContainer.empty());
+			theTable=tableContainer.find("table");
+            var html=NVision.utils.createFilters(data.filters,filtersContainer,theTable);
             
         },
         
@@ -3130,80 +3134,173 @@ var NVision={
 			}
         },
         
-        createFilters:function(filters,container){
+        createFilters:function(filters,container,theTable){
 			
 			if(!filters||filters.length==0){
 				container.hide(0);
 				return false;
 			}
-			container.show(0);
+			container.empty().show(0);
+			
+			$('<p class="help"><strong>Filters:</strong> Drag &amp; Drop the table headers here.</p>')
+			.appendTo(container);
+
+			container.bind("mouseup",function(evt){
+				evt.preventDefault();
+				NVision.isMouseDown=false;
+				
+				if(!NVision.ddPlaceHolder){
+					return true;
+				}
+								
+				evt.stopPropagation();
+				evt.preventDefault();
+				
+				
+				NVision.ddPlaceHolder.remove();
+				NVision.ddPlaceHolder=null;
+				
+			})
+			
+			var hnd=null;
+			
+			//enabling the headers d&d
+			theTable
+				.delegate("th a","mousedown",function(evt){
+					hnd=setTimeout(function(){NVision.isMouseDown=true},50);
+					
+					return false;
+				})
+				.delegate("th a","mousemove",function(evt){
+					
+					if(!NVision.isMouseDown||NVision.ddPlaceHolder){
+						return false;
+					}
+
+					var src=$(evt.target).closest("a"),
+						dropArea=container.offset();
+						
+					dropArea["right"]=dropArea.left+container.outerWidth();
+					dropArea["bottom"]=dropArea.top+container.outerHeight()
+					
+					var pos=src.position(),
+						tablePos=theTable.offset(),
+						headerPos={
+							top:pos.top+tablePos.top,
+							left:pos.left+tablePos.left
+						}
+
+					NVision.ddPlaceHolder=$("<a/>")											
+											.addClass("placeHolder")
+											.append($("<span/>").text(src.text()))
+											.appendTo(document.body)
+											.bind("mouseup",function(){
+												NVision.isMouseDown=false;												
+												
+												if(container.hasClass("hover")){
+													container.removeClass("hover");
+													myConsole.info("Drop: " + NVision.ddPlaceHolder.text())
+												}
+												
+												NVision.ddPlaceHolder.remove();
+												NVision.ddPlaceHolder=null;												
+											})
+				
+					NVision.ddPlaceHolder
+						.css({left:headerPos.left,top:headerPos.top,width:src.outerWidth(true)})
+						.draggable({
+							mouseDownEvent:evt,
+							onMove:function(){
+
+								var self=this.get(0),
+									selfLeft=parseInt(self.style.left)+this.outerWidth()/2,
+									selfTop=parseInt(self.style.top)+this.outerHeight()/2;
+								
+								if(dropArea.left<selfLeft && dropArea.right>selfLeft && dropArea.top<selfTop && dropArea.bottom>selfTop){
+									container.addClass("hover")
+								}else{
+									container.removeClass("hover")
+								}
+							}
+						});	
+				})
+				.delegate("th a","mouseup",function(evt){
+					NVision.isMouseDown=false;
+					clearTimeout(hnd);
+					if(NVision.ddPlaceHolder){
+						NVision.ddPlaceHolder.remove();
+						NVision.ddPlaceHolder=null;
+					}
+				});				
+			
 			
 			try{
-				for (var f in filters){
-					var fObj=filters[f];
-					
-					for (var fName in fObj){
-						var wrapper=$("<label />")
-							.append(
-								$("<span />").text(fName + ":")
-							)
-							.appendTo(container)
-                            
-                            $("<input />")
-                                .attr({
-                                    "class":NVision.classMap[fObj[fName]],
-                                    "name":fName,
-                                    "type":fObj[fName]=="bool"?"checkbox":'text',
-                                    "value":NVision.currentSys.filters?NVision.currentSys.filters[fName]:""
-                                })
-                                .appendTo(wrapper);					
-					}
-				}
-				
-				//setting the datePicker up
-				container.find(".datePicker").datepicker({
-					dateFormat: 'yy/mm/dd',
-					inline: true
-				});
-				
-				//setting the timePicker up
-				container.find(".timePicker").timePicker()
+//				
+//				for (var f in filters){
+//					var fObj=filters[f];
+//					
+//					for (var fName in fObj){
+//						var wrapper=$("<label />")
+//							.append(
+//								$("<span />").text(fName + ":")
+//							)
+//							.appendTo(container)
+//                            
+//                            $("<input />")
+//                                .attr({
+//                                    "class":NVision.classMap[fObj[fName]],
+//                                    "name":fName,
+//                                    "type":fObj[fName]=="bool"?"checkbox":'text',
+//                                    "value":NVision.currentSys.filters?NVision.currentSys.filters[fName]:""
+//                                })
+//                                .appendTo(wrapper);					
+//					}
+//				}
+//				
+//				//setting the datePicker up
+//				container.find(".datePicker").datepicker({
+//					dateFormat: 'yy/mm/dd',
+//					inline: true
+//				});
+//				
+//				//setting the timePicker up
+//				container.find(".timePicker").timePicker()
 				
                 //creating the button
-                var submit=$("<button class='filterBtn button' title='Filter results' type='submit' ><span></span></button>")
-						.click(function(e){
-							e.preventDefault();
-							var fObject=$(this).closest("form").serializeArray();
-							
-							var errorField=NVision.utils.validateForm($(this).closest("form"));
-							if(errorField){
-								myConsole.alert("Invalid value!");
-								errorField.focus();
-								return false;
-							}
-							
-							if(container.closest(".view").hasClass("off")){
-							   return false;
-							}
-						   
-							var sysObj=NVision.currentSys;
-							
-							sysObj.filters={};
-							for(var obj in fObject){
-								var tmpObj=fObject[obj];
-								sysObj.filters[tmpObj.name]=tmpObj.value;
-							}
-							
-							//moving to page 1
-							sysObj.currentPage=1;
-													
-							NVision.updateEngine.onNewData(NVision.enableUi);
-							NVision.disableUi();
-				
-							NVision.updateEngine.updateNow();
-							NVision.updateEngine.start()                   
-						})
-						.appendTo(container);
+//                var submit=$("<button class='filterBtn button' title='Filter results' type='submit' ><span></span></button>")
+//						.click(function(e){
+//							e.preventDefault();
+//							var fObject=$(this).closest("form").serializeArray();
+//							
+//							var errorField=NVision.utils.validateForm($(this).closest("form"));
+//							if(errorField){
+//								myConsole.alert("Invalid value!");
+//								errorField.focus();
+//								return false;
+//							}
+//							
+//							if(container.closest(".view").hasClass("off")){
+//							   return false;
+//							}
+//						   
+//							var sysObj=NVision.currentSys;
+//							
+//							sysObj.filters={};
+//							for(var obj in fObject){
+//								var tmpObj=fObject[obj];
+//								sysObj.filters[tmpObj.name]=tmpObj.value;
+//							}
+//							
+//							//moving to page 1
+//							sysObj.currentPage=1;
+//													
+//							NVision.updateEngine.onNewData(NVision.enableUi);
+//							NVision.disableUi();
+//				
+//							NVision.updateEngine.updateNow();
+//							NVision.updateEngine.start()                   
+//						})
+//						.appendTo(container);
                 
 			}catch(er){
 				myConsole.alert("An error occurred while creating the filter objects!")

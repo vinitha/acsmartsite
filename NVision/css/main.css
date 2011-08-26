@@ -760,35 +760,36 @@
 	}
 	
 	.tradesFilters{
-		background-color: #CCCCCC;
+		background-color: #fff;
 		float: right;
 		margin-bottom: 5px;
 		margin-right: 10px;
 		margin-top: 15px;
 		padding: 5px;
 		border-radius:3px;
+		border:2px dotted #aaa;
 	}
 	
-	.tradesFilters label{
-		float:left;
-		margin-right:10px;
+	.tradesFilters.hover{
+		background-color:#ffffa6;
+	}	
+	
+	.tradesFilters .help{
+		font-size: 11px;
+		color: #999;
+		padding: 0px 30px;		
 	}
 	
-	.tradesFilters span{
-		
-		color:#666;
+	.tradesFilters .help strong{
+		color: #666666;
+		font-weight: bold;
+		background-image: url("../images/filter.png");
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left:20px;
+		padding-right:5px;
 	}
 	
-	.tradesFilters input{
-		font-size:1.1em;
-		padding:2px;
-		color:#666;
-	}
-	
-	.tradesFilters .currency{
-		width:70px;
-	}
-
 
 /* bcBar */
 	.bcBar{
@@ -1065,6 +1066,7 @@
 	.tableData table{
 		width:100%;
 		border-right: 1px solid #B6CFDA;
+		position:relative;
 	}
 	
 	.tableData td{
@@ -1121,6 +1123,24 @@
 		background-color:#d9e7ec;
 		font-weight:bold;
 		color:#666;
+	}
+	
+	.placeHolder{
+		background-color: #ddd;
+		background-image:url("../images/btnBG.png");
+		background-repeat:no-repeat;
+		background-position:50% 55%;
+		position:absolute;
+		border:1px dotted #666;
+		
+		background-color: rgba(200,200,200,0.8);
+		cursor:move;
+		z-index:999;
+	}
+	
+	.placeHolder span{
+		padding:6px 16px 6px 6px;
+		display:block;
 	}
 
 	.tableData thead p,
