@@ -129,7 +129,7 @@
 			},
 			"overwritable":[
 				{"Time":"time"},
-				{"Day":"date"},
+				{"Day and night":"date"},
 				{"Trader":"string"},
 				{"Order No.":"number"}   				
 			]
