@@ -1601,6 +1601,7 @@ var scroller=function(element){
 			draggingClass:"",
 			container:null,
 			elementToDrag:thisObj,
+			mouseDownEvent:null,
 			onStart:function(){},
 			onMove:function(){},
 			onStop:function(){}
@@ -1608,7 +1609,15 @@ var scroller=function(element){
 		  
 		$.extend(defaults,options)		
 			
-		thisObj.mousedown(function(ev){
+		thisObj.bind("mousedown",_MouseDown);
+		
+		//if the drag is handled by an external function...
+		if(defaults.mouseDownEvent){
+			_MouseDown.call(defaults.mouseDownEvent.target,defaults.mouseDownEvent)
+		}
+		
+		//events function		
+		function _MouseDown(ev){
 			ev.preventDefault();
 			if (ev.cancelBubble){
 				ev.cancelBubble = true;
@@ -1631,9 +1640,8 @@ var scroller=function(element){
 			
 			defaults.onStart(defaults.elementToDrag);
 			
-		})
+		}
 		
-		//event function
 		function _Mousemove(ev){
 			ev.preventDefault();
 			if (ev.cancelBubble){
@@ -1661,7 +1669,7 @@ var scroller=function(element){
 				
 			$obj.css({"left":newLeft,"top":newTop});					
 			
-			defaults.onMove(defaults.elementToDrag)
+			defaults.onMove.call(defaults.elementToDrag);
 			return false;			
 		}
 		
