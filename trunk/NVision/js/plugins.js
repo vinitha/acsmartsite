@@ -755,7 +755,8 @@ function confirm(options){
 				width:this.outerWidth(true)+20,
 				parent:null,
 				rtl:false,
-				modal:false
+				modal:false,
+				noFocus:false
 			};
 			
 		$this
@@ -930,8 +931,10 @@ function confirm(options){
 			);
 			
 			//moving the focus to the first input, anchor or to the close button
-			lb.find("input:visible, a:visible").not("[disabled=true]").eq(0).focus()
-			//closeBtn.focus()			
+			if(!defaults.noFocus){
+				lb.find("input:visible, a:visible").not("[disabled=true]").eq(0).focus()
+				//closeBtn.focus()
+			}
 		});		
 		
 		if(mainContent.outerHeight()/2>10){
