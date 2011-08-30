@@ -790,6 +790,41 @@
 		padding-right:5px;
 	}
 	
+	.tradesFilters .filter{
+		margin:0px 5px;
+		background-color:#ddd;
+		color:#666;
+		border-radius:4px;
+		font-size:1.1em;
+	}
+	
+	.tradesFilters .remove{
+		font-weight:bold;
+		background-color:#aaa;
+		border-radius:4px;
+		color:#fff;
+		padding:0px 4px;
+		margin-right:5px;
+	}
+	
+	.tradesFilters .fValue{
+		padding-right:5px;
+		color:#666;
+	}
+	
+	.tradesFilters .fValue:hover,
+	.tradesFilters .fValue:focus{
+		text-decoration:underline;
+	}
+	
+	.tradesFilters .fValue strong{
+		font-weight:bold;
+		color:#444;
+	}
+	
+	.tradesFilters .fValue span{
+		color:#666;
+	}
 
 /* bcBar */
 	.bcBar{

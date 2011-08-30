@@ -1590,10 +1590,12 @@ var NVision={
 								
 			})
 			
+			
+				
 		}
 		
-		//activating the first tab
-		$("#kpiView .tabMenu").find("li:first a").click();		
+		//activating the current tab
+		$("#kpiView .tabMenu").find("li.current a").click();	
 		
 		//checking whether the scroll buttons are required
 		$(window).resize();
@@ -2908,6 +2910,7 @@ var NVision={
 			sysObj.tableHeaders=data.tableHeaders;
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
+			sysObj.filtersDef=data.filters;
 			
 			//in case we want to display totals in the table footer
 			sysObj.showTotalOn=data.showTotalOn;
@@ -2929,7 +2932,7 @@ var NVision={
                         
             //creating the filters html
 			theTable=tableContainer.find("table");
-            NVision.utils.createFilters(data.filters,filtersContainer,theTable);
+            NVision.utils.createFilters(filtersContainer,theTable);
             
         },
 		
@@ -2943,7 +2946,8 @@ var NVision={
             sysObj.resubmitted=data.trades;
 			sysObj.currentPage=data.currentPage;
 			sysObj.pageCount=data.pageCount;
-			sysObj.recordCount=data.recordCount;			
+			sysObj.recordCount=data.recordCount;
+			sysObj.filtersDef=data.filters;
             
             //clearing the filters
             //delete(sysObj.filters)
@@ -2962,7 +2966,7 @@ var NVision={
             
             //creating the filters html
 			theTable=tableContainer.find("table");
-            var html=NVision.utils.createFilters(data.filters,filtersContainer,theTable);
+            var html=NVision.utils.createFilters(filtersContainer,theTable);
             
         },
         
@@ -3133,34 +3137,82 @@ var NVision={
 					})
 			}
         },
-        
-        createFilters:function(filters,container,theTable){
-			
-			if(!filters||filters.length==0){
-				container.hide(0);
-				return false;
+		
+		
+		newFilter:function(container,fName,fValue){
+			if(!fValue){
+				fValue=prompt(fName + ":");
 			}
+			
+			
+			var span=$("<span/>").addClass("filter")
+			$("<a>x</a>")
+				.attr({"href":"#remove","title":"Remove filter"})
+				.addClass("remove")
+				.appendTo(span);
+			$("<a/>")
+				.attr({"href":"#edit","title":"Edit filter"})
+				.addClass("fValue")
+				.append($("<strong/>").text(fName + "="))
+				.append($("<span/>").text(fValue))
+				.appendTo(span);
+			
+			span.appendTo(container);
+			container.find(".help").hide(0);
+		},
+        
+        createFilters:function(container,theTable){
+			
+			//if(!filters||filters.length==0){
+			//	container.hide(0);
+			//	return false;
+			//}
 			container.empty().show(0);
 			
 			$('<p class="help"><strong>Filters:</strong> Drag &amp; Drop the table headers here.</p>')
 			.appendTo(container);
 
-			container.bind("mouseup",function(evt){
-				evt.preventDefault();
-				NVision.isMouseDown=false;
-				
-				if(!NVision.ddPlaceHolder){
-					return true;
-				}
+			container
+				.unbind("mouseup")
+				.bind("mouseup",function(evt){
+					evt.preventDefault();
+					
+					
+					if(!NVision.ddPlaceHolder){
+						return true;
+					}
+									
+					evt.stopPropagation();
+					evt.preventDefault();
+					
+					if(NVision.isMouseDown){
+						NVision.ddPlaceHolder.remove();
+						NVision.ddPlaceHolder=null;
+						NVision.isMouseDown=false
+					}
+					
+				})
+				.undelegate("a","click")
+				.delegate("a","click",function(e){
+					e.preventDefault();
+					
+					var $this=$(this);
+					
+					switch(this.className){
+						case "remove":
+							$this.closest(".filter").remove()
+							if (container.children().length==1){
+								container.find(".help").show(0);
+							}
+						break;
+						default:
+							var fName=$this.find("strong"),
+								fValue=$this.find("span");
 								
-				evt.stopPropagation();
-				evt.preventDefault();
-				
-				
-				NVision.ddPlaceHolder.remove();
-				NVision.ddPlaceHolder=null;
-				
-			})
+							fValue.text(prompt(fName.text(),fValue.text()));						
+						break;
+					}					
+				})
 			
 			var hnd=null;
 			
@@ -3200,6 +3252,7 @@ var NVision={
 												if(container.hasClass("hover")){
 													container.removeClass("hover");
 													myConsole.info("Drop: " + NVision.ddPlaceHolder.text())
+													NVision.utils.newFilter(container,NVision.ddPlaceHolder.text())
 												}
 												
 												NVision.ddPlaceHolder.remove();

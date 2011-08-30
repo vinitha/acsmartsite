@@ -134,7 +134,9 @@ function myAjax(options){
                         container:container,                                    
                         onStart:function(div){
                         },
-                        onMove:function(div){
+                        onMove:function(){
+							var div=$(this);
+							
                             var pos=div.position();
                             
                             var sysObj=NVision.systems[div.attr("data_name")]||NVision.adapters[div.attr("data_name")]||NVision.otherObjects[div.attr("data_name")]
