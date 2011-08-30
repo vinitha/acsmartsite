@@ -3141,32 +3141,131 @@ var NVision={
 		
 		newFilter:function(container,fName,fValue){
 			if(!fValue){
-				fValue=prompt(fName + ":");
+				
+				var objType="string";
+				$.each(NVision.currentSys.filtersDef,function(i,elem){
+					if (elem[fName]){
+						objType=elem[fName]
+					}
+				})
+				
+				var filterLB=$("<form id='filtersCreationForm' />"),
+					fieldset=$("<fieldset />").appendTo(filterLB),
+					noFocus=false;
+				
+				fieldset
+					.append($("<label/>").text(fName))
+				var input=$("<input />")
+					.attr({"type":"text","class":NVision.classMap[objType]})
+					.appendTo(fieldset);
+				
+				switch (NVision.classMap[objType]){
+					case "timePicker":
+						input.timePicker();
+						noFocus=true;
+					break;
+				
+					case "datePicker":
+						input.datePicker();
+						noFocus=true;
+					break;
+				}
+				
+					
+					
+				filterLB.submit(function(e){
+						e.preventDefault();
+						
+						if(!NVision.utils.validateForm(filterLB)){
+							filterLB.closeIt();
+						}else{
+							myConsole.alert("Invalid value!");
+						}
+						
+					})					
+					.lightBox({
+						modal:false,
+						noFocus:noFocus,
+						title:"Filter creation:",
+						onClose:function(){
+							fValue=$(this).find("input").attr("value");
+							if(fValue.length>0){
+								createFilterHtml(container,fName,fValue);
+								container.find(".help").hide(0);
+								
+								//updating the sysObj
+								
+								if(container.closest(".view").hasClass("off")){
+								   return false;
+								}
+							   
+   								NVision.utils.executeFiltering(container);
+							}
+						}
+					})
+					.append('<div class="buttonsBar"><input type="submit" value="Create" href="#Create" class="button submit"> <input type="button" value="Cancel" href="#close" class="button cancel"></div>')
+					.show();
+					
+				var cancelBtn=filterLB
+								.find("input.cancel")
+									.click(function(){
+										fieldset.find("input").attr("value","");
+										filterLB.closeIt();
+									})
+					
+					if(noFocus){
+						cancelBtn.focus();
+					}
+				
+			}else{
+				createFilterHtml(container,fName,fValue);
+				container.find(".help").hide(0);
 			}
 			
 			
-			var span=$("<span/>").addClass("filter")
-			$("<a>x</a>")
-				.attr({"href":"#remove","title":"Remove filter"})
-				.addClass("remove")
-				.appendTo(span);
-			$("<a/>")
-				.attr({"href":"#edit","title":"Edit filter"})
-				.addClass("fValue")
-				.append($("<strong/>").text(fName + "="))
-				.append($("<span/>").text(fValue))
-				.appendTo(span);
 			
-			span.appendTo(container);
-			container.find(".help").hide(0);
+			function createFilterHtml(container,fName,fValue){
+				var span=$("<span/>").addClass("filter")
+				$("<a>x</a>")
+					.attr({"href":"#remove","title":"Remove filter"})
+					.addClass("remove")
+					.appendTo(span);
+				$("<a/>")
+					.attr({"href":"#edit","title":"Edit filter"})
+					.addClass("fValue")
+					.text("=")
+					.prepend($("<strong/>").text(fName))
+					.append($("<span/>").text(fValue))
+					.appendTo(span);
+				
+				span.appendTo(container);				
+			}
 		},
         
+		executeFiltering:function(container){
+			var sysObj=NVision.currentSys,
+				fObject=container.find(".filter");
+
+			sysObj.filters={};
+			$.each(fObject,function(i,tmpObj){
+
+				var fValue=$(tmpObj).find(".fValue");
+				
+				sysObj.filters[fValue.find("strong").text()]=fValue.find("span").text();								
+			})
+			
+			//moving to page 1
+			sysObj.currentPage=1;
+									
+			NVision.updateEngine.onNewData(NVision.enableUi);
+			NVision.disableUi();
+
+			NVision.updateEngine.updateNow();
+			NVision.updateEngine.start()  
+		},
+		
         createFilters:function(container,theTable){
 			
-			//if(!filters||filters.length==0){
-			//	container.hide(0);
-			//	return false;
-			//}
 			container.empty().show(0);
 			
 			$('<p class="help"><strong>Filters:</strong> Drag &amp; Drop the table headers here.</p>')
@@ -3204,6 +3303,8 @@ var NVision={
 							if (container.children().length==1){
 								container.find(".help").show(0);
 							}
+							
+							NVision.utils.executeFiltering(container);
 						break;
 						default:
 							var fName=$this.find("strong"),
@@ -3213,6 +3314,14 @@ var NVision={
 						break;
 					}					
 				})
+				
+				
+			if(NVision.currentSys.filters){
+				//adding the sysObj filters
+				$.each(NVision.currentSys.filters,function(i,elem){					
+					NVision.utils.newFilter(container,i,elem)
+				})
+			}
 			
 			var hnd=null;
 			
@@ -3251,7 +3360,7 @@ var NVision={
 												
 												if(container.hasClass("hover")){
 													container.removeClass("hover");
-													myConsole.info("Drop: " + NVision.ddPlaceHolder.text())
+
 													NVision.utils.newFilter(container,NVision.ddPlaceHolder.text())
 												}
 												
@@ -3264,15 +3373,16 @@ var NVision={
 						.draggable({
 							mouseDownEvent:evt,
 							onMove:function(){
-
-								var self=this.get(0),
-									selfLeft=parseInt(self.style.left)+this.outerWidth()/2,
-									selfTop=parseInt(self.style.top)+this.outerHeight()/2;
-								
-								if(dropArea.left<selfLeft && dropArea.right>selfLeft && dropArea.top<selfTop && dropArea.bottom>selfTop){
-									container.addClass("hover")
-								}else{
-									container.removeClass("hover")
+								if(NVision.isMouseDown){
+									var self=this.get(0),
+										selfLeft=parseInt(self.style.left)+this.outerWidth()/2,
+										selfTop=parseInt(self.style.top)+this.outerHeight()/2;
+									
+									if(dropArea.left<selfLeft && dropArea.right>selfLeft && dropArea.top<selfTop && dropArea.bottom>selfTop){
+										container.addClass("hover")
+									}else{
+										container.removeClass("hover")
+									}
 								}
 							}
 						});	
@@ -3285,80 +3395,6 @@ var NVision={
 						NVision.ddPlaceHolder=null;
 					}
 				});				
-			
-			
-			try{
-//				
-//				for (var f in filters){
-//					var fObj=filters[f];
-//					
-//					for (var fName in fObj){
-//						var wrapper=$("<label />")
-//							.append(
-//								$("<span />").text(fName + ":")
-//							)
-//							.appendTo(container)
-//                            
-//                            $("<input />")
-//                                .attr({
-//                                    "class":NVision.classMap[fObj[fName]],
-//                                    "name":fName,
-//                                    "type":fObj[fName]=="bool"?"checkbox":'text',
-//                                    "value":NVision.currentSys.filters?NVision.currentSys.filters[fName]:""
-//                                })
-//                                .appendTo(wrapper);					
-//					}
-//				}
-//				
-//				//setting the datePicker up
-//				container.find(".datePicker").datepicker({
-//					dateFormat: 'yy/mm/dd',
-//					inline: true
-//				});
-//				
-//				//setting the timePicker up
-//				container.find(".timePicker").timePicker()
-				
-                //creating the button
-//                var submit=$("<button class='filterBtn button' title='Filter results' type='submit' ><span></span></button>")
-//						.click(function(e){
-//							e.preventDefault();
-//							var fObject=$(this).closest("form").serializeArray();
-//							
-//							var errorField=NVision.utils.validateForm($(this).closest("form"));
-//							if(errorField){
-//								myConsole.alert("Invalid value!");
-//								errorField.focus();
-//								return false;
-//							}
-//							
-//							if(container.closest(".view").hasClass("off")){
-//							   return false;
-//							}
-//						   
-//							var sysObj=NVision.currentSys;
-//							
-//							sysObj.filters={};
-//							for(var obj in fObject){
-//								var tmpObj=fObject[obj];
-//								sysObj.filters[tmpObj.name]=tmpObj.value;
-//							}
-//							
-//							//moving to page 1
-//							sysObj.currentPage=1;
-//													
-//							NVision.updateEngine.onNewData(NVision.enableUi);
-//							NVision.disableUi();
-//				
-//							NVision.updateEngine.updateNow();
-//							NVision.updateEngine.start()                   
-//						})
-//						.appendTo(container);
-                
-			}catch(er){
-				myConsole.alert("An error occurred while creating the filter objects!")
-				console.error(er)
-			}
             
         },
         
