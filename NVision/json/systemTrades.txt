@@ -8,9 +8,10 @@
    "recordCount":172,
    
    "filters":[
-      {"Time":"time"},
-      {"Day":"date"},
-      {"Trader":"string"},
+      {"Time":"date"},
+      {"Expiry":"datetime"},
+      {"Status":["Resubmitted","Pending","Error","Ok"]},
+      {"Activate Acct":["Yes","No"]},
       {"Order No.":"number"}
    ],
    
