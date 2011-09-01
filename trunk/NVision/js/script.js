@@ -2595,24 +2595,13 @@ var NVision={
 		validateForm:function(theForm){
 			var missingField=null;
 			
-			theForm.find(".mandatory:visible").not(":disabled").each(function(){
-                var $this=$(this);
-                
-                if ($this.attr("value")==""){
-                    $this.addClass("validError")
-                    
-                    missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
-                }                                
-            })
+			 theForm.find("input,select").removeClass("validError")			
             
             theForm.find(".currency:visible").not(":disabled").each(function(){
                 var $this=$(this),
                     cur=$this.attr("value")
                     
                     if(cur=="") {
-                        $this.removeClass("validError")
                         return true;
                     }
                 
@@ -2620,8 +2609,6 @@ var NVision={
                     $this.addClass("validError")
                     
                     missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
                 }
             })            
             
@@ -2630,15 +2617,12 @@ var NVision={
                     cur=$this.attr("value")
                     
                     if(cur=="") {
-                        $this.removeClass("validError")
                         return true;
                     }
                 if (parseInt(cur)!=cur){
                     $this.addClass("validError")
                     
                     missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
                 }
                                 
             })
@@ -2649,15 +2633,12 @@ var NVision={
                     cur=$this.attr("value")
                     
                     if(cur==""||this.title==cur) {
-                        $this.removeClass("validError")
                         return true;
                     }
                 if (utils.parseTime(cur)==null){
                     $this.addClass("validError")
                     
                     missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
                 }
                                 
             })			
@@ -2667,18 +2648,27 @@ var NVision={
                     cur=$this.attr("value")
                     
                     if(cur==""||this.title==cur) {
-                        $this.removeClass("validError")
                         return true;
                     }
                 if (isNaN(Date.parse(cur))){
                     $this.addClass("validError")
                     
                     missingField=missingField?missingField:$this;
-                }else{
-                    $this.removeClass("validError")
                 }
                                 
-            })				
+            })
+			
+			theForm.find(".mandatory:visible").not(":disabled").each(function(){
+                var $this=$(this);
+                
+                if ($this.attr("value")==""){
+                    $this.addClass("validError")
+                    
+                    missingField=missingField?missingField:$this;
+	
+                }                                
+            })
+			
 			return missingField;
 		},
 		getDBobjects:function(){
@@ -3140,10 +3130,18 @@ var NVision={
 		
 		
 		createFiltersLightBox:function(fName,fValue){
-			var objType="string";
+			var objType="string",
+				optionsArray=null;
+				
 			$.each(NVision.currentSys.filtersDef,function(i,elem){
+				
 				if (elem[fName]){
-					objType=elem[fName]
+					if(utils.RealTypeOf(elem[fName])=="array"){
+						objType="array";
+						optionsArray=elem[fName];
+					}else{
+						objType=elem[fName]
+					}
 				}
 			})
 			
@@ -3153,10 +3151,75 @@ var NVision={
 			
 			fieldset
 				.append($("<label/>").text(fName));
+			
+			
+			var today=(new Date()).shortDate();
+			switch(objType){
+				case "datetime":
+					var from=["",""],
+						to=["",""];
+						
+						if(fValue){
+							dates=fValue.split(" ~ ");
+							from=dates[0].split(" ");
+							to=dates[1].split(" ");
+						}
+						
+					var div=$("<div/>").addClass("datetime from").appendTo(fieldset)
+					$("<span/>").addClass("label").text("from").appendTo(div)
+					$("<input />")
+						.attr({"type":"text","class":NVision.classMap["date"]+ " mandatory","value":from[0]||today})
+						.appendTo(div)
+						.datepicker({
+							dateFormat: 'yy/mm/dd',
+							inline: true
+						});
+						
+					$("<input />")
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":from[1]})
+						.appendTo(div)
+						.timePicker();
+						
+					var div=$("<div/>").addClass("datetime to").appendTo(fieldset)
+					$("<span/>").addClass("label").text("to").appendTo(div)
+					$("<input />")
+						.attr({"type":"text","class":NVision.classMap["date"] + " mandatory","value":to[0]||today})
+						.appendTo(div)
+						.datepicker({
+							dateFormat: 'yy/mm/dd',
+							inline: true
+						});
+						
+					$("<input />")
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":to[1]})
+						.appendTo(div)
+						.timePicker();						
+						
+					noFocus=true;
+				break;
 				
-			var input=$("<input />")
-				.attr({"type":"text","class":NVision.classMap[objType],"value":fValue})
-				.appendTo(fieldset);
+				
+				case "array":
+					var sel=$("<select />");
+					$.each(optionsArray,function(i,el){
+						$("<option />")
+							.attr("value",el)
+							.text(el)
+							.appendTo(sel);
+					})
+					sel
+						.appendTo(fieldset)
+						.attr("value",fValue);						
+				break;
+				
+				default:
+					var input=$("<input />")
+						.attr({"type":"text","class":NVision.classMap[objType]+ " mandatory","value":fValue})
+						.appendTo(fieldset);				
+			}
+			
+			
+			
 			
 			switch (NVision.classMap[objType]){
 				case "timePicker":
@@ -3165,17 +3228,45 @@ var NVision={
 				break;
 			
 				case "datePicker":
-					input.datePicker();
+					input.datepicker({
+						dateFormat: 'yy/mm/dd',
+						inline: true
+					});
 					noFocus=true;
 				break;
 			}
 			
 				
 				
-			filterLB.submit(function(e){
+			filterLB
+				.submit(function(e){
 					e.preventDefault();
-					
-					if(!NVision.utils.validateForm(filterLB)){
+					var errField=NVision.utils.validateForm(filterLB);
+					if(!errField){
+						
+						
+						var fieldset=$(this).find("fieldset"),
+							datetime=fieldset.find(".datetime"),
+							fVal=null;
+							
+							
+						if(datetime.length>0){
+							var tmpArr=[];
+							datetime.each(function(){
+								tmpArr.push($(this).find(".datePicker").attr("value") + " " + $(this).find(".timePicker").attr("value"));								
+							});
+							fVal=tmpArr.join(" ~ ");
+							
+							if(tmpArr[0]==" " || tmpArr[1]==" "){
+								fVal="";
+							}
+
+						}else{
+							fVal=fieldset.find("input, select").attr("value");
+						}
+						
+						filterLB.data("data-qString",fVal);						
+						
 						filterLB.closeIt();
 					}else{
 						myConsole.alert("Invalid value!");
@@ -3187,6 +3278,7 @@ var NVision={
 					noFocus:noFocus,
 					title:"Filter creation:"
 				})
+				.data("data-qString",null)
 				.append('<div class="buttonsBar"><input type="submit" value="Create" href="#Create" class="button submit"> <input type="button" value="Cancel" href="#close" class="button cancel"></div>');
 				
 			var cancelBtn=filterLB
@@ -3210,8 +3302,9 @@ var NVision={
 				.show({
 					title:"Edit filter",
 					onClose:function(){
-						var fVal=$(this).find("input").attr("value");
-						if(fVal.length>0){
+						var fVal=lb.data("data-qString");
+							
+						if(fVal){
 							fValue.text(fVal);
 							var container=fHtml.closest(".tradesFilters");
 							
@@ -3233,9 +3326,10 @@ var NVision={
 				var lb=NVision.utils.createFiltersLightBox(fName,fValue);
 				lb.show({
 				onClose:function(){
-						var fValue=$(this).find("input").attr("value");
-						if(fValue.length>0){
-							createFilterHtml(container,fName,fValue);
+						var fVal=lb.data("data-qString");
+						
+						if(fVal){
+							createFilterHtml(container,fName,fVal);
 							container.find(".help").hide(0);
 							
 							//updating the sysObj							
@@ -3244,7 +3338,7 @@ var NVision={
 							}
 						   
 							NVision.utils.executeFiltering(container);
-						}					
+						}				
 					}
 				})
 				

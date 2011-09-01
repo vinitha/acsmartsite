@@ -762,9 +762,7 @@
 	.tradesFilters{
 		background-color: #fff;
 		float: right;
-		margin-bottom: 5px;
-		margin-right: 10px;
-		margin-top: 15px;
+		margin:15px 10px 5px;
 		padding: 5px;
 		border-radius:3px;
 		border:2px dotted #aaa;
@@ -791,13 +789,16 @@
 	}
 	
 	.tradesFilters .filter{
-		margin:0px 5px;
+		margin:1px 5px;
 		background-color:#ddd;
 		color:#666;
 		border-radius:4px;
 		font-size:1.1em;
 		white-space:nowrap;
 		padding:2px;
+		
+		display: inline-block;
+		zoom: 1; *display: inline; /* IE < 8: fake inline-block */		
 	}
 	
 	.tradesFilters .remove{
@@ -842,7 +843,26 @@
 	#filtersCreationForm input.datePicker,
 	#filtersCreationForm input.timePicker {
 		width: 165px !important;
-	}	
+	}
+	
+	#filtersCreationForm select{
+		width:100%;
+	}
+	
+	#filtersCreationForm  .datetime{
+		margin-bottom:2px;
+	}
+	
+	#filtersCreationForm  .datetime .label{
+		width:28px;
+		color:#999;
+	}
+	
+	#filtersCreationForm  .datetime input.datePicker,
+	#filtersCreationForm  .datetime input.timePicker{
+		width: 57px !important;
+		margin-right:-1px;
+	}
 	
 /* bcBar */
 	.bcBar{
