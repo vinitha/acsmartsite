@@ -777,7 +777,12 @@ function confirm(options){
 		this.closeIt=function(){
 		    return closing.call(this)
 		};
-		this.show=function(){return showing.call(this)};
+		this.show=function(options){
+			//extending the default options
+			$.extend(defaults,$.fn.lightBox.defaults,options)
+			
+			return showing.call(this)
+		};
 		
 		return this;
 	};	
@@ -931,9 +936,10 @@ function confirm(options){
 			);
 			
 			//moving the focus to the first input, anchor or to the close button
-			if(!defaults.noFocus){
+			if(defaults.noFocus){
+				closeBtn.focus();
+			}else{
 				lb.find("input:visible, a:visible").not("[disabled=true]").eq(0).focus()
-				//closeBtn.focus()
 			}
 		});		
 		

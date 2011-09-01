@@ -3139,89 +3139,119 @@ var NVision={
         },
 		
 		
+		createFiltersLightBox:function(fName,fValue){
+			var objType="string";
+			$.each(NVision.currentSys.filtersDef,function(i,elem){
+				if (elem[fName]){
+					objType=elem[fName]
+				}
+			})
+			
+			var filterLB=$("<form id='filtersCreationForm' />"),
+				fieldset=$("<fieldset />").appendTo(filterLB),
+				noFocus=false;
+			
+			fieldset
+				.append($("<label/>").text(fName));
+				
+			var input=$("<input />")
+				.attr({"type":"text","class":NVision.classMap[objType],"value":fValue})
+				.appendTo(fieldset);
+			
+			switch (NVision.classMap[objType]){
+				case "timePicker":
+					input.timePicker();
+					noFocus=true;
+				break;
+			
+				case "datePicker":
+					input.datePicker();
+					noFocus=true;
+				break;
+			}
+			
+				
+				
+			filterLB.submit(function(e){
+					e.preventDefault();
+					
+					if(!NVision.utils.validateForm(filterLB)){
+						filterLB.closeIt();
+					}else{
+						myConsole.alert("Invalid value!");
+					}
+					
+				})					
+				.lightBox({
+					modal:false,
+					noFocus:noFocus,
+					title:"Filter creation:"
+				})
+				.append('<div class="buttonsBar"><input type="submit" value="Create" href="#Create" class="button submit"> <input type="button" value="Cancel" href="#close" class="button cancel"></div>');
+				
+			var cancelBtn=filterLB
+							.find("input.cancel")
+								.click(function(){
+									fieldset.find("input").attr("value","");
+									filterLB.closeIt();
+								})
+			
+			return filterLB;
+		},
+		
+		editFilter:function(fHtml){
+			var f=fHtml.find(".fValue"),
+				fValue=f.find("span"),
+				fName=f.find("strong");
+			
+			var lb=NVision.utils.createFiltersLightBox(fName.text(),fValue.text());
+			
+			lb				
+				.show({
+					title:"Edit filter",
+					onClose:function(){
+						var fVal=$(this).find("input").attr("value");
+						if(fVal.length>0){
+							fValue.text(fVal);
+							var container=fHtml.closest(".tradesFilters");
+							
+							//updating the sysObj							
+							if(container.closest(".view").hasClass("off")){
+							   return false;
+							}
+						   
+							NVision.utils.executeFiltering(container);
+						}						
+					}
+				})
+				.find("input.submit").attr("value","Update")	
+		},
+		
 		newFilter:function(container,fName,fValue){
 			if(!fValue){
 				
-				var objType="string";
-				$.each(NVision.currentSys.filtersDef,function(i,elem){
-					if (elem[fName]){
-						objType=elem[fName]
+				var lb=NVision.utils.createFiltersLightBox(fName,fValue);
+				lb.show({
+				onClose:function(){
+						var fValue=$(this).find("input").attr("value");
+						if(fValue.length>0){
+							createFilterHtml(container,fName,fValue);
+							container.find(".help").hide(0);
+							
+							//updating the sysObj							
+							if(container.closest(".view").hasClass("off")){
+							   return false;
+							}
+						   
+							NVision.utils.executeFiltering(container);
+						}					
 					}
 				})
-				
-				var filterLB=$("<form id='filtersCreationForm' />"),
-					fieldset=$("<fieldset />").appendTo(filterLB),
-					noFocus=false;
-				
-				fieldset
-					.append($("<label/>").text(fName))
-				var input=$("<input />")
-					.attr({"type":"text","class":NVision.classMap[objType]})
-					.appendTo(fieldset);
-				
-				switch (NVision.classMap[objType]){
-					case "timePicker":
-						input.timePicker();
-						noFocus=true;
-					break;
-				
-					case "datePicker":
-						input.datePicker();
-						noFocus=true;
-					break;
-				}
-				
-					
-					
-				filterLB.submit(function(e){
-						e.preventDefault();
-						
-						if(!NVision.utils.validateForm(filterLB)){
-							filterLB.closeIt();
-						}else{
-							myConsole.alert("Invalid value!");
-						}
-						
-					})					
-					.lightBox({
-						modal:false,
-						noFocus:noFocus,
-						title:"Filter creation:",
-						onClose:function(){
-							fValue=$(this).find("input").attr("value");
-							if(fValue.length>0){
-								createFilterHtml(container,fName,fValue);
-								container.find(".help").hide(0);
-								
-								//updating the sysObj
-								
-								if(container.closest(".view").hasClass("off")){
-								   return false;
-								}
-							   
-   								NVision.utils.executeFiltering(container);
-							}
-						}
-					})
-					.append('<div class="buttonsBar"><input type="submit" value="Create" href="#Create" class="button submit"> <input type="button" value="Cancel" href="#close" class="button cancel"></div>')
-					.show();
-					
-				var cancelBtn=filterLB
-								.find("input.cancel")
-									.click(function(){
-										fieldset.find("input").attr("value","");
-										filterLB.closeIt();
-									})
-					
-					if(noFocus){
-						cancelBtn.focus();
-					}
 				
 			}else{
 				createFilterHtml(container,fName,fValue);
 				container.find(".help").hide(0);
-			}
-			
+			}			
 			
 			
 			function createFilterHtml(container,fName,fValue){
@@ -3247,6 +3277,7 @@ var NVision={
 				fObject=container.find(".filter");
 
 			sysObj.filters={};
+			
 			$.each(fObject,function(i,tmpObj){
 
 				var fValue=$(tmpObj).find(".fValue");
@@ -3307,10 +3338,11 @@ var NVision={
 							NVision.utils.executeFiltering(container);
 						break;
 						default:
-							var fName=$this.find("strong"),
-								fValue=$this.find("span");
-								
-							fValue.text(prompt(fName.text(),fValue.text()));						
+							//var fName=$this.find("strong"),
+							//	fValue=$this.find("span");
+							//	
+								NVision.utils.editFilter($this.closest(".filter"))
+								//fValue.text(prompt(fName.text(),fValue.text()));						
 						break;
 					}					
 				})
