@@ -50,9 +50,12 @@ Date.prototype.shortTime=function(){
 Date.prototype.shortDate=function(sep){         //i.e. 22/11/1989
     sep=sep||"/";
    return utils.twoDigits(this.getDate()) + sep + utils.twoDigits(this.getMonth()+1) + sep + this.getFullYear();
-
 }
 
+Date.prototype.internationalDate=function(sep){         //i.e. 1989/11/22
+    sep=sep||"/";
+   return this.getFullYear() + sep + utils.twoDigits(this.getMonth()+1) + sep + utils.twoDigits(this.getDate());
+}
 //uself function
 var utils={
     twoDigits:function(int){
@@ -1241,6 +1244,38 @@ var scroller=function(element){
 				}
 			}
 		}
+	}
+})(jQuery);
+
+
+// Autoscroll plugin
+(function($){
+	$.fn.autoScroll=function(){
+		var thisObj=$(this);	    		
+		
+		thisObj.parent().css({"overflow":"hidden"});
+		thisObj.mousemove(function(e){
+			
+			var cont=$(this.parentNode),
+			contHeight=cont.innerHeight(true),
+			contWidth=cont.innerWidth(true);
+								
+			
+			var deltaH=thisObj.get(0).clientHeight-contHeight,
+			    deltaW=thisObj.get(0).clientWidth-contWidth,
+			    top=e.clientY-cont.offset().top+$(window).scrollTop(),
+			    left=e.clientX-cont.offset().left+$(window).scrollLeft();			    
+			
+			var y=top*100/contHeight;
+			var x=left*100/contWidth;
+	
+			cont.scrollTop((deltaH*y/100));
+			cont.scrollLeft((deltaW*x/100));
+
+			
+		})
+		
+		return thisObj;
 	}
 })(jQuery);
 

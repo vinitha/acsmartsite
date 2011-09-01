@@ -1285,12 +1285,7 @@ var NVision={
 			if($(this).closest(".view").hasClass("off")){
 				return false;
 			}
-			
-//			NVision.appStatus.currentTab="tab_1";
-//            NVision.appStatus[NVision.appStatus.currentTab]={
-//				view:{type:"dashBoard"},
-//				tabId:"tab_1"
-//			};
+
 			
             NVision.appStatus[NVision.appStatus.currentTab].view={type:"dashBoard"};			
 			
@@ -1329,7 +1324,7 @@ var NVision={
                 }
             }
         )
-		
+			
 		
 		dashBoardReady();
     },
@@ -2783,7 +2778,7 @@ var NVision={
                             tableHeadings.push(h);
                         }                        
                           
-                        var table=NVision.utils.createTable({
+                        NVision.utils.createTable({
                             container:newTr.find("td"),
                             tableHeadings:tableHeadings,
                             data:data.details,
@@ -3153,7 +3148,7 @@ var NVision={
 				.append($("<label/>").text(fName));
 			
 			
-			var today=(new Date()).shortDate();
+			var today=(new Date()).internationalDate();
 			switch(objType){
 				case "datetime":
 					var from=["",""],
@@ -3735,6 +3730,8 @@ var NVision={
 				if(onComplete){
 					onComplete(table);
 				}
+				
+				//table.autoScroll();
 			}
 			
         }
