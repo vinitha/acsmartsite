@@ -851,17 +851,24 @@ function confirm(options){
 		if (lb){
 			lb=jQuery(lb);
 			mainContent=jQuery("div.mainContent",lb);
-			lbTitle=jQuery("p.lbTitle",lb);
+			lbTitle=jQuery("p.lbTitle",lb)
 			closeBtn=lb.find("a.closeBtn");
 			
 			lb.unbind("keydown")
 			closeBtn.unbind("click")
+			
+			lb.css({left:"50%",top:"50%"})
 						
 		}else{
 			lb=jQuery("<div id='lightBoxPanel'></div>")
 				.appendTo("body");						
 						
-			lbTitle=jQuery("<p class='lbTitle'></p>").appendTo(lb);
+			lbTitle=jQuery("<p class='lbTitle'></p>")				
+				.draggable({
+								elementToDrag:lb
+							})		
+				.appendTo(lb);
+				
 			mainContent=jQuery("<div class='mainContent'></div>")
 							.attr("tabIndex",0)
 							.appendTo(lb);
