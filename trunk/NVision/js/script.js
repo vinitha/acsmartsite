@@ -33,8 +33,6 @@ $(function(){
 		NVision.appStatus.currentTab=newStatus.tabId;
 		NVision.appStatus[NVision.appStatus.currentTab]=newStatus;
 
-
-		//console.log("showTab")
 		
         //updating the tabMenu
         if(NVision.appStatus.tabId!=newStatus.tabId){			
@@ -3641,7 +3639,6 @@ var NVision={
 							format= NVision.classMap[format];
 
 							if(options.dataTypes){
-								console.log(options.dataTypes)
 								format=options.dataTypes[cellCaption]||format;
 							}
 							
