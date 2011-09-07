@@ -252,9 +252,22 @@ function myAjax(options){
 		//removing the old table and clearing the NVision.fnObj
 		NVision.utils.deleteTable(tableContainer.find("table"))
 			
+			
+		var dt={}
+		//getting the dataType from the filters
+		$.each(sysObj.filtersDef,function(i, filter){
+			for (var name in filter){
+				
+				if(utils.RealTypeOf(filter[name])=="string"){
+					dt[name]=filter[name]
+				}
+			}
+			
+		})			
 		
 		// creating the table
 		NVision.utils.createTable({
+			dataTypes:dt,
 			selectRow:false,
 			container:tableContainer,
 			data:sysObj.resubmitted,
@@ -409,8 +422,21 @@ function myAjax(options){
         //removing the old table and clearing the NVision.fnObj
         NVision.utils.deleteTable(tableContainer.find("table"))
         
+		var dt={}
+		//getting the dataType from the filters
+		$.each(sysObj.filtersDef,function(i, filter){
+			for (var name in filter){
+				
+				if(utils.RealTypeOf(filter[name])=="string"){
+					dt[name]=filter[name]
+				}
+			}
+			
+		})
+		
         // creating the table
         NVision.utils.createTable({
+			dataTypes:dt,
             selectRow:selectRow===undefined?true:selectRow,
             container:tableContainer,
             data:sysObj.trades,

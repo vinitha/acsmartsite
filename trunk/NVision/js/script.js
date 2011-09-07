@@ -254,7 +254,8 @@ var NVision={
 		time:"timePicker",
 		date:"datePicker",
 		number:"currency",
-		bool:"bool"
+		bool:"bool",
+		fileName:"fileName"
 	},
     dashBoardReady:null,          //this function gets exectuted after the json data has been processed by the client
     tabMenuCallback:{       //this Object defines the tabMenu callbacks to get executed when the user clicks on it
@@ -3549,6 +3550,7 @@ var NVision={
 				rowClick
 				selectRow
 				showTotalOn
+				dataTypes
             */            
             var stTime=(new Date()).getTime();
 			
@@ -3634,7 +3636,14 @@ var NVision={
 							if(!(trade[cellCaption]==null)){
 								str=trade[cellCaption].toString().replace(/</g,"&lt;").replace(/</g,"&lt;")
 								format=utils.RealTypeOf(trade[cellCaption]);
-							}					
+							}
+							
+							format= NVision.classMap[format];
+
+							if(options.dataTypes){
+								console.log(options.dataTypes)
+								format=options.dataTypes[cellCaption]||format;
+							}
 							
 														
 							bTr.push("<td class='cell "+format+"'><span class='cellSpan'>" + str +"</span></td>")
