@@ -7,7 +7,14 @@
    "pageCount":10,
    "recordCount":272,
    
-   "filters":[],
+   "filters":[
+      {"Time":"date"},
+      {"Expiry":"datetime"},
+      {"Status":["Resubmitted","Pending","Error","Ok"]},
+      {"Activate Acct":["Yes","No"]},
+      {"Order No.":"number"},
+      {"Input Agent":"fileName"}
+   ],
    
     "trades":[
         {

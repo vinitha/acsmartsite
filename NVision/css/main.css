@@ -1147,6 +1147,9 @@
 		padding:3px 10px;
 		background-position:0px bottom;
 		background-repeat:repeat-x;
+	}
+	
+	.tableData tr .fileName{
 		word-break: break-all;
 	}
 	

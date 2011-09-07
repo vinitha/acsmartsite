@@ -12,7 +12,8 @@
       {"Expiry":"datetime"},
       {"Status":["Resubmitted","Pending","Error","Ok"]},
       {"Activate Acct":["Yes","No"]},
-      {"Order No.":"number"}
+      {"Order No.":"number"},
+      {"Account":"fileName"}
    ],
    
    "trades":[
