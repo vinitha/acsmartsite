@@ -3449,7 +3449,7 @@ var NVision={
 			//enabling the headers d&d
 			theTable
 				.delegate("th a","mousedown",function(evt){
-					hnd=setTimeout(function(){NVision.isMouseDown=true},50);
+					hnd=setTimeout(function(){NVision.isMouseDown=true},20);
 					
 					return false;
 				})
