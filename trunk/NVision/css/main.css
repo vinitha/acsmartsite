@@ -1120,16 +1120,6 @@
 		background-color: #FFFFFF;
 		margin:0px 10px 10px 10px;
 		overflow-x:auto;
-
-		/*
-		bottom: 0;
-		left: 10px;
-		overflow: auto;
-		position: absolute;
-		right: 10px;
-		top: 99px;
-		*/
-		
 	}
 	
 	.ie9 .tableData{
