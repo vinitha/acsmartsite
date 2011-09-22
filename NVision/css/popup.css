@@ -67,6 +67,7 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
 
 .popup .tabContent pre{
      font-size: 1.2em;
+	 white-space:normal;
 }
 
 .popup .tabMenu li.current a {
