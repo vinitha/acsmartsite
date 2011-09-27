@@ -865,8 +865,12 @@ function confirm(options){
 						
 			lbTitle=jQuery("<p class='lbTitle'></p>")				
 				.draggable({
-								elementToDrag:lb
-							})		
+						elementToDrag:lb,
+						onMove:function(){
+								lb.css({"position":"absolute"})
+							}
+						}
+					)				
 				.appendTo(lb);
 				
 			mainContent=jQuery("<div class='mainContent'></div>")
@@ -917,10 +921,13 @@ function confirm(options){
 
 		// handling the LB width and position
 		lb.css({
-		    width:defaults.width,
-		    marginLeft:-defaults.width/2
+			position:"fixed",
+			width: defaults.width,
+			top:"50%",
+			left:"50%"			
 		});
 
+		lb.css({marginLeft: -lb.outerWidth() / 2});	
 		
 		// setting the reading direction class Name
 		if (defaults.rtl){
@@ -1744,6 +1751,7 @@ var scroller=function(element){
 	
 
 })(jQuery);
+
 
 
 // messages displaying tool
