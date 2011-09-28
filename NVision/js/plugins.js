@@ -1646,8 +1646,6 @@ var scroller=function(element){
 // draggable plugin
 (function($){	
 
-	
-	
 	$.fn.draggable=function(options){
 		var thisObj=$(this);
 		

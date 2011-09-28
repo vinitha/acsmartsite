@@ -620,6 +620,20 @@ var NVision={
 					});
 		})();
 		
+		//creating the help lightBox
+		(function(){
+			var $msg=$("<div id='helpBox' />").appendTo(hiddenBox);
+                
+				$("<iframe/>").appendTo($msg);
+				
+			    NVision.lightBoxes["helpBox"]=$msg.lightBox({
+						modal:false,
+						title:"NVision help:",
+						parent:hiddenBox,
+						onClose:null
+					});
+		})();		
+		
         //creating the overwrite lightBox
         (function(){
             var $msg=$("<div id='overwriteBox' />")
@@ -1309,6 +1323,18 @@ var NVision={
 			}
             window.print();
         })
+		
+        //setting the help button
+        $(".tools .help").click(function(e){
+            e.preventDefault();
+			if ($(this).closest(".view").hasClass("off")){
+				return false;
+			}
+
+			NVision.lightBoxes["helpBox"]
+				.find("iframe").attr("src",this.href)
+				.end().show();
+		})		
 		
         // setting the updateBtn function
         $(".view li.updatesBtn").find("a").click(            

@@ -36,8 +36,8 @@
             <li><a href="#tabId=tab_2"><span>Analysis &amp; Reports</span></a></li>
             <li><a href="#tabId=tab_3"><span>Admin</span></a></li>		
             <li><a class="iframe" href="#tabId=tab_4" data-url="tabMenu.html"><span>Other apps</span></a></li>			
-						<li><a href="#tabId=tab_5"><span>Emergency Trade Load</span></a></li>
-						<li><a href="#tabId=tab_6"><span>System messages</span></a></li>
+			<li><a href="#tabId=tab_5"><span>Emergency Trade Load</span></a></li>
+			<li><a href="#tabId=tab_6"><span>System messages</span></a></li>
           </ul> 
         <!-- *** -->              
       </div>
@@ -75,18 +75,11 @@
 			<option value="LD">Listed Derivatives</option>
 			 </select>
 			</label>
-			<!--label>
-			 <span class="label">Acc. type:</span>
-			 <select name="accType">
-			<option value="01">Option 1</option>
-			<option value="02">Option 2</option>
-			<option value="03">Option 3</option>
-			 </select>
-			</label-->
+
 			<label>
-											 <span class="label">Account:</span>
-											 <input type="text" name="accType" value="" />
-										 </label>
+				<span class="label">Account:</span>
+				<input type="text" name="accType" value="" />
+			</label>
 			
 			<label>
 			 <span class="label">Order No:</span>
@@ -97,18 +90,10 @@
 			 <input type="text" name="contract" value="" />
 			</label>
 			<label>
-											 <span class="label">File Name:</span>
-											 <input type="text" name="fileName" value="" />
-										 </label>
-			<!--p>
-			 <span class="label">Exp date:</span>
-			 <input type="text" class="datePicker" name="expDate" />
-			</p>
-			<p>
-											 <span class="label">Exp time:</span>
-											 <input type="text" title="from" class="timePicker short" name="expFrom" value="from" />
-											 <input type="text" title="to" class="timePicker short" name="expTo" value="to"/>
-										 </p-->
+				<span class="label">File Name:</span>
+				<input type="text" name="fileName" value="" />
+			</label>
+
 			
 			<div class="hr"></div>
 			<p>
@@ -155,152 +140,14 @@
 			 </select>
 			 <input type="text" class="short other" name="otherVal" value="" />
 			</p>
-			<!---label>
-			 <span class="label">Client Id:</span>
-			 <input type="text" name="clientId" value="" />
-			</label-->
-			<!--label>
-			 <span class="label">Client acc. Id:</span>
-			 <input type="text" name="clientAccountId" value="" />
-			</label-->
+
 			<div class="hr"></div>
 			<input type="reset" title="Clear the form" class="resetBtn" value="reset" />
 			<button type="submit" class="searchBtn button"><span>Search</span></button>
 			 </fieldset>
 			</form>
 			
-			<!--<form id="searchForm" action="dummy action">
-			  <fieldset id="basicSearch">
-				<label class="hidden" for="keyword">Search</label>
-				<input type="text" name="keyword" id="keyword" class="mandatory" value="" />
-				<button type="submit" class="searchBtn button"><span></span></button>
-				<a class="advPanel" href="#advancedSearch" title="Click to expand/contract"><span class="adv">Advanced</span><span class="bas">Standard</span></a>                        
-			  </fieldset>
-		
-			  
-			  <fieldset id="advancedSearch" >
-				<label>
-				  <span class="label">Market:</span>
-				  <select name="market">
-					<option value="01">Eurex</option>
-					<option value="02">Option 2</option>
-					<option value="03">Option 3</option>
-				  </select>
-				</label>
-				
-				<label>
-				  <span class="label">Asset Class:</span>
-				  <select name="asset">
-					<option value="01">Listed derivates</option>
-					<option value="02">Option 2</option>
-					<option value="03">Option 3</option>
-				  </select>
-				</label>            
-				
-				<label>
-				  <span class="label">Acc. type:</span>
-				  <select name="accType">
-					<option value="01">Option 1</option>
-					<option value="02">Option 2</option>
-					<option value="03">Option 3</option>
-				  </select>
-				</label>
-				
-				<label>
-				  <span class="label">Order No:</span>
-				  <input class="mandatory" type="text" name="orderN" value="" />  
-				</label>          
-				
-				<label>
-				  <span class="label">Contract:</span>
-				  <input type="text" name="contract" value="" />  
-				</label>
-				
-				<p>
-				  <span class="label">Exp. date:</span>
-				  <input type="text" class="datePicker short" name="expDate" />
-				  <input type="text" class="timePicker short" name="expTime" />
-				</p>            
-				
-				<div class="hr"></div>
-				
-				<p>
-				  <span class="label">Trade type:</span>
-				  
-				  <input type="radio" id="tt_Buy" name="tradeType" value="Buy"/>
-				  <label class="chkLabel" for="tt_Buy">Buy</label>
-				  
-				  <input type="radio" id="tt_Sell" name="tradeType" value="Sell" />
-				  <label class="chkLabel" for="tt_Sell">Sell</label>
-				  
-				  <input checked="checked" type="radio" id="tt_Both" name="tradeType" value="Both" />
-				  <label class="chkLabel" for="tt_Both">Both</label>              
-				</p>
-				
-				<label>
-				  <span class="label">Price:</span>
-				  <input type="text" class="currency short" name="price" value="" />  
-				</label>            
-				
-				<label>
-				  <span class="label">Price type:</span>
-				  <select name="priceType">
-					<option value="01">Strike</option>
-					<option value="02">Option 2</option>
-					<option value="03">Option 3</option>
-				  </select>
-				</label>            
-				
-				<label>
-				  <span class="label">Quantity:</span>
-				  <input type="text" class="integer" name="quantity" value="" />  
-				</label>             
-							
-				<p>
-				  <span class="label">Trade date:</span>
-				  <input type="text" class="datePicker" name="tradeDate" />
-				</p>
-				
-				<p>
-				  <span class="label">Trade time:</span>
-				  <input type="text" title="from" class="timePicker short" name="tradeFrom" value="from" />
-				  <input type="text" title="to" class="timePicker short" name="tradeTo" value="to"/>
-				</p>
-				
-				<div class="hr"></div>
-				
-				<p>
-				  <span class="label">Other:</span>
-				  <select name="other" class="short">
-					<option value="broker">Broker =</option>
-					<option value="traderId">Trader Id =</option>
-					<option value="tradingRef">Trading Ref =</option>
-					<option value="inputAgent">Input agent =</option>
-				  </select>
-				  <input type="text" class="short other" name="otherVal" value="" /> 
-				</p>            
-				
-				
-				
-				<label>
-				  <span class="label">Client Id:</span>
-				  <input type="text" name="clientId" value="" />  
-				</label>
-				
-				<label>
-				  <span class="label">Client acc. Id:</span>
-				  <input type="text" name="clientAccountId" value="" />  
-				</label>
-				
-				<div class="hr"></div>
-				
-				<input type="reset" title="Clear the form" class="resetBtn" value="reset" />
-				<button type="submit" class="searchBtn button"><span>Search</span></button>
-				
-				
-			  </fieldset>
-			</form>-->
-		  <!-- *** -->		  
+			 
                                          
         </div>
       <!-- *** -->
@@ -319,7 +166,8 @@
 					  <li><a title="Print" class="print button" href="#print"><span>Print</span></a></li>
 					  <li class="updatesBtn">
 						<a href="#update" title="Automatic updates" class="button"><span>0</span></a> 
-					  </li>                  
+					  </li>
+					  <li><a class="help button" title="Open Help popup!" href="https://developer.mozilla.org/en/HTML/HTML5"><span>Help</span></a></li>
 					</ul>
 				  </div>
 				</div>
