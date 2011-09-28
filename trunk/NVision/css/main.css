@@ -921,6 +921,13 @@
 		background-image:url("../images/print.png");
 	}
 	
+	.tools a.help{
+		margin-left:20px;
+	}
+	.tools .help span{
+		background-image:url("../images/help.png");
+	}	
+	
 	.tools .export span{
 		background-image:url("../images/exportEx.png");
 	}
@@ -2488,6 +2495,11 @@
 	}
 	
 	
+	
+	#helpBox{
+		width:900px;
+		height:500px;
+	}
 	
 	
 	#CSVbox{
