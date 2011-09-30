@@ -1222,6 +1222,8 @@
 		display:block;
 	}
 
+	
+	.tableData .noSort,
 	.tableData thead p,
 	.tableData thead a{
 		background-color: #d8aa98;
@@ -1233,6 +1235,7 @@
 		display: block;
 		padding: 6px;
 		outline:none;
+		float:none;
 		
 		font-weight:bold;		
 		overflow:hidden;
@@ -1430,6 +1433,7 @@
 		margin: 10px auto;
 		width: auto;
 	}
+	
 	
 	.tableData .detailsContainer thead span{
 		background-color: #DAD3A1;

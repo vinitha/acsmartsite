@@ -1,21 +1,22 @@
 {
 	"_code":"ok",
 	"id":"kpi01",
-	"filters":["Time","Market","Trader","Trading Ref","Contract"],
 	"showTotalOn":["Price","Strike price"],
-
+	
 	"bm":"dummy BM",	
 	
-   "currentPage":3,
-   "pageCount":25,
-   "recordCount":1202,
-   
-   "filters":[
-      {"Time":"time"},
-      {"Day":"date"},
-      {"Trader":"string"},
-      {"Order No.":"number"}
-   ],
+	"currentPage":1,
+	"pageCount":1,
+	"recordCount":1202,
+	
+	"filters":[
+	   {"Time":"time"},
+	   {"Day":"date"},
+	   {"Trader":"string"},
+	   {"Order No.":"number"}
+	],
+	
+	"sortable":false,
    
     "trades":[
         {
