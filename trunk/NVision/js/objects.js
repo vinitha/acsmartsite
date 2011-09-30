@@ -392,30 +392,9 @@ function myAjax(options){
                 var h=$.inArray(sysObj.sortBy[x].name,tableHeaders);
                 tableHeaders.unshift(tableHeaders.splice(h,1)[0])
                 
-                ////sorting the trades list
-                //sysObj.trades.sort(function(a,b){
-                //    if (sysObj.sortBy[x].ascending){
-                //        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?-1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:1;    
-                //    }else{
-                //        return a[sysObj.sortBy[x].name]>b[sysObj.sortBy[x].name]?1:(a[sysObj.sortBy[x].name]==b[sysObj.sortBy[x].name])?0:-1;    
-                //    }
-                //    
-                //})
             }
         }
         
-        
-        ////filtering out the data according to the "filters" settings
-        //var filteredData=[];
-        //
-        //_t:for (var trade in sysObj.trades){
-        //    _f:for(var f in sysObj.filters){                        
-        //        if(sysObj.trades[trade][f]!=sysObj.filters[f]){
-        //            continue _t;
-        //        }
-        //    }
-        //    filteredData.push(sysObj.trades[trade]);
-        //}
         
         sysObj.filteredData=sysObj.trades;
         
@@ -445,40 +424,44 @@ function myAjax(options){
             itemsPerPage:sysObj.displayAll?9999:sysObj.itemsPerPage,
             currentPage:sysObj.currentPage,
 			pageCount:sysObj.pageCount,
-            headClick:function(anchor){
-                
-                var $anchor=$(anchor);
-                //var up=myConsole.chkSpeed("updateTable: ");
-                
-                sysObj.sortBy=sysObj.sortBy?sysObj.sortBy:[];
-                
-                // checking whether the column is already in the sort list or not
-                var sortOption=null;                                
-                $(sysObj.sortBy).each(function(index,item){
-                    if(this.name==$anchor.text()){
-                        sortOption=index;
-                    }
-                })
-                    
-    
-                sortOption=sysObj.sortBy[sortOption];
-                                                
-                //updating the sortBy obj                                
-                if(sortOption){
-                    sortOption.ascending=!sortOption.ascending;
-                }else{
-                    sysObj.sortBy.push({name:$anchor.text(),ascending:true})
-                }                            
-                
-                
-                NVision.updateEngine.onNewData(NVision.enableUi);
-				NVision.disableUi();
-				
-                NVision.updateEngine.updateNow();
-				
-                //myConsole.chkSpeed("",up)
-                
-            },
+            headClick:
+				sysObj.sortable===false?
+				null
+				:
+				function(anchor){
+					
+					var $anchor=$(anchor);
+					//var up=myConsole.chkSpeed("updateTable: ");
+					
+					sysObj.sortBy=sysObj.sortBy?sysObj.sortBy:[];
+					
+					// checking whether the column is already in the sort list or not
+					var sortOption=null;                                
+					$(sysObj.sortBy).each(function(index,item){
+						if(this.name==$anchor.text()){
+							sortOption=index;
+						}
+					})
+						
+		
+					sortOption=sysObj.sortBy[sortOption];
+													
+					//updating the sortBy obj                                
+					if(sortOption){
+						sortOption.ascending=!sortOption.ascending;
+					}else{
+						sysObj.sortBy.push({name:$anchor.text(),ascending:true})
+					}                            
+					
+					
+					NVision.updateEngine.onNewData(NVision.enableUi);
+					NVision.disableUi();
+					
+					NVision.updateEngine.updateNow();
+					
+					//myConsole.chkSpeed("",up)
+					
+				},
             rowClick:rowClick      
         },function(table){
 						
