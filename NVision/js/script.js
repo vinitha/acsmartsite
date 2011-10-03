@@ -2920,6 +2920,8 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
+			
+			sysObj.filterable=data.filterable;
 			sysObj.sortable=data.sortable;
 			
 			//in case we want to display totals in the table footer
@@ -2958,6 +2960,8 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
+			
+			sysObj.filterable=data.filterable;
 			sysObj.sortable=data.sortable;
             
             //clearing the filters
@@ -3415,7 +3419,7 @@ var NVision={
 			container.empty().show(0);			
 			
 			//if the filtering function is disabled....
-			if(NVision.currentSys.filtersDef===false){
+			if(NVision.currentSys.filterable===false){
 				container.hide(0);
 				return false;
 			}
