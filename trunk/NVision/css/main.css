@@ -1272,8 +1272,14 @@
 	.tableData thead span{
 		float:left;
 	}
+	
+	.tableData .isFilter{
+		cursor:move;
+	}
+	
 	.tableData thead a{
-		padding-right:16px;		
+		padding-right:16px;
+		cursor:pointer;
 	}
 	
 	.tableData thead a:hover .remove{
@@ -1324,9 +1330,12 @@
 	
 	.showSafeStoreData .tableData thead a,
 	.showSafeStoreData .tableData thead p,
+	.showSafeStoreData .tableData thead th>span,
 	.showKPI .tableData thead a,
 	.showKPI .tableData thead p,
+	.showKPI .tableData thead th>span,
 	.doSearch .tableData thead a,
+	.doSearch .tableData thead th>span,
 	.doSearch .tableData thead p{
 		color: #46778c;
 		background-color: #cbd8dc;

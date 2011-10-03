@@ -9,12 +9,7 @@
 	"pageCount":1,
 	"recordCount":1202,
 	
-	"filters":[
-	   {"Time":"time"},
-	   {"Day":"date"},
-	   {"Trader":"string"},
-	   {"Order No.":"number"}
-	],
+	"filters":false,
 	
 	"sortable":false,
    

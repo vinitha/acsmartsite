@@ -620,6 +620,20 @@ var NVision={
 					});
 		})();
 		
+		//creating the help lightBox
+		(function(){
+			var $msg=$("<div id='helpBox' />").appendTo(hiddenBox);
+                
+				$("<iframe/>").appendTo($msg);
+				
+			    NVision.lightBoxes["helpBox"]=$msg.lightBox({
+						modal:false,
+						title:"NVision help:",
+						parent:hiddenBox,
+						onClose:null
+					});
+		})();		
+		
         //creating the overwrite lightBox
         (function(){
             var $msg=$("<div id='overwriteBox' />")
@@ -1309,6 +1323,18 @@ var NVision={
 			}
             window.print();
         })
+		
+        //setting the help button
+        $(".tools .help").click(function(e){
+            e.preventDefault();
+			if ($(this).closest(".view").hasClass("off")){
+				return false;
+			}
+
+			NVision.lightBoxes["helpBox"]
+				.find("iframe").attr("src",this.href)
+				.end().show();
+		})		
 		
         // setting the updateBtn function
         $(".view li.updatesBtn").find("a").click(            
@@ -2895,6 +2921,7 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
+			sysObj.sortable=data.sortable;
 			
 			//in case we want to display totals in the table footer
 			sysObj.showTotalOn=data.showTotalOn;
@@ -2932,6 +2959,7 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
+			sysObj.sortable=data.sortable;
             
             //clearing the filters
             //delete(sysObj.filters)
@@ -3385,7 +3413,13 @@ var NVision={
 		
         createFilters:function(container,theTable){
 			
-			container.empty().show(0);
+			container.empty().show(0);			
+			
+			//if the filtering function is disabled....
+			if(NVision.currentSys.filtersDef===false){
+				container.hide(0);
+				return false;
+			}
 			
 			$('<p class="help"><strong>Filters:</strong> Drag &amp; Drop the table headers here.</p>')
 			.appendTo(container);
@@ -3445,20 +3479,24 @@ var NVision={
 			
 			var hnd=null;
 			
+			
+			theTable.find("th>a,th>span").addClass("isFilter")
+			
 			//enabling the headers d&d
 			theTable
-				.delegate("th a","mousedown",function(evt){
+				.delegate("th .isFilter","mousedown",function(evt){
+					
 					hnd=setTimeout(function(){NVision.isMouseDown=true},20);
 					
 					return false;
 				})
-				.delegate("th a","mousemove",function(evt){
+				.delegate("th .isFilter","mousemove",function(evt){
 					
 					if(!NVision.isMouseDown||NVision.ddPlaceHolder){
 						return false;
 					}
 
-					var src=$(evt.target).closest("a"),
+					var src=$(evt.target).closest(".isFilter"),
 						dropArea=container.offset();
 						
 					dropArea["right"]=dropArea.left+container.outerWidth();
@@ -3507,7 +3545,7 @@ var NVision={
 							}
 						});	
 				})
-				.delegate("th a","mouseup",function(evt){
+				.delegate("th .isFilter","mouseup",function(evt){
 					NVision.isMouseDown=false;
 					clearTimeout(hnd);
 					if(NVision.ddPlaceHolder){
@@ -3621,7 +3659,7 @@ var NVision={
 									hTr.push("<span class='header'>" + cellCaption+"</span>")
 									hTr.push("</a>")					
 								}else{
-									hTr.push("<span class='header'>" + cellCaption+"</span>")	
+									hTr.push("<span class='noSort'>" + cellCaption+"</span>")	
 								}
 								hTr.push("</th>");
 							}
