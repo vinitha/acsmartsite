@@ -3479,21 +3479,24 @@ var NVision={
 			
 			var hnd=null;
 			
+			
+			theTable.find("th>a,th>span").addClass("isFilter")
+			
 			//enabling the headers d&d
 			theTable
-				.delegate("th a","mousedown",function(evt){
+				.delegate("th .isFilter","mousedown",function(evt){
 					
 					hnd=setTimeout(function(){NVision.isMouseDown=true},20);
 					
 					return false;
 				})
-				.delegate("th a","mousemove",function(evt){
+				.delegate("th .isFilter","mousemove",function(evt){
 					
 					if(!NVision.isMouseDown||NVision.ddPlaceHolder){
 						return false;
 					}
 
-					var src=$(evt.target).closest("a"),
+					var src=$(evt.target).closest(".isFilter"),
 						dropArea=container.offset();
 						
 					dropArea["right"]=dropArea.left+container.outerWidth();
@@ -3542,7 +3545,7 @@ var NVision={
 							}
 						});	
 				})
-				.delegate("th a","mouseup",function(evt){
+				.delegate("th .isFilter","mouseup",function(evt){
 					NVision.isMouseDown=false;
 					clearTimeout(hnd);
 					if(NVision.ddPlaceHolder){
