@@ -6,7 +6,7 @@
 	"bm":"dummy BM",	
 	
 	"currentPage":1,
-	"pageCount":1,
+	"pageCount":6,
 	"recordCount":1202,
 	
 	"filters":false,

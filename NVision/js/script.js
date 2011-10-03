@@ -628,7 +628,6 @@ var NVision={
 				
 			    NVision.lightBoxes["helpBox"]=$msg.lightBox({
 						modal:false,
-						title:"NVision help:",
 						parent:hiddenBox,
 						onClose:null
 					});
