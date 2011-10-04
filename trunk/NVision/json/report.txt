@@ -16,9 +16,9 @@
 		{"Order No.":"number"}
 	],
 	
-	"filterable":false,
-	
-	"sortable":false,
+	"filtersEnabled":false,
+	"paginationEnabled":false,
+	"sortEnabled":false,
    
     "trades":[
         {
