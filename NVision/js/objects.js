@@ -52,7 +52,7 @@ function myAjax(options){
 	//myConsole.alert("revert to POST method!")
 	return $.ajax({
         url:attributes.url,
-        type:"GET",
+        type:"POST",
         dataType:"json",
         data:attributes.data,
         success:function(data){
@@ -346,24 +346,25 @@ function myAjax(options){
 				}
 			   
 				
-				
-				//adding the pagination
-				NVision.utils.createPagination({                    
-					container:paginationContainer,
-					system:sysObj,                    
-					// when the user clicks on a page numb.
-					pageClick:function(pageNum){
-						
-						//temporarely disabling the UI
-						NVision.updateEngine.onNewData(NVision.enableUi)
-						NVision.disableUi();
-						
-						sysObj.currentPage=pageNum;
-						NVision.updateEngine.updateNow();
-						
-						//sysObj.showResubmitted(tableContainer,paginationContainer);                    
-					}
-				})		
+				if(!(sysObj.paginationEnabled===false)){
+                    //adding the pagination
+                    NVision.utils.createPagination({                    
+                        container:paginationContainer,
+                        system:sysObj,                    
+                        // when the user clicks on a page numb.
+                        pageClick:function(pageNum){
+                            
+                            //temporarely disabling the UI
+                            NVision.updateEngine.onNewData(NVision.enableUi)
+                            NVision.disableUi();
+                            
+                            sysObj.currentPage=pageNum;
+                            NVision.updateEngine.updateNow();
+                            
+                            //sysObj.showResubmitted(tableContainer,paginationContainer);                    
+                        }
+                    })
+                }
 			
 			})
 		
@@ -425,7 +426,7 @@ function myAjax(options){
             currentPage:sysObj.currentPage,
 			pageCount:sysObj.pageCount,
             headClick:
-				sysObj.sortable===false?
+				sysObj.sortEnabled===false?
 				null
 				:
 				function(anchor){
@@ -515,25 +516,24 @@ function myAjax(options){
         
        
         
-        
-        //adding the pagination
-        NVision.utils.createPagination({                    
-            container:paginationContainer,
-            system:sysObj,                    
-            // when the user clicks on a page numb.
-            pageClick:function(pageNum){
-		
-				//temporarely disabling the UI
-				NVision.updateEngine.onNewData(NVision.enableUi)
-				NVision.disableUi();
-				
-				sysObj.currentPage=pageNum;
-				NVision.updateEngine.updateNow();				
-                
-            }
-        })
-        
-        
+        if(!(sysObj.paginationEnabled===false)){
+            //adding the pagination
+            NVision.utils.createPagination({                    
+                container:paginationContainer,
+                system:sysObj,                    
+                // when the user clicks on a page numb.
+                pageClick:function(pageNum){
+            
+                    //temporarely disabling the UI
+                    NVision.updateEngine.onNewData(NVision.enableUi)
+                    NVision.disableUi();
+                    
+                    sysObj.currentPage=pageNum;
+                    NVision.updateEngine.updateNow();				
+                    
+                }
+            })        
+        }
               
     }    
 

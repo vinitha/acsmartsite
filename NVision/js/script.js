@@ -2921,8 +2921,9 @@ var NVision={
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
 			
-			sysObj.filterable=data.filterable;
-			sysObj.sortable=data.sortable;
+			sysObj.filtersEnabled=data.filtersEnabled;
+			sysObj.sortEnabled=data.sortEnabled;
+			sysObj.paginationEnabled=data.paginationEnabled;
 			
 			//in case we want to display totals in the table footer
 			sysObj.showTotalOn=data.showTotalOn;
@@ -2961,8 +2962,9 @@ var NVision={
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
 			
-			sysObj.filterable=data.filterable;
-			sysObj.sortable=data.sortable;
+			sysObj.filtersEnabled=data.filtersEnabled;
+			sysObj.sortEnabled=data.sortEnabled;
+			sysObj.paginationEnabled=data.paginationEnabled;
             
             //clearing the filters
             //delete(sysObj.filters)
@@ -3419,7 +3421,7 @@ var NVision={
 			container.empty().show(0);			
 			
 			//if the filtering function is disabled....
-			if(NVision.currentSys.filterable===false){
+			if(NVision.currentSys.filtersEnabled===false){
 				container.hide(0);
 				return false;
 			}
