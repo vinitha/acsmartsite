@@ -3203,7 +3203,7 @@ var NVision={
 						});
 						
 					$("<input />")
-						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":from[1]})
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":from[1]||"00:00"})
 						.appendTo(div)
 						.timePicker();
 						
@@ -3218,7 +3218,7 @@ var NVision={
 						});
 						
 					$("<input />")
-						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":to[1]})
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":to[1]||"23:59"})
 						.appendTo(div)
 						.timePicker();						
 						
