@@ -2920,12 +2920,6 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
-<<<<<<< .mine
-			
-			sysObj.filterable=data.filterable;
-			sysObj.sortable=data.sortable;
-=======
->>>>>>> .r453
 			
 			sysObj.filtersEnabled=data.filtersEnabled;
 			sysObj.sortEnabled=data.sortEnabled;
@@ -2967,16 +2961,10 @@ var NVision={
 			sysObj.pageCount=data.pageCount;
 			sysObj.recordCount=data.recordCount;
 			sysObj.filtersDef=data.filters;
-<<<<<<< .mine
-			
-			sysObj.filterable=data.filterable;
-			sysObj.sortable=data.sortable;
-=======
 			
 			sysObj.filtersEnabled=data.filtersEnabled;
 			sysObj.sortEnabled=data.sortEnabled;
 			sysObj.paginationEnabled=data.paginationEnabled;
->>>>>>> .r453
             
             //clearing the filters
             //delete(sysObj.filters)
@@ -3215,7 +3203,7 @@ var NVision={
 						});
 						
 					$("<input />")
-						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":from[1]})
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":from[1]||"00:00"})
 						.appendTo(div)
 						.timePicker();
 						
@@ -3230,7 +3218,7 @@ var NVision={
 						});
 						
 					$("<input />")
-						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":to[1]})
+						.attr({"type":"text","class":NVision.classMap["time"]+ " mandatory","value":to[1]||"23:59"})
 						.appendTo(div)
 						.timePicker();						
 						
@@ -3433,11 +3421,7 @@ var NVision={
 			container.empty().show(0);			
 			
 			//if the filtering function is disabled....
-<<<<<<< .mine
-			if(NVision.currentSys.filterable===false){
-=======
 			if(NVision.currentSys.filtersEnabled===false){
->>>>>>> .r453
 				container.hide(0);
 				return false;
 			}
