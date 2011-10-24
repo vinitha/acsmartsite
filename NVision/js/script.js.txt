@@ -2830,7 +2830,7 @@ var NVision={
 										
                                         var msg=$("<div />")
                                             .addClass("popup")
-                                            .append("<h1>Message details:</h1>")
+                                            //.append("<h1>Message details:</h1>")
                                             .append(
                                                     $("<p class='details' />")
                                                     .addClass(msgDetails.Status=="nok"?"error":"")
@@ -2863,21 +2863,92 @@ var NVision={
                                             .append($("<p class='tabContent current' id='_msg_in'/>").append($("<pre />").text(msgDetails["Incoming"])))
                                             .append($("<p class='tabContent' id='_msg_out'/>").append($("<pre />").text(msgDetails["Outgoing"])))
                                             
-                                            var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
-                                            
-                                            for (var x in msgDetails["Steps"]){
-                                                var det=msgDetails["Steps"][x]
-                                                $("<p/>")
-                                                    .text(det)
-                                                    .appendTo(div)
-                                            }                                            
-                                            
+										var div=$("<div class='tabContent' id='_msg_steps' />").appendTo(msg)
+										
+										for (var x in msgDetails["Steps"]){
+											var det=msgDetails["Steps"][x]
+											$("<p/>")
+												.text(det)
+												.appendTo(div)
+										}
+											
+											
                                         var lb=msg
                                             .lightBox({
                                                 title:"Break details:",
                                                 width:820
-                                            })
-                                            .show();
+                                            });											
+											
+										$("<div class='buttonsBar' />")
+											.append(
+												$("<a class='button auditReplayBtn' href='#replay' title='Replay this audit'><span>Replay</span></a>")
+													.click(function(e){
+														e.preventDefault();
+														
+														lb.closeIt();
+														
+														var confBox={
+															title:"Replay confirmation",
+															yesCaption:"Replay",
+															noCaption:"Cancel",                    
+															onYes:function(lightBox){
+
+																//generating the ajax request
+																myAjax({
+																	logMsg:"Replaying...", //"Updating sys.: " + reqObj.attributes.callerObj.name,
+																	success:function(data){                        
+																		
+																		lightBox.closeIt();
+																		
+																		if(data["_code"]=="ok"){
+																			myConsole.info("Audit replayed - Refreshing the view...")
+																		
+																			//refreshing the tableView
+																			NVision.updateEngine.updateNow();
+																			NVision.updateEngine.start();	
+																												
+																		}else{
+																			var lb=NVision.lightBoxes["alertBox"];
+																							
+																				lb.find("h3").text(data._errObj.id)
+																				lb.find("p.shortDesc").text(data._errObj.shortDesc)
+																				lb.find(".longDesc span").text(data._errObj.longDesc)
+																			
+																			if(!lb.is(":visible")){	
+																				lb.show();
+																			}	
+																		}
+																		
+																	},
+																	error:function(a,b,c){
+																		myConsole.log(a,b,c);
+																		lightBox.closeIt();
+																	},
+																	delegateErrorHandling:false,
+																	url:sysConfig.replayAudits,
+																	data:{key:msgDetails["Key"]}
+																})
+																
+																
+																
+															},
+															onNo:function(lightBox){																
+																lb.show();																						
+															},
+															msg:"Are you sure you want to replay this audit?",
+															msgClass:"confirm", 
+															onClose:null
+														}
+														
+														confirm(confBox);
+														
+													})
+											)
+											.appendTo(msg)
+                                            
+
+                                            
+										lb.show();
                                     },
                                     error:function(){
                                         myConsole.error("Error!")
