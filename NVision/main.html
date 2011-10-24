@@ -339,70 +339,72 @@
   <script type="text/javascript">
     //use this object to configure the app. settings
     var sysConfig={
-          //called once when the system starts
-          sysComposition:"json/sysComposition.txt",   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
-          
-          //called by the dashBoardView view
-          sysUpdates:"json/sysUpdates.txt",           //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
-          
-          //called by the tableView view
-          sysTrades:"json/systemTrades.txt",		//http://nv:8125/?type=sysTrades
-          
-          //called when the user clicks on a row in the tableView
-          tradeDetails:"json/tradeDetails.txt",
-          
-          //Url which receives the overwrite request
-          overwriteRequest:"json/ok.txt",
-          
-          resubmitRequest:"json/ok.txt",
-		  
-					clearTrades:"json/ok.txt",
-					
-					replayTrades:"json/ok.txt",
-					
-					emergencyTradeLoad:"json/etl.txt",
-					
-					systemMessages:"json/systemMessages.txt",
-					
-					loadTrades:"json/ok.txt",
-							
-					msgDetails:"json/msgDetails.txt",
-					
-					searchUrl:"json/searchResults.txt",
-					
-					resubmittedTrades:"json/resubmitted.txt",
-					
-					safeStoreUrl:"json/safeStore.txt",
-					
-					safeStoreEventsUrl:"json/safeStoreEvents.txt",
-					
-					//KPI reports structure
-					kpi:{
-						"Latency":[
-							{"name":"Aging Trades",id:"kpi01","url":"json/report.txt","updateInterval":60000},
-							{"name":"Stuck Trades",id:"kpi02","url":"json/report.txt","updateInterval":60000},
-							{"name":"Business Latency",id:"kpi03","url":"json/report.txt","updateInterval":60000}
-						],
-						
-						"Rule Report":[
-							{"name":"Allocation Rules",id:"kpi04","url":"json/report.txt","updateInterval":60000},
-							{"name":"Carte Blanche Rules",id:"kpi05","url":"json/report.txt","updateInterval":60000}
-						],
-
-						"Volume Report":[
-							{"name":"Trade and Ticket Volumes",id:"kpi06","url":"json/report.txt","updateInterval":60000},
-							{"name":"T.T.V. in Break by Adapter",id:"kpi07","url":"json/report.txt","updateInterval":60000}
-						],
-						
-						"Break Report":[
-							{"name":"Break Report",id:"kpi08","url":"json/report.txt","updateInterval":60000}
-						]
-					},
-							
-					//tableView configuration 
-					tableView:{
-						itemsPerPage:25
-					}
+		//called once when the system starts
+		sysComposition:"json/sysComposition.txt",   //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+		
+		//called by the dashBoardView view
+		sysUpdates:"json/sysUpdates.txt",           //"http://ldn-ws-0019:8080/nvision-web-dashboard/nvision/test_json"
+		
+		//called by the tableView view
+		sysTrades:"json/systemTrades.txt",		//http://nv:8125/?type=sysTrades
+		
+		//called when the user clicks on a row in the tableView
+		tradeDetails:"json/tradeDetails.txt",
+		
+		//Url which receives the overwrite request
+		overwriteRequest:"json/ok.txt",
+		
+		resubmitRequest:"json/ok.txt",
+		
+		clearTrades:"json/ok.txt",
+		
+		replayTrades:"json/ok.txt",
+		
+		replayAudits:"json/ok.txt",
+		
+		emergencyTradeLoad:"json/etl.txt",
+		
+		systemMessages:"json/systemMessages.txt",
+		
+		loadTrades:"json/ok.txt",
+				
+		msgDetails:"json/msgDetails.txt",
+		
+		searchUrl:"json/searchResults.txt",
+		
+		resubmittedTrades:"json/resubmitted.txt",
+		
+		safeStoreUrl:"json/safeStore.txt",
+		
+		safeStoreEventsUrl:"json/safeStoreEvents.txt",
+		
+		//KPI reports structure
+		kpi:{
+			"Latency":[
+				{"name":"Aging Trades",id:"kpi01","url":"json/report.txt","updateInterval":60000},
+				{"name":"Stuck Trades",id:"kpi02","url":"json/report.txt","updateInterval":60000},
+				{"name":"Business Latency",id:"kpi03","url":"json/report.txt","updateInterval":60000}
+			],
+			
+			"Rule Report":[
+				{"name":"Allocation Rules",id:"kpi04","url":"json/report.txt","updateInterval":60000},
+				{"name":"Carte Blanche Rules",id:"kpi05","url":"json/report.txt","updateInterval":60000}
+			],
+		
+			"Volume Report":[
+				{"name":"Trade and Ticket Volumes",id:"kpi06","url":"json/report.txt","updateInterval":60000},
+				{"name":"T.T.V. in Break by Adapter",id:"kpi07","url":"json/report.txt","updateInterval":60000}
+			],
+			
+			"Break Report":[
+				{"name":"Break Report",id:"kpi08","url":"json/report.txt","updateInterval":60000}
+			]
+		},
+				
+		//tableView configuration 
+		tableView:{
+			itemsPerPage:25
+		}
     }
 			
 

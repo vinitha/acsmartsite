@@ -685,14 +685,14 @@ $.fn.reverse = [].reverse;
 
 function confirm(options){
     var defaults={
-	title:"Confirm",
-	yesCaption:"Ok",
-	noCaption:"Cancel",
-	onYes:function(){},
-	onNo:function(){},
-	msg:"Confirm message!",
-	msgClass:"",
-	onClose:null
+		title:"Confirm",
+		yesCaption:"Ok",
+		noCaption:"Cancel",
+		onYes:function(){},
+		onNo:function(){},
+		msg:"Confirm message!",
+		msgClass:"",
+		onClose:null
     }
     
     $.extend(defaults,options)
@@ -707,25 +707,25 @@ function confirm(options){
 	)
 	.append(
 	    $("<div/>")
-	    .addClass("buttonsBar")
+			.addClass("buttonsBar")
+			.append(
+				$("<a/>")
+					.addClass("button submit")
+					.text(defaults.yesCaption)
+					.click(function(){
+						$("#confirmBox").addClass("wait")
+						defaults.onYes(lb);
+						//lb.closeIt();
+					})
+			)
 	    .append(
-		$("<a/>")
-		.addClass("button")
-		.text(defaults.yesCaption)
-		.click(function(){
-			$("#confirmBox").addClass("wait")
-		    defaults.onYes(lb);
-			//lb.closeIt();
-		})
-	    )
-	    .append(
-		$("<a/>")
-		.addClass("button")
-		.text(defaults.noCaption)
-		.click(function(){		    
-		    defaults.onNo?defaults.onNo(lb):null;			
-			//lb.closeIt();
-		})		
+			$("<a/>")
+				.addClass("button")
+				.text(defaults.noCaption)
+				.click(function(){		    
+					defaults.onNo?defaults.onNo(lb):null;			
+					//lb.closeIt();
+				})		
 	    )	    
 	)
 	.append("<div class='loadingData'><p>sending the request...</p></div>")
@@ -736,6 +736,7 @@ function confirm(options){
 					width:270,
 					onClose:defaults.onClose
 				}).show();
+	return lb;
 }
 
 //lightBox widget
