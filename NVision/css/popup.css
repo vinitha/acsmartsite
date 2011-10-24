@@ -74,3 +74,12 @@ body{font-family:"arial";font-size:62.5%;margin:10px}
     background-color:#e0e0e0;
     border-bottom-color:#e0e0e0;
 }
+
+
+.popup .auditReplayBtn span{
+	display:block;
+	padding-left:20px;
+	background-image:url(../images/replayBtn.png);
+	background-position:left 50%;
+	background-repeat:no-repeat
+}
