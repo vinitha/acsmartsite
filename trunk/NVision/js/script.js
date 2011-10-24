@@ -2881,7 +2881,7 @@ var NVision={
 											
 										$("<div class='buttonsBar' />")
 											.append(
-												$("<a class='button' href='#replay' title='Replay this audit'>Replay</a>")
+												$("<a class='button auditReplayBtn' href='#replay' title='Replay this audit'><span>Replay</span></a>")
 													.click(function(e){
 														e.preventDefault();
 														
