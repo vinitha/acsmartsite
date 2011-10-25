@@ -2932,11 +2932,12 @@ var NVision={
 																
 																
 															},
-															onNo:function(lightBox){																
+															onNo:function(lightBox){
+																lightBox.closeIt();
 																lb.show();																						
 															},
-															msg:"Are you sure you want to replay this audit?",
-															msgClass:"confirm", 
+															msg:"Are you really sure you want to replay this audit?",
+															msgClass:"warning", 
 															onClose:null
 														}
 														
