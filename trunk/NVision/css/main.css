@@ -2507,7 +2507,22 @@
 		padding-left: 30px;
 	}
 	
+	#confirmBox.warning p.confirmMsg{	
+		background-image:url(../images/warning.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+		padding-left: 45px;
+	}
 	
+	#lightBoxPanel.warning  .lbTitle{	
+		background-color:#aa0000;
+		color:#fff;
+		border-bottom:1px solid #7d0000;
+	}	
+	
+	#lightBoxPanel.warning .mainContent{
+		background-color:#ffffbf;
+	}
 	
 	#helpBox{
 		width:650px;

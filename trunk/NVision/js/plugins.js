@@ -734,8 +734,20 @@ function confirm(options){
 					modal:true,
 					title:defaults.title,
 					width:270,
-					onClose:defaults.onClose
+					onClose:function(){
+						//removing the custom class from the lightBox
+						$("#lightBoxPanel").removeClass(defaults.msgClass);
+						
+						if(defaults.onClose){
+							defaults.onClose();
+						}
+						
+					}
 				}).show();
+	
+	//adding the custom class to the lightBox
+	$("#lightBoxPanel").addClass(defaults.msgClass);
+	
 	return lb;
 }
 
