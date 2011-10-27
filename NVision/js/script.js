@@ -2871,6 +2871,26 @@ var NVision={
 												.text(det)
 												.appendTo(div)
 										}
+										
+										
+										if(msgDetails["Error"]){
+
+											msg.find(".tabMenu")
+												.append(
+													 $("<li><a href='#_msg_error'><span>Error:</span></a></li>")
+													)
+												
+											var div=$("<div class='tabContent' id='_msg_error' />").appendTo(msg)
+											
+											for (var x in msgDetails["Error"]){
+												var det=msgDetails["Error"][x]
+												$("<p/>")
+													.text(det)
+													.appendTo(div)
+											}												
+											
+										}
+										
 											
 											
                                         var lb=msg
