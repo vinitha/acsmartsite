@@ -1146,7 +1146,7 @@ var NVision={
 											lightBox.closeIt();
 											
 											if(data["_code"]=="ok"){
-												myConsole.info("Safe-store replayed - Refreshing the view...")
+												myConsole.info("Trades replayed - Refreshing the view...")
 											
 												//refreshing the tableView
 												NVision.updateEngine.updateNow();
