@@ -1059,6 +1059,151 @@ var NVision={
 				
 				confirm(confBox);		
 			});
+			
+			
+			
+            $("#timeFramedReplayBtn a").click(function(e){
+                e.preventDefault();
+                if($(this).hasClass("off")){
+                    return false;
+                }
+				
+				var replayLB=$("<form id='timeFramedReplay' />"),
+					fieldset=$("<fieldset />").appendTo(replayLB),
+					noFocus=true;
+				
+							
+				var today=(new Date()).internationalDate();
+				
+				fieldset.append($("<label/>").text("Replay all the trades within the range:"));
+				
+				var div=$("<div/>").addClass("datetime from").appendTo(fieldset)
+				$("<span/>").addClass("label").text("from").appendTo(div)
+				$("<input />")
+					.attr({"id":"replayStartDate","type":"text","class":NVision.classMap["date"]+ " mandatory","value":today})
+					.appendTo(div)
+					.datepicker({
+						dateFormat: 'yy/mm/dd',
+						inline: true
+					});
+					
+				$("<input />")
+					.attr({"id":"replayStartTime","type":"text","class":NVision.classMap["time"]+ " mandatory","value":"00:00"})
+					.appendTo(div)
+					.timePicker();
+					
+				var div=$("<div/>").addClass("datetime to").appendTo(fieldset)
+				$("<span/>").addClass("label").text("to").appendTo(div)
+				$("<input />")
+					.attr({"id":"replayStopDate","type":"text","class":NVision.classMap["date"] + " mandatory","value":today})
+					.appendTo(div)
+					.datepicker({
+						dateFormat: 'yy/mm/dd',
+						inline: true
+					});
+					
+				$("<input />")
+					.attr({"id":"replayStopTime","type":"text","class":NVision.classMap["time"]+ " mandatory","value":"23:59"})
+					.appendTo(div)
+					.timePicker();						
+					
+				var buttons=$('<div class="buttonsBar"><input type="submit" value="Replay" href="#Replay" class="button submit"> <input type="button" value="Cancel" href="#close" class="button cancel"></div>')
+					.appendTo(replayLB);
+				
+				
+				buttons.find("input.cancel").click(function(e){
+					e.preventDefault();
+					replayLB.closeIt();
+				})
+				
+				replayLB=replayLB
+					.submit(function(e){
+						e.preventDefault();
+
+							var errorField=NVision.utils.validateForm(replayLB);
+							
+							if(errorField){
+								myConsole.alert("Invalid value!");
+								errorField.focus();
+								return false;
+							}
+							
+							replayLB.closeIt();
+							var confBox={
+								title:"Time-framed Replay confirmation",
+								yesCaption:"Yes, I know what I am doing",
+								noCaption:"Cancel",                    
+								onYes:function(lightBox){
+									
+									var startDate=replayLB.find("#replayStartDate").attr("value") + " " + replayLB.find("#replayStartTime").attr("value");
+									var stopDate=replayLB.find("#replayStopDate").attr("value") + " " + replayLB.find("#replayStopTime").attr("value");
+									
+									//generating the ajax request
+									myAjax({
+										logMsg:"Replaying...", //"Updating sys.: " + reqObj.attributes.callerObj.name,
+										success:function(data){                        
+											
+											lightBox.closeIt();
+											
+											if(data["_code"]=="ok"){
+												myConsole.info("Safe-store replayed - Refreshing the view...")
+											
+												//refreshing the tableView
+												NVision.updateEngine.updateNow();
+												NVision.updateEngine.start();	
+																					
+											}else{
+												var lb=NVision.lightBoxes["alertBox"];
+																
+													lb.find("h3").text(data._errObj.id)
+													lb.find("p.shortDesc").text(data._errObj.shortDesc)
+													lb.find(".longDesc span").text(data._errObj.longDesc)
+												
+												if(!lb.is(":visible")){	
+													lb.show();
+												}	
+											}
+											
+										},
+										error:function(a,b,c){
+											myConsole.log(a,b,c);
+											lightBox.closeIt();
+										},
+										delegateErrorHandling:false,
+										url:sysConfig.timeFramedReplay,
+										data:{
+											id:NVision.currentSys.id,
+											startDate:startDate,
+											stopDate:stopDate
+										}
+									})
+									
+									
+									
+								},
+								onNo:function(lightBox){
+									lightBox.closeIt();
+									replayLB.show();																						
+								},
+								msg:"Are you really sure you want to continue?",
+								msgClass:"danger", 
+								onClose:null
+							}
+							
+							confirm(confBox);							
+					})
+					.lightBox({
+						title:"Time-framed replay",
+						modal:false,
+						noFocus:noFocus,
+					})
+					.show();
+				
+			
+				
+			});
+			
+			
 		
             $("#replayBtn a").click(function(e){
                 e.preventDefault();
@@ -1774,7 +1919,6 @@ var NVision={
         var reqObj=NVision.createBreaksUpdateRequests(ssObject);
 		reqObj.url=sysConfig.safeStoreUrl;
 		
-		
         
         //setting the callback to update the updatesBtn!
         NVision.updateEngine.setCallback(function(){
@@ -1799,6 +1943,8 @@ var NVision={
 			
 			//$("#tableView").removeClass("off");
 			NVision.enableUi();
+			$("#timeFramedReplayBtn a").removeClass("off");
+			
         })
         
         NVision.updateEngine.forceStart();		
@@ -3026,7 +3172,9 @@ var NVision={
             
             
             //disabling the buttons
-            $(".view .toolBar .buttons .button").addClass("off")            
+            $(".view .toolBar .buttons .button").addClass("off")
+			//all but the timeFramedReplayBtn
+			$("#timeFramedReplayBtn a").removeClass("off")
             
             var selectRow=(sysObj.type=="searchResults")?false:true;
 			
@@ -3064,7 +3212,9 @@ var NVision={
             
             
             //disabling the buttons
-            $("#tableView .toolBar .buttons .button").addClass("off") 
+            $("#tableView .toolBar .buttons .button").addClass("off")
+			//all but the timeFramedReplayBtn
+			$("#timeFramedReplayBtn a").removeClass("off")
             
             
             //clearing and recreating the table
