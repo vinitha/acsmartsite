@@ -864,6 +864,42 @@
 		margin-right:-1px;
 	}
 	
+	
+	
+	
+/*timeFramedReplay	*/
+	#timeFramedReplay{
+		width:191px;
+	}
+	
+	#timeFramedReplay fieldset,
+	#timeFramedReplay label{
+		margin-bottom:20px!important;
+	}
+	
+	
+	
+	#timeFramedReplay input.datePicker,
+	#timeFramedReplay input.timePicker {
+		width: 165px !important;
+	}
+	
+	#timeFramedReplay  .datetime{
+		margin-bottom:2px;
+	}
+	
+	#timeFramedReplay  .datetime .label{
+		width:28px;
+		color:#999;
+	}
+	
+	#timeFramedReplay  .datetime input.datePicker,
+	#timeFramedReplay  .datetime input.timePicker{
+		width: 57px !important;
+		margin-right:-1px;
+	}
+	
+	
 /* bcBar */
 	.bcBar{
 		overflow:hidden;
@@ -2514,15 +2550,29 @@
 		padding-left: 45px;
 	}
 	
-	#lightBoxPanel.warning  .lbTitle{	
+	#lightBoxPanel.warning  .lbTitle,
+	#lightBoxPanel.danger  .lbTitle{	
 		background-color:#aa0000;
 		color:#fff;
 		border-bottom:1px solid #7d0000;
 	}	
 	
-	#lightBoxPanel.warning .mainContent{
+	#lightBoxPanel.warning .mainContent,
+	#lightBoxPanel.danger .mainContent{
 		background-color:#ffffbf;
 	}
+	
+	#confirmBox.danger p.confirmMsg{	
+		background-image:url(../images/danger.png);
+		background-position:0px 50%;
+		background-repeat:no-repeat;
+
+		padding-left: 60px;
+		font-size:1.2em;
+	}
+
+	
+	
 	
 	#helpBox{
 		width:650px;
@@ -2676,6 +2726,7 @@
 	
 	.showSafeStoreData #tableView,
 	.showSafeStoreData #tableView .toolBar #replayBtn,
+	.showSafeStoreData #tableView .toolBar #timeFramedReplayBtn,
 	.showSafeStoreData .pagination,
 	.showSafeStoreData #tableView .updatesBtn,
 	.showSafeStoreData #shadedBar,
